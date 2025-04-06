@@ -1,14 +1,13 @@
-[gd_scene load_steps=21 format=3 uid="uid://dwckn628u33ab"]
+[gd_scene load_steps=17 format=3 uid="uid://dwckn628u33ab"]
 
 [ext_resource type="Texture2D" uid="uid://cqur83lk7fjfl" path="res://assets/hdris/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="1_8wojv"]
 [ext_resource type="Script" uid="uid://bpvwqw4pbfs3m" path="res://scripts/world.gd" id="1_dctr2"]
 [ext_resource type="Texture2D" uid="uid://c7ao2jw0rnah0" path="res://assets/textures/dev/grids/Dark/texture_07.png" id="2_4n1ka"]
-[ext_resource type="Script" uid="uid://cpi5w5meyf7w1" path="res://player.gd" id="3_r2xep"]
+[ext_resource type="Script" uid="uid://cpi5w5meyf7w1" path="res://scripts/player.gd" id="3_r2xep"]
 [ext_resource type="Script" uid="uid://cgr4wdrppjkc0" path="res://scripts/weapon_base.gd" id="4_d4jdc"]
 [ext_resource type="PackedScene" uid="uid://b2nwv2k6ni68c" path="res://scenes/bullet.tscn" id="6_bq8f1"]
-[ext_resource type="Script" uid="uid://1eg24s10xjnm" path="res://scripts/enemy_base.gd" id="7_pf68v"]
-[ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://scripts/components/health_component.gd" id="8_t2fwt"]
-[ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="9_g7nce"]
+[ext_resource type="PackedScene" uid="uid://b3ghxetcov6va" path="res://scenes/enemy_base.tscn" id="7_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://dbn175mecst55" path="res://assets/models/map/map_draft.blend" id="8_tipki"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_ssbh5"]
 panorama = ExtResource("1_8wojv")
@@ -34,13 +33,12 @@ points = PackedVector3Array(-0.125207, -0.532801, -0.480507, 0.0227831, 0.47607,
 [sub_resource type="BoxMesh" id="BoxMesh_mdyps"]
 size = Vector3(0.1, 0.1, 1)
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_4me14"]
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_t01qn"]
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tmg5w"]
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tdqxq"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tipki"]
+resource_local_to_scene = true
+transparency = 1
+albedo_color = Color(1, 1, 1, 0)
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_dctr2")
@@ -57,13 +55,19 @@ environment = SubResource("Environment_5o0bn")
 [node name="Stage" type="Node3D" parent="."]
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Stage"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, -0.5, 0)
+visible = false
 use_collision = true
-size = Vector3(20, 1, 20)
+collision_layer = 0
+collision_mask = 0
+size = Vector3(50, 1, 50)
 material = SubResource("StandardMaterial3D_pqxd8")
 
+[node name="map_draft" parent="Stage" instance=ExtResource("8_tipki")]
+transform = Transform3D(3.84, 0, 0, 0, 3.84, 0, 0, 0, 3.84, 0, 0, 0)
+
 [node name="Player" type="CharacterBody3D" parent="."]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.13577, 0)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2.7839, 4.53207, -17.7419)
 collision_layer = 8
 script = ExtResource("3_r2xep")
 
@@ -96,25 +100,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
 
 [node name="ShootCooldown" type="Timer" parent="Player/Head/Weapon"]
 
-[node name="Enemy" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 5)
-collision_layer = 4
-script = ExtResource("7_pf68v")
-max_health = 20.0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Enemy"]
-mesh = SubResource("CapsuleMesh_4me14")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy"]
-shape = SubResource("CapsuleShape3D_t01qn")
-
-[node name="HealthComponent" type="Node" parent="Enemy"]
-script = ExtResource("8_t2fwt")
-
-[node name="HitboxComponent" type="Area3D" parent="Enemy" node_paths=PackedStringArray("health_component")]
-script = ExtResource("9_g7nce")
-shape = SubResource("CapsuleShape3D_tmg5w")
-health_component = NodePath("../HealthComponent")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy/HitboxComponent"]
-shape = SubResource("CapsuleShape3D_tdqxq")
+[node name="Enemy" parent="." instance=ExtResource("7_o6xl0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.85946, 11.4515)
+hitflash_material = SubResource("StandardMaterial3D_tipki")

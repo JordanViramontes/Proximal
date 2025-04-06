@@ -51,7 +51,7 @@ func _input(event: InputEvent) -> void:
 				head.rotation.x = clamp(head.rotation.x, deg_to_rad(-75), deg_to_rad(80))
 
 func _process(delta: float):
-	head.rotation.z = lerp(head.rotation.z, current_strafe_dir * LEAN_MULT, delta * LEAN_SMOOTH)
+	head.rotation.z = lerp(head.rotation.z, current_strafe_dir * LEAN_MULT, delta * LEAN_SMOOTH) # this causes some weirdness when you look down/up, working on a fix
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.

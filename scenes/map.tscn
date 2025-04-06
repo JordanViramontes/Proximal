@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://wjjitxfupfoc"]
+
+[ext_resource type="ArrayMesh" uid="uid://mndmsj8bppte" path="res://assets/models/map/map_draft.obj" id="1_4xfga"]
+
+[node name="Map" type="Node3D"]
+
+[node name="MapDraft" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.362576, 0, -0.292312)
+mesh = ExtResource("1_4xfga")
