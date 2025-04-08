@@ -35,7 +35,7 @@ var current_strafe_dir = 0
 # nodes
 @onready var head := $Head
 @onready var camera := $Head/Camera3D
-@onready var weapon := $Weapon_Manager
+@onready var weapon := $Head/Weapon_Manager
 
 func _input(event: InputEvent) -> void:
 	# input state 

@@ -1,23 +1,21 @@
 extends Node3D
 
 # weapon variables
-var weapon_dictionary = [
-	"Thumb",
-	"Index",
-	"Middle",
-	"Ring",
-	"Pinky",
-	#$Thumb,
-	#$Index,
-	#$Middle,
-	#$Ring,
-	#$Pinky
-]
-var curr_weapon_index = 1
-#@onready var curr_weapon = weapon_dictionary[curr_weapon_index]
-@onready var curr_weapon = $Base_Weapon
+var weapon_dictionary
+var curr_weapon_index
+var curr_weapon # defined in ready
 
-
+func _ready():
+	weapon_dictionary = [
+		$Thumb,
+		$Index,
+		$Middle,
+		$Ring,
+		$Pinky
+	]
+	curr_weapon_index = 1
+	curr_weapon = weapon_dictionary[curr_weapon_index]
+	set_weapon_active(curr_weapon)
 
 # code for polling inputs
 func _process(delta: float):
@@ -39,26 +37,36 @@ func _process(delta: float):
 
 # 3 ways of recieving new weapon change, either scroll wheels (handled in _process),
 # hotkey (also _process), and weapon wheel (recieve signal from wheel node)
-func change_weapon_to(weapon):
-	if weapon == curr_weapon_index: # same weapon
+func change_weapon_to(weapon_index):
+	if weapon_index == curr_weapon_index: # same weapon
 		return
-	if weapon < -1 || weapon > 5: # invalid weapon
-		print("weapon_manager.gd - WARNING: new weapon request invalid: " + weapon)
+	if weapon_index < -1 || weapon_index > 5: # invalid weapon
+		print("weapon_manager.gd - WARNING: new weapon request invalid: " + weapon_index)
 		return
-	if weapon == -1: # scroll wrap
-		weapon = 4
-	if weapon == 5: # scroll wrap
-		weapon = 0
+	if weapon_index == -1: # scroll wrap
+		weapon_index = 4
+	if weapon_index == 5: # scroll wrap
+		weapon_index = 0
+	
+	# set previous weapon stuff
+	set_weapon_unactive(curr_weapon)
 	
 	# change weapon variables
-	curr_weapon_index = weapon
+	curr_weapon_index = weapon_index
 	curr_weapon = weapon_dictionary[curr_weapon_index]
-	print("Changed weapon to: " + curr_weapon)
+	set_weapon_active(curr_weapon)
 	
-	#print ("DEBUG: KEEPING WEAPON AS WEAPONBASE")
-	#curr_weapon = $Base_Weapon
+	print("Changed weapon to: " + str(curr_weapon))
 
 # when shoot, use the weapon currently used
 func shoot():
 	curr_weapon.shoot()
 	#print("weapon_manager - not shooting atm")
+
+func set_weapon_active(weapon):
+	weapon.visible = true
+	weapon.active = true
+
+func set_weapon_unactive(weapon):
+	weapon.visible = false
+	weapon.active = false

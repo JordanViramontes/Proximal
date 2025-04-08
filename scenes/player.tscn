@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bfdo44kle73uq"]
 
 [ext_resource type="Script" uid="uid://cpi5w5meyf7w1" path="res://scripts/player.gd" id="1_i3pqv"]
-[ext_resource type="PackedScene" uid="uid://klyx4oq82x8k" path="res://scenes/weapon_manager.tscn" id="4_dqkch"]
+[ext_resource type="PackedScene" uid="uid://klyx4oq82x8k" path="res://scenes/Weapons/weapon_manager.tscn" id="4_dqkch"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_2hs0m"]
 
@@ -27,5 +27,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
 
-[node name="Weapon_Manager" parent="." instance=ExtResource("4_dqkch")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.09472, 0)
+[node name="Weapon_Manager" parent="Head" instance=ExtResource("4_dqkch")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.291509, -0.296324, -0.453602)

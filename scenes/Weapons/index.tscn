@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://d07kbrumu4gbf"]
+
+[ext_resource type="Script" uid="uid://cljgu2clkn4w8" path="res://scenes/index.gd" id="1_356j3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8hw30"]
+resource_local_to_scene = true
+albedo_color = Color(0.506536, 0.304206, 0.761159, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2gn6w"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_8hw30")
+size = Vector3(0.1, 0.1, 1)
+
+[node name="Index" type="Node3D"]
+script = ExtResource("1_356j3")
+bullet_speed = 20.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_2gn6w")
+
+[node name="Help" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+
+[node name="ShootCooldown" type="Timer" parent="."]

@@ -1,10 +1,12 @@
 extends Node3D
+class_name WeaponBase
 
 # shoots projectiles with a travel time
 
 var shoot_cooldown: float = 0.05 # seconds
 @onready var shoot_timer: Timer = $ShootCooldown
 var can_shoot: bool = true
+@export var active = false
 
 @export var bullet: PackedScene
 @export var bullet_damage: float
