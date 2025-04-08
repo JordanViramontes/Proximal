@@ -12,7 +12,7 @@ var current_state = INPUT_STATE.normal
 # speed and walking
 var cur_speed = 5.0
 
-@export var WALKING_SPEED = 10.0
+@export var WALKING_SPEED = 20.0
 @export var CROUCH_SPEED = 3.0
 @export var JUMP_VELOCITY = 4.5
 

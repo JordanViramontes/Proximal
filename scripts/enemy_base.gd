@@ -13,6 +13,11 @@ var hitflash_tween: Tween
 signal die
 signal take_damage
 
+# Constructor called by spawner
+func initialize(starting_position, player_position):
+	position = starting_position
+	look_at_from_position(position, player_position, Vector3.UP)
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	health_component.max_health = max_health
