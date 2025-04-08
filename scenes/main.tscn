@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://cqur83lk7fjfl" path="res://assets/hdris/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="1_8wojv"]
 [ext_resource type="Script" uid="uid://bpvwqw4pbfs3m" path="res://scripts/world.gd" id="1_dctr2"]
 [ext_resource type="Texture2D" uid="uid://c7ao2jw0rnah0" path="res://assets/textures/dev/grids/Dark/texture_07.png" id="2_4n1ka"]
-[ext_resource type="Script" uid="uid://drj4up00u5x88" path="res://scenes/Characters/enemy_spawn_path.gd" id="6_o6xl0"]
+[ext_resource type="Script" uid="uid://drj4up00u5x88" path="res://scripts/Characters/enemy_spawn_path.gd" id="6_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://bfdo44kle73uq" path="res://scenes/Characters/player.tscn" id="6_tefeu"]
 [ext_resource type="PackedScene" uid="uid://b3ghxetcov6va" path="res://scenes/Characters/enemy_base.tscn" id="7_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://dbn175mecst55" path="res://assets/models/map/map_draft.blend" id="8_tipki"]
@@ -58,7 +58,7 @@ material = SubResource("StandardMaterial3D_pqxd8")
 [node name="map_draft" parent="Stage" instance=ExtResource("8_tipki")]
 transform = Transform3D(3.84, 0, 0, 0, 3.84, 0, 0, 0, 3.84, 0, 0, 0)
 
-[node name="Player" parent="." instance=ExtResource("6_tefeu")]
+[node name="Player" parent="." groups=["Player"] instance=ExtResource("6_tefeu")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 4.71973, 5.02955, 10.7018)
 
 [node name="EnemySpawnPath" type="Path3D" parent="."]
