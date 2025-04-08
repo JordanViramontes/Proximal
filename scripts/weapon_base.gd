@@ -24,6 +24,10 @@ func shoot() -> void:
 	if not can_shoot:
 		return
 	var b = bullet.instantiate()
+	if b == null: # just in case
+		print("weapon_base.gd - bullet did not instantiate")
+		return
+	
 	b.position = $Help.global_position # is one meter ahead of the player, which lines up with the barrel of the weapon
 	b.bullet_speed = bullet_speed
 	b.bullet_damage = bullet_damage

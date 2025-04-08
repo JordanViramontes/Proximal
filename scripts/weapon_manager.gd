@@ -2,14 +2,22 @@ extends Node3D
 
 # weapon variables
 var weapon_dictionary = [
-	"Thumb", # will eventually be references to the objects relating to each gun
+	"Thumb",
 	"Index",
 	"Middle",
 	"Ring",
-	"Pinky"
+	"Pinky",
+	#$Thumb,
+	#$Index,
+	#$Middle,
+	#$Ring,
+	#$Pinky
 ]
-var curr_weapon_index = 0
-var curr_weapon = weapon_dictionary[curr_weapon_index]
+var curr_weapon_index = 1
+#@onready var curr_weapon = weapon_dictionary[curr_weapon_index]
+@onready var curr_weapon = $Base_Weapon
+
+
 
 # code for polling inputs
 func _process(delta: float):
@@ -27,6 +35,7 @@ func _process(delta: float):
 		change_weapon_to(3)
 	if Input.is_action_just_pressed("hotkey_pinky"):
 		change_weapon_to(4)
+	
 
 # 3 ways of recieving new weapon change, either scroll wheels (handled in _process),
 # hotkey (also _process), and weapon wheel (recieve signal from wheel node)
@@ -45,3 +54,11 @@ func change_weapon_to(weapon):
 	curr_weapon_index = weapon
 	curr_weapon = weapon_dictionary[curr_weapon_index]
 	print("Changed weapon to: " + curr_weapon)
+	
+	#print ("DEBUG: KEEPING WEAPON AS WEAPONBASE")
+	#curr_weapon = $Base_Weapon
+
+# when shoot, use the weapon currently used
+func shoot():
+	curr_weapon.shoot()
+	#print("weapon_manager - not shooting atm")

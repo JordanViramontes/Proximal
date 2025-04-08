@@ -1,8 +1,26 @@
-[gd_scene load_steps=2 format=3 uid="uid://klyx4oq82x8k"]
+[gd_scene load_steps=5 format=3 uid="uid://klyx4oq82x8k"]
 
 [ext_resource type="Script" uid="uid://b4wfrgspyik6s" path="res://scripts/weapon_manager.gd" id="1_wrmxl"]
+[ext_resource type="Script" uid="uid://cgr4wdrppjkc0" path="res://scripts/weapon_base.gd" id="2_dqblu"]
+[ext_resource type="PackedScene" uid="uid://b2nwv2k6ni68c" path="res://scenes/bullet.tscn" id="3_8hw30"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_u865a"]
+size = Vector3(0.1, 0.1, 1)
 
 [node name="Weapon_Manager" type="Node3D"]
 script = ExtResource("1_wrmxl")
 
-[node name="Index" type="Node3D" parent="."]
+[node name="Base_Weapon" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.322288, -0.38505, -0.406139)
+script = ExtResource("2_dqblu")
+bullet = ExtResource("3_8hw30")
+bullet_damage = 1.0
+bullet_speed = 20.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Base_Weapon"]
+mesh = SubResource("BoxMesh_u865a")
+
+[node name="Help" type="Node3D" parent="Base_Weapon"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+
+[node name="ShootCooldown" type="Timer" parent="Base_Weapon"]
