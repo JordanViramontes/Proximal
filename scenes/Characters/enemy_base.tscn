@@ -60,5 +60,7 @@ transform = Transform3D(50, 0, 0, 0, 10, 0, 0, 0, 50, 0, 0, 0)
 mesh = SubResource("PlaneMesh_2p2xa")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+avoidance_enabled = true
+radius = 10.0
 
 [connection signal="timeout" from="PathfindTimer" to="." method="_on_pathfind_timer_timeout"]

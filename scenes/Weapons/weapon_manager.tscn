@@ -38,10 +38,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
 [node name="Thumb" parent="." instance=ExtResource("4_e55dp")]
 visible = false
 bullet = ExtResource("3_v6qfx")
+bullet_damage = 5.0
 
 [node name="Index" parent="." instance=ExtResource("4_qlvm5")]
 visible = false
 bullet = ExtResource("3_v6qfx")
+bullet_damage = 1.0
 
 [node name="Middle" parent="." instance=ExtResource("6_12ses")]
 visible = false
