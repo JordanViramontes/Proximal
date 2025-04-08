@@ -110,6 +110,5 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
-
 func die():
 	current_state = INPUT_STATE.dead

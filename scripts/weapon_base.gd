@@ -15,12 +15,11 @@ func _ready() -> void:
 	shoot_timer.wait_time = shoot_cooldown
 	shoot_timer.timeout.connect(func(): can_shoot = true)
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
 
-
+# shoot a bullet from the weapon
 func shoot() -> void:
 	if not can_shoot:
 		return
