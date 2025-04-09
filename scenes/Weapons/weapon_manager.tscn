@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://klyx4oq82x8k"]
 
-[ext_resource type="Script" uid="uid://b4wfrgspyik6s" path="res://scripts/weapon_manager.gd" id="1_583ps"]
-[ext_resource type="Script" uid="uid://cgr4wdrppjkc0" path="res://scripts/weapon_base.gd" id="2_qlvm5"]
+[ext_resource type="Script" uid="uid://b4wfrgspyik6s" path="res://scripts/Weapons/weapon_manager.gd" id="1_583ps"]
+[ext_resource type="Script" uid="uid://cgr4wdrppjkc0" path="res://scripts/Weapons/weapon_base.gd" id="2_qlvm5"]
 [ext_resource type="PackedScene" uid="uid://b2nwv2k6ni68c" path="res://scenes/bullets/index_bullet.tscn" id="3_v6qfx"]
 [ext_resource type="PackedScene" uid="uid://dxdtidj4hp83f" path="res://scenes/Weapons/thumb.tscn" id="4_e55dp"]
 [ext_resource type="PackedScene" uid="uid://d07kbrumu4gbf" path="res://scenes/Weapons/index.tscn" id="4_qlvm5"]
