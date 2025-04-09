@@ -11,9 +11,10 @@ func _ready() -> void:
 	$CollisionShape3D.shape = shape
 
 
-func damage(amount: float) -> void:
+func damage(amount: float) -> bool:
 	if not health_component:
 		health_component = get_parent().get_node("HealthComponent")
 	if health_component:
 		health_component.damage(amount)
 	damaged.emit(amount)
+	return true

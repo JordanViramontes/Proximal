@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b4wfrgspyik6s" path="res://scripts/weapon_manager.gd" id="1_583ps"]
 [ext_resource type="Script" uid="uid://cgr4wdrppjkc0" path="res://scripts/weapon_base.gd" id="2_qlvm5"]
-[ext_resource type="PackedScene" uid="uid://b2nwv2k6ni68c" path="res://scenes/bullets/index_bullet.tscn" id="3_v6qfx"]
+[ext_resource type="PackedScene" uid="uid://b2nwv2k6ni68c" path="res://scenes/bullet.tscn" id="3_v6qfx"]
 [ext_resource type="PackedScene" uid="uid://dxdtidj4hp83f" path="res://scenes/Weapons/thumb.tscn" id="4_e55dp"]
 [ext_resource type="PackedScene" uid="uid://d07kbrumu4gbf" path="res://scenes/Weapons/index.tscn" id="4_qlvm5"]
 [ext_resource type="PackedScene" uid="uid://bm6i7l7q7whsf" path="res://scenes/Weapons/middle.tscn" id="6_12ses"]
@@ -40,15 +40,15 @@ visible = false
 
 [node name="Index" parent="." instance=ExtResource("4_qlvm5")]
 visible = false
+active = null
+bullet = ExtResource("3_v6qfx")
+bullet_damage = null
 
 [node name="Middle" parent="." instance=ExtResource("6_12ses")]
 visible = false
-bullet = ExtResource("3_v6qfx")
 
 [node name="Ring" parent="." instance=ExtResource("7_k5yqd")]
 visible = false
-bullet = ExtResource("3_v6qfx")
 
 [node name="Pinky" parent="." instance=ExtResource("8_r1oqp")]
 visible = false
-bullet = ExtResource("3_v6qfx")
