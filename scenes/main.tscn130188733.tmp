@@ -60,8 +60,16 @@ transform = Transform3D(3.84, 0, 0, 0, 3.84, 0, 0, 0, 3.84, 0, 0, 0)
 
 [node name="Player" parent="." groups=["Player"] instance=ExtResource("6_tefeu")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 4.71973, 5.02955, 10.7018)
-DASH_SPEED = 50
-dash_accel = 2
+MOUSE_SENS = null
+WALKING_SPEED = null
+CROUCH_SPEED = null
+JUMP_VELOCITY = null
+accel_speed = null
+DASH_SPEED = null
+DEATH_HEIGHT = null
+LEAN_MULT = null
+LEAN_SMOOTH = null
+LEAN_AMOUNT = null
 
 [node name="EnemySpawnPath" type="Path3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 0)

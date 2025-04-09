@@ -90,8 +90,6 @@ func _on_pathfind_timer_timeout() -> void:
 	player_position = player.global_position
 	#look_at(player_position)
 	set_movement_target(player_position)
-	print("pos: " + str(global_position))
-	print("player: " + str(player_position))
 
 # setup for the actor to pathfind
 func actor_setup():

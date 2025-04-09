@@ -5,6 +5,11 @@ var weapon_dictionary
 var curr_weapon_index
 var curr_weapon # defined in ready
 
+# weapon / ability authentication
+var canUseWeapon: bool = true
+var canDash: bool = true
+signal dashInput
+
 func _ready():
 	weapon_dictionary = [
 		$Thumb,
@@ -19,6 +24,7 @@ func _ready():
 
 # code for polling inputs
 func _process(delta: float):
+	# change weapon
 	if Input.is_action_just_pressed("change_weapon_up"):
 		change_weapon_to(curr_weapon_index + 1)
 	if Input.is_action_just_pressed("change_weapon_down"):
@@ -34,6 +40,11 @@ func _process(delta: float):
 	if Input.is_action_just_pressed("hotkey_pinky"):
 		change_weapon_to(4)
 	
+	# abilities
+	if Input.is_action_just_pressed("ability"):
+		use_ability(curr_weapon_index)
+	if Input.is_action_just_pressed("hotkey_dash"): # Index = 1
+		use_ability(1)
 
 # 3 ways of recieving new weapon change, either scroll wheels (handled in _process),
 # hotkey (also _process), and weapon wheel (recieve signal from wheel node)
@@ -70,3 +81,27 @@ func set_weapon_active(weapon):
 func set_weapon_unactive(weapon):
 	weapon.visible = false
 	weapon.active = false
+
+func use_ability(finger):
+	match finger:
+		1:
+			disableWeapons()
+			dashInput.emit()
+			$DashTimer.start()
+		_:
+			print("weapon_manager - WARNING: no finger to use for ability")
+			return
+
+func disableWeapons():
+	print("disable weapons")
+	canUseWeapon = false
+
+func enableWeapons():
+	print("enable weapons")
+	canUseWeapon = true
+
+func isCanUseWeapon() -> bool:
+	return canUseWeapon
+
+func _on_dash_timer_timeout() -> void:
+	enableWeapons()

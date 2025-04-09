@@ -2,7 +2,6 @@ extends Node3D
 class_name WeaponBase
 
 # shoots projectiles with a travel time
-
 var shoot_cooldown: float = 0.05 # seconds
 @onready var shoot_timer: Timer = $ShootCooldown
 var can_shoot: bool = true
@@ -11,6 +10,9 @@ var can_shoot: bool = true
 @export var bullet: PackedScene
 @export var bullet_damage: float
 @export var bullet_speed: float
+
+# reference to manager
+@onready var weapon_manager = $".."
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -23,7 +25,7 @@ func _process(delta: float) -> void:
 
 # shoot a bullet from the weapon
 func shoot() -> void:
-	if not can_shoot:
+	if not can_shoot or not weapon_manager.isCanUseWeapon():
 		return
 	var b = bullet.instantiate()
 	if b == null: # just in case

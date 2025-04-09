@@ -2,7 +2,7 @@ extends Path3D
 
 # which enemy to spawn
 @export var mob_scene: PackedScene
-@export var amount_per_wave = 1
+@export var amount_per_wave = 5
 
 # modified from squash the creeps lol
 func _process(delta):

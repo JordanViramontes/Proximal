@@ -12,7 +12,7 @@ var current_state = INPUT_STATE.normal
 # speed and walking
 var cur_speed = 5.0
 
-@export var WALKING_SPEED = 20.0
+@export var WALKING_SPEED = 15.0
 @export var CROUCH_SPEED = 3.0
 @export var JUMP_VELOCITY = 4.5
 
@@ -21,6 +21,10 @@ var direction = Vector3.ZERO
 
 # jumping
 var double_jumpable := false
+
+# Abilities
+@export var DASH_SPEED = 40
+@export var dash_accel = 5
 
 # h
 const height = 1.8
@@ -36,6 +40,8 @@ var current_strafe_dir = 0
 @onready var head := $Head
 @onready var camera := $Head/Camera3D
 @onready var weapon := $Head/Weapon_Manager
+
+
 
 # inputs
 func _input(event: InputEvent) -> void:
@@ -77,7 +83,7 @@ func _physics_process(delta: float) -> void:
 			velocity.y = JUMP_VELOCITY
 		
 
-		var input_dir := Input.get_vector("left", "right", "forward", "back")
+		var input_dir = Input.get_vector("left", "right", "forward", "back")
 		
 		if (input_dir.x < 0):
 			current_strafe_dir = LEAN_AMOUNT
@@ -99,9 +105,25 @@ func _physics_process(delta: float) -> void:
 		
 		#direction = lerp(direction, (head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized(), delta * lerp_speed)
 		direction = lerp(direction, Vector3(input_dir.x, 0, input_dir.y).rotated(Vector3.UP, h_rot).normalized(), delta * accel_speed)
+		
+		
+		
 		if direction:
-			velocity.x = direction.x * cur_speed
-			velocity.z = direction.z * cur_speed
+			# X check if we're above walking speed (dashing)
+			if abs(velocity.x) <= WALKING_SPEED:
+				velocity.x = direction.x * cur_speed
+			elif velocity.x > 0:
+				velocity.x -= dash_accel
+			elif velocity.x < 0:
+				velocity.x += dash_accel
+			
+			# Z check if we're above walking speed (dashing)
+			if abs(velocity.z) <= WALKING_SPEED:
+				velocity.z = direction.z * cur_speed
+			elif velocity.z > 0:
+				velocity.z -= dash_accel
+			elif velocity.z < 0:
+				velocity.z += dash_accel
 		else:
 			velocity.x = move_toward(velocity.x, 0, cur_speed)
 			#head.rotate_object_local()
@@ -110,9 +132,18 @@ func _physics_process(delta: float) -> void:
 		# shooting
 		if Input.is_action_pressed("shoot"):
 			weapon.shoot()
-
+		
 	move_and_slide()
 
 # you dead
 func die():
 	current_state = INPUT_STATE.dead
+
+# recieve dash input from WeaponManager
+func _on_weapon_manager_dash_input() -> void:
+	var dash_vel: Vector3 = direction.normalized()
+	print("dashing! input: " + str(dash_vel))
+	velocity.x += dash_vel.x * DASH_SPEED
+	velocity.z += dash_vel.z * DASH_SPEED
+	#velocity.y = 0
+	print("velocity: " + str(velocity))
