@@ -12,7 +12,7 @@ var current_state = INPUT_STATE.normal
 # speed and walking
 var cur_speed = 5.0
 
-@export var WALKING_SPEED = 10.0
+@export var WALKING_SPEED = 20.0
 @export var CROUCH_SPEED = 3.0
 @export var JUMP_VELOCITY = 4.5
 
@@ -37,6 +37,7 @@ var current_strafe_dir = 0
 @onready var camera := $Head/Camera3D
 @onready var weapon := $Head/Weapon_Manager
 
+# inputs
 func _input(event: InputEvent) -> void:
 	# input state 
 	if event is InputEventMouseButton:
@@ -50,9 +51,11 @@ func _input(event: InputEvent) -> void:
 				head.rotate_x(deg_to_rad(-event.relative.y * MOUSE_SENS))
 				head.rotation.x = clamp(head.rotation.x, deg_to_rad(-75), deg_to_rad(80))
 
+# frame by frame
 func _process(delta: float):
 	head.rotation.z = lerp(head.rotation.z, current_strafe_dir * LEAN_MULT, delta * LEAN_SMOOTH) # this causes some weirdness when you look down/up, working on a fix
 
+# frame by frame physics
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
 	if not is_on_floor():
@@ -110,5 +113,6 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
+# you dead
 func die():
 	current_state = INPUT_STATE.dead
