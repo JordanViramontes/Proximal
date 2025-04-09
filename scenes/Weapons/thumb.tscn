@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dxdtidj4hp83f"]
 
-[ext_resource type="Script" uid="uid://cnqssw8swmrv5" path="res://scripts/thumb.gd" id="1_b665p"]
+[ext_resource type="Script" uid="uid://cnqssw8swmrv5" path="res://scenes/Weapons/thumb.gd" id="1_b665p"]
 [ext_resource type="PackedScene" uid="uid://dmmosaxs1o0am" path="res://scenes/bullets/thumb_bullet.tscn" id="2_4dj6u"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8hw30"]
