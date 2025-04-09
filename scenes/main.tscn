@@ -58,12 +58,6 @@ material = SubResource("StandardMaterial3D_pqxd8")
 [node name="map_draft" parent="Stage" instance=ExtResource("8_tipki")]
 transform = Transform3D(3.84, 0, 0, 0, 3.84, 0, 0, 0, 3.84, 0, 0, 0)
 
-[node name="Player" parent="." groups=["Player"] instance=ExtResource("6_tefeu")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 4.71973, 5.02955, 10.7018)
-DASH_SPEED = 50
-dash_accel = 2
-LEAN_AMOUNT = 0.7
-
 [node name="EnemySpawnPath" type="Path3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 0)
 curve = SubResource("Curve3D_tefeu")
@@ -72,3 +66,6 @@ mob_scene = ExtResource("7_o6xl0")
 
 [node name="EnemySpawner" type="PathFollow3D" parent="EnemySpawnPath"]
 transform = Transform3D(-0.481918, 0, 0.876215, 0, 1, 0, -0.876215, 0, -0.481918, -11, 0, -39)
+
+[node name="Player" parent="." instance=ExtResource("6_tefeu")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 3, 15)
