@@ -33,5 +33,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.291509, -0.296324, -0.45360
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 
-[connection signal="dashEnd" from="Head/Weapon_Manager" to="." method="_on_weapon_manager_dash_end"]
 [connection signal="dashInput" from="Head/Weapon_Manager" to="." method="_on_weapon_manager_dash_input"]
