@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dxdtidj4hp83f"]
+[gd_scene load_steps=5 format=3 uid="uid://dxdtidj4hp83f"]
 
-[ext_resource type="Script" uid="uid://cljgu2clkn4w8" path="res://scripts/index.gd" id="1_b665p"]
+[ext_resource type="Script" uid="uid://cnqssw8swmrv5" path="res://scenes/Weapons/thumb.gd" id="1_b665p"]
+[ext_resource type="PackedScene" uid="uid://dmmosaxs1o0am" path="res://scenes/bullets/thumb_bullet.tscn" id="2_4dj6u"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8hw30"]
 resource_local_to_scene = true
@@ -13,12 +14,14 @@ size = Vector3(0.1, 0.1, 1)
 
 [node name="Thumb" type="Node3D"]
 script = ExtResource("1_b665p")
-bullet_speed = 5.0
+fire_rate = 1.5
+bullet = ExtResource("2_4dj6u")
+bullet_speed = 10.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_2gn6w")
 
-[node name="Help" type="Node3D" parent="."]
+[node name="BulletEmergePoint" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
 
 [node name="ShootCooldown" type="Timer" parent="."]

@@ -2,15 +2,25 @@ extends Node3D
 
 var bullet_damage: float = 2.5
 var bullet_speed: float = 10.0
+var x_spin_speed: float
+var y_spin_speed: float
+var z_spin_speed: float
 
 var direction: Vector3 = Vector3.ZERO
 
 var spawn_location: Vector3
 var despawn_distance: float = 50.0
 
+@export var spin: bool = false
+
+signal damaged_enemy
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	spawn_location = self.global_position
+	x_spin_speed = randf_range(-2*PI, 2*PI)
+	y_spin_speed = randf_range(-2*PI, 2*PI)
+	z_spin_speed = randf_range(-2*PI, 2*PI)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -20,6 +30,11 @@ func _process(delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	self.position += direction * bullet_speed * delta
+	if spin:
+		self.rotate_x(x_spin_speed * delta)
+		self.rotate_y(y_spin_speed * delta)
+		self.rotate_z(z_spin_speed * delta)
+		
 	# check bounds
 	if abs(self.global_position) > spawn_location + Vector3(despawn_distance, despawn_distance, despawn_distance):
 		self.queue_free()
@@ -28,10 +43,10 @@ func _physics_process(delta: float) -> void:
 func _on_hitbox_area_entered(area: Area3D) -> void:
 	#print("entered area %s" % area)
 	if area.damage:
-		area.damage(bullet_damage)
+		if area.damage(bullet_damage):
+			damaged_enemy.emit()
 	self.queue_free()
 
 
 func _on_hitbox_body_entered(body: Node3D) -> void:
-	#print("entered body %s" % body)
 	self.queue_free()
