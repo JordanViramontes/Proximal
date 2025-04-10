@@ -1,13 +1,26 @@
 extends CharacterBody3D
 
+# vars
 @export var max_health: float
 @export var hitflash_material: Material
 @export var hitflash_duration: float = 0.1
 var hitflash_tween: Tween
 
+# spawning variables
+var spawn_distance_vector = Vector3(0, 0, 0)
+var spawning_velocity = Vector3(0, 0, 0)
+@export var spawning_time = 2
+@export var spawn_distance_length = 1 # distance to travel towards origin
+@export var spawn_distance_height = 2 # units to travel vertically while in spawning state
+
+# states
+enum ENEMY_STATE {roam, spawn_edge, dead}
+var current_state = ENEMY_STATE.spawn_edge
+
 # components
 @onready var health_component := $HealthComponent
 @onready var hitbox_component := $HitboxComponent
+@onready var collision := $CollisionShape3D
 
 # signals
 signal die
@@ -18,11 +31,19 @@ var player
 var player_position
 var path
 
-# self information
+# movement and pathfinding information
 @export var movement_speed = 5
 @onready var navigation_agent: NavigationAgent3D = $NavigationAgent3D
-@export var nav_path_dist = 5
-@export var nav_target_dist = 0
+@export var nav_path_dist = 2
+@export var nav_target_dist = 1
+
+# Constructor called by spawner
+func initialize(starting_position, init_player_position):
+	# spawning
+	current_state = ENEMY_STATE.spawn_edge
+	position = starting_position
+	player_position = init_player_position
+	#look_at_from_position(position, init_player_position, Vector3.UP)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -42,32 +63,51 @@ func _ready() -> void:
 	
 	# do not call await during ready (await is called in actor_setup)
 	actor_setup.call_deferred()
-
-# Constructor called by spawner
-func initialize(starting_position, init_player_position):
-	position = starting_position
-	player_position = init_player_position
-	look_at_from_position(position, init_player_position, Vector3.UP)
+	
+	# set up target distance for spawn_edge, calculate spawn_distance_vector using trig
+	if current_state == ENEMY_STATE.spawn_edge:
+		var spawn_angle = (Vector2.ZERO - Vector2(position.x, position.z)).angle() # get the angle
+		var spawn_distance_x = position.x + spawn_distance_length * cos(spawn_angle) # do trig to find the distance
+		var spawn_distance_z = position.z + spawn_distance_length * sin(spawn_angle)
+		
+		spawn_distance_vector = Vector3(spawn_distance_x, global_position.y + spawn_distance_height, spawn_distance_z)
+		spawning_velocity = Vector3((spawn_distance_vector-global_position)/spawning_time)
+		
+		# disable collision
+		collision.disabled = true
+	
+	# set the target
+	set_movement_target(get_target_from_state(current_state))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
 
 func _physics_process(delta):	
-	# pathfinding
-	if navigation_agent.is_navigation_finished():
-		return
+	# spawning along the edge, you will have a straight line to path towards until you reach the target
+	if current_state == ENEMY_STATE.spawn_edge:
+		if global_position.distance_to(spawn_distance_vector) < 0.1:
+				# disable collision
+				collision.disabled = false
+				current_state = ENEMY_STATE.roam
+				return
+		velocity = spawning_velocity
 	
-	var current_agent_position: Vector3 = global_position
-	var next_path_position: Vector3 = navigation_agent.get_next_path_position()
-	
-	var pathfindVel = current_agent_position.direction_to(next_path_position) * movement_speed
-	velocity.x = pathfindVel.x
-	velocity.z = pathfindVel.z
-	
-	# gravity
-	if not is_on_floor():
-		velocity += get_gravity() * delta
+	# pathfinding (normal roam)
+	elif current_state == ENEMY_STATE.roam:
+		if navigation_agent.is_navigation_finished():
+			return
+		
+		var current_agent_position: Vector3 = global_position
+		var next_path_position: Vector3 = navigation_agent.get_next_path_position()
+		
+		var pathfindVel = current_agent_position.direction_to(next_path_position) * movement_speed
+		velocity.x = pathfindVel.x
+		velocity.z = pathfindVel.z
+		
+		# gravity
+		if not is_on_floor():
+			velocity += get_gravity() * delta
 	
 	# finally move
 	move_and_slide()
@@ -89,14 +129,20 @@ func on_damaged(amount: float):
 func _on_pathfind_timer_timeout() -> void:
 	player_position = player.global_position
 	#look_at(player_position)
-	set_movement_target(player_position)
+	set_movement_target(get_target_from_state(current_state))
 
 # setup for the actor to pathfind
 func actor_setup():
 	# wait for first physics frame
 	await get_tree().physics_frame
 	# set the movement target
-	set_movement_target(player_position)
+	set_movement_target(get_target_from_state(current_state))
+
+func get_target_from_state(state):
+	if state == ENEMY_STATE.roam:
+		return player_position
+	elif state == ENEMY_STATE.spawn_edge:
+		return spawn_distance_vector
 
 # set the movement target for navigation
 func set_movement_target(movement_target: Vector3):
