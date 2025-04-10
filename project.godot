@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 Util="*res://scripts/util.gd"
 
+[dotnet]
+
+project/assembly_name="Proximal"
+
 [global_group]
 
 Player=""
