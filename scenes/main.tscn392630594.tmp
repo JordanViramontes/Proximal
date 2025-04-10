@@ -1,0 +1,72 @@
+[gd_scene load_steps=13 format=3 uid="uid://dwckn628u33ab"]
+
+[ext_resource type="Texture2D" uid="uid://cqur83lk7fjfl" path="res://assets/hdris/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="1_8wojv"]
+[ext_resource type="Script" uid="uid://bpvwqw4pbfs3m" path="res://scripts/Areas/world.gd" id="1_dctr2"]
+[ext_resource type="Texture2D" uid="uid://c7ao2jw0rnah0" path="res://assets/textures/dev/grids/Dark/texture_07.png" id="2_4n1ka"]
+[ext_resource type="Script" uid="uid://drj4up00u5x88" path="res://scripts/Characters/enemy_spawn_path.gd" id="6_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://bfdo44kle73uq" path="res://scenes/Characters/player.tscn" id="6_tefeu"]
+[ext_resource type="PackedScene" uid="uid://b3ghxetcov6va" path="res://scenes/Enemies/enemy_base.tscn" id="7_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://dbn175mecst55" path="res://assets/models/map/map_draft.blend" id="8_tipki"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_ssbh5"]
+panorama = ExtResource("1_8wojv")
+
+[sub_resource type="Sky" id="Sky_w0v2c"]
+sky_material = SubResource("PanoramaSkyMaterial_ssbh5")
+
+[sub_resource type="Environment" id="Environment_5o0bn"]
+background_mode = 2
+sky = SubResource("Sky_w0v2c")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pqxd8"]
+albedo_texture = ExtResource("2_4n1ka")
+uv1_triplanar = true
+
+[sub_resource type="Curve3D" id="Curve3D_tefeu"]
+closed = true
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -55.1679, 0, -3.37566, 0, 0, 0, 0, 0, 0, -53.0461, 0, 17.6499, 0, 0, 0, 0, 0, 0, -39.5434, 0, 39.0612, 0, 0, 0, 0, 0, 0, -23.3403, 0, 50.442, 0, 0, 0, 0, 0, 0, 0.385788, 0, 55.4573, 0, 0, 0, 0, 0, 0, 18.5179, 0, 51.7923, 0, 0, 0, 0, 0, 0, 35.4926, 0, 42.5333, 0, 0, 0, 0, 0, 0, 51.31, 0, 21.122, 0, 0, 0, 0, 0, 0, 55.1679, 0, 0.0964461, 0, 0, 0, 0, 0, 0, 52.8532, 0, -17.6499, 0, 0, 0, 0, 0, 0, 40.7008, 0, -37.9038, 0, 0, 0, 0, 0, 0, 26.0408, 0, -48.706, 0, 0, 0, 0, 0, 0, 10.0305, 0, -54.6857, 0, 0, 0, 0, 0, 0, -11.1879, 0, -54.4928, 0, 0, 0, 0, 0, 0, -28.9342, 0, -47.9344, 0, 0, 0, 0, 0, 0, -46.1019, 0, -30.9596, 0, 0, 0, 0, 0, 0, -53.239, 0, -16.2996),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 17
+
+[node name="World" type="Node3D"]
+script = ExtResource("1_dctr2")
+
+[node name="Env" type="Node3D" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Env"]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Env"]
+environment = SubResource("Environment_5o0bn")
+
+[node name="Stage" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Stage"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, -0.5, 0)
+visible = false
+use_collision = true
+collision_layer = 0
+collision_mask = 0
+size = Vector3(50, 1, 50)
+material = SubResource("StandardMaterial3D_pqxd8")
+
+[node name="map_draft" parent="Stage" instance=ExtResource("8_tipki")]
+transform = Transform3D(3.84, 0, 0, 0, 3.84, 0, 0, 0, 3.84, 0, 0, 0)
+
+[node name="EnemySpawnPath" type="Path3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0320868, 0)
+curve = SubResource("Curve3D_tefeu")
+script = ExtResource("6_o6xl0")
+mob_scene = ExtResource("7_o6xl0")
+starting_wave = null
+
+[node name="EnemySpawner" type="PathFollow3D" parent="EnemySpawnPath"]
+transform = Transform3D(-0.994941, 0, -0.100405, 0, 1, 0, 0.100405, 0, -0.994941, -55.1679, 0, -3.37566)
+
+[node name="Player" parent="." instance=ExtResource("6_tefeu")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 3, 15)
