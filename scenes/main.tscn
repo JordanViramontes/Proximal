@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dwckn628u33ab"]
+[gd_scene load_steps=15 format=3 uid="uid://dwckn628u33ab"]
 
 [ext_resource type="Texture2D" uid="uid://cqur83lk7fjfl" path="res://assets/hdris/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="1_8wojv"]
 [ext_resource type="Script" uid="uid://bpvwqw4pbfs3m" path="res://scripts/Areas/world.gd" id="1_dctr2"]
@@ -32,6 +32,12 @@ _data = {
 }
 point_count = 12
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o6xl0"]
+albedo_color = Color(0, 0.776471, 0.776471, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_tipki"]
+material = SubResource("StandardMaterial3D_o6xl0")
+
 [node name="World" type="Node3D"]
 script = ExtResource("1_dctr2")
 
@@ -59,13 +65,17 @@ material = SubResource("StandardMaterial3D_pqxd8")
 transform = Transform3D(3.84, 0, 0, 0, 3.84, 0, 0, 0, 3.84, 0, 0, 0)
 
 [node name="EnemySpawnPath" type="Path3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 57, 0)
 curve = SubResource("Curve3D_tefeu")
 script = ExtResource("6_o6xl0")
 mob_scene = ExtResource("7_o6xl0")
 
 [node name="EnemySpawner" type="PathFollow3D" parent="EnemySpawnPath"]
 transform = Transform3D(-0.481918, 0, 0.876215, 0, 1, 0, -0.876215, 0, -0.481918, -11, 0, -39)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="EnemySpawnPath"]
+transform = Transform3D(55, 0, 0, 0, -1, -4.80825e-06, 0, 8.74228e-08, -55, 0, -19, 0)
+mesh = SubResource("PlaneMesh_tipki")
 
 [node name="Player" parent="." instance=ExtResource("6_tefeu")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 3, 15)
