@@ -63,6 +63,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0320868, 0)
 curve = SubResource("Curve3D_tefeu")
 script = ExtResource("6_o6xl0")
 mob_scene = ExtResource("7_o6xl0")
+starting_wave = null
 
 [node name="EnemySpawner" type="PathFollow3D" parent="EnemySpawnPath"]
 transform = Transform3D(-0.994941, 0, -0.100405, 0, 1, 0, 0.100405, 0, -0.994941, -55.1679, 0, -3.37566)

@@ -1,27 +1,100 @@
 extends Path3D
 
-# which enemy to spawn
+# variables
 @export var mob_scene: PackedScene
-@export var amount_per_wave = 5
+@export var starting_wave = 0
+var current_wave = starting_wave
+var waveDictionary = [
+	Wave.new([1, 2, 3, 4], 1, 1),
+	Wave.new([10], 1, 1),
+	Wave.new([20], 1, 1),
+]
 
-# modified from squash the creeps lol
+# wave struct holds all information about each wave
+class Wave:
+	var enemy_count = { 
+		"DEBUG":-1,
+		"FUTURE_ENEMY":-1
+	}
+	var enemy_health_multiplier: float = -1 
+	var enemy_damage_multiplier: float = -1
+	
+	func _init(in_enemy_count: Array, in_enemy_health_multiplier: float, in_enemy_damage_multiplier: float):
+		# get enemy counts
+		var keys = enemy_count.keys()
+		for i in range(in_enemy_count.size()):
+			if i >= enemy_count.size():
+				break
+			enemy_count[keys[i]] = in_enemy_count[i]
+		
+		# the rest
+		enemy_health_multiplier = in_enemy_health_multiplier
+		enemy_damage_multiplier = in_enemy_damage_multiplier
+		
+
+ # modified from squash the creeps lol
+
 func _process(delta):
 	if Input.is_action_just_pressed("debug_spawn_wave"):
-		for i in range(amount_per_wave):
-			# Create a new instance of the Mob scene.
-			var mob = mob_scene.instantiate()
+		spawnWave(current_wave)
+	if Input.is_action_just_pressed("debug_next_wave"):
+		nextWave()
+	if Input.is_action_just_pressed("debug_prev_wave"):
+		prevWave()
+
+func spawnWave(wave_index):
+	# make sure we're valid
+	if wave_index > waveDictionary.size() || wave_index < 0:
+		return
+		
+	# variables
+	var wave = waveDictionary[wave_index]
+	var enemy_count = wave.enemy_count
+	
+	# parse enemy_count
+	for mob_str in enemy_count.keys(): 
+		# mob is the scene that will be spawned in
+		var mob_path = ""
+		
+		# eventually use group stuff to get this, for now a simple if statement
+		if mob_str == "DEBUG":
+			mob_path = "res://scenes/Enemies/enemy_base.tscn"
+		else:
+			return
+		
+		print("spawning: " + str(enemy_count[mob_str]) + " \'" + str(mob_str) + "\'s")
+		# spawn the amount of times specified in the dictionary
+		for i in range(enemy_count[mob_str]):
+			var mob = load(mob_path).instantiate()
 			
-			# Choose a random location on the SpawnPath.
-			# We store the reference to the SpawnLocation node.
+			# Choose a random location on the SpawnPath, We store the reference to the SpawnLocation node.
 			var mob_spawn_location = get_node("EnemySpawner")
 			
-			# And give it a random offset.
+			# give random location an offset, and get player position
 			mob_spawn_location.progress_ratio = randf()
-			print("test: " + str(mob_spawn_location.progress_ratio))
-			
 			var player_position = $"../Player".global_position
-			print("mobPos: " + str(mob.position))
 			mob.initialize(mob_spawn_location.position, player_position)
 			
 			# Spawn the mob by adding it to the Main scene.
 			add_child(mob)
+
+func nextWave():
+	if current_wave >= waveDictionary.size() - 1:
+		return
+	current_wave += 1
+	print("Wave: " + str(current_wave))
+	printWave(current_wave)
+
+func prevWave():
+	if current_wave == 0:
+		return
+	current_wave -= 1
+	print("wave: " + str(current_wave))
+	printWave(current_wave)
+
+func printWave(wave_index):
+	var wave = waveDictionary[wave_index]
+	for i in wave.enemy_count.keys():
+		print("Enemy: " + str(i) + ", cnt: " + str(wave.enemy_count[i]))
+	print("healthMult: " + str(wave.enemy_health_multiplier) + ", damageMult: " + str(wave.enemy_damage_multiplier))
+	print()

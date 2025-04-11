@@ -23,11 +23,12 @@ albedo_color = Color(0.807843, 0.494118, 0.47451, 0.266667)
 [sub_resource type="PlaneMesh" id="PlaneMesh_2p2xa"]
 material = SubResource("StandardMaterial3D_p67kr")
 
-[node name="Enemy" type="CharacterBody3D"]
+[node name="Enemy" type="CharacterBody3D" groups=["Enemies"]]
 collision_layer = 4
 script = ExtResource("1_vv3x1")
-max_health = 20.0
+max_health = 5.0
 hitflash_material = ExtResource("2_lxe82")
+spawn_distance_height = 3
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 material_overlay = ExtResource("2_lxe82")
@@ -48,7 +49,7 @@ health_component = NodePath("../HealthComponent")
 shape = SubResource("CapsuleShape3D_tdqxq")
 
 [node name="PathfindTimer" type="Timer" parent="."]
-wait_time = 0.5
+wait_time = 0.3
 autostart = true
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
