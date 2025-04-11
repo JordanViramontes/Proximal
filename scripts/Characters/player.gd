@@ -37,9 +37,10 @@ const height = 1.8
 var current_strafe_dir = 0
 
 # nodes
-@onready var head := $Head
-@onready var camera := $Head/Camera3D
-@onready var weapon := $Head/Weapon_Manager
+@onready var lean_pivot := $LeanPivot
+@onready var head := $LeanPivot/Head
+@onready var camera := $LeanPivot/Head/Camera3D
+@onready var weapon := $LeanPivot/Head/Weapon_Manager
 
 
 
@@ -50,16 +51,16 @@ func _input(event: InputEvent) -> void:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	elif event.is_action_pressed("ui_cancel"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
-		if event is InputEventMouseMotion:
-			if current_state == INPUT_STATE.normal:
-				rotate_y(deg_to_rad(-event.relative.x * MOUSE_SENS))
-				head.rotate_x(deg_to_rad(-event.relative.y * MOUSE_SENS))
-				head.rotation.x = clamp(head.rotation.x, deg_to_rad(-75), deg_to_rad(80))
+		
+	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED and event is InputEventMouseMotion:
+		if current_state == INPUT_STATE.normal:
+			rotate_y(deg_to_rad(-event.relative.x * MOUSE_SENS)) # yaw
+			head.rotate_x(deg_to_rad(-event.relative.y * MOUSE_SENS)) # pitch
+			head.rotation.x = clamp(head.rotation.x, deg_to_rad(-75), deg_to_rad(80))
 
 # frame by frame
 func _process(delta: float):
-	head.rotation.z = lerp(head.rotation.z, current_strafe_dir * LEAN_MULT, delta * LEAN_SMOOTH) # this causes some weirdness when you look down/up, working on a fix
+	lean_pivot.rotation.z = lerp(lean_pivot.rotation.z, current_strafe_dir * LEAN_MULT, delta * LEAN_SMOOTH) # this causes some weirdness when you look down/up, working on a fix
 
 # frame by frame physics
 func _physics_process(delta: float) -> void:
