@@ -1,4 +1,5 @@
 extends CharacterBody3D
+class_name EnemyBase
 
 # vars
 @export var max_health: float
@@ -11,7 +12,7 @@ var spawn_distance_vector = Vector3(0, 0, 0)
 var spawning_velocity = Vector3(0, 0, 0)
 @export var spawning_time = 2
 @export var spawn_distance_length = 1 # distance to travel towards origin
-@export var spawn_distance_height = 2 # units to travel vertically while in spawning state
+@export var spawn_distance_height = 3 # units to travel vertically while in spawning state
 
 # states
 enum ENEMY_STATE {roam, spawn_edge, dead}
@@ -47,6 +48,7 @@ func initialize(starting_position, init_player_position):
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	print("self: " + str(self))
 	health_component.max_health = max_health
 	health_component.current_health = max_health
 	health_component.reached_zero_health.connect(on_reach_zero_health)

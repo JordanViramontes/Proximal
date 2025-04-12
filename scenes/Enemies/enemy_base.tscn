@@ -17,18 +17,17 @@
 vertices = PackedVector3Array(-49.5, 0.5, -49.5, -49.5, 0.5, 49.5, 49.5, 0.5, 49.5, 49.5, 0.5, -49.5)
 polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p67kr"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y7qu8"]
 albedo_color = Color(0.807843, 0.494118, 0.47451, 0.266667)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_2p2xa"]
-material = SubResource("StandardMaterial3D_p67kr")
+material = SubResource("StandardMaterial3D_y7qu8")
 
 [node name="Enemy" type="CharacterBody3D" groups=["Enemies"]]
 collision_layer = 4
 script = ExtResource("1_vv3x1")
 max_health = 5.0
 hitflash_material = ExtResource("2_lxe82")
-spawn_distance_height = 3
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 material_overlay = ExtResource("2_lxe82")

@@ -2,19 +2,19 @@ extends Path3D
 
 # variables
 @export var mob_scene: PackedScene
-@export var starting_wave = 0
+@export var starting_wave = 2
 var current_wave = starting_wave
 var waveDictionary = [
 	Wave.new([1, 2, 3, 4], 1, 1),
-	Wave.new([10], 1, 1),
-	Wave.new([20], 1, 1),
+	Wave.new([10, 10], 1, 1),
+	Wave.new([20, 20], 1, 1),
 ]
 
 # wave struct holds all information about each wave
 class Wave:
 	var enemy_count = { 
 		"DEBUG":-1,
-		"FUTURE_ENEMY":-1
+		"ISHIM_CRAWLER":-1
 	}
 	var enemy_health_multiplier: float = -1 
 	var enemy_damage_multiplier: float = -1
@@ -43,6 +43,13 @@ func _process(delta):
 		prevWave()
 
 func spawnWave(wave_index):
+	# for debugging enemies
+	var test_path = "res://ishim_crawler.tscn"
+	print("WARNING: USING DEBUG ENEMY SPAWNING")
+	for i in range(1):
+		spawnEnemy(test_path)
+	return
+	
 	# make sure we're valid
 	if wave_index > waveDictionary.size() || wave_index < 0:
 		return
@@ -65,18 +72,21 @@ func spawnWave(wave_index):
 		print("spawning: " + str(enemy_count[mob_str]) + " \'" + str(mob_str) + "\'s")
 		# spawn the amount of times specified in the dictionary
 		for i in range(enemy_count[mob_str]):
-			var mob = load(mob_path).instantiate()
-			
-			# Choose a random location on the SpawnPath, We store the reference to the SpawnLocation node.
-			var mob_spawn_location = get_node("EnemySpawner")
-			
-			# give random location an offset, and get player position
-			mob_spawn_location.progress_ratio = randf()
-			var player_position = $"../Player".global_position
-			mob.initialize(mob_spawn_location.position, player_position)
-			
-			# Spawn the mob by adding it to the Main scene.
-			add_child(mob)
+			spawnEnemy(mob_path)
+
+func spawnEnemy(mob_path):
+	var mob = load(mob_path).instantiate()
+	
+	# Choose a random location on the SpawnPath, We store the reference to the SpawnLocation node.
+	var mob_spawn_location = get_node("EnemySpawner")
+	
+	# give random location an offset, and get player position
+	mob_spawn_location.progress_ratio = randf()
+	var player_position = $"../Player".global_position
+	mob.initialize(mob_spawn_location.position, player_position)
+	
+	# Spawn the mob by adding it to the Main scene.
+	add_child(mob)
 
 func nextWave():
 	if current_wave >= waveDictionary.size() - 1:
