@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://bc8782mr44krn"]
+
+[ext_resource type="Script" uid="uid://4efo1m580vvk" path="res://scripts/Weapons/hitscan.gd" id="1_afyxq"]
+[ext_resource type="Material" uid="uid://ccklk1lmlen4j" path="res://assets/textures/pinky_bullet.tres" id="2_7bh3a"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_afyxq"]
+resource_local_to_scene = true
+material = ExtResource("2_7bh3a")
+top_radius = 0.05
+bottom_radius = 0.05
+height = 1.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_2fkmk"]
+height = 1.0
+radius = 0.05
+
+[node name="PinkyBullet" type="Node3D"]
+script = ExtResource("1_afyxq")
+mesh_material = ExtResource("2_7bh3a")
+
+[node name="TransformRoot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TransformRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("CylinderMesh_afyxq")
+skeleton = NodePath("../..")
+
+[node name="ShapeCast3D" type="ShapeCast3D" parent="TransformRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 2.18557e-08)
+shape = SubResource("CylinderShape3D_2fkmk")
+collision_mask = 5
