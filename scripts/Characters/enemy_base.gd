@@ -18,12 +18,13 @@ var spawning_velocity = Vector3(0, 0, 0)
 @export var spawn_distance_height = 3 # units to travel vertically while in spawning state
 
 # states
-const ENEMY_STATE = {
+var ENEMY_STATE = {
 	"roam":0,
 	"spawn_edge":1,
 	"dead":2
 }
 var current_state = ENEMY_STATE.spawn_edge
+var total_states = 2
 
 # components
 @onready var health_component := $HealthComponent

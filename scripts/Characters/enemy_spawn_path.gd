@@ -45,11 +45,11 @@ func _process(delta):
 
 func spawnWave(wave_index):
 	# for debugging enemies
-	#var test_path = "res://scenes/Enemies/ishim_crawler.tscn"
-	#print("WARNING: USING DEBUG ENEMY SPAWNING")
-	#for i in range(1):
-		#spawnEnemy(test_path)
-	#return
+	var test_path = "res://scenes/Enemies/ishim_ranger.tscn"
+	print("WARNING: USING DEBUG ENEMY SPAWNING")
+	for i in range(1):
+		spawnEnemy(test_path, 1)
+	return
 	
 	# make sure we're valid
 	if wave_index > waveDictionary.size() || wave_index < 0:
@@ -63,9 +63,9 @@ func spawnWave(wave_index):
 	for mob_path in enemy_count.keys():  
 		# spawn the amount of times specified in the dictionary
 		for i in range(enemy_count[mob_path]):
-			spawnEnemy(mob_path)
+			spawnEnemy(mob_path, 0)
 
-func spawnEnemy(mob_path):
+func spawnEnemy(mob_path, debug_flag):
 	var mob = load(mob_path).instantiate()
 	
 	# Choose a random location on the SpawnPath, We store the reference to the SpawnLocation node.
@@ -74,7 +74,10 @@ func spawnEnemy(mob_path):
 	# give random location an offset, and get player position
 	mob_spawn_location.progress_ratio = randf()
 	var player_position = $"../Player".global_position
-	mob.initialize(mob_spawn_location.position, player_position)
+	if not debug_flag:
+		mob.initialize(mob_spawn_location.position, player_position)
+	else:
+		mob.initialize(Vector3(15, 2, 15), player_position)
 	
 	# Spawn the mob by adding it to the Main scene.
 	add_child(mob)

@@ -29,7 +29,6 @@ material = SubResource("StandardMaterial3D_p67kr")
 
 [node name="IshimRanger" type="CharacterBody3D"]
 script = ExtResource("1_cw4bv")
-movement_speed = 8
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." groups=["Enemies"]]
 material_overlay = ExtResource("2_4eule")
@@ -63,3 +62,5 @@ mesh = SubResource("PlaneMesh_v3keg")
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 avoidance_enabled = true
 radius = 10.0
+
+[connection signal="timeout" from="PathfindTimer" to="." method="_on_pathfind_timer_timeout"]
