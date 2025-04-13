@@ -3,6 +3,11 @@ extends EnemyBase
 # variables
 @export var player_run_radius = 10
 @export var comfy_radius = 15
+@export var bullet: PackedScene
+@export var bullet_radius: float = 1.5
+
+# components
+@onready var shoot_timer = $ShootCooldown
 
 func _ready() -> void:
 	super._ready()
@@ -11,27 +16,24 @@ func _ready() -> void:
 	# when the player gets too close itll run away
 	ENEMY_STATE["comfy"] = total_states+1
 	ENEMY_STATE["run_away"] = total_states+2
+	total_states += 2
 
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
 	
-	# pathfinding (normal roam)
-	if current_state == ENEMY_STATE.comfy:
+	# states
+	if current_state == ENEMY_STATE.run_away:
+		shoot_timer.stop()
 		if navigation_agent.is_navigation_finished():
 			return
-		
+	else:
+		if shoot_timer.is_stopped():
+			shoot_timer.start()
+	
+	if current_state != ENEMY_STATE.spawn_edge:
 		# gravity
 		if not is_on_floor():
 			velocity += get_gravity() * delta
-	
-	elif current_state == ENEMY_STATE.run_away:
-		if navigation_agent.is_navigation_finished():
-			return
-		
-		# gravity
-		if not is_on_floor():
-			velocity += get_gravity() * delta
-	
 	# running away state
 
 func _on_pathfind_timer_timeout() -> void:
@@ -67,3 +69,20 @@ func get_target_from_state(state):
 		var relative_position = to_local(player.global_position)
 		var new_target = global_position - (player_run_radius * relative_position)
 		return new_target
+
+# whenever the timer ends, shoot! (taken from index)
+func _on_bullet_timer_timeout() -> void:
+	if current_state == ENEMY_STATE.roam || current_state == ENEMY_STATE.comfy:
+		var b = bullet.instantiate()
+		if b == null: # just in case
+			print("isham_ranger.gd - bullet did not instantiate")
+			return
+		
+		var direction = (player.global_position - global_position).normalized()
+		b.position = global_position + direction * bullet_radius
+		
+		World.world.add_child(b)
+		
+		# add small permutation to firing direction
+		b.direction = Util.permute_vector(direction, 0)
+		b.direction.y += 0.1

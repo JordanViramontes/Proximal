@@ -51,7 +51,6 @@ func initialize(starting_position, init_player_position):
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	print("self: " + str(self))
 	health_component.max_health = max_health
 	health_component.current_health = max_health
 	health_component.reached_zero_health.connect(on_reach_zero_health)

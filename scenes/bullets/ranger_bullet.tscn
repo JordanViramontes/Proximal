@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://csm4pxrfit34f"]
+
+[ext_resource type="Script" uid="uid://bky4bnhhfj858" path="res://scripts/Enemies/ishim_ranger_bullet.gd" id="1_jv20b"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jv20b"]
+albedo_color = Color(0, 0.521569, 1, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_jv20b"]
+material = SubResource("StandardMaterial3D_jv20b")
+radius = 0.05
+height = 0.5
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hvide"]
+radius = 0.05
+height = 0.5
+
+[node name="RangerBullet" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+script = ExtResource("1_jv20b")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_jv20b")
+
+[node name="Hitbox" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+shape = SubResource("CapsuleShape3D_hvide")
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]

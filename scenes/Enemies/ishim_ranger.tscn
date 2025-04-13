@@ -1,11 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://bhbue0qd6j3wa"]
+[gd_scene load_steps=14 format=3 uid="uid://bhbue0qd6j3wa"]
 
 [ext_resource type="Script" uid="uid://bltecim4slosc" path="res://scripts/Characters/ishim_ranger.gd" id="1_cw4bv"]
 [ext_resource type="Material" uid="uid://cv7l0r86mk435" path="res://assets/hitflash_mat.tres" id="2_4eule"]
 [ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://scripts/components/health_component.gd" id="3_8pu60"]
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="4_vda0j"]
-[ext_resource type="PackedScene" uid="uid://b2nwv2k6ni68c" path="res://scenes/bullets/index_bullet.tscn" id="5_8pu60"]
-[ext_resource type="Script" uid="uid://bky4bnhhfj858" path="res://scripts/Enemies/ishim_ranger_bullet.gd" id="6_vda0j"]
+[ext_resource type="PackedScene" uid="uid://csm4pxrfit34f" path="res://scenes/bullets/ranger_bullet.tscn" id="5_8pu60"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_diwry"]
 albedo_color = Color(1, 0.47451, 1, 1)
@@ -31,6 +30,7 @@ material = SubResource("StandardMaterial3D_p67kr")
 
 [node name="IshimRanger" type="CharacterBody3D"]
 script = ExtResource("1_cw4bv")
+bullet = ExtResource("5_8pu60")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." groups=["Enemies"]]
 material_overlay = ExtResource("2_4eule")
@@ -65,7 +65,11 @@ mesh = SubResource("PlaneMesh_v3keg")
 avoidance_enabled = true
 radius = 10.0
 
-[node name="IshimRangerBullet2" parent="." instance=ExtResource("5_8pu60")]
-script = ExtResource("6_vda0j")
+[node name="BulletEmergePoint" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.355339, -0.987427)
+
+[node name="ShootCooldown" type="Timer" parent="."]
+autostart = true
 
 [connection signal="timeout" from="PathfindTimer" to="." method="_on_pathfind_timer_timeout"]
+[connection signal="timeout" from="ShootCooldown" to="." method="_on_bullet_timer_timeout"]

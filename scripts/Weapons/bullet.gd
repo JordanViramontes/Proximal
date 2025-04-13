@@ -23,11 +23,9 @@ func _ready() -> void:
 	y_spin_speed = randf_range(-2*PI, 2*PI)
 	z_spin_speed = randf_range(-2*PI, 2*PI)
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
-
 
 func _physics_process(delta: float) -> void:
 	self.position += direction * bullet_speed * delta
@@ -40,14 +38,12 @@ func _physics_process(delta: float) -> void:
 	if abs(self.global_position) > spawn_location + Vector3(despawn_distance, despawn_distance, despawn_distance):
 		self.queue_free()
 
-
 func _on_hitbox_area_entered(area: Area3D) -> void:
 	#print("entered area %s" % area)
 	if area.damage:
 		if area.damage(bullet_damage):
 			damaged_enemy.emit()
 	self.queue_free()
-
 
 func _on_hitbox_body_entered(body: Node3D) -> void:
 	self.queue_free()
