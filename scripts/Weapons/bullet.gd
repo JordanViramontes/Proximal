@@ -1,7 +1,8 @@
 extends Node3D
+class_name BulletBase
 
-var bullet_damage: float = 2.5
-var bullet_speed: float = 10.0
+@export var bullet_damage: float = 2.5
+@export var bullet_speed: float = 10.0
 var x_spin_speed: float
 var y_spin_speed: float
 var z_spin_speed: float
