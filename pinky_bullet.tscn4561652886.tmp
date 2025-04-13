@@ -14,15 +14,11 @@ height = 1.0
 script = ExtResource("1_afyxq")
 mesh_material = ExtResource("2_7bh3a")
 
+[node name="Tracer" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -0.5)
+mesh = SubResource("CylinderMesh_afyxq")
+
 [node name="RayCast3D" type="RayCast3D" parent="."]
 target_position = Vector3(0, 0, 1)
 collision_mask = 5
-hit_from_inside = true
 collide_with_areas = true
-
-[node name="TracerTransformOrigin" type="Node3D" parent="."]
-
-[node name="Tracer" type="MeshInstance3D" parent="TracerTransformOrigin"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.5)
-mesh = SubResource("CylinderMesh_afyxq")
-skeleton = NodePath("../..")

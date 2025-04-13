@@ -12,6 +12,8 @@ var can_shoot: bool = true
 @export var bullet_damage: float
 @export var bullet_speed: float
 
+@export var is_hitscan: bool
+
 # reference to manager
 @onready var weapon_manager = $".."
 signal on_shoot
@@ -26,7 +28,7 @@ func _process(delta: float) -> void:
 	pass
 
 # shoot a bullet from the weapon
-func shoot() -> void:
+func shoot(from_pos: Vector3, direction: Vector3) -> void:
 	if not can_shoot or not weapon_manager.isCanUseWeapon():
 		return
 	
@@ -51,6 +53,6 @@ func shoot() -> void:
 	
 	shoot_timer.start()
 	can_shoot = false
-	var look_direction = ($BulletEmergePoint.global_position - global_position).normalized()# there's zefinitely a better way to get the look direction
-	if on_shoot != null: on_shoot.emit(look_direction) 
+	#var look_direction = ($BulletEmergePoint.global_position - global_position).normalized()# there's zefinitely a better way to get the look direction
+	if on_shoot != null: on_shoot.emit(from_pos, direction) 
 	else: print("hello from weapon_base! you probably forgot to set the on_shoot signal on the inheritor of this script :3")

@@ -70,8 +70,11 @@ func change_weapon_to(weapon_index):
 	print("Changed weapon to: " + str(curr_weapon))
 
 # when shoot, use the weapon currently used
-func shoot():
-	curr_weapon.shoot()
+func shoot(from_pos: Vector3, look_direction: Vector3):
+	if curr_weapon.is_hitscan:
+		curr_weapon.shoot(from_pos, look_direction)
+	else:
+		curr_weapon.shoot(position, look_direction)
 	#print("weapon_manager - not shooting atm")
 
 func set_weapon_active(weapon):

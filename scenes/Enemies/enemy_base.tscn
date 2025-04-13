@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://b3ghxetcov6va"]
+[gd_scene load_steps=11 format=3 uid="uid://b3ghxetcov6va"]
 
 [ext_resource type="Script" uid="uid://1eg24s10xjnm" path="res://scripts/Characters/enemy_base.gd" id="1_vv3x1"]
 [ext_resource type="Material" uid="uid://cv7l0r86mk435" path="res://assets/hitflash_mat.tres" id="2_lxe82"]
@@ -9,9 +9,9 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_t01qn"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tmg5w"]
-
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tdqxq"]
+radius = 0.75
+height = 2.25
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_p67kr"]
 vertices = PackedVector3Array(-49.5, 0.5, -49.5, -49.5, 0.5, 49.5, 49.5, 0.5, 49.5, 49.5, 0.5, -49.5)
@@ -42,7 +42,7 @@ script = ExtResource("3_xuskm")
 
 [node name="HitboxComponent" type="Area3D" parent="." node_paths=PackedStringArray("health_component")]
 script = ExtResource("4_3ysdf")
-shape = SubResource("CapsuleShape3D_tmg5w")
+shape = SubResource("CapsuleShape3D_tdqxq")
 health_component = NodePath("../HealthComponent")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent"]
