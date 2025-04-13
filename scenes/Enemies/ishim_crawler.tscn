@@ -1,15 +1,15 @@
-[gd_scene load_steps=13 format=3 uid="uid://b8e8ynhwcppwf"]
+[gd_scene load_steps=13 format=3 uid="uid://bjteq07i0vf8m"]
 
 [ext_resource type="Script" uid="uid://cbg7uu84mlv15" path="res://scripts/Characters/ishim_crawler.gd" id="1_lgyoi"]
 [ext_resource type="Material" uid="uid://cv7l0r86mk435" path="res://assets/hitflash_mat.tres" id="1_ovggl"]
 [ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://scripts/components/health_component.gd" id="3_oaf2w"]
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="4_kebby"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lgyoi"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dpb2p"]
 albedo_color = Color(0.256593, 0.519893, 1, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_vd578"]
-material = SubResource("StandardMaterial3D_lgyoi")
+material = SubResource("StandardMaterial3D_dpb2p")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_c7tqt"]
 
@@ -21,15 +21,16 @@ material = SubResource("StandardMaterial3D_lgyoi")
 vertices = PackedVector3Array(-49.5, 0.5, -49.5, -49.5, 0.5, 49.5, 49.5, 0.5, 49.5, 49.5, 0.5, -49.5)
 polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p67kr"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jfxgx"]
 albedo_color = Color(0.807843, 0.494118, 0.47451, 0.266667)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_h6ior"]
-material = SubResource("StandardMaterial3D_p67kr")
+material = SubResource("StandardMaterial3D_jfxgx")
 
 [node name="IshimCrawler" type="CharacterBody3D"]
 script = ExtResource("1_lgyoi")
 max_health = 5.0
+movement_speed = 13
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." groups=["Enemies"]]
 material_overlay = ExtResource("1_ovggl")
@@ -41,10 +42,9 @@ shape = SubResource("CapsuleShape3D_c7tqt")
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("3_oaf2w")
 
-[node name="HitboxComponent" type="Area3D" parent="." node_paths=PackedStringArray("health_component")]
+[node name="HitboxComponent" type="Area3D" parent="."]
 script = ExtResource("4_kebby")
 shape = SubResource("CapsuleShape3D_oaf2w")
-health_component = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent"]
 shape = SubResource("CapsuleShape3D_kebby")
@@ -64,3 +64,5 @@ mesh = SubResource("PlaneMesh_h6ior")
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 avoidance_enabled = true
 radius = 10.0
+
+[connection signal="timeout" from="PathfindTimer" to="." method="_on_pathfind_timer_timeout"]

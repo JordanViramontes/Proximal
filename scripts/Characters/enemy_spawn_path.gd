@@ -2,19 +2,20 @@ extends Path3D
 
 # variables
 @export var mob_scene: PackedScene
-@export var starting_wave = 2
+@export var starting_wave = 0
 var current_wave = starting_wave
 var waveDictionary = [
-	Wave.new([1, 2, 3, 4], 1, 1),
-	Wave.new([10, 10], 1, 1),
-	Wave.new([20, 20], 1, 1),
+	Wave.new([0, 1, 5], 1, 1),
+	#Wave.new([10, 10], 1, 1),
+	#Wave.new([20, 20], 1, 1),
 ]
 
 # wave struct holds all information about each wave
 class Wave:
 	var enemy_count = { 
-		"DEBUG":-1,
-		"ISHIM_CRAWLER":-1
+		"res://scenes/Enemies/enemy_base.tscn":-1, #DEBUG
+		"res://scenes/Enemies/ishim_crawler.tscn":-1, #ISHIM_CRAWLER
+		"res://scenes/Enemies/ishim_ranger.tscn":-1, #ISHIM_RANGER
 	}
 	var enemy_health_multiplier: float = -1 
 	var enemy_damage_multiplier: float = -1
@@ -44,11 +45,11 @@ func _process(delta):
 
 func spawnWave(wave_index):
 	# for debugging enemies
-	var test_path = "res://ishim_crawler.tscn"
-	print("WARNING: USING DEBUG ENEMY SPAWNING")
-	for i in range(1):
-		spawnEnemy(test_path)
-	return
+	#var test_path = "res://scenes/Enemies/ishim_crawler.tscn"
+	#print("WARNING: USING DEBUG ENEMY SPAWNING")
+	#for i in range(1):
+		#spawnEnemy(test_path)
+	#return
 	
 	# make sure we're valid
 	if wave_index > waveDictionary.size() || wave_index < 0:
@@ -58,20 +59,10 @@ func spawnWave(wave_index):
 	var wave = waveDictionary[wave_index]
 	var enemy_count = wave.enemy_count
 	
-	# parse enemy_count
-	for mob_str in enemy_count.keys(): 
-		# mob is the scene that will be spawned in
-		var mob_path = ""
-		
-		# eventually use group stuff to get this, for now a simple if statement
-		if mob_str == "DEBUG":
-			mob_path = "res://scenes/Enemies/enemy_base.tscn"
-		else:
-			return
-		
-		print("spawning: " + str(enemy_count[mob_str]) + " \'" + str(mob_str) + "\'s")
+	# parse enemy_count, mob_path has the file path to the enemy scene
+	for mob_path in enemy_count.keys():  
 		# spawn the amount of times specified in the dictionary
-		for i in range(enemy_count[mob_str]):
+		for i in range(enemy_count[mob_path]):
 			spawnEnemy(mob_path)
 
 func spawnEnemy(mob_path):

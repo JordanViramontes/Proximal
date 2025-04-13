@@ -6,6 +6,9 @@ class_name EnemyBase
 @export var hitflash_material: Material
 @export var hitflash_duration: float = 0.1
 var hitflash_tween: Tween
+@export var movement_speed = 5
+@export var nav_path_dist = 2 # spawn distance
+@export var nav_target_dist = 1 # spawn height
 
 # spawning variables
 var spawn_distance_vector = Vector3(0, 0, 0)
@@ -15,13 +18,18 @@ var spawning_velocity = Vector3(0, 0, 0)
 @export var spawn_distance_height = 3 # units to travel vertically while in spawning state
 
 # states
-enum ENEMY_STATE {roam, spawn_edge, dead}
+const ENEMY_STATE = {
+	"roam":0,
+	"spawn_edge":1,
+	"dead":2
+}
 var current_state = ENEMY_STATE.spawn_edge
 
 # components
 @onready var health_component := $HealthComponent
 @onready var hitbox_component := $HitboxComponent
 @onready var collision := $CollisionShape3D
+@onready var navigation_agent: NavigationAgent3D = $NavigationAgent3D
 
 # signals
 signal die
@@ -31,12 +39,6 @@ signal take_damage
 var player
 var player_position
 var path
-
-# movement and pathfinding information
-@export var movement_speed = 5
-@onready var navigation_agent: NavigationAgent3D = $NavigationAgent3D
-@export var nav_path_dist = 2
-@export var nav_target_dist = 1
 
 # Constructor called by spawner
 func initialize(starting_position, init_player_position):
@@ -85,7 +87,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
-func _physics_process(delta):	
+func _physics_process(delta):
 	# spawning along the edge, you will have a straight line to path towards until you reach the target
 	if current_state == ENEMY_STATE.spawn_edge:
 		if global_position.distance_to(spawn_distance_vector) < 0.1:
@@ -100,27 +102,12 @@ func _physics_process(delta):
 		if navigation_agent.is_navigation_finished():
 			return
 		
-		
-		
 		# gravity
 		if not is_on_floor():
 			velocity += get_gravity() * delta
 	
 	# finally move
 	move_and_slide()
-
-# When they dead as hell
-func on_reach_zero_health():
-	die.emit()
-	self.queue_free()
-
-# when you get damaged
-func on_damaged(amount: float):
-	if (hitflash_tween and hitflash_tween.is_running()):
-		hitflash_tween.stop()
-	hitflash_tween = get_tree().create_tween()
-	$MeshInstance3D.material_overlay.albedo_color = Color(1.0, 1.0, 1.0, 1.0) # set alpha
-	hitflash_tween.tween_property($MeshInstance3D, "material_overlay:albedo_color", Color(1.0, 1.0, 1.0, 0.0), 0.1) # tween alpha
 
 # update pathfind when the timer happens
 func _on_pathfind_timer_timeout() -> void:
@@ -140,6 +127,7 @@ func actor_setup():
 	# set the movement target
 	set_movement_target(get_target_from_state(current_state))
 
+# get the nav target based on our state
 func get_target_from_state(state):
 	if state == ENEMY_STATE.roam:
 		return player_position
@@ -149,3 +137,16 @@ func get_target_from_state(state):
 # set the movement target for navigation
 func set_movement_target(movement_target: Vector3):
 	navigation_agent.set_target_position(movement_target)
+
+# When they dead as hell
+func on_reach_zero_health():
+	die.emit()
+	self.queue_free()
+
+# when you get damaged
+func on_damaged(amount: float):
+	if (hitflash_tween and hitflash_tween.is_running()):
+		hitflash_tween.stop()
+	hitflash_tween = get_tree().create_tween()
+	$MeshInstance3D.material_overlay.albedo_color = Color(1.0, 1.0, 1.0, 1.0) # set alpha
+	hitflash_tween.tween_property($MeshInstance3D, "material_overlay:albedo_color", Color(1.0, 1.0, 1.0, 0.0), 0.1) # tween alpha
