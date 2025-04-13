@@ -30,7 +30,7 @@ material = SubResource("StandardMaterial3D_jfxgx")
 [node name="IshimCrawler" type="CharacterBody3D"]
 script = ExtResource("1_lgyoi")
 max_health = 5.0
-movement_speed = 13
+movement_speed = 10
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." groups=["Enemies"]]
 material_overlay = ExtResource("1_ovggl")

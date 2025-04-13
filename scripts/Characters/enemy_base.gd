@@ -112,14 +112,17 @@ func _physics_process(delta):
 
 # update pathfind when the timer happens
 func _on_pathfind_timer_timeout() -> void:
+	# update vars
 	player_position = player.global_position
+	
+	# set new pathfind
+	set_movement_target(get_target_from_state(current_state))
 	var current_agent_position: Vector3 = global_position
 	var next_path_position: Vector3 = navigation_agent.get_next_path_position()
 	
 	var pathfindVel = current_agent_position.direction_to(next_path_position) * movement_speed
 	velocity.x = pathfindVel.x
 	velocity.z = pathfindVel.z
-	set_movement_target(get_target_from_state(current_state))
 
 # setup for the actor to pathfind
 func actor_setup():

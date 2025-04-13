@@ -37,21 +37,15 @@ class Wave:
 
 func _process(delta):
 	if Input.is_action_just_pressed("debug_spawn_wave"):
-		spawnWave(current_wave)
+		#spawnWave(current_wave)
+		TESTspawnWave()
 	if Input.is_action_just_pressed("debug_next_wave"):
 		nextWave()
 	if Input.is_action_just_pressed("debug_prev_wave"):
 		prevWave()
 
 func spawnWave(wave_index):
-	# for debugging enemies
-	var test_path = "res://scenes/Enemies/ishim_ranger.tscn"
-	print("WARNING: USING DEBUG ENEMY SPAWNING")
-	for i in range(1):
-		spawnEnemy(test_path, 1)
-	return
-	
-	# make sure we're valid
+		# make sure we're valid
 	if wave_index > waveDictionary.size() || wave_index < 0:
 		return
 		
@@ -64,6 +58,17 @@ func spawnWave(wave_index):
 		# spawn the amount of times specified in the dictionary
 		for i in range(enemy_count[mob_path]):
 			spawnEnemy(mob_path, 0)
+
+func TESTspawnWave():
+	# for debugging enemies
+	var ishim_ranger = "res://scenes/Enemies/ishim_ranger.tscn"
+	var ishim_crawler = "res://scenes/Enemies/ishim_crawler.tscn"
+	var test_path = ishim_ranger
+	var test_amount = 1
+	print("WARNING: USING DEBUG ENEMY SPAWNING")
+	for i in range(test_amount):
+		spawnEnemy(test_path, 1)
+	return
 
 func spawnEnemy(mob_path, debug_flag):
 	var mob = load(mob_path).instantiate()
