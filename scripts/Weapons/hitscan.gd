@@ -6,6 +6,7 @@ var bullet_damage: float
 
 signal damaged_enemy
 @export var mesh_material: StandardMaterial3D
+@export var tracer_fade_time: float = 0.2
 
 @onready var tracer_transform_origin: Node3D = $TracerTransformOrigin
 @onready var tracer: MeshInstance3D = $TracerTransformOrigin/Tracer
@@ -45,7 +46,10 @@ func _ready():
 	tracer.position.z = 0 - hit_dist/2
 	
 	mesh_fade_tween = get_tree().create_tween()
-	mesh_fade_tween.tween_property(tracer.mesh.material, "albedo_color:a", 0.0, 0.2)
+	mesh_fade_tween.set_parallel()
+	mesh_fade_tween.tween_property(tracer.mesh.material, "albedo_color:a", 0.0, tracer_fade_time)
+	mesh_fade_tween.tween_property(tracer.mesh, "top_radius", 0.0, tracer_fade_time)
+	mesh_fade_tween.tween_property(tracer.mesh, "bottom_radius", 0.0, tracer_fade_time)
 	mesh_fade_tween.finished.connect(on_finish_tweening)
 
 func _process(delta: float):
