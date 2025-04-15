@@ -132,7 +132,7 @@ func _physics_process(delta: float) -> void:
 		
 		# shooting
 		if Input.is_action_pressed("shoot"):
-			weapon.shoot()
+			weapon.shoot(head.global_position, -head.global_basis.z) # pass player "eye" position
 		
 	move_and_slide()
 

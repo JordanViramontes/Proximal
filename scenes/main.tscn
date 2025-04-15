@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dwckn628u33ab"]
+[gd_scene load_steps=14 format=3 uid="uid://dwckn628u33ab"]
 
 [ext_resource type="Texture2D" uid="uid://cqur83lk7fjfl" path="res://assets/hdris/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="1_8wojv"]
 [ext_resource type="Script" uid="uid://bpvwqw4pbfs3m" path="res://scripts/Areas/world.gd" id="1_dctr2"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://drj4up00u5x88" path="res://scripts/Characters/enemy_spawn_path.gd" id="6_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://bfdo44kle73uq" path="res://scenes/Characters/player.tscn" id="6_tefeu"]
 [ext_resource type="PackedScene" uid="uid://b3ghxetcov6va" path="res://scenes/Enemies/enemy_base.tscn" id="7_o6xl0"]
+[ext_resource type="Texture2D" uid="uid://52vn44k3ngct" path="res://assets/textures/crosshair_dev.png" id="8_85g3d"]
 [ext_resource type="PackedScene" uid="uid://dbn175mecst55" path="res://assets/models/map/map_draft.blend" id="8_tipki"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_ssbh5"]
@@ -69,3 +70,29 @@ transform = Transform3D(-0.994941, 0, -0.100405, 0, 1, 0, 0.100405, 0, -0.994941
 
 [node name="Player" parent="." instance=ExtResource("6_tefeu")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 3, 15)
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+
+[node name="CenterContainer" type="CenterContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -576.0
+offset_top = -324.0
+offset_right = 576.0
+offset_bottom = 324.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Crosshair" type="TextureRect" parent="UI/CenterContainer"]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("8_85g3d")

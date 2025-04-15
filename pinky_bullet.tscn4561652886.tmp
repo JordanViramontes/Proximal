@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://djtp4uqwyjuk6"]
+
+[ext_resource type="Script" uid="uid://4efo1m580vvk" path="res://scripts/Weapons/hitscan.gd" id="1_afyxq"]
+[ext_resource type="Material" uid="uid://ccklk1lmlen4j" path="res://assets/textures/pinky_bullet.tres" id="2_7bh3a"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_afyxq"]
+resource_local_to_scene = true
+material = ExtResource("2_7bh3a")
+top_radius = 0.05
+bottom_radius = 0.05
+height = 1.0
+
+[node name="PinkyBullet" type="Node3D"]
+script = ExtResource("1_afyxq")
+mesh_material = ExtResource("2_7bh3a")
+
+[node name="Tracer" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -0.5)
+mesh = SubResource("CylinderMesh_afyxq")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+target_position = Vector3(0, 0, 1)
+collision_mask = 5
+collide_with_areas = true
