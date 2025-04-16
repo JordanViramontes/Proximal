@@ -2,12 +2,15 @@ extends WeaponBase
 
 @export var pellet_count: float = 6
 @export var pellet_spread: float = 0.1
+var experience: float = 0
+var level: int = 1
 
 func _ready() -> void:
 	super._ready()
 	on_shoot.connect(on_on_shoot)
 
 func on_on_shoot(from_pos: Vector3, look_direction: Vector3):
+	pellet_count = 3*(level)
 	if bullet == null:
 		print("thumb.gd - set my bullet property bro! i dont have it!")
 	
@@ -28,7 +31,12 @@ func on_on_shoot(from_pos: Vector3, look_direction: Vector3):
 	
 
 func on_bullet_hit():
+	experience += 0.1*(4-level)
 	print("my bullet hit an enemy >:)")
+	print(experience)
+	if experience >= 10.0*(level):
+		level += 1
+		print("LEVEL UP! ", level)
 
 # pulls vectors inwards to achieve a tighter spread with similar randomness
 func permute_vector_weighted(v: Vector3, spread: float, weight: float):

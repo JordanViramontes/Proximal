@@ -4,6 +4,8 @@ extends WeaponBase
 
 @export var bullet_range: float = 1000.0 # long range! make this higher if you need it should be very high
 @export var shoot_height_offset: float
+var experience: float
+var level: int = 1
 
 func _ready() -> void:
 	super._ready()
@@ -21,8 +23,17 @@ func on_on_shoot(from_position: Vector3, look_direction: Vector3):
 	b.position = from_position
 	b.tracer_origin = $BulletEmergePoint.global_position # is one meter ahead of the player, which lines up with the barrel of the weapon
 	print(b.tracer_origin)
-	b.bullet_damage = bullet_damage
+	b.bullet_damage = bullet_damage*(1+level*0.8)
 	b.distance = bullet_range
+	b.damaged_enemy.connect(on_bullet_hit)
 	b.direction = look_direction
 	
 	World.world.add_child(b)
+	
+func on_bullet_hit():
+	experience += 0.4*(4-level)
+	print("my bullet hit an enemy >:)")
+	print(experience)
+	if experience >= 10.0*(level):
+		level += 1
+		print("LEVEL UP! ", level)

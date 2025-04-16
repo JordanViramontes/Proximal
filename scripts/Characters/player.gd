@@ -139,6 +139,7 @@ func _physics_process(delta: float) -> void:
 # you dead
 func die():
 	current_state = INPUT_STATE.dead
+	get_tree().reload_current_scene()
 
 # recieve dash input from WeaponManager
 func _on_weapon_manager_dash_input() -> void:
