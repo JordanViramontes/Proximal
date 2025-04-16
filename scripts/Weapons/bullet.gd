@@ -1,6 +1,8 @@
 extends Node3D
 class_name BulletBase
 
+@onready var mesh: MeshInstance3D = $MeshInstance3D
+
 @export var bullet_damage: float = 2.5
 @export var bullet_speed: float = 10.0
 var x_spin_speed: float
@@ -10,7 +12,7 @@ var z_spin_speed: float
 var direction: Vector3 = Vector3.ZERO
 
 var spawn_location: Vector3
-var despawn_distance: float = 50.0
+@export var despawn_distance: float = 1000.0
 
 @export var spin: bool = false
 
@@ -32,9 +34,9 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	self.position += direction * bullet_speed * delta
 	if spin:
-		self.rotate_x(x_spin_speed * delta)
-		self.rotate_y(y_spin_speed * delta)
-		self.rotate_z(z_spin_speed * delta)
+		mesh.rotate_x(x_spin_speed * delta)
+		mesh.rotate_y(y_spin_speed * delta)
+		mesh.rotate_z(z_spin_speed * delta)
 		
 	# check bounds
 	if abs(self.global_position) > spawn_location + Vector3(despawn_distance, despawn_distance, despawn_distance):

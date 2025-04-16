@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://b6ixebi3438gl"]
+
+[ext_resource type="Script" uid="uid://bqgy0acrsm1f3" path="res://scripts/Weapons/ring_explosion.gd" id="1_7vyga"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fg6db"]
+resource_local_to_scene = true
+transparency = 1
+albedo_color = Color(1, 0, 0, 0.517647)
+
+[sub_resource type="SphereMesh" id="SphereMesh_ylklr"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_fg6db")
+radius = 1.0
+height = 2.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_80o6k"]
+radius = 12.0
+
+[node name="RingExplosion" type="Node3D"]
+script = ExtResource("1_7vyga")
+expand_max_radius = 12.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_ylklr")
+
+[node name="Hitbox" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+shape = SubResource("SphereShape3D_80o6k")
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
