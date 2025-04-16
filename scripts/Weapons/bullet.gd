@@ -46,7 +46,7 @@ func _physics_process(delta: float) -> void:
 func _on_hitbox_area_entered(area: Area3D) -> void:
 	#print("entered area %s" % area)
 	if area.damage:
-		if area.damage(bullet_damage):
+		if area.damage(bullet_damage, -self.position):
 			damaged_enemy.emit()
 	self.queue_free()
 
