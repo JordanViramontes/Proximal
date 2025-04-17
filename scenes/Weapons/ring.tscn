@@ -5,7 +5,7 @@
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8hw30"]
 resource_local_to_scene = true
-albedo_color = Color(0.646128, 0.817598, 1.92523e-06, 1)
+albedo_color = Color(0.14902, 0.745098, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_2gn6w"]
 resource_local_to_scene = true
@@ -14,6 +14,7 @@ size = Vector3(0.1, 0.1, 1)
 
 [node name="Ring" type="Node3D"]
 script = ExtResource("1_oaqjv")
+shoot_velocity_inherit_damping = 0.4
 bullet = ExtResource("2_vum0y")
 bullet_speed = 10.0
 

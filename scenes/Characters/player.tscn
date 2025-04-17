@@ -38,8 +38,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 
 [node name="Camera3D" type="Camera3D" parent="LeanPivot/Head"]
 
-[node name="Weapon_Manager" parent="LeanPivot/Head" instance=ExtResource("4_dqkch")]
+[node name="Weapon_Manager" parent="LeanPivot/Head" node_paths=PackedStringArray("player") instance=ExtResource("4_dqkch")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.291509, -0.296324, -0.453602)
+player = NodePath("../../..")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="LeanPivot/Head"]
 mesh = SubResource("SphereMesh_y7cse")

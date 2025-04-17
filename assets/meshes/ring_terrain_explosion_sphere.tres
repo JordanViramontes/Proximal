@@ -3,7 +3,7 @@
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fg6db"]
 resource_local_to_scene = true
 transparency = 1
-albedo_color = Color(1, 0, 0, 0.517647)
+albedo_color = Color(0, 0.741176, 0, 0.517647)
 
 [resource]
 resource_local_to_scene = true

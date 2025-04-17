@@ -7,7 +7,7 @@ func _ready() -> void:
 	super._ready()
 	on_shoot.connect(on_on_shoot)
 
-func on_on_shoot(from_pos: Vector3, look_direction: Vector3):
+func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	if bullet == null:
 		print("thumb.gd - set my bullet property bro! i dont have it!")
 	
