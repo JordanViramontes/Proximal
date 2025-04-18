@@ -18,8 +18,6 @@ func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 		print("ring.gd - bullet did not instantiate")
 		return
 	
-	print("shooting ring")
-	
 	b.position = $BulletEmergePoint.global_position # is one meter ahead of the player, which lines up with the barrel of the weapon
 	b.facing_axis = look_direction
 	b.initial_velocity = velocity * shoot_velocity_inherit_damping

@@ -2,14 +2,11 @@
 
 [ext_resource type="Script" uid="uid://cljgu2clkn4w8" path="res://scenes/Weapons/index.gd" id="1_356j3"]
 [ext_resource type="PackedScene" uid="uid://b2nwv2k6ni68c" path="res://scenes/bullets/index_bullet.tscn" id="2_l5o4i"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8hw30"]
-resource_local_to_scene = true
-albedo_color = Color(0.145098, 0.372549, 0.760784, 1)
+[ext_resource type="Material" uid="uid://gse6mhar2dkn" path="res://assets/materials/m_index_weapon.tres" id="3_d8pwy"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_2gn6w"]
 resource_local_to_scene = true
-material = SubResource("StandardMaterial3D_8hw30")
+material = ExtResource("3_d8pwy")
 size = Vector3(0.1, 0.1, 1)
 
 [node name="Index" type="Node3D"]

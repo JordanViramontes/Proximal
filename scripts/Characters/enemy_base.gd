@@ -113,12 +113,14 @@ func on_reach_zero_health():
 	self.queue_free()
 
 # when you get damaged
-func on_damaged(amount: float):
+func on_damaged(amount: float, from_dir: Vector3):
 	if (hitflash_tween and hitflash_tween.is_running()):
 		hitflash_tween.stop()
 	hitflash_tween = get_tree().create_tween()
 	$MeshInstance3D.material_overlay.albedo_color = Color(1.0, 1.0, 1.0, 1.0) # set alpha
 	hitflash_tween.tween_property($MeshInstance3D, "material_overlay:albedo_color", Color(1.0, 1.0, 1.0, 0.0), 0.1) # tween alpha
+	print("meoowoww")
+	
 
 # update pathfind when the timer happens
 func _on_pathfind_timer_timeout() -> void:

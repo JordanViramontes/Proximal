@@ -2,14 +2,11 @@
 
 [ext_resource type="Script" uid="uid://da0phsu0gckgf" path="res://scenes/Weapons/pinky.gd" id="1_exoxp"]
 [ext_resource type="PackedScene" uid="uid://djtp4uqwyjuk6" path="res://scenes/bullets/pinky_bullet.tscn" id="2_55j32"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8hw30"]
-resource_local_to_scene = true
-albedo_color = Color(0.985517, 0.245688, 0.657319, 1)
+[ext_resource type="Material" uid="uid://d3pkbqg8petcg" path="res://assets/materials/m_pinky_weapon.tres" id="3_v84yc"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_2gn6w"]
 resource_local_to_scene = true
-material = SubResource("StandardMaterial3D_8hw30")
+material = ExtResource("3_v84yc")
 size = Vector3(0.1, 0.1, 1)
 
 [node name="Pinky" type="Node3D"]

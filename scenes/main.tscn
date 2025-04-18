@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dwckn628u33ab"]
+[gd_scene load_steps=14 format=3 uid="uid://dwckn628u33ab"]
 
 [ext_resource type="Texture2D" uid="uid://cqur83lk7fjfl" path="res://assets/hdris/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="1_8wojv"]
 [ext_resource type="Script" uid="uid://bpvwqw4pbfs3m" path="res://scripts/Areas/world.gd" id="1_dctr2"]
@@ -6,10 +6,12 @@
 [ext_resource type="Script" uid="uid://drj4up00u5x88" path="res://scripts/Characters/enemy_spawn_path.gd" id="6_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://bfdo44kle73uq" path="res://scenes/Characters/player.tscn" id="6_tefeu"]
 [ext_resource type="PackedScene" uid="uid://b3ghxetcov6va" path="res://scenes/Enemies/enemy_base.tscn" id="7_o6xl0"]
+[ext_resource type="Texture2D" uid="uid://52vn44k3ngct" path="res://assets/textures/crosshair_dev.png" id="8_85g3d"]
 [ext_resource type="PackedScene" uid="uid://dbn175mecst55" path="res://assets/models/map/map_draft.blend" id="8_tipki"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_ssbh5"]
 panorama = ExtResource("1_8wojv")
+energy_multiplier = 0.5
 
 [sub_resource type="Sky" id="Sky_w0v2c"]
 sky_material = SubResource("PanoramaSkyMaterial_ssbh5")
@@ -17,6 +19,8 @@ sky_material = SubResource("PanoramaSkyMaterial_ssbh5")
 [sub_resource type="Environment" id="Environment_5o0bn"]
 background_mode = 2
 sky = SubResource("Sky_w0v2c")
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
 tonemap_mode = 2
 glow_enabled = true
 
@@ -37,12 +41,13 @@ script = ExtResource("1_dctr2")
 
 [node name="Env" type="Node3D" parent="."]
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Env"]
-transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
-shadow_enabled = true
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Env"]
 environment = SubResource("Environment_5o0bn")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Env"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.55069, 0)
+light_energy = 15.0
+omni_range = 50.0
 
 [node name="Stage" type="Node3D" parent="."]
 
@@ -95,5 +100,3 @@ metadata/_edit_use_anchors_ = true
 texture_filter = 1
 layout_mode = 2
 texture = ExtResource("8_85g3d")
-
-
