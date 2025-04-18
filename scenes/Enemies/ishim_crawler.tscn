@@ -30,7 +30,8 @@ material = SubResource("StandardMaterial3D_jfxgx")
 [node name="IshimCrawler" type="CharacterBody3D"]
 collision_layer = 4
 script = ExtResource("1_lgyoi")
-friction = -4
+friction = 8
+lunge_dist = 6
 velocity_offset = 1.0
 max_health = 5.0
 
