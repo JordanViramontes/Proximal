@@ -1,26 +1,40 @@
 extends CharacterBody3D
+class_name EnemyBase
 
 # vars
 @export var max_health: float
 @export var hitflash_material: Material
 @export var hitflash_duration: float = 0.1
 var hitflash_tween: Tween
+@export var movement_speed = 5
+@export var nav_path_dist = 2 # spawn distance
+@export var nav_target_dist = 1 # spawn height
+@onready var current_agent_position: Vector3
+@onready var next_path_position: Vector3
+@onready var pathfindVel: Vector3
 
 # spawning variables
 var spawn_distance_vector = Vector3(0, 0, 0)
 var spawning_velocity = Vector3(0, 0, 0)
 @export var spawning_time = 2
 @export var spawn_distance_length = 1 # distance to travel towards origin
-@export var spawn_distance_height = 2 # units to travel vertically while in spawning state
+@export var spawn_distance_height = 3 # units to travel vertically while in spawning state
 
 # states
-enum ENEMY_STATE {roam, spawn_edge, dead}
+var ENEMY_STATE = {
+	"roam":0,
+	"spawn_edge":1,
+	"dead":2
+}
 var current_state = ENEMY_STATE.spawn_edge
+var total_states = 2
 
 # components
 @onready var health_component := $HealthComponent
 @onready var hitbox_component := $HitboxComponent
 @onready var collision := $CollisionShape3D
+@onready var navigation_agent: NavigationAgent3D = $NavigationAgent3D
+@onready var pathfind_timer: Timer = $PathfindTimer
 
 # signals
 signal die
@@ -30,12 +44,6 @@ signal take_damage
 var player
 var player_position
 var path
-
-# movement and pathfinding information
-@export var movement_speed = 5
-@onready var navigation_agent: NavigationAgent3D = $NavigationAgent3D
-@export var nav_path_dist = 2
-@export var nav_target_dist = 1
 
 # Constructor called by spawner
 func initialize(starting_position, init_player_position):
@@ -83,7 +91,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
-func _physics_process(delta):	
+func _physics_process(delta):
 	# spawning along the edge, you will have a straight line to path towards until you reach the target
 	if current_state == ENEMY_STATE.spawn_edge:
 		if global_position.distance_to(spawn_distance_vector) < 0.1:
@@ -94,18 +102,49 @@ func _physics_process(delta):
 		velocity = spawning_velocity
 	
 	# pathfinding (normal roam)
-	elif current_state == ENEMY_STATE.roam:
-		if navigation_agent.is_navigation_finished():
-			return
+	#elif current_state == ENEMY_STATE.roam:
+		#if navigation_agent.is_navigation_finished():
+			#return
 		
-		
+		# commented since this is base, if you need pathfinding add this to your enemy
+		#velocity.x = pathfindVel.x
+		#velocity.z = pathfindVel.z
 		
 		# gravity
-		if not is_on_floor():
-			velocity += get_gravity() * delta
+		#if not is_on_floor():
+			#velocity += get_gravity() * delta
 	
 	# finally move
 	move_and_slide()
+
+# update pathfind when the timer happens
+func _on_pathfind_timer_timeout() -> void:
+	# update vars
+	player_position = player.global_position
+	
+	# set new pathfind
+	set_movement_target(get_target_from_state(current_state))
+
+# setup for the actor to pathfind
+func actor_setup():
+	# wait for first physics frame
+	await get_tree().physics_frame
+	# set the movement target
+	set_movement_target(get_target_from_state(current_state))
+
+# get the nav target based on our state
+func get_target_from_state(state):
+	if state == ENEMY_STATE.roam:
+		return player_position
+	elif state == ENEMY_STATE.spawn_edge:
+		return spawn_distance_vector
+
+# set the movement target for navigation
+func set_movement_target(movement_target: Vector3):
+	navigation_agent.set_target_position(movement_target)
+	current_agent_position= global_position
+	next_path_position = navigation_agent.get_next_path_position()
+	pathfindVel = current_agent_position.direction_to(next_path_position) * movement_speed
 
 # When they dead as hell
 func on_reach_zero_health():
@@ -119,31 +158,3 @@ func on_damaged(amount: float):
 	hitflash_tween = get_tree().create_tween()
 	$MeshInstance3D.material_overlay.albedo_color = Color(1.0, 1.0, 1.0, 1.0) # set alpha
 	hitflash_tween.tween_property($MeshInstance3D, "material_overlay:albedo_color", Color(1.0, 1.0, 1.0, 0.0), 0.1) # tween alpha
-
-# update pathfind when the timer happens
-func _on_pathfind_timer_timeout() -> void:
-	player_position = player.global_position
-	var current_agent_position: Vector3 = global_position
-	var next_path_position: Vector3 = navigation_agent.get_next_path_position()
-	
-	var pathfindVel = current_agent_position.direction_to(next_path_position) * movement_speed
-	velocity.x = pathfindVel.x
-	velocity.z = pathfindVel.z
-	set_movement_target(get_target_from_state(current_state))
-
-# setup for the actor to pathfind
-func actor_setup():
-	# wait for first physics frame
-	await get_tree().physics_frame
-	# set the movement target
-	set_movement_target(get_target_from_state(current_state))
-
-func get_target_from_state(state):
-	if state == ENEMY_STATE.roam:
-		return player_position
-	elif state == ENEMY_STATE.spawn_edge:
-		return spawn_distance_vector
-
-# set the movement target for navigation
-func set_movement_target(movement_target: Vector3):
-	navigation_agent.set_target_position(movement_target)

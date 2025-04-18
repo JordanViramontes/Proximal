@@ -1,0 +1,76 @@
+[gd_scene load_steps=14 format=3 uid="uid://bhbue0qd6j3wa"]
+
+[ext_resource type="Script" uid="uid://bltecim4slosc" path="res://scripts/Characters/ishim_ranger.gd" id="1_cw4bv"]
+[ext_resource type="Material" uid="uid://cv7l0r86mk435" path="res://assets/hitflash_mat.tres" id="2_4eule"]
+[ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://scripts/components/health_component.gd" id="3_8pu60"]
+[ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="4_vda0j"]
+[ext_resource type="PackedScene" uid="uid://csm4pxrfit34f" path="res://scenes/bullets/ranger_bullet.tscn" id="5_8pu60"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_diwry"]
+albedo_color = Color(1, 0.47451, 1, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_4uy4w"]
+material = SubResource("StandardMaterial3D_diwry")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7skgo"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7q61w"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_w8f1x"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_7ussa"]
+vertices = PackedVector3Array(-49.5, 0.5, -49.5, -49.5, 0.5, 49.5, 49.5, 0.5, 49.5, 49.5, 0.5, -49.5)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p67kr"]
+albedo_color = Color(0.807843, 0.494118, 0.47451, 0.266667)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_v3keg"]
+material = SubResource("StandardMaterial3D_p67kr")
+
+[node name="IshimRanger" type="CharacterBody3D"]
+collision_layer = 4
+script = ExtResource("1_cw4bv")
+bullet = ExtResource("5_8pu60")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." groups=["Enemies"]]
+material_overlay = ExtResource("2_4eule")
+mesh = SubResource("CapsuleMesh_4uy4w")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_7skgo")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("3_8pu60")
+
+[node name="HitboxComponent" type="Area3D" parent="."]
+script = ExtResource("4_vda0j")
+shape = SubResource("CapsuleShape3D_7q61w")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent"]
+shape = SubResource("CapsuleShape3D_w8f1x")
+
+[node name="PathfindTimer" type="Timer" parent="."]
+wait_time = 0.3
+autostart = true
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+visible = false
+navigation_mesh = SubResource("NavigationMesh_7ussa")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D"]
+transform = Transform3D(50, 0, 0, 0, 10, 0, 0, 0, 50, 0, 0, 0)
+mesh = SubResource("PlaneMesh_v3keg")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+avoidance_enabled = true
+radius = 10.0
+
+[node name="BulletEmergePoint" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.355339, -0.987427)
+
+[node name="ShootCooldown" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="PathfindTimer" to="." method="_on_pathfind_timer_timeout"]
+[connection signal="timeout" from="ShootCooldown" to="." method="_on_bullet_timer_timeout"]
