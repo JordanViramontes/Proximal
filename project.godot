@@ -19,6 +19,15 @@ config/icon="res://icon.svg"
 
 Util="*res://scripts/util.gd"
 
+[display]
+
+window/size/viewport_width=640
+window/size/viewport_height=360
+window/size/window_width_override=1280
+window/size/window_height_override=720
+window/stretch/mode="viewport"
+window/stretch/aspect="expand"
+
 [dotnet]
 
 project/assembly_name="Proximal"
@@ -127,3 +136,4 @@ debug_prev_wave={
 3d_physics/layer_2="bullets"
 3d_physics/layer_3="actors"
 3d_physics/layer_4="player"
+3d_physics/layer_5="shootables"

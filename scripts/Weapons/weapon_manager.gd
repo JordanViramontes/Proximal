@@ -1,5 +1,8 @@
 extends Node3D
 
+
+@export var player: Player # kind of hate that i have this but o well! 
+
 # weapon variables
 var weapon_dictionary
 var curr_weapon_index
@@ -70,11 +73,11 @@ func change_weapon_to(weapon_index):
 	print("Changed weapon to: " + str(curr_weapon))
 
 # when shoot, use the weapon currently used
-func shoot(from_pos: Vector3, look_direction: Vector3):
+func shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	if curr_weapon.is_hitscan:
-		curr_weapon.shoot(from_pos, look_direction)
+		curr_weapon.shoot(from_pos, look_direction, velocity)
 	else:
-		curr_weapon.shoot(position, look_direction)
+		curr_weapon.shoot(position, look_direction, velocity)
 	#print("weapon_manager - not shooting atm")
 
 func set_weapon_active(weapon):

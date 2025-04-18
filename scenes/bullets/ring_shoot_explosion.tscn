@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://d382718nkl44c"]
+
+[ext_resource type="Script" uid="uid://cjygxqecueabj" path="res://scripts/Weapons/ring_shoot_explosion.gd" id="1_ij41f"]
+[ext_resource type="CylinderMesh" uid="uid://bitl06fqk43yc" path="res://assets/meshes/ring_shoot_explosion_cone.tres" id="2_qgyff"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_qgyff"]
+points = PackedVector3Array(-4.49936, -9.60008, -8.69979, 0.286679, 9.18997, 0.286065, 0.570822, 7.4406, 1.14392, 8.97438, -9.57416, -3.88848, -4.49935, -9.60007, 8.69978, 7.50197, -9.60389, 6.30105, -9.65392, -9.65321, -1.80855, 3.01416, -9.64558, -9.34157, 1.22904, -9.83599, 9.83211, -8.97342, -9.57248, 3.88856, 9.6547, -9.65472, 1.80848, -0.287302, 9.18908, -0.286037, -7.722, -9.50403, -5.93905, 6.56234, -8.559, -6.56085, -1.81098, -9.65783, -9.6559, 1.24952, -10, 3.12389, 4.50091, -9.60282, 8.70057, -6.56114, -8.55714, 6.5608, -0.287302, 9.18908, 0.286037, 0.286679, 9.18997, -0.286065, -9.65391, -9.65319, 1.80855, 9.65469, -9.65471, -1.80848, -1.81099, -9.65785, 9.65591, 8.97437, -9.57415, 3.88848, 5.06268, -9.53147, -8.33741, 1.15579, -8.68197, -9.26037, -8.97341, -9.57248, -3.88856, -5.93959, -9.50449, -7.72188, 5.94103, -9.50682, 7.72226, -7.72199, -9.50401, 5.93904, 7.50198, -9.6039, -6.30105, 3.01416, -9.64558, 9.34157)
+
+[node name="RingShootExplosion" type="Node3D"]
+script = ExtResource("1_ij41f")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 10)
+mesh = ExtResource("2_qgyff")
+
+[node name="Hitbox" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 10)
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+shape = SubResource("ConvexPolygonShape3D_qgyff")
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]

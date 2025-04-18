@@ -7,8 +7,8 @@ radius = 0.04
 height = 0.2
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pfkav"]
-radius = 0.04
-height = 0.2
+radius = 0.102432
+height = 0.204864
 
 [node name="ThumbBullet" type="Node3D"]
 script = ExtResource("1_pfkav")
@@ -19,7 +19,7 @@ mesh = SubResource("CapsuleMesh_wi1hg")
 
 [node name="Hitbox" type="Area3D" parent="."]
 collision_layer = 0
-collision_mask = 5
+collision_mask = 21
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
 shape = SubResource("CapsuleShape3D_pfkav")

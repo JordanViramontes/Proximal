@@ -37,7 +37,7 @@ func _ready():
 		var col = raycast.get_collider()
 		if col is Area3D:
 			if col.damage:
-				if col.damage(bullet_damage):
+				if col.damage(bullet_damage, -self.position):
 					damaged_enemy.emit()
 	
 	tracer_transform_origin.look_at(hit_point, Vector3.UP)

@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3 uid="uid://cn2c867ej4ifx"]
+
+[ext_resource type="Script" uid="uid://jn021wqkuoke" path="res://scripts/Weapons/ring_bullet.gd" id="1_ihso4"]
+[ext_resource type="PackedScene" uid="uid://b6ixebi3438gl" path="res://scenes/bullets/ring_terrain_explosion.tscn" id="2_83hhm"]
+[ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="3_bhhqk"]
+[ext_resource type="PackedScene" uid="uid://d382718nkl44c" path="res://scenes/bullets/ring_shoot_explosion.tscn" id="3_tom41"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_ihso4"]
+inner_radius = 0.12
+outer_radius = 0.05
+rings = 12
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_otapr"]
+radius = 0.37497
+
+[node name="RingProjectile" type="Node3D"]
+script = ExtResource("1_ihso4")
+rotation_rate = 10.0
+terrain_explosion = ExtResource("2_83hhm")
+shoot_explosion = ExtResource("3_tom41")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("TorusMesh_ihso4")
+
+[node name="Hitbox" type="Area3D" parent="."]
+collision_layer = 16
+collision_mask = 5
+script = ExtResource("3_bhhqk")
+shape = SubResource("SphereShape3D_otapr")
+has_health = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+shape = SubResource("SphereShape3D_otapr")
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]

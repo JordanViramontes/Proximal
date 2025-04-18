@@ -39,8 +39,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
 visible = false
 pellet_count = 8.0
 pellet_spread = 0.05
-bullet_damage = 5.0
-bullet_speed = 60.0
+bullet_damage = 0.5
+bullet_speed = 80.0
 
 [node name="Index" parent="." instance=ExtResource("4_qlvm5")]
 visible = false
@@ -52,7 +52,6 @@ bullet = ExtResource("3_v6qfx")
 
 [node name="Ring" parent="." instance=ExtResource("7_k5yqd")]
 visible = false
-bullet = ExtResource("3_v6qfx")
 
 [node name="Pinky" parent="." instance=ExtResource("8_r1oqp")]
 visible = false
