@@ -10,6 +10,10 @@ var waveDictionary = [
 	#Wave.new([20, 20], 1, 1),
 ]
 
+# components
+@onready var player = get_tree().get_first_node_in_group("Player")
+@onready var test_spawn_point = $TestSpawnPoint
+
 # wave struct holds all information about each wave
 class Wave:
 	var enemy_count = { 
@@ -61,6 +65,7 @@ func spawnWave(wave_index):
 
 func TESTspawnWave():
 	# for debugging enemies
+	var debug = "res://scenes/Enemies/enemy_base.tscn"
 	var ishim_ranger = "res://scenes/Enemies/ishim_ranger.tscn"
 	var ishim_crawler = "res://scenes/Enemies/ishim_crawler.tscn"
 	var test_path = ishim_crawler
@@ -78,11 +83,12 @@ func spawnEnemy(mob_path, debug_flag):
 	
 	# give random location an offset, and get player position
 	mob_spawn_location.progress_ratio = randf()
-	var player_position = $"../Player".global_position
+	var player_position = player.global_position
 	if not debug_flag:
 		mob.initialize(mob_spawn_location.position, player_position)
 	else:
-		mob.initialize(Vector3(15, 2, 15), player_position)
+		var spawn_point = test_spawn_point.global_position
+		mob.initialize(spawn_point, player_position)
 	
 	# Spawn the mob by adding it to the Main scene.
 	add_child(mob)

@@ -54,6 +54,8 @@ func _on_pathfind_timer_timeout() -> void:
 			current_state = ENEMY_STATE.roam
 	
 	super._on_pathfind_timer_timeout()
+	velocity.x = pathfindVel.x
+	velocity.z = pathfindVel.z
 
 func get_target_from_state(state):
 	if state == ENEMY_STATE.roam:
@@ -83,7 +85,9 @@ func _on_bullet_timer_timeout() -> void:
 		b.position = global_position + direction * bullet_radius
 		b.direction = Util.permute_vector(direction, 0)
 		b.direction.y += 0.1
-		#b.look_at_from_position(player.global_position, Vector3.UP)
-		b.look_at_from_position(b.position, player.global_position, Vector3.UP)
+		
+		#var horizontal_displacement = Vector3(end.x - start.x, 0, end.z - start.z)
+		#var horizontal_velocity = horizontal_displacement / t
+		#var vertical_velocity = (end.y - start.y - 0.5 * gravity.y * t * t) / t
 		
 		World.world.add_child(b)

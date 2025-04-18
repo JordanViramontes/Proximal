@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bhbue0qd6j3wa"]
+[gd_scene load_steps=11 format=3 uid="uid://bhbue0qd6j3wa"]
 
 [ext_resource type="Script" uid="uid://bltecim4slosc" path="res://scripts/Characters/ishim_ranger.gd" id="1_cw4bv"]
 [ext_resource type="Material" uid="uid://cv7l0r86mk435" path="res://assets/hitflash_mat.tres" id="2_4eule"]
@@ -17,16 +17,6 @@ material = SubResource("StandardMaterial3D_diwry")
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7q61w"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_w8f1x"]
-
-[sub_resource type="NavigationMesh" id="NavigationMesh_7ussa"]
-vertices = PackedVector3Array(-49.5, 0.5, -49.5, -49.5, 0.5, 49.5, 49.5, 0.5, 49.5, 49.5, 0.5, -49.5)
-polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p67kr"]
-albedo_color = Color(0.807843, 0.494118, 0.47451, 0.266667)
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_v3keg"]
-material = SubResource("StandardMaterial3D_p67kr")
 
 [node name="IshimRanger" type="CharacterBody3D"]
 collision_layer = 4
@@ -53,14 +43,6 @@ shape = SubResource("CapsuleShape3D_w8f1x")
 [node name="PathfindTimer" type="Timer" parent="."]
 wait_time = 0.3
 autostart = true
-
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
-visible = false
-navigation_mesh = SubResource("NavigationMesh_7ussa")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D"]
-transform = Transform3D(50, 0, 0, 0, 10, 0, 0, 0, 50, 0, 0, 0)
-mesh = SubResource("PlaneMesh_v3keg")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 avoidance_enabled = true
