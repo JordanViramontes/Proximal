@@ -25,6 +25,8 @@ var double_jumpable := false
 # Abilities
 @export var DASH_SPEED = 40
 @export var dash_accel = 5
+@export var DASH_COOLDOWN := 0.5
+var last_dash_time := -DASH_COOLDOWN
 
 # h
 const height = 1.8
@@ -142,6 +144,14 @@ func die():
 
 # recieve dash input from WeaponManager
 func _on_weapon_manager_dash_input() -> void:
+	if current_state != INPUT_STATE.normal:
+		return
+	
+	var current_time := Time.get_ticks_msec() / 1000.0 # get time in seconds
+	if current_time - last_dash_time < DASH_COOLDOWN:
+		return # skip dash
+	
+	last_dash_time = current_time # timer reset
 	var dash_vel: Vector3 = direction.normalized()
 	print("dashing! input: " + str(dash_vel))
 	velocity.x += dash_vel.x * DASH_SPEED
