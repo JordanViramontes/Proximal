@@ -9,6 +9,9 @@ var hitflash_tween: Tween
 @export var movement_speed = 5
 @export var nav_path_dist = 2 # spawn distance
 @export var nav_target_dist = 1 # spawn height
+@onready var current_agent_position: Vector3
+@onready var next_path_position: Vector3
+@onready var pathfindVel: Vector3
 
 # spawning variables
 var spawn_distance_vector = Vector3(0, 0, 0)
@@ -31,6 +34,7 @@ var total_states = 2
 @onready var hitbox_component := $HitboxComponent
 @onready var collision := $CollisionShape3D
 @onready var navigation_agent: NavigationAgent3D = $NavigationAgent3D
+@onready var pathfind_timer: Timer = $PathfindTimer
 
 # signals
 signal die
@@ -98,13 +102,17 @@ func _physics_process(delta):
 		velocity = spawning_velocity
 	
 	# pathfinding (normal roam)
-	elif current_state == ENEMY_STATE.roam:
-		if navigation_agent.is_navigation_finished():
-			return
+	#elif current_state == ENEMY_STATE.roam:
+		#if navigation_agent.is_navigation_finished():
+			#return
+		
+		# commented since this is base, if you need pathfinding add this to your enemy
+		#velocity.x = pathfindVel.x
+		#velocity.z = pathfindVel.z
 		
 		# gravity
-		if not is_on_floor():
-			velocity += get_gravity() * delta
+		#if not is_on_floor():
+			#velocity += get_gravity() * delta
 	
 	# finally move
 	move_and_slide()
@@ -116,12 +124,6 @@ func _on_pathfind_timer_timeout() -> void:
 	
 	# set new pathfind
 	set_movement_target(get_target_from_state(current_state))
-	var current_agent_position: Vector3 = global_position
-	var next_path_position: Vector3 = navigation_agent.get_next_path_position()
-	
-	var pathfindVel = current_agent_position.direction_to(next_path_position) * movement_speed
-	velocity.x = pathfindVel.x
-	velocity.z = pathfindVel.z
 
 # setup for the actor to pathfind
 func actor_setup():
@@ -140,6 +142,9 @@ func get_target_from_state(state):
 # set the movement target for navigation
 func set_movement_target(movement_target: Vector3):
 	navigation_agent.set_target_position(movement_target)
+	current_agent_position= global_position
+	next_path_position = navigation_agent.get_next_path_position()
+	pathfindVel = current_agent_position.direction_to(next_path_position) * movement_speed
 
 # When they dead as hell
 func on_reach_zero_health():

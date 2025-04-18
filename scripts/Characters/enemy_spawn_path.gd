@@ -63,7 +63,7 @@ func TESTspawnWave():
 	# for debugging enemies
 	var ishim_ranger = "res://scenes/Enemies/ishim_ranger.tscn"
 	var ishim_crawler = "res://scenes/Enemies/ishim_crawler.tscn"
-	var test_path = ishim_ranger
+	var test_path = ishim_crawler
 	var test_amount = 1
 	print("WARNING: USING DEBUG ENEMY SPAWNING")
 	for i in range(test_amount):

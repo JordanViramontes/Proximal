@@ -28,9 +28,11 @@ albedo_color = Color(0.807843, 0.494118, 0.47451, 0.266667)
 material = SubResource("StandardMaterial3D_jfxgx")
 
 [node name="IshimCrawler" type="CharacterBody3D"]
+collision_layer = 4
 script = ExtResource("1_lgyoi")
+friction = -4
+velocity_offset = 1.0
 max_health = 5.0
-movement_speed = 10
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." groups=["Enemies"]]
 material_overlay = ExtResource("1_ovggl")
@@ -50,7 +52,6 @@ shape = SubResource("CapsuleShape3D_oaf2w")
 shape = SubResource("CapsuleShape3D_kebby")
 
 [node name="PathfindTimer" type="Timer" parent="."]
-wait_time = 0.3
 autostart = true
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]

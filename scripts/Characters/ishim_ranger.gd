@@ -28,6 +28,7 @@ func _physics_process(delta: float) -> void:
 			return
 	else:
 		if shoot_timer.is_stopped():
+			_on_bullet_timer_timeout()
 			shoot_timer.start()
 	
 	if current_state != ENEMY_STATE.spawn_edge:
@@ -80,9 +81,9 @@ func _on_bullet_timer_timeout() -> void:
 		
 		var direction = (player.global_position - global_position).normalized()
 		b.position = global_position + direction * bullet_radius
-		
-		World.world.add_child(b)
-		
-		# add small permutation to firing direction
 		b.direction = Util.permute_vector(direction, 0)
 		b.direction.y += 0.1
+		#b.look_at_from_position(player.global_position, Vector3.UP)
+		b.look_at_from_position(b.position, player.global_position, Vector3.UP)
+		
+		World.world.add_child(b)

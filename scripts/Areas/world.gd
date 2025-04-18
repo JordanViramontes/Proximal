@@ -10,3 +10,5 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
+	#var fps = Engine.get_frames_per_second()  
+	#print("fps: " + str(fps))
