@@ -44,6 +44,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.291509, -0.296324, -0.45360
 player = NodePath("../../..")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="LeanPivot/Head"]
+visible = false
 mesh = SubResource("SphereMesh_y7cse")
 
 [node name="UI" type="Control" parent="."]

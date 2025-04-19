@@ -139,7 +139,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 # health specific functionality
-func take_damge(amount: int) -> void:
+func take_damage(amount: int) -> void:
 	if current_state == INPUT_STATE.dead:
 		return
 		
