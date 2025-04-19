@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="4_kebby"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dpb2p"]
-albedo_color = Color(0.256593, 0.519893, 1, 1)
+albedo_color = Color(0.254902, 0.521569, 1, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_vd578"]
 material = SubResource("StandardMaterial3D_dpb2p")
@@ -20,10 +20,8 @@ material = SubResource("StandardMaterial3D_dpb2p")
 [node name="IshimCrawler" type="CharacterBody3D"]
 collision_layer = 4
 script = ExtResource("1_lgyoi")
-friction = 12
-lunge_dist = 13
-velocity_offset = 1.0
 max_health = 5.0
+movement_speed = 6
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." groups=["Enemies"]]
 material_overlay = ExtResource("1_ovggl")
@@ -43,9 +41,14 @@ shape = SubResource("CapsuleShape3D_oaf2w")
 shape = SubResource("CapsuleShape3D_kebby")
 
 [node name="PathfindTimer" type="Timer" parent="."]
+wait_time = 0.5
 autostart = true
+
+[node name="LungeTimer" type="Timer" parent="."]
+wait_time = 1.2
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 avoidance_enabled = true
 
 [connection signal="timeout" from="PathfindTimer" to="." method="_on_pathfind_timer_timeout"]
+[connection signal="timeout" from="LungeTimer" to="." method="_on_lunge_timer_timeout"]

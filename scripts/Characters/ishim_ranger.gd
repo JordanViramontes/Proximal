@@ -14,13 +14,13 @@ extends EnemyBase
 @onready var bullet_emerge_point = $BulletEmergePoint
 
 func _ready() -> void:
-	super._ready()
-	
 	# when in the comfy radius, the enemy will stand still
 	# when the player gets too close itll run away
 	ENEMY_STATE["comfy"] = total_states+1
 	ENEMY_STATE["run_away"] = total_states+2
 	total_states += 2
+	
+	super._ready()
 
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
@@ -76,7 +76,7 @@ func get_target_from_state(state):
 		var new_target = global_position - (player_run_radius * relative_position)
 		return new_target
 
-# whenever the timer ends, shoot! (taken from index)
+# whenever the timer ends, shoot! 
 func _on_bullet_timer_timeout() -> void:
 	if current_state == ENEMY_STATE.roam || current_state == ENEMY_STATE.comfy:
 		var b = bullet.instantiate()
