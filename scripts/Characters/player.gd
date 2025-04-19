@@ -138,7 +138,8 @@ func _physics_process(delta: float) -> void:
 		# shooting
 		if Input.is_action_pressed("shoot"):
 			weapon.shoot(head.global_position, -head.global_basis.z, velocity) # pass player "eye" position
-		
+		if Input.is_action_just_released("shoot"):
+			weapon.cease_fire()
 	move_and_slide()
 
 # health specific functionality
