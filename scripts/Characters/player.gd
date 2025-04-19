@@ -42,7 +42,9 @@ var current_strafe_dir = 0
 @onready var camera := $LeanPivot/Head/Camera3D
 @onready var weapon := $LeanPivot/Head/Weapon_Manager
 
-
+# health variables
+@export var MAX_HEALTH: int = 100
+var current_health: int = MAX_HEALTH
 
 # inputs
 func _input(event: InputEvent) -> void:
@@ -136,9 +138,28 @@ func _physics_process(delta: float) -> void:
 		
 	move_and_slide()
 
+# health specific functionality
+func take_damge(amount: int) -> void:
+	if current_state == INPUT_STATE.dead:
+		return
+		
+	current_health -= amount
+	print("Player took", amount, "damage. Health:", current_health)
+	
+	if current_health <= 0:
+		die()
+
 # you dead
 func die():
+	# omae wa mou shindeiru
+	if current_state == INPUT_STATE.dead:
+		return
+		
+	# invoke player_die signal
 	current_state = INPUT_STATE.dead
+	emit_signal("player_die")
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	print("Player has died.")
 
 # recieve dash input from WeaponManager
 func _on_weapon_manager_dash_input() -> void:
