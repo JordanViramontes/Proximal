@@ -145,7 +145,7 @@ func on_reach_zero_health():
 	self.queue_free()
 
 # when you get damaged
-func on_damaged(amount: float):
+func on_damaged(amount: float, vector: Vector3):
 	if (hitflash_tween and hitflash_tween.is_running()):
 		hitflash_tween.stop()
 	hitflash_tween = get_tree().create_tween()
