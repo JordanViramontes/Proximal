@@ -21,7 +21,7 @@ material = SubResource("StandardMaterial3D_dpb2p")
 collision_layer = 4
 script = ExtResource("1_lgyoi")
 friction = 12
-lunge_dist = 11
+lunge_dist = 5
 velocity_offset = 1.0
 max_health = 5.0
 

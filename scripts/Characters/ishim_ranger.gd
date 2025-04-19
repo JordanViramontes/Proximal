@@ -22,7 +22,7 @@ func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
 	
 	# states
-	if current_state == ENEMY_STATE.run_away:
+	if current_state == ENEMY_STATE.run_away: # running away state
 		shoot_timer.stop()
 		if navigation_agent.is_navigation_finished():
 			return
@@ -35,7 +35,7 @@ func _physics_process(delta: float) -> void:
 		# gravity
 		if not is_on_floor():
 			velocity += get_gravity() * delta
-	# running away state
+
 
 func _on_pathfind_timer_timeout() -> void:
 	# we want to calculate only based on x and z, effectively an infinite cone

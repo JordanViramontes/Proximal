@@ -9,7 +9,7 @@ var hitflash_tween: Tween
 @export var movement_speed = 5
 @export var nav_path_dist = 2 
 @export var nav_target_dist = 1 
-@onready var current_agent_position: Vector3
+#@onready var current_agent_position: Vector3
 @onready var next_path_position: Vector3
 @onready var pathfindVel: Vector3
 
@@ -41,9 +41,8 @@ signal die
 signal take_damage
 
 # player information
-var player
-var player_position
-var path
+@onready var player = get_tree().get_first_node_in_group("Player")
+@onready var player_position = player.global_position
 
 # Constructor called by spawner
 func initialize(starting_position, init_player_position):
@@ -51,7 +50,6 @@ func initialize(starting_position, init_player_position):
 	current_state = ENEMY_STATE.spawn_edge
 	position = starting_position
 	player_position = init_player_position
-	#look_at_from_position(position, init_player_position, Vector3.UP)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -59,11 +57,6 @@ func _ready() -> void:
 	health_component.current_health = max_health
 	health_component.reached_zero_health.connect(on_reach_zero_health)
 	hitbox_component.damaged.connect(on_damaged)
-	
-	# variables
-	player = get_tree().get_first_node_in_group("Player")
-	player_position = player.position
-	path = 0
 	
 	# values for navigation agent
 	navigation_agent.path_desired_distance = nav_path_dist
@@ -129,9 +122,8 @@ func get_target_from_state(state):
 # set the movement target for navigation
 func set_movement_target(movement_target: Vector3):
 	navigation_agent.set_target_position(movement_target)
-	current_agent_position = global_position
 	next_path_position = navigation_agent.get_next_path_position()
-	#pathfindVel = current_agent_position.direction_to(next_path_position) * movement_speed
+	pathfindVel = global_position.direction_to(next_path_position) * movement_speed
 
 # When they dead as hell
 func on_reach_zero_health():
