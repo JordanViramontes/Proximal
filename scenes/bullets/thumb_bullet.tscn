@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dmmosaxs1o0am"]
 
-[ext_resource type="Script" uid="uid://cekc7ob0fcak7" path="res://scripts/Weapons/thumb_bullet.gd" id="1_pfkav"]
+[ext_resource type="Script" path="res://scripts/Weapons/thumb_bullet.gd" id="1_pfkav"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_wi1hg"]
 radius = 0.04

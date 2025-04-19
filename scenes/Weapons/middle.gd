@@ -1,26 +1,48 @@
 extends WeaponBase
 
-@export var bullet_spread: float = 0.03
+# middle is hitscan, the hit detection will not be done with a hitscan script and not bullet.gd
 
+@export var bullet_range: float = 1000.0 # long range! make this higher if you need it should be very high
+@export var shoot_height_offset: float
+var shadow: bool = false
+var current_bullet: HitscanBullet
 func _ready() -> void:
 	super._ready()
 	on_shoot.connect(on_on_shoot)
+	on_ceasefire.connect(on_on_ceasefire)
 
-func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
+func on_on_shoot(from_position: Vector3, look_direction: Vector3, velocity: Vector3):
 	if bullet == null:
-		print("index.gd - set my bullet property bro! i dont have it!")
+		print("middle.gd - set my bullet property bro! i dont have it!")
 		
-	var b = bullet.instantiate()
-	if b == null: # just in case
-		print("index.gd - bullet did not instantiate")
-		return
+		
+	if !shadow:
+		var b = bullet.instantiate()
+		
+		
+		if b == null: # just in case
+			print("middle.gd - bullet did not instantiate")
+			return
+		current_bullet = b
+		
+			
+	current_bullet.position = from_position
+	current_bullet.tracer_origin = $BulletEmergePoint.global_position # is one meter ahead of the player, which lines up with the barrel of the weapon
+	print(current_bullet.tracer_origin)
+	current_bullet.bullet_damage = bullet_damage
+	current_bullet.distance = bullet_range
+	current_bullet.direction = look_direction
 	
-	b.position = $BulletEmergePoint.global_position # is one meter ahead of the player, which lines up with the barrel of the weapon
-	b.bullet_speed = bullet_speed
-	b.bullet_damage = bullet_damage
+	if !shadow:
+		World.world.add_child(current_bullet)
+		shadow = true
+	current_bullet.tracer_func()
 	
-	World.world.add_child(b)
+func on_on_ceasefire():
+	current_bullet.fade()
+	current_bullet = null
+	shadow = false
 	
-	# add small permutation to firing direction
-	b.direction = Util.permute_vector(look_direction, bullet_spread)
-	
+func player_pos():
+	Util.get_play_pos()
+	pass

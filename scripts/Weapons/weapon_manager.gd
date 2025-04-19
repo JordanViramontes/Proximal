@@ -12,7 +12,6 @@ var curr_weapon # defined in ready
 var canUseWeapon: bool = true
 var canDash: bool = true
 signal dashInput
-
 func _ready():
 	weapon_dictionary = [
 		$Thumb,
@@ -79,6 +78,9 @@ func shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	else:
 		curr_weapon.shoot(position, look_direction, velocity)
 	#print("weapon_manager - not shooting atm")
+
+func cease_fire():
+	curr_weapon.cease_fire()
 
 func set_weapon_active(weapon):
 	weapon.visible = true

@@ -1,8 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://bfdo44kle73uq"]
+[gd_scene load_steps=10 format=3 uid="uid://bfdo44kle73uq"]
 
 [ext_resource type="Script" uid="uid://cpi5w5meyf7w1" path="res://scripts/Characters/player.gd" id="1_i3pqv"]
 [ext_resource type="Texture2D" uid="uid://52vn44k3ngct" path="res://assets/textures/crosshair_dev.png" id="3_8iw34"]
+[ext_resource type="Script" uid="uid://3a112of4lpr" path="res://scenes/Characters/health_bar.gd" id="4_7xbc7"]
 [ext_resource type="PackedScene" uid="uid://klyx4oq82x8k" path="res://scenes/Weapons/weapon_manager.tscn" id="4_dqkch"]
+[ext_resource type="Texture2D" uid="uid://bsh36ub1lj4vr" path="res://assets/textures/HealthBar.png" id="5_5vcpl"]
+[ext_resource type="Texture2D" uid="uid://c78ktusgpfobs" path="res://assets/textures/HealthBarProgress.png" id="6_8u6hb"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_2hs0m"]
 
@@ -44,6 +47,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.291509, -0.296324, -0.45360
 player = NodePath("../../..")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="LeanPivot/Head"]
+visible = false
 mesh = SubResource("SphereMesh_y7cse")
 
 [node name="UI" type="Control" parent="."]
@@ -57,10 +61,10 @@ mouse_filter = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="UI"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
+anchors_preset = -1
+anchor_left = 0.489062
 anchor_top = 0.5
-anchor_right = 0.5
+anchor_right = 0.489062
 anchor_bottom = 0.5
 offset_left = -576.0
 offset_top = -324.0
@@ -74,5 +78,33 @@ metadata/_edit_use_anchors_ = true
 texture_filter = 1
 layout_mode = 2
 texture = ExtResource("3_8iw34")
+
+[node name="Control" type="Control" parent="UI"]
+anchors_preset = 0
+offset_left = -1.0
+offset_top = 8.0
+offset_right = 39.0
+offset_bottom = 48.0
+rotation = -0.0238783
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="UI/Control" node_paths=PackedStringArray("player")]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 22.0
+offset_right = 992.0
+offset_bottom = 289.0
+scale = Vector2(0.102084, 0.0276196)
+value = 50.0
+nine_patch_stretch = true
+texture_progress = ExtResource("6_8u6hb")
+script = ExtResource("4_7xbc7")
+player = NodePath("../../..")
+
+[node name="TextureRect" type="TextureRect" parent="UI/Control"]
+layout_mode = 0
+offset_right = 932.0
+offset_bottom = 267.0
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("5_5vcpl")
 
 [connection signal="dashInput" from="LeanPivot/Head/Weapon_Manager" to="." method="_on_weapon_manager_dash_input"]
