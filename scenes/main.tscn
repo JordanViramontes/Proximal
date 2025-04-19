@@ -75,7 +75,7 @@ mob_scene = ExtResource("6_tipki")
 transform = Transform3D(-0.994941, 0, -0.100405, 0, 1, 0, 0.100405, 0, -0.994941, -55.1679, 0, -3.37566)
 
 [node name="TestSpawnPoint" type="Node3D" parent="NavigationRegion3D/EnemySpawnPath"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.1233, -0.16635, 30.0632)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.1233, 1.52947, 18.603)
 
 [node name="Player" parent="." instance=ExtResource("6_tefeu")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 10.5143, 3.23011, 17.2594)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2.89443, 3.23011, 17.2594)

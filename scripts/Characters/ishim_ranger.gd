@@ -5,9 +5,13 @@ extends EnemyBase
 @export var comfy_radius = 15
 @export var bullet: PackedScene
 @export var bullet_radius: float = 1.5
+@export var bullet_velocity: float = 8
+@export var bullet_max_range:float = 13
+@export var bullet_gravity: float = -2
 
 # components
 @onready var shoot_timer = $ShootCooldown
+@onready var bullet_emerge_point = $BulletEmergePoint
 
 func _ready() -> void:
 	super._ready()
@@ -35,7 +39,6 @@ func _physics_process(delta: float) -> void:
 		# gravity
 		if not is_on_floor():
 			velocity += get_gravity() * delta
-
 
 func _on_pathfind_timer_timeout() -> void:
 	# we want to calculate only based on x and z, effectively an infinite cone
@@ -81,13 +84,24 @@ func _on_bullet_timer_timeout() -> void:
 			print("isham_ranger.gd - bullet did not instantiate")
 			return
 		
-		var direction = (player.global_position - global_position).normalized()
-		b.position = global_position + direction * bullet_radius
-		b.direction = Util.permute_vector(direction, 0)
-		b.direction.y += 0.1
+		player_position = player.global_position #update the player pos for calculations
 		
-		#var horizontal_displacement = Vector3(end.x - start.x, 0, end.z - start.z)
-		#var horizontal_velocity = horizontal_displacement / t
-		#var vertical_velocity = (end.y - start.y - 0.5 * gravity.y * t * t) / t
+		# find displacement, distance, and use that to get time
+		var displacement = Vector3(player_position.x, player_position.y+1.5, player_position.z) - global_position
+		var direction = displacement.normalized()
+		var h_displacement: Vector3 = Vector3(displacement.x, 0, displacement.z)
+		var h_distance = h_displacement.length()
+		if h_distance > bullet_max_range:
+			h_distance = bullet_max_range
+		var t = (h_distance / bullet_velocity)
+		
+		# use time and kinematics to get velocity
+		var h_v = h_displacement.normalized() * bullet_velocity
+		var v_v = (displacement.y + (0.5 * bullet_gravity * t * t)) / t
+		var initial_velocity = Vector3(h_v.x, v_v, h_v.z)
+		
+		# initialize the bullet
+		b.initialize(initial_velocity, direction, bullet_gravity)
+		b.position = global_position
 		
 		World.world.add_child(b)

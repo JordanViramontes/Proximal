@@ -21,7 +21,7 @@ material = SubResource("StandardMaterial3D_dpb2p")
 collision_layer = 4
 script = ExtResource("1_lgyoi")
 friction = 12
-lunge_dist = 5
+lunge_dist = 13
 velocity_offset = 1.0
 max_health = 5.0
 
@@ -47,6 +47,5 @@ autostart = true
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 avoidance_enabled = true
-debug_enabled = true
 
 [connection signal="timeout" from="PathfindTimer" to="." method="_on_pathfind_timer_timeout"]
