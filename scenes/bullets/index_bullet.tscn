@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://b2nwv2k6ni68c"]
 
-[ext_resource type="Script" path="res://scripts/Weapons/index_bullet.gd" id="1_bu15o"]
+[ext_resource type="Script" uid="uid://c7u1fufcdg718" path="res://scripts/Weapons/index_bullet.gd" id="1_bu15o"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_aq0mk"]
 radius = 0.05

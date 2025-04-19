@@ -16,6 +16,8 @@ var spawn_location: Vector3
 
 @export var spin: bool = false
 
+var type: DamageInstance.DamageType
+
 signal damaged_enemy
 
 # Called when the node enters the scene tree for the first time.
@@ -43,7 +45,16 @@ func _physics_process(delta: float) -> void:
 func _on_hitbox_area_entered(area: Area3D) -> void:
 	#print("entered area %s" % area)
 	if area.damage:
-		if area.damage(bullet_damage, -self.position):
+		var di = DamageInstance.new({ # haha directional input!!! no. not funny.
+			"damage" : bullet_damage,
+			"creator_position" : spawn_location,
+			"velocity" : direction * bullet_speed,
+			"type" : type
+		})
+		
+		print(di.damage)
+		print(bullet_damage)
+		if area.damage(di):
 			damaged_enemy.emit()
 	self.queue_free()
 

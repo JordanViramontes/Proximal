@@ -2,10 +2,12 @@ class_name DamageInstance
 
 var damage: float
 var creator_position: Vector3
-enum DamageType {Thumb, Index, Middle, Ring, Pinky}
+var velocity: Vector3
+enum DamageType {None, Thumb, Index, Middle, Ring, Pinky}
 var type: DamageType
 
-func _init(damage: float = 0.0, creator_position: Vector3 = Vector3.ZERO, type: DamageType = DamageType.Thumb):
-	self.damage = damage
-	self.creator_position = creator_position
-	self.type = type
+func _init(params: Dictionary):
+	damage = params.damage if "damage" in params else 0
+	creator_position = params.creator_position if "creator_position" in params else Vector3.ZERO
+	velocity = params.velocity if "velocity" in params else Vector3.ZERO
+	type = params.type if "type" in params else DamageType.None

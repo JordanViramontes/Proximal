@@ -30,6 +30,11 @@ func _on_hitbox_area_entered(area: Area3D) -> void:
 	#print("entered area %s" % area)
 	return
 	if area.damage:
-		if area.damage(bullet_damage):
+		var di = DamageInstance.new({
+			"damage" : bullet_damage,
+			"velocity" : velocity,
+			"creator_position" : Vector3.ZERO
+		})
+		if area.damage(di):
 			damaged_enemy.emit()
 	self.queue_free()

@@ -59,7 +59,11 @@ func tracer_func():
 		var col = raycast.get_collider()
 		if col is Area3D:
 			if col.damage:
-				if col.damage(bullet_damage, -self.position):
+				var di = DamageInstance.new({
+					"damage" : bullet_damage,
+					"creator_position" : global_position,
+				})
+				if col.damage(di):
 					damaged_enemy.emit()
 	
 	tracer_transform_origin.look_at(hit_point, Vector3.UP)
