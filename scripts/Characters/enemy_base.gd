@@ -37,6 +37,14 @@ var path
 @export var nav_path_dist = 2
 @export var nav_target_dist = 1
 
+# basic attack-within-range information
+@export var attack_range: float = 3.0
+@export var damage_amount: float = 10.0
+@export var attack_cooldown: float = 2.0
+
+var can_damage_player: bool = true
+@onready var attack_timer := Timer.new()
+
 # Constructor called by spawner
 func initialize(starting_position, init_player_position):
 	# spawning
@@ -63,6 +71,12 @@ func _ready() -> void:
 	
 	# do not call await during ready (await is called in actor_setup)
 	actor_setup.call_deferred()
+	
+	# adding attack cooldown timer
+	attack_timer.wait_time = attack_cooldown
+	attack_timer.one_shot = true
+	attack_timer.connect("timeout", Callable(self, "_on_attack_timer_timeout"))
+	add_child(attack_timer)
 	
 	# set up target distance for spawn_edge, calculate spawn_distance_vector using trig
 	if current_state == ENEMY_STATE.spawn_edge:
@@ -93,6 +107,13 @@ func _physics_process(delta):
 				return
 		velocity = spawning_velocity
 	
+	# check player distance and ATTACK!
+	if player and can_damage_player and global_position.distance_to(player.global_position) <= attack_range:
+		player.take_damage(damage_amount)
+		# invoke cooldown
+		can_damage_player = false
+		attack_timer.start()
+	
 	# pathfinding (normal roam)
 	elif current_state == ENEMY_STATE.roam:
 		if navigation_agent.is_navigation_finished():
@@ -106,6 +127,10 @@ func _physics_process(delta):
 	
 	# finally move
 	move_and_slide()
+
+# on cooldown finish, enemy can attack again
+func _on_attack_timer_timeout():
+	can_damage_player = true
 
 # When they dead as hell
 func on_reach_zero_health():
