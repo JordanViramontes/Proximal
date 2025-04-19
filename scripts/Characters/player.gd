@@ -2,6 +2,7 @@ class_name Player extends CharacterBody3D
 
 # signals
 signal player_die
+signal health_change
 
 # input stuff
 # states
@@ -144,6 +145,7 @@ func take_damage(amount: int) -> void:
 		return
 		
 	current_health -= amount
+	health_change.emit()
 	print("Player took", amount, "damage. Health:", current_health)
 	
 	if current_health <= 0:
