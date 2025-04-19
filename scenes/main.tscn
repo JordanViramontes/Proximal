@@ -5,7 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://c7ao2jw0rnah0" path="res://assets/textures/dev/grids/Dark/texture_07.png" id="2_4n1ka"]
 [ext_resource type="Script" uid="uid://drj4up00u5x88" path="res://scripts/Characters/enemy_spawn_path.gd" id="6_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://bfdo44kle73uq" path="res://scenes/Characters/player.tscn" id="6_tefeu"]
-[ext_resource type="PackedScene" uid="uid://bjteq07i0vf8m" path="res://scenes/Enemies/ishim_crawler.tscn" id="6_tipki"]
+[ext_resource type="PackedScene" uid="uid://b3ghxetcov6va" path="res://scenes/Enemies/enemy_base.tscn" id="7_o6xl0"]
+[ext_resource type="Texture2D" uid="uid://52vn44k3ngct" path="res://assets/textures/crosshair_dev.png" id="8_85g3d"]
 [ext_resource type="PackedScene" uid="uid://dbn175mecst55" path="res://assets/models/map/map_draft.blend" id="8_tipki"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_ssbh5"]
@@ -74,8 +75,31 @@ mob_scene = ExtResource("6_tipki")
 [node name="EnemySpawner" type="PathFollow3D" parent="NavigationRegion3D/EnemySpawnPath"]
 transform = Transform3D(-0.994941, 0, -0.100405, 0, 1, 0, 0.100405, 0, -0.994941, -55.1679, 0, -3.37566)
 
-[node name="TestSpawnPoint" type="Node3D" parent="NavigationRegion3D/EnemySpawnPath"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.1233, 1.52947, 18.603)
-
 [node name="Player" parent="." instance=ExtResource("6_tefeu")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2.89443, 3.23011, 17.2594)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 3, 15)
+
+[node name="UI" type="Control" parent="."]
+layout_direction = 1
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 360.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="CenterContainer" type="CenterContainer" parent="UI"]
+layout_mode = 2
+anchor_left = -0.0359375
+anchor_top = 0.0305556
+anchor_right = -0.0359375
+anchor_bottom = 0.0305556
+offset_left = 335.0
+offset_top = 149.0
+offset_right = 350.0
+offset_bottom = 189.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Crosshair" type="TextureRect" parent="UI/CenterContainer"]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("8_85g3d")
