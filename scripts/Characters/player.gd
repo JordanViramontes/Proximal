@@ -2,6 +2,7 @@ class_name Player extends CharacterBody3D
 
 # signals
 signal player_die
+signal health_change
 
 # input stuff
 # states
@@ -25,6 +26,8 @@ var double_jumpable := false
 # Abilities
 @export var DASH_SPEED = 40
 @export var dash_accel = 5
+@export var DASH_COOLDOWN := 0.5
+var last_dash_time := -DASH_COOLDOWN
 
 # h
 const height = 1.8
@@ -42,7 +45,9 @@ var current_strafe_dir = 0
 @onready var camera := $LeanPivot/Head/Camera3D
 @onready var weapon := $LeanPivot/Head/Weapon_Manager
 
-
+# health variables
+@export var MAX_HEALTH: int = 100
+var current_health: int = MAX_HEALTH
 
 # inputs
 func _input(event: InputEvent) -> void:
@@ -136,12 +141,40 @@ func _physics_process(delta: float) -> void:
 		
 	move_and_slide()
 
+# health specific functionality
+func take_damage(amount: int) -> void:
+	if current_state == INPUT_STATE.dead:
+		return
+		
+	current_health -= amount
+	health_change.emit()
+	print("Player took", amount, "damage. Health:", current_health)
+	
+	if current_health <= 0:
+		die()
+
 # you dead
 func die():
+	# omae wa mou shindeiru
+	if current_state == INPUT_STATE.dead:
+		return
+		
+	# invoke player_die signal
 	current_state = INPUT_STATE.dead
+	emit_signal("player_die")
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	print("Player has died.")
 
 # recieve dash input from WeaponManager
 func _on_weapon_manager_dash_input() -> void:
+	if current_state != INPUT_STATE.normal:
+		return
+	
+	var current_time := Time.get_ticks_msec() / 1000.0 # get time in seconds
+	if current_time - last_dash_time < DASH_COOLDOWN:
+		return # skip dash
+	
+	last_dash_time = current_time # timer reset
 	var dash_vel: Vector3 = direction.normalized()
 	print("dashing! input: " + str(dash_vel))
 	velocity.x += dash_vel.x * DASH_SPEED

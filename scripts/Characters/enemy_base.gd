@@ -44,6 +44,14 @@ signal take_damage
 @onready var player = get_tree().get_first_node_in_group("Player")
 @onready var player_position = player.global_position
 
+# basic attack-within-range information
+@export var attack_range: float = 3.0
+@export var damage_amount: float = 10.0
+@export var attack_cooldown: float = 2.0
+
+var can_damage_player: bool = true
+@onready var attack_timer := Timer.new()
+
 # Constructor called by spawner
 func initialize(starting_position, init_player_position):
 	# spawning
@@ -64,6 +72,12 @@ func _ready() -> void:
 	
 	# do not call await during ready (await is called in actor_setup)
 	actor_setup.call_deferred()
+	
+	# adding attack cooldown timer
+	attack_timer.wait_time = attack_cooldown
+	attack_timer.one_shot = true
+	attack_timer.connect("timeout", Callable(self, "_on_attack_timer_timeout"))
+	add_child(attack_timer)
 	
 	# set up target distance for spawn_edge, calculate spawn_distance_vector using trig
 	if current_state == ENEMY_STATE.spawn_edge:
