@@ -5,10 +5,19 @@ extends Path3D
 @export var starting_wave = 0
 var current_wave = starting_wave
 var waveDictionary = [
-	Wave.new([0, 1, 5], 1, 1),
-	#Wave.new([10, 10], 1, 1),
-	#Wave.new([20, 20], 1, 1),
+	Wave.new([5, 5], 1, 1),
+	Wave.new([10, 10], 1, 1),
+	Wave.new([20, 20], 1, 1),
 ]
+
+# DEBUG components
+var DEBUG_enemy_list = [
+	"res://scenes/Enemies/enemy_base.tscn", # BASE 0
+	"res://scenes/Enemies/ishim_crawler.tscn", # CRAWLER 1
+	"res://scenes/Enemies/ishim_ranger.tscn" # RANGER 2
+]
+var DEBUG_enemy_ptr = 1
+var DEBUG_wave: bool = true
 
 # components
 @onready var player = get_tree().get_first_node_in_group("Player")
@@ -17,7 +26,6 @@ var waveDictionary = [
 # wave struct holds all information about each wave
 class Wave:
 	var enemy_count = { 
-		"res://scenes/Enemies/enemy_base.tscn":-1, #DEBUG
 		"res://scenes/Enemies/ishim_crawler.tscn":-1, #ISHIM_CRAWLER
 		"res://scenes/Enemies/ishim_ranger.tscn":-1, #ISHIM_RANGER
 	}
@@ -39,14 +47,40 @@ class Wave:
 
  # modified from squash the creeps lol
 
+func _ready() -> void:
+	print("WARNING: USING DEBUG ENEMY SPAWNING")
+
 func _process(delta):
-	if Input.is_action_just_pressed("debug_spawn_wave"):
-		#spawnWave(current_wave)
-		TESTspawnWave()
-	if Input.is_action_just_pressed("debug_next_wave"):
-		nextWave()
-	if Input.is_action_just_pressed("debug_prev_wave"):
-		prevWave()
+	if Input.is_action_just_pressed("debug_toggle_wave"):
+		DEBUG_wave = not DEBUG_wave
+		if DEBUG_wave:
+			print("CHANGED SPAWN TO: WAVES")
+		else:
+			print("CHANGED SPAWN TO: SINGLE ENEMY")
+	
+	# changes what we spawn based on debug
+	if DEBUG_wave:
+		if Input.is_action_just_pressed("debug_spawn_enemy"):
+			spawnWave(current_wave)
+		if Input.is_action_just_pressed("debug_next_enemy"):
+			nextWave()
+		if Input.is_action_just_pressed("debug_prev_enemy"):
+			prevWave()
+	else:
+		if Input.is_action_just_pressed("debug_spawn_enemy"):
+			TESTspawnWave()
+		if Input.is_action_just_pressed("debug_next_enemy"):
+			if not DEBUG_enemy_ptr + 1 >= DEBUG_enemy_list.size():
+				DEBUG_enemy_ptr = DEBUG_enemy_ptr + 1
+				print("DEBUG enemy now at: " + DEBUG_enemy_list[DEBUG_enemy_ptr])
+			else:
+				print("CANT! At the end of enemy list")
+		if Input.is_action_just_pressed("debug_prev_enemy"):
+			if not DEBUG_enemy_ptr - 1 < 0:
+				DEBUG_enemy_ptr = DEBUG_enemy_ptr - 1
+				print("DEBUG enemy now at: " + DEBUG_enemy_list[DEBUG_enemy_ptr])
+			else:
+				print("CANT! At the end of enemy list")
 
 func spawnWave(wave_index):
 		# make sure we're valid
@@ -65,15 +99,9 @@ func spawnWave(wave_index):
 
 func TESTspawnWave():
 	# for debugging enemies
-	var debug = "res://scenes/Enemies/enemy_base.tscn"
-	var ishim_ranger = "res://scenes/Enemies/ishim_ranger.tscn"
-	var ishim_crawler = "res://scenes/Enemies/ishim_crawler.tscn"
-	var test_path = ishim_crawler
 	var test_amount = 1
-	print("WARNING: USING DEBUG ENEMY SPAWNING")
 	for i in range(test_amount):
-		spawnEnemy(test_path, 1)
-	return
+		spawnEnemy(DEBUG_enemy_list[DEBUG_enemy_ptr], 1)
 
 func spawnEnemy(mob_path, debug_flag):
 	var mob = load(mob_path).instantiate()

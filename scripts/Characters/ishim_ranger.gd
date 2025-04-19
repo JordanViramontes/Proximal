@@ -12,6 +12,12 @@ extends EnemyBase
 # components
 @onready var shoot_timer = $ShootCooldown
 @onready var bullet_emerge_point = $BulletEmergePoint
+@onready var mesh = $MeshInstance3D
+
+# colors
+@onready var mat_roam = StandardMaterial3D.new()
+@onready var mat_run_away = StandardMaterial3D.new()
+@onready var mat_comfy = StandardMaterial3D.new()
 
 func _ready() -> void:
 	# when in the comfy radius, the enemy will stand still
@@ -19,6 +25,11 @@ func _ready() -> void:
 	ENEMY_STATE["comfy"] = total_states+1
 	ENEMY_STATE["run_away"] = total_states+2
 	total_states += 2
+	
+	# colors
+	mat_roam.albedo_color = Color("ff79ff")
+	mat_run_away.albedo_color = Color("ffcbfd")
+	mat_comfy.albedo_color = Color("fe5bff")
 	
 	super._ready()
 
@@ -51,10 +62,16 @@ func _on_pathfind_timer_timeout() -> void:
 		# if we're in radius distance, change state 
 		if distance_towards_player <= player_run_radius:
 			current_state = ENEMY_STATE.run_away
+			if mesh.material_override != mat_run_away:
+				mesh.set_surface_override_material(0, mat_run_away)
 		elif distance_towards_player <= comfy_radius:
 			current_state = ENEMY_STATE.comfy
+			if mesh.material_override != mat_comfy:
+				mesh.set_surface_override_material(0, mat_comfy)
 		else:
 			current_state = ENEMY_STATE.roam
+			if mesh.material_override != mat_roam:
+				mesh.set_surface_override_material(0, mat_roam)
 	
 	super._on_pathfind_timer_timeout()
 	velocity.x = pathfindVel.x

@@ -105,6 +105,7 @@ func _physics_process(delta):
 				# disable collision
 				collision.disabled = false
 				current_state = ENEMY_STATE.roam
+				velocity = Vector3.ZERO
 				return
 		velocity = spawning_velocity
 	
