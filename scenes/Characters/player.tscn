@@ -81,8 +81,11 @@ texture = ExtResource("3_8iw34")
 
 [node name="Control" type="Control" parent="UI"]
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = -1.0
+offset_top = 8.0
+offset_right = 39.0
+offset_bottom = 48.0
+rotation = -0.0238783
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="UI/Control" node_paths=PackedStringArray("player")]
 layout_mode = 0
