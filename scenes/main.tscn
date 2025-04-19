@@ -11,6 +11,7 @@
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_ssbh5"]
 panorama = ExtResource("1_8wojv")
+energy_multiplier = 0.5
 
 [sub_resource type="Sky" id="Sky_w0v2c"]
 sky_material = SubResource("PanoramaSkyMaterial_ssbh5")
@@ -18,6 +19,8 @@ sky_material = SubResource("PanoramaSkyMaterial_ssbh5")
 [sub_resource type="Environment" id="Environment_5o0bn"]
 background_mode = 2
 sky = SubResource("Sky_w0v2c")
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
 tonemap_mode = 2
 glow_enabled = true
 
@@ -42,12 +45,13 @@ script = ExtResource("1_dctr2")
 
 [node name="Env" type="Node3D" parent="."]
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Env"]
-transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
-shadow_enabled = true
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Env"]
 environment = SubResource("Environment_5o0bn")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Env"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.55069, 0)
+light_energy = 15.0
+omni_range = 50.0
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_tipki")
@@ -77,6 +81,8 @@ transform = Transform3D(-0.994941, 0, -0.100405, 0, 1, 0, 0.100405, 0, -0.994941
 
 [node name="TestSpawnPoint" type="Node3D" parent="NavigationRegion3D/EnemySpawnPath"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.8808, 1.61669, 19.3921)
+
+[node name="Stage" type="Node3D" parent="."]
 
 [node name="Player" parent="." instance=ExtResource("6_tefeu")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -4.93703, 3, 15)

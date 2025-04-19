@@ -22,11 +22,11 @@ func _physics_process(delta: float):
 	mesh.rotate(facing_axis.cross(Vector3.UP).normalized(), -rotation_rate * delta)
 
 
-func _on_hitbox_damaged(amount: float, from_direction: Vector3):
+func _on_hitbox_damaged(di: DamageInstance):
 	# getting hit by a bullet!
 	var e = shoot_explosion.instantiate()
 	e.position = position
-	e.face_dir = -from_direction
+	e.face_dir = -di.velocity.normalized()
 	World.world.add_child(e)
 	self.queue_free()
 

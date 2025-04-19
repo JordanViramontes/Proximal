@@ -2,14 +2,11 @@
 
 [ext_resource type="Script" uid="uid://cc7ls8xbh0snk" path="res://scenes/Weapons/ring.gd" id="1_oaqjv"]
 [ext_resource type="PackedScene" uid="uid://cn2c867ej4ifx" path="res://scenes/bullets/ring_bullet.tscn" id="2_vum0y"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8hw30"]
-resource_local_to_scene = true
-albedo_color = Color(0.14902, 0.745098, 0, 1)
+[ext_resource type="Material" uid="uid://pdp13fj43mhq" path="res://assets/materials/m_ring_weapon.tres" id="3_cdqlc"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_2gn6w"]
 resource_local_to_scene = true
-material = SubResource("StandardMaterial3D_8hw30")
+material = ExtResource("3_cdqlc")
 size = Vector3(0.1, 0.1, 1)
 
 [node name="Ring" type="Node3D"]

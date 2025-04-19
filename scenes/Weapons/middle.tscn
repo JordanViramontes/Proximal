@@ -1,14 +1,11 @@
 [gd_scene load_steps=4 format=3 uid="uid://bm6i7l7q7whsf"]
 
 [ext_resource type="Script" uid="uid://bg0rwu2uw0tqo" path="res://scenes/Weapons/middle.gd" id="1_l4hd8"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8hw30"]
-resource_local_to_scene = true
-albedo_color = Color(1, 0.905882, 0.196078, 1)
+[ext_resource type="Material" uid="uid://825y816fpras" path="res://assets/materials/m_middle_weapon.tres" id="2_swt6j"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_2gn6w"]
 resource_local_to_scene = true
-material = SubResource("StandardMaterial3D_8hw30")
+material = ExtResource("2_swt6j")
 size = Vector3(0.1, 0.1, 1)
 
 [node name="Middle" type="Node3D"]

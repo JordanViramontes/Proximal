@@ -112,6 +112,20 @@ func _physics_process(delta):
 	# finally move
 	move_and_slide()
 
+# When they dead as hell
+func on_reach_zero_health():
+	die.emit()
+	self.queue_free()
+
+# when you get damaged
+func on_damaged(di: DamageInstance):
+	if (hitflash_tween and hitflash_tween.is_running()):
+		hitflash_tween.stop()
+	hitflash_tween = get_tree().create_tween()
+	$MeshInstance3D.material_overlay.albedo_color = Color(1.0, 1.0, 1.0, 1.0) # set alpha
+	hitflash_tween.tween_property($MeshInstance3D, "material_overlay:albedo_color", Color(1.0, 1.0, 1.0, 0.0), 0.1) # tween alpha
+	
+
 # update pathfind when the timer happens
 func _on_pathfind_timer_timeout() -> void:
 	# update vars
@@ -139,16 +153,3 @@ func set_movement_target(movement_target: Vector3):
 	navigation_agent.set_target_position(movement_target)
 	next_path_position = navigation_agent.get_next_path_position()
 	pathfindVel = global_position.direction_to(next_path_position) * movement_speed
-
-# When they dead as hell
-func on_reach_zero_health():
-	die.emit()
-	self.queue_free()
-
-# when you get damaged
-func on_damaged(amount: float, vector: Vector3):
-	if (hitflash_tween and hitflash_tween.is_running()):
-		hitflash_tween.stop()
-	hitflash_tween = get_tree().create_tween()
-	$MeshInstance3D.material_overlay.albedo_color = Color(1.0, 1.0, 1.0, 1.0) # set alpha
-	hitflash_tween.tween_property($MeshInstance3D, "material_overlay:albedo_color", Color(1.0, 1.0, 1.0, 0.0), 0.1) # tween alpha
