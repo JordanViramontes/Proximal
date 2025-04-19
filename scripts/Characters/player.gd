@@ -144,7 +144,7 @@ func take_damage(amount: int) -> void:
 		return
 		
 	current_health -= amount
-	print("Player took ", amount, " damage. Health: ", current_health)
+	print("Player took", amount, "damage. Health:", current_health)
 	
 	if current_health <= 0:
 		die()

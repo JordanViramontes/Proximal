@@ -12,7 +12,6 @@ var spawning_velocity = Vector3(0, 0, 0)
 @export var spawning_time = 2
 @export var spawn_distance_length = 1 # distance to travel towards origin
 @export var spawn_distance_height = 2 # units to travel vertically while in spawning state
-@onready var spawn_timer := Timer.new()
 
 # states
 enum ENEMY_STATE {roam, spawn_edge, dead}
@@ -79,27 +78,14 @@ func _ready() -> void:
 	attack_timer.connect("timeout", Callable(self, "_on_attack_timer_timeout"))
 	add_child(attack_timer)
 	
-	# spawn timer setup
-	spawn_timer.wait_time = spawning_time
-	spawn_timer.one_shot = true
-	spawn_timer.connect("timeout", Callable(self, "_on_spawn_timer_timeout"))
-	add_child(spawn_timer)
-	spawn_timer.start()
-	
 	# set up target distance for spawn_edge, calculate spawn_distance_vector using trig
 	if current_state == ENEMY_STATE.spawn_edge:
 		var spawn_angle = (Vector2.ZERO - Vector2(position.x, position.z)).angle() # get the angle
 		var spawn_distance_x = position.x + spawn_distance_length * cos(spawn_angle) # do trig to find the distance
 		var spawn_distance_z = position.z + spawn_distance_length * sin(spawn_angle)
 		
-		spawn_distance_vector = Vector3(spawn_distance_x, global_position.y, spawn_distance_z)
-		
-		# horizontal velocity towards spawn point
-		var horizontal_vector = Vector3(spawn_distance_x, global_position.y, spawn_distance_z) - global_position
-		spawning_velocity = horizontal_vector / spawning_time
-		
-		# separate upward y velocity impulse for jump
-		velocity.y = spawn_distance_height / spawning_time
+		spawn_distance_vector = Vector3(spawn_distance_x, global_position.y + spawn_distance_height, spawn_distance_z)
+		spawning_velocity = Vector3((spawn_distance_vector-global_position)/spawning_time)
 		
 		# disable collision
 		collision.disabled = true
@@ -112,20 +98,14 @@ func _process(delta: float) -> void:
 	pass
 
 func _physics_process(delta):	
-	# gravity
-	if current_state != ENEMY_STATE.spawn_edge and not is_on_floor():
-		velocity.y += get_gravity().y * delta
-	
 	# spawning along the edge, you will have a straight line to path towards until you reach the target
 	if current_state == ENEMY_STATE.spawn_edge:
-		#if global_position.distance_to(spawn_distance_vector) < 0.1 and is_on_floor():
-				## disable collision
-				#collision.disabled = false
-				#current_state = ENEMY_STATE.roam
-				#return
-				#
-		velocity.x = spawning_velocity.x
-		velocity.z = spawning_velocity.z
+		if global_position.distance_to(spawn_distance_vector) < 0.1:
+				# disable collision
+				collision.disabled = false
+				current_state = ENEMY_STATE.roam
+				return
+		velocity = spawning_velocity
 	
 	# check player distance and ATTACK!
 	if player and can_damage_player and global_position.distance_to(player.global_position) <= attack_range:
@@ -136,22 +116,17 @@ func _physics_process(delta):
 	
 	# pathfinding (normal roam)
 	elif current_state == ENEMY_STATE.roam:
-		if not navigation_agent.is_navigation_finished():
-			var next_path_position = navigation_agent.get_next_path_position()
-			var pathfind_vel = global_position.direction_to(next_path_position) * movement_speed
-			velocity.x = pathfind_vel.x
-			velocity.z = pathfind_vel.z
-		else:
-			velocity.x = 0
-			velocity.z = 0
-			
+		if navigation_agent.is_navigation_finished():
+			return
+		
+		
+		
+		# gravity
+		if not is_on_floor():
+			velocity += get_gravity() * delta
 	
 	# finally move
 	move_and_slide()
-
-func _on_spawn_timer_timeout():
-	collision.disabled = false
-	current_state = ENEMY_STATE.roam
 
 # on cooldown finish, enemy can attack again
 func _on_attack_timer_timeout():
