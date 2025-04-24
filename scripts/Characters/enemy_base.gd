@@ -3,13 +3,14 @@ class_name EnemyBase
 
 # vars
 @export var max_health: float
+@export var xp_on_damaged: float = 1
+@export var xp_on_death: float = 2
 @export var hitflash_material: Material
 @export var hitflash_duration: float = 0.1
 var hitflash_tween: Tween
 @export var movement_speed = 5
 @export var nav_path_dist = 2 
 @export var nav_target_dist = 1 
-#@onready var current_agent_position: Vector3
 @onready var next_path_position: Vector3
 @onready var pathfindVel: Vector3
 
@@ -35,10 +36,12 @@ var total_states = 2
 @onready var collision := $CollisionShape3D
 @onready var navigation_agent: NavigationAgent3D = $NavigationAgent3D
 @onready var pathfind_timer: Timer = $PathfindTimer
+@onready var weapon_manager = get_tree().get_first_node_in_group("WeaponManager")
 
 # signals
 signal die
 signal take_damage
+signal drop_xp(xp: float)
 
 # player information
 @onready var player = get_tree().get_first_node_in_group("Player")
@@ -48,7 +51,6 @@ signal take_damage
 @export var attack_range: float = 3.0
 @export var damage_amount: float = 10.0
 @export var attack_cooldown: float = 2.0
-
 var can_damage_player: bool = true
 @onready var attack_timer := Timer.new()
 
@@ -60,7 +62,12 @@ func initialize(starting_position, init_player_position):
 	player_position = init_player_position
 
 # Called when the node enters the scene tree for the first time.
-func _ready() -> void:
+func _ready() -> void:	
+	# connect signal to weaponmanager
+	#connect("drop_xp", weapon_manager, "_on_earn_experience")
+	drop_xp.connect(weapon_manager._on_earn_experience)
+	
+	# health components
 	health_component.max_health = max_health
 	health_component.current_health = max_health
 	health_component.reached_zero_health.connect(on_reach_zero_health)
@@ -115,6 +122,7 @@ func _physics_process(delta):
 # When they dead as hell
 func on_reach_zero_health():
 	die.emit()
+	emit_signal("drop_xp", xp_on_death) # emit experience points
 	self.queue_free()
 
 # when you get damaged
@@ -124,7 +132,7 @@ func on_damaged(di: DamageInstance):
 	hitflash_tween = get_tree().create_tween()
 	$MeshInstance3D.material_overlay.albedo_color = Color(1.0, 1.0, 1.0, 1.0) # set alpha
 	hitflash_tween.tween_property($MeshInstance3D, "material_overlay:albedo_color", Color(1.0, 1.0, 1.0, 0.0), 0.1) # tween alpha
-	
+	emit_signal("drop_xp", xp_on_damaged) # emit experience points
 
 # update pathfind when the timer happens
 func _on_pathfind_timer_timeout() -> void:

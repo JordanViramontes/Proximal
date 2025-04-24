@@ -17,7 +17,7 @@ material = SubResource("StandardMaterial3D_dpb2p")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kebby"]
 
-[node name="IshimCrawler" type="CharacterBody3D"]
+[node name="IshimCrawler" type="CharacterBody3D" groups=["Enemies"]]
 collision_layer = 4
 script = ExtResource("1_lgyoi")
 max_health = 5.0
