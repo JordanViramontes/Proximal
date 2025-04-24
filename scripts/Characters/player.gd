@@ -1,6 +1,8 @@
 class_name Player extends CharacterBody3D
 
 # signals
+signal die
+signal take_damage
 signal player_die
 signal health_change
 
@@ -46,8 +48,9 @@ var current_strafe_dir = 0
 @onready var weapon := $LeanPivot/Head/Weapon_Manager
 
 # health variables
+@export var max_health: float = 100
 @export var MAX_HEALTH: int = 100
-var current_health: int = MAX_HEALTH
+var current_health: int = max_health
 
 # inputs
 func _input(event: InputEvent) -> void:
@@ -76,7 +79,7 @@ func _physics_process(delta: float) -> void:
 		double_jumpable = true # when you touch the ground you can double jump again
 	
 	if self.position.y < DEATH_HEIGHT:
-		die()
+		die.emit()
 	
 	if current_state == INPUT_STATE.normal:
 		cur_speed = WALKING_SPEED
@@ -143,28 +146,28 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 # health specific functionality
-func take_damage(amount: int) -> void:
-	if current_state == INPUT_STATE.dead:
-		return
-		
-	current_health -= amount
-	health_change.emit()
-	print("Player took", amount, "damage. Health:", current_health)
-	
-	if current_health <= 0:
-		die()
+#func take_damage(amount: int) -> void:
+	#if current_state == INPUT_STATE.dead:
+		#return
+		#
+	#current_health -= amount
+	#health_change.emit()
+	#print("Player took", amount, "damage. Health:", current_health)
+	#
+	#if current_health <= 0:
+		#die()
 
 # you dead
-func die():
-	# omae wa mou shindeiru
-	if current_state == INPUT_STATE.dead:
-		return
-		
-	# invoke player_die signal
-	current_state = INPUT_STATE.dead
-	emit_signal("player_die")
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	print("Player has died.")
+#func die():
+	## omae wa mou shindeiru
+	#if current_state == INPUT_STATE.dead:
+		#return
+		#
+	## invoke player_die signal
+	#current_state = INPUT_STATE.dead
+	#emit_signal("player_die")
+	#Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	#print("Player has died.")
 
 # recieve dash input from WeaponManager
 func _on_weapon_manager_dash_input() -> void:
@@ -182,3 +185,17 @@ func _on_weapon_manager_dash_input() -> void:
 	velocity.z += dash_vel.z * DASH_SPEED
 	#velocity.y = 0
 	print("velocity: " + str(velocity))
+
+# When they dead as hell
+func on_reach_zero_health():
+	die.emit()
+	self.queue_free()
+
+# when you get damaged
+func on_damaged(di: DamageInstance):
+	return
+	#if (hitflash_tween and hitflash_tween.is_running()):
+		#hitflash_tween.stop()
+	#hitflash_tween = get_tree().create_tween()
+	#$MeshInstance3D.material_overlay.albedo_color = Color(1.0, 1.0, 1.0, 1.0) # set alpha
+	#hitflash_tween.tween_property($MeshInstance3D, "material_overlay:albedo_color", Color(1.0, 1.0, 1.0, 0.0), 0.1) # tween alpha
