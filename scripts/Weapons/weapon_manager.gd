@@ -113,3 +113,7 @@ func isCanUseWeapon() -> bool:
 
 func _on_dash_timer_timeout() -> void:
 	enableWeapons()
+
+# recieve signal from earning xp
+func _on_earn_experience(xp: float):
+	print("earned: " + str(xp) + "xp")

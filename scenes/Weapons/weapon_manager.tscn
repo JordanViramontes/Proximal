@@ -18,7 +18,7 @@ resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_3ye0t")
 size = Vector3(0.1, 0.1, 1)
 
-[node name="Weapon_Manager" type="Node3D"]
+[node name="Weapon_Manager" type="Node3D" groups=["WeaponManager"]]
 script = ExtResource("1_583ps")
 
 [node name="Base_Weapon" type="Node3D" parent="."]
