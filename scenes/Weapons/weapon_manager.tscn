@@ -22,7 +22,6 @@ size = Vector3(0.1, 0.1, 1)
 script = ExtResource("1_583ps")
 
 [node name="Base_Weapon" type="Node3D" parent="."]
-visible = false
 script = ExtResource("2_qlvm5")
 bullet = ExtResource("3_v6qfx")
 bullet_damage = 1.0

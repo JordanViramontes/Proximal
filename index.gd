@@ -17,7 +17,8 @@ func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	
 	b.position = $BulletEmergePoint.global_position # is one meter ahead of the player, which lines up with the barrel of the weapon
 	b.bullet_speed = bullet_speed
-	b.bullet_damage = bullet_damage
+	b.bullet_damage = bullet_damage*(level)
+	b.damaged_enemy.connect(on_bullet_hit)
 	
 	World.world.add_child(b)
 	

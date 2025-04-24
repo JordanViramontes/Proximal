@@ -1,6 +1,10 @@
 extends Node3D
 class_name WeaponBase
 
+# Experience Points
+@export var experience: float = 0
+@export var level: int = 1
+
 # shoots projectiles with a travel time
 var shoot_cooldown: float = 0.05 # seconds
 @export var fire_rate: float = 2 # shots per second
