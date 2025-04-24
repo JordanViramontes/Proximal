@@ -48,7 +48,7 @@ func _on_hitbox_area_entered(area: Area3D) -> void:
 		var di = DamageInstance.new({ # haha directional input!!! no. not funny.
 			"damage" : bullet_damage,
 			"creator_position" : spawn_location,
-			"velocity" : direction * bullet_speed,
+			"velocity" : to_global(direction) * bullet_speed,
 			"type" : type
 		})
 		

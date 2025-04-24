@@ -61,7 +61,7 @@ func tracer_func():
 			if col.damage:
 				var di = DamageInstance.new({
 					"damage" : bullet_damage,
-					"creator_position" : global_position,
+					"creator_position" : position
 				})
 				if col.damage(di):
 					damaged_enemy.emit()
