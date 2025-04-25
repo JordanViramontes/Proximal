@@ -7,17 +7,16 @@ var shoot_cooldown: float = 0.05 # seconds
 @onready var shoot_timer: Timer = $ShootCooldown
 var can_shoot: bool = true
 @export var active = false
-
 @export var bullet: PackedScene
 @export var bullet_damage: float
 @export var bullet_speed: float
-
 @export var is_hitscan: bool
 
 # reference to manager
 @onready var weapon_manager = $".."
 signal on_shoot
 signal on_ceasefire
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	shoot_timer.wait_time = 1/fire_rate

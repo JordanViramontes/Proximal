@@ -1,9 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://bfdo44kle73uq"]
+[gd_scene load_steps=13 format=3 uid="uid://bfdo44kle73uq"]
 
 [ext_resource type="Script" uid="uid://cpi5w5meyf7w1" path="res://scripts/Characters/player.gd" id="1_i3pqv"]
 [ext_resource type="Texture2D" uid="uid://52vn44k3ngct" path="res://assets/textures/crosshair_dev.png" id="3_8iw34"]
+[ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="3_jbyc3"]
 [ext_resource type="Script" uid="uid://3a112of4lpr" path="res://scenes/Characters/health_bar.gd" id="4_7xbc7"]
 [ext_resource type="PackedScene" uid="uid://klyx4oq82x8k" path="res://scenes/Weapons/weapon_manager.tscn" id="4_dqkch"]
+[ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://scripts/components/health_component.gd" id="4_np5j3"]
 [ext_resource type="Texture2D" uid="uid://bsh36ub1lj4vr" path="res://assets/textures/HealthBar.png" id="5_5vcpl"]
 [ext_resource type="Texture2D" uid="uid://c78ktusgpfobs" path="res://assets/textures/HealthBarProgress.png" id="6_8u6hb"]
 
@@ -15,6 +17,10 @@ points = PackedVector3Array(-0.125207, -0.532801, -0.480507, 0.0227831, 0.47607,
 [sub_resource type="SphereMesh" id="SphereMesh_y7cse"]
 radius = 0.1
 height = 0.2
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_myi3t"]
+radius = 0.75
+height = 2.25
 
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
@@ -49,6 +55,17 @@ player = NodePath("../../..")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="LeanPivot/Head"]
 visible = false
 mesh = SubResource("SphereMesh_y7cse")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("4_np5j3")
+
+[node name="HitboxComponent" type="Area3D" parent="."]
+script = ExtResource("3_jbyc3")
+shape = SubResource("CapsuleShape3D_myi3t")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.18267, 0)
+shape = SubResource("ConvexPolygonShape3D_1jxqw")
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3

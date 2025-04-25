@@ -1,6 +1,8 @@
 class_name Player extends CharacterBody3D
 
 # signals
+signal die
+signal take_damage
 signal player_die
 signal health_change
 
@@ -39,15 +41,25 @@ const height = 1.8
 @export var LEAN_AMOUNT = 0.7 
 var current_strafe_dir = 0
 
-# nodes
+# components
 @onready var lean_pivot := $LeanPivot
 @onready var head := $LeanPivot/Head
 @onready var camera := $LeanPivot/Head/Camera3D
 @onready var weapon := $LeanPivot/Head/Weapon_Manager
+@onready var health_component := $HealthComponent
+@onready var hitbox_component := $HitboxComponent
 
 # health variables
-@export var MAX_HEALTH: int = 100
-var current_health: int = MAX_HEALTH
+@export var max_health: float = 100
+var current_health: int = max_health
+var can_take_damage: bool = true
+
+func _ready() -> void:
+	# setup health component
+	health_component.max_health = max_health
+	health_component.current_health = max_health
+	health_component.reached_zero_health.connect(on_reach_zero_health)
+	hitbox_component.damaged.connect(on_damaged)
 
 # inputs
 func _input(event: InputEvent) -> void:
@@ -76,7 +88,7 @@ func _physics_process(delta: float) -> void:
 		double_jumpable = true # when you touch the ground you can double jump again
 	
 	if self.position.y < DEATH_HEIGHT:
-		die()
+		die.emit()
 	
 	if current_state == INPUT_STATE.normal:
 		cur_speed = WALKING_SPEED
@@ -143,28 +155,28 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 # health specific functionality
-func take_damage(amount: int) -> void:
-	if current_state == INPUT_STATE.dead:
-		return
-		
-	current_health -= amount
-	health_change.emit()
-	print("Player took", amount, "damage. Health:", current_health)
-	
-	if current_health <= 0:
-		die()
+#func take_damage(amount: int) -> void:
+	#if current_state == INPUT_STATE.dead:
+		#return
+		#
+	#current_health -= amount
+	#health_change.emit()
+	#print("Player took", amount, "damage. Health:", current_health)
+	#
+	#if current_health <= 0:
+		#die()
 
 # you dead
-func die():
-	# omae wa mou shindeiru
-	if current_state == INPUT_STATE.dead:
-		return
-		
-	# invoke player_die signal
-	current_state = INPUT_STATE.dead
-	emit_signal("player_die")
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	print("Player has died.")
+#func die():
+	## omae wa mou shindeiru
+	#if current_state == INPUT_STATE.dead:
+		#return
+		#
+	## invoke player_die signal
+	#current_state = INPUT_STATE.dead
+	#emit_signal("player_die")
+	#Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	#print("Player has died.")
 
 # recieve dash input from WeaponManager
 func _on_weapon_manager_dash_input() -> void:
@@ -182,3 +194,13 @@ func _on_weapon_manager_dash_input() -> void:
 	velocity.z += dash_vel.z * DASH_SPEED
 	#velocity.y = 0
 	print("velocity: " + str(velocity))
+
+# When they dead as hell
+func on_reach_zero_health():
+	die.emit()
+	print("player dead")
+	#self.queue_free()
+
+# when you get damaged
+func on_damaged(di: DamageInstance):
+	print("damage deal to me!: " + str(di.damage) + ",\ttotal health: " + str(health_component.current_health))
