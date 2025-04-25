@@ -41,16 +41,25 @@ const height = 1.8
 @export var LEAN_AMOUNT = 0.7 
 var current_strafe_dir = 0
 
-# nodes
+# components
 @onready var lean_pivot := $LeanPivot
 @onready var head := $LeanPivot/Head
 @onready var camera := $LeanPivot/Head/Camera3D
 @onready var weapon := $LeanPivot/Head/Weapon_Manager
+@onready var health_component := $HealthComponent
+@onready var hitbox_component := $HitboxComponent
 
 # health variables
 @export var max_health: float = 100
-@export var MAX_HEALTH: int = 100
 var current_health: int = max_health
+var can_take_damage: bool = true
+
+func _ready() -> void:
+	# setup health component
+	health_component.max_health = max_health
+	health_component.current_health = max_health
+	health_component.reached_zero_health.connect(on_reach_zero_health)
+	hitbox_component.damaged.connect(on_damaged)
 
 # inputs
 func _input(event: InputEvent) -> void:
@@ -189,13 +198,9 @@ func _on_weapon_manager_dash_input() -> void:
 # When they dead as hell
 func on_reach_zero_health():
 	die.emit()
-	self.queue_free()
+	print("player dead")
+	#self.queue_free()
 
 # when you get damaged
 func on_damaged(di: DamageInstance):
-	return
-	#if (hitflash_tween and hitflash_tween.is_running()):
-		#hitflash_tween.stop()
-	#hitflash_tween = get_tree().create_tween()
-	#$MeshInstance3D.material_overlay.albedo_color = Color(1.0, 1.0, 1.0, 1.0) # set alpha
-	#hitflash_tween.tween_property($MeshInstance3D, "material_overlay:albedo_color", Color(1.0, 1.0, 1.0, 0.0), 0.1) # tween alpha
+	print("damage deal to me!: " + str(di.damage) + ",\ttotal health: " + str(health_component.current_health))

@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://bgcggd80gs6sh"]
 
-[ext_resource type="Script" path="res://scripts/Characters/ishim_ranger.gd" id="1_cw4bv"]
+[ext_resource type="Script" uid="uid://bltecim4slosc" path="res://scripts/Characters/ishim_ranger.gd" id="1_cw4bv"]
 [ext_resource type="Material" uid="uid://cv7l0r86mk435" path="res://assets/materials/hitflash_mat.tres" id="2_4eule"]
 [ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://scripts/components/health_component.gd" id="3_8pu60"]
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="4_vda0j"]

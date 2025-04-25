@@ -118,7 +118,7 @@ func _on_bullet_timer_timeout() -> void:
 		var initial_velocity = Vector3(h_v.x, v_v, h_v.z)
 		
 		# initialize the bullet
-		b.initialize(initial_velocity, direction, bullet_gravity)
+		b.initialize(initial_velocity, direction, bullet_gravity, self)
 		b.position = global_position
 		
 		World.world.add_child(b)

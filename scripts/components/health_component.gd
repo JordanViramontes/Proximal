@@ -16,7 +16,7 @@ func _process(delta: float) -> void:
 
 
 func damage(amount: float) -> void:
-	print("hp: " + str(current_health))
+	#print("hp: " + str(current_health))
 	current_health = clamp(current_health - amount, 0.0, max_health)
 	if current_health == 0.0:
 		reached_zero_health.emit()

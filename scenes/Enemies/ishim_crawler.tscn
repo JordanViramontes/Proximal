@@ -34,6 +34,7 @@ shape = SubResource("CapsuleShape3D_c7tqt")
 script = ExtResource("3_oaf2w")
 
 [node name="HitboxComponent" type="Area3D" parent="."]
+collision_mask = 9
 script = ExtResource("4_kebby")
 shape = SubResource("CapsuleShape3D_oaf2w")
 
@@ -50,5 +51,6 @@ wait_time = 1.2
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 avoidance_enabled = true
 
+[connection signal="body_entered" from="HitboxComponent" to="." method="_on_hitbox_component_body_entered"]
 [connection signal="timeout" from="PathfindTimer" to="." method="_on_pathfind_timer_timeout"]
 [connection signal="timeout" from="LungeTimer" to="." method="_on_lunge_timer_timeout"]

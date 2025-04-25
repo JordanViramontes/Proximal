@@ -37,15 +37,14 @@ var total_states = 2
 @onready var navigation_agent: NavigationAgent3D = $NavigationAgent3D
 @onready var pathfind_timer: Timer = $PathfindTimer
 @onready var weapon_manager = get_tree().get_first_node_in_group("WeaponManager")
+@onready var player = get_tree().get_first_node_in_group("Player")
+@onready var player_position = player.global_position
 
 # signals
 signal die
 signal take_damage
 signal drop_xp(xp: float)
-
-# player information
-@onready var player = get_tree().get_first_node_in_group("Player")
-@onready var player_position = player.global_position
+signal deal_damage(damage: float)
 
 # basic attack-within-range information
 @export var attack_range: float = 3.0
@@ -66,6 +65,7 @@ func _ready() -> void:
 	# connect signal to weaponmanager
 	#connect("drop_xp", weapon_manager, "_on_earn_experience")
 	drop_xp.connect(weapon_manager._on_earn_experience)
+	#deal_damage.connect(player.on_damaged)
 	
 	# health components
 	health_component.max_health = max_health
@@ -161,3 +161,10 @@ func set_movement_target(movement_target: Vector3):
 	navigation_agent.set_target_position(movement_target)
 	next_path_position = navigation_agent.get_next_path_position()
 	pathfindVel = global_position.direction_to(next_path_position) * movement_speed
+
+func deal_damage_to_player(di: DamageInstance):
+	# check if the player can take damage
+	if player.can_take_damage:
+		player.get_node("HitboxComponent").damage(di)
+	
+	# if not, do something else
