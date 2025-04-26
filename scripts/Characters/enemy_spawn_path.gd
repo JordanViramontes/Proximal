@@ -14,9 +14,10 @@ var waveDictionary = [
 var DEBUG_enemy_list = [
 	"res://scenes/Enemies/enemy_base.tscn", # BASE 0
 	"res://scenes/Enemies/ishim_crawler.tscn", # CRAWLER 1
-	"res://scenes/Enemies/ishim_ranger.tscn" # RANGER 2
+	"res://scenes/Enemies/ishim_ranger.tscn", # RANGER 2
+	"res://scenes/Enemies/cherubim.tscn", # CHERUBIM WORM 3
 ]
-var DEBUG_enemy_ptr = 1
+var DEBUG_enemy_ptr = 3
 var DEBUG_wave: bool = true
 
 # components

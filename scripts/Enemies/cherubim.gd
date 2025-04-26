@@ -1,22 +1,28 @@
 extends EnemyBase
 
 # variables
-@export var player_run_radius = 10
-@export var comfy_radius = 15
+@export var player_run_radius = 45
+@export var comfy_radius = 50
+@export var touch_damage = 3
+
 @export var bullet: PackedScene
-@export var bullet_radius: float = 1.5
-@export var bullet_velocity: float = 8
-@export var bullet_max_range:float = 13
-@export var bullet_gravity: float = -2
+@export var bullet_radius: float = 3
+@export var bullet_velocity: float = 15
+@export var bullet_gravity: float = -15
+@export var bullet_close_range: float = 20
+@export var bullet_velocity_close: float = 4
+@export var bullet_gravity_close: float = -7
 
 # components
 @onready var shoot_timer = $ShootCooldown
 @onready var mesh = $MeshInstance3D
+@onready var shoot_point = $ShootPoint
 
 # colors
-@onready var mat_roam = StandardMaterial3D.new()
-@onready var mat_run_away = StandardMaterial3D.new()
-@onready var mat_comfy = StandardMaterial3D.new()
+@onready var mat_roam: Color
+@onready var mat_run_away: Color
+@onready var mat_comfy: Color
+var current_color
 
 func _ready() -> void:
 	# when in the comfy radius, the enemy will stand still
@@ -26,23 +32,27 @@ func _ready() -> void:
 	total_states += 2
 	
 	# colors
-	mat_roam.albedo_color = Color("ff79ff")
-	mat_run_away.albedo_color = Color("ffcbfd")
-	mat_comfy.albedo_color = Color("fe5bff")
+	mat_roam = Color("f03b19")
+	mat_run_away = Color("fd7257")
+	mat_comfy = Color("991f07")
+	current_color = mat_roam
 	
 	super._ready()
+
+func _process(delta: float) -> void:
+	if player and player.is_inside_tree():
+		look_at(Vector3(player.global_position.x, position.y, player.global_position.z))
 
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
 	
 	# states
 	if current_state == ENEMY_STATE.run_away: # running away state
-		shoot_timer.stop()
 		if navigation_agent.is_navigation_finished():
 			return
 	else:
 		if shoot_timer.is_stopped():
-			_on_bullet_timer_timeout()
+			_on_shoot_cooldown_timeout()
 			shoot_timer.start()
 	
 	if current_state != ENEMY_STATE.spawn_edge:
@@ -61,16 +71,16 @@ func _on_pathfind_timer_timeout() -> void:
 		# if we're in radius distance, change state 
 		if distance_towards_player <= player_run_radius:
 			current_state = ENEMY_STATE.run_away
-			if mesh.material_override != mat_run_away:
-				mesh.set_surface_override_material(0, mat_run_away)
+			#if current_color != mat_run_away:
+				#set_materials(mat_run_away)
 		elif distance_towards_player <= comfy_radius:
 			current_state = ENEMY_STATE.comfy
-			if mesh.material_override != mat_comfy:
-				mesh.set_surface_override_material(0, mat_comfy)
+			#if current_color != mat_comfy:
+				#set_materials(mat_comfy)
 		else:
 			current_state = ENEMY_STATE.roam
-			if mesh.material_override != mat_roam:
-				mesh.set_surface_override_material(0, mat_roam)
+			#if current_color != mat_roam:
+				#set_materials(mat_roam)
 	
 	super._on_pathfind_timer_timeout()
 	velocity.x = pathfindVel.x
@@ -93,31 +103,47 @@ func get_target_from_state(state):
 		return new_target
 
 # whenever the timer ends, shoot! 
-func _on_bullet_timer_timeout() -> void:
-	if current_state == ENEMY_STATE.roam || current_state == ENEMY_STATE.comfy:
+func _on_shoot_cooldown_timeout() -> void:
+	if current_state != ENEMY_STATE.spawn_edge:
 		var b = bullet.instantiate()
 		if b == null: # just in case
-			print("isham_ranger.gd - bullet did not instantiate")
+			print("charubim.gd - bullet did not instantiate")
 			return
 		
 		player_position = player.global_position #update the player pos for calculations
+		var b_v = bullet_velocity
+		var b_g = bullet_gravity
 		
 		# find displacement, distance, and use that to get time
-		var displacement = Vector3(player_position.x, player_position.y+1.5, player_position.z) - global_position
+		var displacement = Vector3(player_position.x, player_position.y + 5, player_position.z) - shoot_point.global_position
 		var direction = displacement.normalized()
 		var h_displacement: Vector3 = Vector3(displacement.x, 0, displacement.z)
 		var h_distance = h_displacement.length()
-		if h_distance > bullet_max_range:
-			h_distance = bullet_max_range
-		var t = (h_distance / bullet_velocity)
-		
+		if h_distance < bullet_close_range: # set vars to close vars if too close
+			b_v = bullet_velocity_close
+			b_g = bullet_gravity_close
+		var t = (h_distance / b_v)
+
 		# use time and kinematics to get velocity
-		var h_v = h_displacement.normalized() * bullet_velocity
-		var v_v = (displacement.y + (0.5 * bullet_gravity * t * t)) / t
+		var h_v = h_displacement.normalized() * b_v
+		var v_v = (displacement.y + (0.5 * b_g * t * t)) / t
 		var initial_velocity = Vector3(h_v.x, v_v, h_v.z)
 		
 		# initialize the bullet
 		b.initialize(initial_velocity, direction, bullet_gravity, self)
-		b.position = global_position
+		b.position = shoot_point.global_position
 		
 		World.world.add_child(b)
+
+func _on_hitbox_component_body_entered(body: Node3D) -> void:
+	if (body != player):
+		return
+	
+	# create damage instance
+	var di = DamageInstance.new({ # haha directional input!!! no. not funny.
+		"damage" : touch_damage,
+		"creator_position" : global_position,
+		#"velocity" : direction * bullet_speed,
+		#"type" : type
+	})
+	deal_damage_to_player(di)

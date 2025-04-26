@@ -52,6 +52,7 @@ radius = 10.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.355339, -0.987427)
 
 [node name="ShootCooldown" type="Timer" parent="."]
+wait_time = 1.5
 autostart = true
 
 [connection signal="timeout" from="PathfindTimer" to="." method="_on_pathfind_timer_timeout"]
