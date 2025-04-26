@@ -59,6 +59,7 @@ func tracer_func():
 		var col = raycast.get_collider()
 		if col is Area3D:
 			if col.damage:
+				print("damaging a guy:)_")
 				var di = DamageInstance.new({
 					"damage" : bullet_damage,
 					"creator_position" : position

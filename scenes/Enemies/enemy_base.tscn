@@ -15,7 +15,9 @@ radius = 0.75
 height = 2.25
 
 [node name="EnemyBase" type="CharacterBody3D" groups=["Enemies", "EnemyBase"]]
+physics_interpolation_mode = 1
 collision_layer = 4
+collision_priority = 10.0
 script = ExtResource("1_vv3x1")
 max_health = 5.0
 hitflash_material = ExtResource("2_lxe82")

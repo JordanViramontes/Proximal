@@ -197,9 +197,10 @@ func _on_weapon_manager_dash_input() -> void:
 
 # When they dead as hell
 func on_reach_zero_health():
+	health_component.damageable = false
 	die.emit()
+	current_state = INPUT_STATE.dead
 	print("player dead")
-	#self.queue_free()
 
 # when you get damaged
 func on_damaged(di: DamageInstance):

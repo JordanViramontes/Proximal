@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://klyx4oq82x8k"]
+[gd_scene load_steps=11 format=3 uid="uid://klyx4oq82x8k"]
 
 [ext_resource type="Script" uid="uid://b4wfrgspyik6s" path="res://scripts/Weapons/weapon_manager.gd" id="1_583ps"]
 [ext_resource type="Script" uid="uid://cgr4wdrppjkc0" path="res://scripts/Weapons/weapon_base.gd" id="2_qlvm5"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://dxdtidj4hp83f" path="res://scenes/Weapons/thumb.tscn" id="4_e55dp"]
 [ext_resource type="PackedScene" uid="uid://d07kbrumu4gbf" path="res://scenes/Weapons/index.tscn" id="4_qlvm5"]
 [ext_resource type="PackedScene" uid="uid://bm6i7l7q7whsf" path="res://scenes/Weapons/middle.tscn" id="6_12ses"]
-[ext_resource type="PackedScene" uid="uid://2cxmf5x5hcgw" path="res://scenes/bullets/middle_bullet.tscn" id="7_12ses"]
 [ext_resource type="PackedScene" uid="uid://duneq26sd14wn" path="res://scenes/Weapons/ring.tscn" id="7_k5yqd"]
 [ext_resource type="PackedScene" uid="uid://b0epnjdv5u53e" path="res://scenes/Weapons/pinky.tscn" id="8_r1oqp"]
 
@@ -49,7 +48,6 @@ bullet_damage = 1.0
 
 [node name="Middle" parent="." instance=ExtResource("6_12ses")]
 visible = false
-bullet = ExtResource("7_12ses")
 bullet_damage = 0.05
 is_hitscan = true
 

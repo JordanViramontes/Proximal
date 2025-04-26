@@ -1,6 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://bjteq07i0vf8m"]
+[gd_scene load_steps=9 format=3 uid="uid://bjteq07i0vf8m"]
 
-[ext_resource type="Script" uid="uid://cbg7uu84mlv15" path="res://scripts/Characters/ishim_crawler.gd" id="1_lgyoi"]
+[ext_resource type="Script" path="res://scripts/Characters/ishim_crawler.gd" id="1_lgyoi"]
 [ext_resource type="Material" uid="uid://cv7l0r86mk435" path="res://assets/materials/hitflash_mat.tres" id="1_ovggl"]
 [ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://scripts/components/health_component.gd" id="3_oaf2w"]
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="4_kebby"]
@@ -13,9 +13,9 @@ material = SubResource("StandardMaterial3D_dpb2p")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_c7tqt"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_oaf2w"]
-
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kebby"]
+radius = 0.751309
+height = 2.27475
 
 [node name="IshimCrawler" type="CharacterBody3D" groups=["Enemies"]]
 collision_layer = 4
@@ -36,7 +36,7 @@ script = ExtResource("3_oaf2w")
 [node name="HitboxComponent" type="Area3D" parent="."]
 collision_mask = 9
 script = ExtResource("4_kebby")
-shape = SubResource("CapsuleShape3D_oaf2w")
+shape = SubResource("CapsuleShape3D_kebby")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent"]
 shape = SubResource("CapsuleShape3D_kebby")

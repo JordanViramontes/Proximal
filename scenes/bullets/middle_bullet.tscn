@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://2cxmf5x5hcgw"]
 
-[ext_resource type="Script" uid="uid://ql7ov8dnxt0p" path="res://scripts/Weapons/middle_bullet.gd" id="1_q2rbd"]
+[ext_resource type="Script" path="res://scripts/Weapons/middle_bullet.gd" id="1_q2rbd"]
 [ext_resource type="Material" uid="uid://cy302f8sk1gmf" path="res://assets/textures/middle_bullet.tres" id="2_q2rbd"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_afyxq"]
@@ -16,6 +16,7 @@ mesh_material = ExtResource("2_q2rbd")
 if_laser = true
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
+process_physics_priority = 10
 target_position = Vector3(0, 0, 1)
 collision_mask = 21
 hit_from_inside = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bfdo44kle73uq"]
+[gd_scene load_steps=12 format=3 uid="uid://bfdo44kle73uq"]
 
 [ext_resource type="Script" uid="uid://cpi5w5meyf7w1" path="res://scripts/Characters/player.gd" id="1_i3pqv"]
 [ext_resource type="Texture2D" uid="uid://52vn44k3ngct" path="res://assets/textures/crosshair_dev.png" id="3_8iw34"]
@@ -17,10 +17,6 @@ points = PackedVector3Array(-0.125207, -0.532801, -0.480507, 0.0227831, 0.47607,
 [sub_resource type="SphereMesh" id="SphereMesh_y7cse"]
 radius = 0.1
 height = 0.2
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_myi3t"]
-radius = 0.75
-height = 2.25
 
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
@@ -59,18 +55,17 @@ mesh = SubResource("SphereMesh_y7cse")
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("4_np5j3")
 
-[node name="HitboxComponent" type="Area3D" parent="."]
+[node name="HitboxComponent" type="Area3D" parent="." node_paths=PackedStringArray("health_component")]
 collision_layer = 8
 collision_mask = 0
 script = ExtResource("3_jbyc3")
-shape = SubResource("CapsuleShape3D_myi3t")
+health_component = NodePath("../HealthComponent")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.18267, 0)
 shape = SubResource("ConvexPolygonShape3D_1jxqw")
 
 [node name="UI" type="Control" parent="."]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -81,10 +76,10 @@ mouse_filter = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="UI"]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.489062
+anchors_preset = 8
+anchor_left = 0.5
 anchor_top = 0.5
-anchor_right = 0.489062
+anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -576.0
 offset_top = -324.0

@@ -1,6 +1,6 @@
 class_name Hitbox extends Area3D
 
-@export var shape: Shape3D
+#@export var shape: Shape3D
 
 @export var health_component: Node
 
@@ -10,7 +10,8 @@ signal damaged(di: DamageInstance)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	$CollisionShape3D.shape = shape
+	pass
+	#$CollisionShape3D.shape = shape
 
 
 func damage(di: DamageInstance) -> bool:
