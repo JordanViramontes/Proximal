@@ -37,9 +37,10 @@ func on_on_shoot(from_position: Vector3, look_direction: Vector3, velocity: Vect
 	current_bullet.tracer_func()
 	
 func on_on_ceasefire():
-	current_bullet.fade()
-	current_bullet = null
-	shadow = false
+	if current_bullet:
+		current_bullet.fade()
+		current_bullet = null
+		shadow = false
 	
 func player_pos():
 	Util.get_play_pos()
