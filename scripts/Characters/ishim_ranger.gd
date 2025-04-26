@@ -1,5 +1,7 @@
 extends EnemyBase
 
+class_name IshimRanger
+
 # variables
 @export var player_run_radius = 10
 @export var comfy_radius = 15
@@ -121,3 +123,6 @@ func _on_bullet_timer_timeout() -> void:
 		b.position = global_position
 		
 		World.world.add_child(b)
+
+func goto_cherubim(cherubim: Cherubim) -> void:
+	print("moving to: " + str(cherubim))

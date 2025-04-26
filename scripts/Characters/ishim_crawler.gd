@@ -1,5 +1,7 @@
 extends EnemyBase
 
+class_name IshimCrawler
+
 # var
 @export var friction = 12
 @export var lunge_dist = 16

@@ -1,9 +1,13 @@
 extends EnemyBase
 
+class_name Cherubim
+
 # variables
 @export var player_run_radius = 45
 @export var comfy_radius = 50
 @export var touch_damage = 3
+var ishim: EnemyBase
+var ishim_count = 0
 
 @export var bullet: PackedScene
 @export var bullet_radius: float = 3
@@ -17,6 +21,10 @@ extends EnemyBase
 @onready var shoot_timer = $ShootCooldown
 @onready var mesh = $MeshInstance3D
 @onready var shoot_point = $ShootPoint
+@onready var ishim_area = $IshimArea
+
+# signals
+signal ishim_in_range
 
 # colors
 @onready var mat_roam: Color
@@ -30,6 +38,11 @@ func _ready() -> void:
 	ENEMY_STATE["comfy"] = total_states+1
 	ENEMY_STATE["run_away"] = total_states+2
 	total_states += 2
+	
+	# get ishim id
+	for enemy in get_tree().get_nodes_in_group("Enemies"):
+		if enemy.name == "Ishim":
+			ishim = enemy
 	
 	# colors
 	mat_roam = Color("f03b19")
@@ -83,8 +96,8 @@ func _on_pathfind_timer_timeout() -> void:
 				#set_materials(mat_roam)
 	
 	super._on_pathfind_timer_timeout()
-	velocity.x = pathfindVel.x
-	velocity.z = pathfindVel.z
+	#velocity.x = pathfindVel.x
+	#velocity.z = pathfindVel.z
 
 func get_target_from_state(state):
 	if state == ENEMY_STATE.roam:
@@ -135,6 +148,7 @@ func _on_shoot_cooldown_timeout() -> void:
 		
 		World.world.add_child(b)
 
+# used when a body is found within the hitbox
 func _on_hitbox_component_body_entered(body: Node3D) -> void:
 	if (body != player):
 		return
@@ -147,3 +161,13 @@ func _on_hitbox_component_body_entered(body: Node3D) -> void:
 		#"type" : type
 	})
 	deal_damage_to_player(di)
+
+# used when an ishim ranger is found within the ishim range
+func _on_ishim_area_body_entered(body: Node3D) -> void:
+	if body is not IshimRanger:
+		return
+	
+	# check if we are at max ishim
+	if ishim_count < 2:
+		print("signaling to: " + str(body))
+		body.goto_cherubim(self)
