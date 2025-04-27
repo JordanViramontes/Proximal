@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b23jd5gsaghn7"]
+[gd_scene load_steps=11 format=3 uid="uid://b23jd5gsaghn7"]
 
 [ext_resource type="Script" uid="uid://iud8b5qauag5" path="res://scripts/Enemies/cherubim.gd" id="1_vrbru"]
 [ext_resource type="PackedScene" uid="uid://br0pvgk7t0dyh" path="res://scenes/Enemies/cherubim_bullet.tscn" id="2_yfmxc"]
@@ -11,6 +11,14 @@ albedo_color = Color(0.831366, 0.191113, 0.0643092, 1)
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_yfmxc"]
 points = PackedVector3Array(-1.45535, -0.459353, -1.54969, 1.29956, 1.49812, 1.78091, -0.196009, -0.0662305, 4.2619, -0.929344, 2.33705, 0.407684, 0.761967, -0.5, -3.14676, 0.298417, 0.552757, -3.6619, 1.32938, -0.470734, 2.04746, 0.402671, 2.46269, 2.78122, 0.797879, 2.33334, -0.130228, -1.21078, 1.5, 2.12873, 1.66095, 0.552757, -1.18455, -1.33625, -0.45543, 2.0291, -1.55789, 0.552757, -1.68095, 0.422433, 0.924209, 4.2619, -0.177455, 2.37857, -0.925103, -1.06281, 0.552757, -3.04218, -0.420731, 2.45124, 2.76199, -0.544092, -0.497132, -3.37718, -0.443713, 0.800594, 4.2619, 0.523857, -0.5, 3.3901, 1.04186, 0.552757, -3.04218, 1.53794, -0.448005, -1.07529, -1.6819, 0.552757, -0.937901, 0.377172, 2.37153, -0.808479, 0.925069, 2.36158, 1.62049, -0.319697, 0.552757, -3.6619, -0.778784, -0.492045, 3.1373, -1.55046, -0.440195, 0.983901, 1.53444, -0.444765, 1.1008, -0.956568, 2.37709, 1.41293, 0.422433, 0.181304, 4.2619, 1.33334, -0.475039, -2.03684)
+
+[sub_resource type="SphereMesh" id="SphereMesh_yfmxc"]
+radius = 0.25
+height = 0.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_yq8ut"]
+radius = 0.25
+height = 0.5
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_yfmxc"]
 radius = 15.0
@@ -32,7 +40,7 @@ shape = SubResource("ConvexPolygonShape3D_yfmxc")
 
 [node name="HitboxComponent" type="Area3D" parent="."]
 collision_layer = 4
-collision_mask = 9
+collision_mask = 13
 script = ExtResource("4_yvj4b")
 shape = SubResource("ConvexPolygonShape3D_yfmxc")
 metadata/_custom_type_script = "uid://cgpmhci7164s6"
@@ -58,8 +66,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.85247, -2.27164)
 [node name="Ishim1" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2, -3)
 
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ishim1"]
+mesh = SubResource("SphereMesh_yfmxc")
+
 [node name="Ishim2" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, -3)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ishim2"]
+mesh = SubResource("SphereMesh_yq8ut")
 
 [node name="IshimArea" type="Area3D" parent="." groups=["Enemies"]]
 collision_mask = 5

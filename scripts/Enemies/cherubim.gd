@@ -8,6 +8,7 @@ class_name Cherubim
 @export var touch_damage = 3
 var ishim: EnemyBase
 var ishim_count = 0
+var ishims = [0, 0]
 
 @export var bullet: PackedScene
 @export var bullet_radius: float = 3
@@ -22,6 +23,8 @@ var ishim_count = 0
 @onready var mesh = $MeshInstance3D
 @onready var shoot_point = $ShootPoint
 @onready var ishim_area = $IshimArea
+@onready var ishim_spot1 = $Ishim1
+@onready var ishim_spot2 = $Ishim2
 
 # signals
 signal ishim_in_range
@@ -55,6 +58,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if player and player.is_inside_tree():
 		look_at(Vector3(player.global_position.x, position.y, player.global_position.z))
+	
+	#print("ishim count: " + str(ishim_count))
 
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
@@ -168,6 +173,43 @@ func _on_ishim_area_body_entered(body: Node3D) -> void:
 		return
 	
 	# check if we are at max ishim
-	if ishim_count < 2:
+	if ishim_count < 2 && not body.cherubim_alerted:
 		print("signaling to: " + str(body))
 		body.goto_cherubim(self)
+
+func _on_ishim_reached_cherubim(ishim: IshimRanger) -> void:
+	# avoid duplicate enemies
+	if ishim.current_state == ishim.ENEMY_STATE.cherubim_sit:
+		return
+	
+	# get the ishim "slot"
+	var ishim_slot = null
+	if ishim_count < 2:
+		for i in ishims.size():
+			if ishims[i] == 0:
+				ishims[i] = 1
+				ishim.cherubim_slot = i
+				if i == 0:
+					ishim_slot = ishim_spot1
+				else:
+					ishim_slot = ishim_spot2
+				break
+	else:
+		return
+	if not ishim_slot:
+		print("couldnt find slot! current count: " + str(ishim_count) + ", slots: " + str(ishims))
+		return
+	
+	# set ishim to our local tree
+	if ishim.get_parent():
+		ishim.get_parent().remove_child(ishim)  # Remove obj2 from its current parent
+		var transform = ishim_slot.global_transform # get transformation of ishim node to avoid errors with roatation
+		ishim_count += 1
+		add_child(ishim)  # Make obj2 a child of obj1
+		
+		# set ishim stuff
+		ishim.velocity = Vector3.ZERO
+		ishim.global_transform = transform
+		ishim.current_state = ishim.ENEMY_STATE.cherubim_sit
+		print("finished, current count: " + str(ishim_count) + ", slots: " + str(ishims))
+	
