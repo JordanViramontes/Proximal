@@ -162,6 +162,5 @@ func _on_hitbox_component_body_entered(body: Node3D) -> void:
 # when died
 func on_reach_zero_health():
 	if current_state == ENEMY_STATE.cherubim_sit && cherubim_friend:
-		cherubim_friend.ishim_count -= 1
-		cherubim_friend.ishims[cherubim_slot] = 0
+		cherubim_friend._on_ishim_died(cherubim_slot)
 	super.on_reach_zero_health()

@@ -27,8 +27,10 @@ radius = 15.0
 collision_layer = 4
 script = ExtResource("1_vrbru")
 bullet = ExtResource("2_yfmxc")
+bullet_close_range = 15.0
 bullet_velocity_close = 2.0
 bullet_gravity_close = -4.0
+movement_speed = 2
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." groups=["Enemies"]]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
@@ -59,6 +61,7 @@ autostart = true
 avoidance_enabled = true
 
 [node name="ShootCooldown" type="Timer" parent="."]
+wait_time = 1.5
 
 [node name="ShootPoint" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.85247, -2.27164)

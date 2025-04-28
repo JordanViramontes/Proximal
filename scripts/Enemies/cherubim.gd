@@ -8,7 +8,9 @@ class_name Cherubim
 @export var touch_damage = 3
 var ishim: EnemyBase
 var ishim_count = 0
-var ishims = [0, 0]
+var ishims = [null, null]
+var alerted_ishims = []
+var ishim_parent = null
 
 @export var bullet: PackedScene
 @export var bullet_radius: float = 3
@@ -101,8 +103,8 @@ func _on_pathfind_timer_timeout() -> void:
 				#set_materials(mat_roam)
 	
 	super._on_pathfind_timer_timeout()
-	#velocity.x = pathfindVel.x
-	#velocity.z = pathfindVel.z
+	velocity.x = pathfindVel.x
+	velocity.z = pathfindVel.z
 
 func get_target_from_state(state):
 	if state == ENEMY_STATE.roam:
@@ -175,6 +177,7 @@ func _on_ishim_area_body_entered(body: Node3D) -> void:
 	# check if we are at max ishim
 	if ishim_count < 2 && not body.cherubim_alerted:
 		print("signaling to: " + str(body))
+		alerted_ishims.append(body)
 		body.goto_cherubim(self)
 
 func _on_ishim_reached_cherubim(ishim: IshimRanger) -> void:
@@ -186,8 +189,8 @@ func _on_ishim_reached_cherubim(ishim: IshimRanger) -> void:
 	var ishim_slot = null
 	if ishim_count < 2:
 		for i in ishims.size():
-			if ishims[i] == 0:
-				ishims[i] = 1
+			if ishims[i] == null:
+				ishims[i] = ishim
 				ishim.cherubim_slot = i
 				if i == 0:
 					ishim_slot = ishim_spot1
@@ -196,12 +199,16 @@ func _on_ishim_reached_cherubim(ishim: IshimRanger) -> void:
 				break
 	else:
 		return
+	
+	# if there was no found slot
 	if not ishim_slot:
 		print("couldnt find slot! current count: " + str(ishim_count) + ", slots: " + str(ishims))
 		return
 	
 	# set ishim to our local tree
 	if ishim.get_parent():
+		if ishim_parent == null:
+			ishim_parent = ishim.get_parent()
 		ishim.get_parent().remove_child(ishim)  # Remove obj2 from its current parent
 		var transform = ishim_slot.global_transform # get transformation of ishim node to avoid errors with roatation
 		ishim_count += 1
@@ -211,5 +218,40 @@ func _on_ishim_reached_cherubim(ishim: IshimRanger) -> void:
 		ishim.velocity = Vector3.ZERO
 		ishim.global_transform = transform
 		ishim.current_state = ishim.ENEMY_STATE.cherubim_sit
-		print("finished, current count: " + str(ishim_count) + ", slots: " + str(ishims))
-	
+		#print("finished, current count: " + str(ishim_count) + ", slots: " + str(ishims))
+		
+		# reset alerted ishims if we've reached max
+		if ishim_count >= 2:
+			print("full:" + str(alerted_ishims))
+			for i in alerted_ishims:
+				if i is IshimRanger && i.current_state == i.ENEMY_STATE.cherubim_alert:
+					i.cherubim_alerted = false
+					i.current_state = i.ENEMY_STATE.roam
+			alerted_ishims = []
+
+func _on_ishim_died(cherubim_slot):
+	ishim_count -= 1
+	ishims[cherubim_slot] = null
+	reset_ishim_check()
+
+# When they dead as hell
+func on_reach_zero_health():
+	for i in ishims:
+		if i:
+			#print("ish: " + str(i))
+			if i.get_parent():
+				i.get_parent().remove_child(i)
+			get_tree().current_scene.add_child(i)
+			if i == ishims[0]:
+				i.global_position = ishim_spot1.global_position
+			else:
+				i.global_position = ishim_spot2.global_position
+			i.current_state = i.ENEMY_STATE.roam
+			i.cherubim_alerted = false
+		
+	super.on_reach_zero_health()
+
+func reset_ishim_check():
+	# reset the area
+	ishim_area.monitoring = false
+	ishim_area.monitoring = true
