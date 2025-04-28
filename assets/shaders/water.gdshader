@@ -24,7 +24,7 @@ float fresnel(float amount, vec3 normal, vec3 view) {
 
 void fragment() {
 	vec3 normal = texture(texture_normal, UV).rgb;
-	
+
 	// Time calculations for wave (normal map) movement
 	vec2 time = (TIME * wave_direction) * time_scale;
 	vec2 time2 = (TIME * wave_direction2) * time_scale;
@@ -33,7 +33,7 @@ void fragment() {
 	// Calculate Fresnel
 	float fresnel = fresnel(5.0, NORMAL, VIEW);
 	vec3 surface_color = mix(albedo, albedo2, fresnel); // Interpolate albedo values by frensel
-	
+
 	ALBEDO = surface_color;
 	METALLIC = metallic;
 	ROUGHNESS = roughness;
