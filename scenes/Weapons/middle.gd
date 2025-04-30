@@ -48,7 +48,7 @@ func player_pos():
 	pass
 
 func on_bullet_hit():
-	experience += 0.01*(4-level)
+	experience += 0.02*(4-level)
 	print("my bullet hit an enemy >:)")
 	print(experience)
 	if experience >= 10.0*(level):

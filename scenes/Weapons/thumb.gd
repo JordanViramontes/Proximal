@@ -31,7 +31,6 @@ func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 
 func on_bullet_hit():
 	experience += 0.1*(4-level)
-	print("my bullet hit an enemy >:)")
 	print(experience)
 	if experience >= 10.0*(level):
 		level += 1

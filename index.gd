@@ -19,6 +19,7 @@ func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	b.bullet_speed = bullet_speed
 	b.bullet_damage = bullet_damage*(level)
 	b.damaged_enemy.connect(on_bullet_hit)
+	b.damaged_enemy.connect(weapon_manager._on_earn_experience)
 	
 	World.world.add_child(b)
 	

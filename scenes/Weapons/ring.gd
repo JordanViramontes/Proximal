@@ -26,7 +26,14 @@ func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	b.initial_direction = (look_direction + Vector3.UP).normalized()
 	b.horizontal_damping = bullet_velocity_damping
 	b.gravity = bullet_gravity
+	b.damaged_enemy.connect(on_bullet_hit)
 	
 	World.world.add_child(b)
 	
-	
+func on_bullet_hit():
+	experience += 1.0*(4-level)
+	print("my bullet hit an enemy >:)")
+	print(experience)
+	if experience >= 10.0*(level):
+		level += 1
+		print("LEVEL UP! ", level)

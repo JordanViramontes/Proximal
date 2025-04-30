@@ -23,5 +23,14 @@ func on_on_shoot(from_position: Vector3, look_direction: Vector3, velocity: Vect
 	b.bullet_damage = bullet_damage
 	b.distance = bullet_range
 	b.direction = look_direction
+	b.damaged_enemy.connect(on_bullet_hit)
 	
 	World.world.add_child(b)
+
+func on_bullet_hit():
+	experience += 0.5*(4-level)
+	print("my bullet hit an enemy >:)")
+	print(experience)
+	if experience >= 10.0*(level):
+		level += 1
+		print("LEVEL UP! ", level)
