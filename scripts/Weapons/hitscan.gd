@@ -57,7 +57,7 @@ func tracer_func():
 		hit_dist = (hit_point - global_position).length()
 		
 		var col = raycast.get_collider()
-		if col is Area3D:
+		if col is Hitbox:
 			if col.damage:
 				var di = DamageInstance.new({
 					"damage" : bullet_damage,

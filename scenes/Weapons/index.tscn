@@ -13,7 +13,7 @@ size = Vector3(0.1, 0.1, 1)
 script = ExtResource("1_d8pwy")
 fire_rate = 10.0
 bullet = ExtResource("2_l5o4i")
-bullet_speed = 40.0
+bullet_speed = 60.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_2gn6w")

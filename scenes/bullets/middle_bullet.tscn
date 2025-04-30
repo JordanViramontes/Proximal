@@ -19,7 +19,6 @@ if_laser = true
 process_physics_priority = 10
 target_position = Vector3(0, 0, 1)
 collision_mask = 21
-hit_from_inside = true
 collide_with_areas = true
 
 [node name="TracerTransformOrigin" type="Node3D" parent="."]
