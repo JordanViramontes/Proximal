@@ -87,10 +87,12 @@ func _physics_process(delta: float) -> void:
 	else: 
 		double_jumpable = true # when you touch the ground you can double jump again
 	
-	if self.position.y < DEATH_HEIGHT:
-		die.emit()
+	
 	
 	if current_state == INPUT_STATE.normal:
+		if self.position.y < DEATH_HEIGHT:
+			kill_player()
+			
 		cur_speed = WALKING_SPEED
 		# jumping
 		if Input.is_action_just_pressed("jump") and is_on_floor():
@@ -195,12 +197,15 @@ func _on_weapon_manager_dash_input() -> void:
 	#velocity.y = 0
 	print("velocity: " + str(velocity))
 
+func kill_player():
+	die.emit()
+	current_state = INPUT_STATE.dead
+	print("player dead!")
+
 # When they dead as hell
 func on_reach_zero_health():
 	health_component.damageable = false
-	die.emit()
-	current_state = INPUT_STATE.dead
-	print("player dead")
+	kill_player()
 
 # when you get damaged
 func on_damaged(di: DamageInstance):

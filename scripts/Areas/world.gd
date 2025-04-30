@@ -19,5 +19,5 @@ func _process(delta: float) -> void:
 
 func on_player_die():
 	$UI/DeathInterface.activate(3)
-	var reset_timer = get_tree().create_timer(3)
+	var reset_timer = get_tree().create_timer(3.25)
 	reset_timer.timeout.connect(func(): get_tree().reload_current_scene())

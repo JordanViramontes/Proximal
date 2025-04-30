@@ -39,6 +39,11 @@ Enemies=""
 WeaponManager=""
 EnemyBase=""
 
+[gui]
+
+theme/custom_font="uid://be672lysxmsqk"
+theme/default_font_antialiasing=0
+
 [input]
 
 forward={
