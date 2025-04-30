@@ -15,7 +15,9 @@ radius = 0.75
 height = 2.25
 
 [node name="EnemyBase" type="CharacterBody3D" groups=["Enemies", "EnemyBase"]]
+physics_interpolation_mode = 1
 collision_layer = 4
+collision_priority = 10.0
 script = ExtResource("1_vv3x1")
 max_health = 5.0
 hitflash_material = ExtResource("2_lxe82")
@@ -31,6 +33,7 @@ shape = SubResource("ConvexPolygonShape3D_y7qu8")
 script = ExtResource("3_xuskm")
 
 [node name="HitboxComponent" type="Area3D" parent="." node_paths=PackedStringArray("health_component")]
+collision_mask = 9
 script = ExtResource("4_3ysdf")
 shape = SubResource("CapsuleShape3D_tdqxq")
 health_component = NodePath("../HealthComponent")
@@ -48,4 +51,6 @@ avoidance_layers = 33
 avoidance_mask = 33
 debug_enabled = true
 
+[connection signal="area_entered" from="HitboxComponent" to="." method="_on_hitbox_component_area_entered"]
+[connection signal="body_entered" from="HitboxComponent" to="." method="_on_hitbox_component_body_entered"]
 [connection signal="timeout" from="PathfindTimer" to="." method="_on_pathfind_timer_timeout"]

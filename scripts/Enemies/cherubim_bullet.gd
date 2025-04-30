@@ -26,13 +26,13 @@ func _physics_process(delta: float) -> void:
 func _on_hitbox_area_entered(area: Area3D) -> void:
 	# check that we are in a player
 	var area_owner = area.get_owner()
-	if area_owner is Player:
-		# assign damage isntance and deal damage from the enemy POV
+	if area_owner is  Player:
 		var di = DamageInstance.new({
 			"damage" : bullet_damage,
 			#"velocity" : velocity,
 			#"creator_position" : Vector3.ZERO
 		})
+		# assign damage isntance and deal damage from the enemy POV
 		if enemy:
 			enemy.deal_damage_to_player(di) # will deal damage from the enemy's pov
 		else:

@@ -1,10 +1,13 @@
 extends EnemyBase
 
+class_name IshimCrawler
+
 # var
 @export var friction = 12
 @export var lunge_dist = 16
 @export var lunge_range = 12
 @export var is_lunging = false
+@export var touch_damage = 1
 
 # components
 @onready var lunge_timer = $LungeTimer
@@ -112,3 +115,17 @@ func lunge():
 	
 	# velocity for this cycle
 	velocity = direction * init_v
+
+# when it physically touches the player
+func _on_hitbox_component_body_entered(body: Node3D) -> void:
+	if (body != player):
+		return
+	
+	# create damage instance
+	var di = DamageInstance.new({ # haha directional input!!! no. not funny.
+		"damage" : touch_damage,
+		"creator_position" : global_position,
+		#"velocity" : direction * bullet_speed,
+		#"type" : type
+	})
+	deal_damage_to_player(di)

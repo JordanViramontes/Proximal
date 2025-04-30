@@ -16,6 +16,7 @@ mesh_material = ExtResource("2_q2rbd")
 if_laser = true
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
+process_physics_priority = 10
 target_position = Vector3(0, 0, 1)
 collision_mask = 21
 hit_from_inside = true

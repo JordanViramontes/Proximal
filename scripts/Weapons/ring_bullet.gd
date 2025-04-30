@@ -26,7 +26,7 @@ func _on_hitbox_damaged(di: DamageInstance):
 	# getting hit by a bullet!
 	var e = shoot_explosion.instantiate()
 	e.position = position
-	e.face_dir = -di.velocity.normalized()
+	e.face_dir = (self.global_position - di.creator_position).normalized()
 	World.world.add_child(e)
 	self.queue_free()
 

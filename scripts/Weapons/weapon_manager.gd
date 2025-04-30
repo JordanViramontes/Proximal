@@ -62,6 +62,7 @@ func change_weapon_to(weapon_index):
 		weapon_index = 0
 	
 	# set previous weapon stuff
+	cease_fire()
 	set_weapon_unactive(curr_weapon)
 	
 	# change weapon variables

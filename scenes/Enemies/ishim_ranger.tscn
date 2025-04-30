@@ -1,6 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://bgcggd80gs6sh"]
+[gd_scene load_steps=10 format=3 uid="uid://bgcggd80gs6sh"]
 
-[ext_resource type="Script" path="res://scripts/Characters/ishim_ranger.gd" id="1_cw4bv"]
+[ext_resource type="Script" uid="uid://bltecim4slosc" path="res://scripts/Characters/ishim_ranger.gd" id="1_cw4bv"]
 [ext_resource type="Material" uid="uid://cv7l0r86mk435" path="res://assets/materials/hitflash_mat.tres" id="2_4eule"]
 [ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://scripts/components/health_component.gd" id="3_8pu60"]
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="4_vda0j"]
@@ -14,14 +14,15 @@ material = SubResource("StandardMaterial3D_diwry")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7skgo"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7q61w"]
-
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_w8f1x"]
+radius = 0.576949
+height = 2.12418
 
 [node name="IshimRanger" type="CharacterBody3D" groups=["Enemies"]]
 collision_layer = 4
 script = ExtResource("1_cw4bv")
 bullet = ExtResource("5_8pu60")
+max_health = 1.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." groups=["Enemies"]]
 material_overlay = ExtResource("2_4eule")
@@ -34,8 +35,8 @@ shape = SubResource("CapsuleShape3D_7skgo")
 script = ExtResource("3_8pu60")
 
 [node name="HitboxComponent" type="Area3D" parent="."]
+collision_mask = 5
 script = ExtResource("4_vda0j")
-shape = SubResource("CapsuleShape3D_7q61w")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent"]
 shape = SubResource("CapsuleShape3D_w8f1x")
@@ -52,7 +53,9 @@ radius = 10.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.355339, -0.987427)
 
 [node name="ShootCooldown" type="Timer" parent="."]
+wait_time = 1.5
 autostart = true
 
+[connection signal="body_entered" from="HitboxComponent" to="." method="_on_hitbox_component_body_entered"]
 [connection signal="timeout" from="PathfindTimer" to="." method="_on_pathfind_timer_timeout"]
 [connection signal="timeout" from="ShootCooldown" to="." method="_on_bullet_timer_timeout"]

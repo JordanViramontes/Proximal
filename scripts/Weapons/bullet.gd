@@ -43,20 +43,20 @@ func _physics_process(delta: float) -> void:
 		self.queue_free()
 
 func _on_hitbox_area_entered(area: Area3D) -> void:
-	#print("entered area %s" % area)
-	if area.damage:
-		var di = DamageInstance.new({ # haha directional input!!! no. not funny.
-			"damage" : bullet_damage,
-			"creator_position" : spawn_location,
-			"velocity" : direction * bullet_speed,
-			"type" : type
-		})
-		
-		print(di.damage)
-		print(bullet_damage)
-		if area.damage(di):
-			damaged_enemy.emit()
-	self.queue_free()
+	if area is Hitbox:
+		if area.damage:
+			var di = DamageInstance.new({ # haha directional input!!! no. not funny.
+				"damage" : bullet_damage,
+				"creator_position" : spawn_location,
+				"velocity" : to_global(direction) * bullet_speed,
+				"type" : type
+			})
+			
+			print(di.damage)
+			print(bullet_damage)
+			if area.damage(di):
+				damaged_enemy.emit()
+		self.queue_free()
 
 func _on_hitbox_body_entered(body: Node3D) -> void:
 	self.queue_free()

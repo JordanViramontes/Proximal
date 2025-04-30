@@ -5,7 +5,8 @@ extends Node3D
 var face_dir: Vector3
 
 func _ready():
-	self.look_at(face_dir, Vector3.UP)
+	print("MY FACE DIR: %s" % face_dir)
+	self.look_at(self.position - face_dir, Vector3.UP)
 	var lifetime_tween = get_tree().create_tween()
 	lifetime_tween.set_parallel(true)
 	lifetime_tween.tween_property(mesh.mesh.material, "albedo_color:a", 0.0, lifetime)
