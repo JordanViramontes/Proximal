@@ -24,6 +24,7 @@ height = 2.12418
 collision_layer = 4
 script = ExtResource("1_cw4bv")
 bullet = ExtResource("5_8pu60")
+max_health = 1.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." groups=["Enemies"]]
 material_overlay = ExtResource("2_4eule")
@@ -36,6 +37,7 @@ shape = SubResource("CapsuleShape3D_7skgo")
 script = ExtResource("3_8pu60")
 
 [node name="HitboxComponent" type="Area3D" parent="."]
+collision_mask = 5
 script = ExtResource("4_vda0j")
 shape = SubResource("CapsuleShape3D_7q61w")
 
@@ -54,7 +56,9 @@ radius = 10.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.355339, -0.987427)
 
 [node name="ShootCooldown" type="Timer" parent="."]
+wait_time = 1.5
 autostart = true
 
+[connection signal="body_entered" from="HitboxComponent" to="." method="_on_hitbox_component_body_entered"]
 [connection signal="timeout" from="PathfindTimer" to="." method="_on_pathfind_timer_timeout"]
 [connection signal="timeout" from="ShootCooldown" to="." method="_on_bullet_timer_timeout"]

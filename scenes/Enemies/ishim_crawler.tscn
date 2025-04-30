@@ -5,11 +5,11 @@
 [ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://scripts/components/health_component.gd" id="3_oaf2w"]
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="4_kebby"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dpb2p"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vrbru"]
 albedo_color = Color(0.254902, 0.521569, 1, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_vd578"]
-material = SubResource("StandardMaterial3D_dpb2p")
+material = SubResource("StandardMaterial3D_vrbru")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_c7tqt"]
 

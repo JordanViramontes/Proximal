@@ -1,5 +1,7 @@
 extends EnemyBase
 
+class_name IshimRanger
+
 # variables
 @export var player_run_radius = 10
 @export var comfy_radius = 15
@@ -8,10 +10,12 @@ extends EnemyBase
 @export var bullet_velocity: float = 8
 @export var bullet_max_range:float = 13
 @export var bullet_gravity: float = -2
+var cherubim_alerted: bool = false
+var cherubim_friend: Cherubim
+var cherubim_slot: int = -1
 
 # components
 @onready var shoot_timer = $ShootCooldown
-@onready var bullet_emerge_point = $BulletEmergePoint
 @onready var mesh = $MeshInstance3D
 
 # colors
@@ -24,7 +28,9 @@ func _ready() -> void:
 	# when the player gets too close itll run away
 	ENEMY_STATE["comfy"] = total_states+1
 	ENEMY_STATE["run_away"] = total_states+2
-	total_states += 2
+	ENEMY_STATE["cherubim_alert"] = total_states+3
+	ENEMY_STATE["cherubim_sit"] = total_states+4
+	total_states += 4
 	
 	# colors
 	mat_roam.albedo_color = Color("ff79ff")
@@ -36,7 +42,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
 	
-	# states
+	# state logic for shooting
 	if current_state == ENEMY_STATE.run_away: # running away state
 		shoot_timer.stop()
 		if navigation_agent.is_navigation_finished():
@@ -46,7 +52,8 @@ func _physics_process(delta: float) -> void:
 			_on_bullet_timer_timeout()
 			shoot_timer.start()
 	
-	if current_state != ENEMY_STATE.spawn_edge:
+	# state logic for gravity
+	if current_state != ENEMY_STATE.spawn_edge && current_state != ENEMY_STATE.cherubim_sit:
 		# gravity
 		if not is_on_floor():
 			velocity += get_gravity() * delta
@@ -57,8 +64,8 @@ func _on_pathfind_timer_timeout() -> void:
 	var player_2D_pos = Vector2(player.global_position.x, player.global_position.z)
 	var distance_towards_player = our_2D_pos.distance_to(player_2D_pos)
 	
-	# if we're not spawning
-	if current_state != ENEMY_STATE.spawn_edge:
+	# if we're not spawning or in a cherubim alert
+	if current_state != ENEMY_STATE.spawn_edge && current_state != ENEMY_STATE.cherubim_alert && current_state != ENEMY_STATE.cherubim_sit:
 		# if we're in radius distance, change state 
 		if distance_towards_player <= player_run_radius:
 			current_state = ENEMY_STATE.run_away
@@ -72,6 +79,11 @@ func _on_pathfind_timer_timeout() -> void:
 			current_state = ENEMY_STATE.roam
 			if mesh.material_override != mat_roam:
 				mesh.set_surface_override_material(0, mat_roam)
+	
+	# if we're sitting
+	if current_state == ENEMY_STATE.cherubim_sit:
+		velocity.x = 0
+		velocity.y = 0
 	
 	super._on_pathfind_timer_timeout()
 	velocity.x = pathfindVel.x
@@ -89,13 +101,24 @@ func get_target_from_state(state):
 		# get the distance between player and self (relative position)
 		# new target is our pos - the relative position (new_target)
 		# basically we will travel the exact opposite direction of the player
-		var relative_position = to_local(player.global_position)
-		var new_target = global_position - (player_run_radius * relative_position)
+		var away_direction = (global_position - player.global_position).normalized()
+		var new_target = global_position + away_direction * player_run_radius
 		return new_target
+	elif state == ENEMY_STATE.cherubim_alert:
+		# if the cherubim died while going
+		if not cherubim_friend:
+			print("cherubim friend died lol")
+			current_state = ENEMY_STATE.roam
+			return player_position
+		
+		# else return the cherubim pos
+		return cherubim_friend.global_position
+	elif state == ENEMY_STATE.cherubim_sit:
+		return position
 
 # whenever the timer ends, shoot! 
 func _on_bullet_timer_timeout() -> void:
-	if current_state == ENEMY_STATE.roam || current_state == ENEMY_STATE.comfy:
+	if current_state == ENEMY_STATE.roam || current_state == ENEMY_STATE.comfy || current_state == ENEMY_STATE.cherubim_sit:
 		var b = bullet.instantiate()
 		if b == null: # just in case
 			print("isham_ranger.gd - bullet did not instantiate")
@@ -122,3 +145,22 @@ func _on_bullet_timer_timeout() -> void:
 		b.position = global_position
 		
 		World.world.add_child(b)
+
+func goto_cherubim(cherubim: Cherubim) -> void:
+	cherubim_alerted = true
+	current_state = ENEMY_STATE.cherubim_alert
+	cherubim_friend = cherubim
+
+# check if we've reached a cherubim
+func _on_hitbox_component_body_entered(body: Node3D) -> void:
+	if body is not Cherubim:
+		return
+	
+	print("reached! " + str(body))
+	cherubim_friend._on_ishim_reached_cherubim(self)
+
+# when died
+func on_reach_zero_health():
+	if current_state == ENEMY_STATE.cherubim_sit && cherubim_friend:
+		cherubim_friend._on_ishim_died(cherubim_slot)
+	super.on_reach_zero_health()

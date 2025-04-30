@@ -2,7 +2,7 @@ extends CharacterBody3D
 class_name EnemyBase
 
 # vars
-@export var max_health: float
+@export var max_health: float = 10
 @export var xp_on_damaged: float = 1
 @export var xp_on_death: float = 2
 @export var hitflash_material: Material
@@ -71,7 +71,7 @@ func _ready() -> void:
 	health_component.max_health = max_health
 	health_component.current_health = max_health
 	health_component.reached_zero_health.connect(on_reach_zero_health)
-	hitbox_component.damaged.connect(on_damaged)
+	#hitbox_component.damaged.connect(on_damaged)
 	
 	# values for navigation agent
 	navigation_agent.path_desired_distance = nav_path_dist
@@ -126,13 +126,13 @@ func on_reach_zero_health():
 	self.queue_free()
 
 # when you get damaged
-func on_damaged(di: DamageInstance):
-	if (hitflash_tween and hitflash_tween.is_running()):
-		hitflash_tween.stop()
-	hitflash_tween = get_tree().create_tween()
-	$MeshInstance3D.material_overlay.albedo_color = Color(1.0, 1.0, 1.0, 1.0) # set alpha
-	hitflash_tween.tween_property($MeshInstance3D, "material_overlay:albedo_color", Color(1.0, 1.0, 1.0, 0.0), 0.1) # tween alpha
-	emit_signal("drop_xp", xp_on_damaged) # emit experience points
+#func on_damaged(di: DamageInstance):
+	#if (hitflash_tween and hitflash_tween.is_running()):
+		#hitflash_tween.stop()
+	#hitflash_tween = get_tree().create_tween()
+	#$MeshInstance3D.material_overlay.albedo_color = Color(1.0, 1.0, 1.0, 1.0) # set alpha
+	#hitflash_tween.tween_property($MeshInstance3D, "material_overlay:albedo_color", Color(1.0, 1.0, 1.0, 0.0), 0.1) # tween alpha
+	#emit_signal("drop_xp", xp_on_damaged) # emit experience points
 
 # update pathfind when the timer happens
 func _on_pathfind_timer_timeout() -> void:
