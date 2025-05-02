@@ -88,18 +88,22 @@ func _ready() -> void:
 	
 	# set up target distance for spawn_edge, calculate spawn_distance_vector using trig
 	if current_state == ENEMY_STATE.spawn_edge:
-		var spawn_angle = (Vector2.ZERO - Vector2(position.x, position.z)).angle() # get the angle
-		var spawn_distance_x = position.x + spawn_distance_length * cos(spawn_angle) # do trig to find the distance
-		var spawn_distance_z = position.z + spawn_distance_length * sin(spawn_angle)
-		
-		spawn_distance_vector = Vector3(spawn_distance_x, global_position.y + spawn_distance_height, spawn_distance_z)
-		spawning_velocity = Vector3((spawn_distance_vector-global_position)/spawning_time)
-		
+		spawning_velocity = calculateSpwaningVelocity()
 		# disable collision
 		collision.disabled = true
 	
 	# set the target
 	set_movement_target(get_target_from_state(current_state))
+
+func calculateSpwaningVelocity() -> Vector3:
+	var spawn_angle = (Vector2.ZERO - Vector2(position.x, position.z)).angle() # get the angle
+	var spawn_distance_x = position.x + spawn_distance_length * cos(spawn_angle) # do trig to find the distance
+	var spawn_distance_z = position.z + spawn_distance_length * sin(spawn_angle)
+	
+	spawn_distance_vector = Vector3(spawn_distance_x, global_position.y + spawn_distance_height, spawn_distance_z)
+	spawning_velocity = Vector3((spawn_distance_vector-global_position)/spawning_time)
+	
+	return spawning_velocity
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

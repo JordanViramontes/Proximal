@@ -88,6 +88,7 @@ func _on_pathfind_timer_timeout() -> void:
 	if current_state == ENEMY_STATE.cherubim_sit:
 		velocity.x = 0
 		velocity.y = 0
+		return
 	
 	super._on_pathfind_timer_timeout()
 	velocity.x = pathfindVel.x

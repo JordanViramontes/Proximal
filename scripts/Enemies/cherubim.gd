@@ -238,6 +238,7 @@ func on_reach_zero_health():
 				i.global_position = ishim_spot2.global_position
 			i.current_state = i.ENEMY_STATE.roam
 			i.cherubim_alerted = false
+			i.cherubim_node = null
 		
 	super.on_reach_zero_health()
 
