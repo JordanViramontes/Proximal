@@ -22,6 +22,8 @@ var cur_speed = 5.0
 @export var accel_speed = 10.0
 var direction = Vector3.ZERO
 
+var look_direction = Vector3.ZERO
+
 # jumping
 var double_jumpable := false
 
@@ -78,6 +80,8 @@ func _input(event: InputEvent) -> void:
 # frame by frame
 func _process(delta: float):
 	lean_pivot.rotation.z = lerp(lean_pivot.rotation.z, current_strafe_dir * LEAN_MULT, delta * LEAN_SMOOTH) # this causes some weirdness when you look down/up, working on a fix
+	look_direction = -head.global_basis.z
+	print(look_direction)
 
 # frame by frame physics
 func _physics_process(delta: float) -> void:
@@ -144,6 +148,7 @@ func _physics_process(delta: float) -> void:
 				velocity.z -= dash_accel
 			elif velocity.z < 0:
 				velocity.z += dash_accel
+		
 		else:
 			velocity.x = move_toward(velocity.x, 0, cur_speed)
 			#head.rotate_object_local()

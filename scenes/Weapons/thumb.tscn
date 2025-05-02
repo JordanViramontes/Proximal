@@ -11,9 +11,11 @@ size = Vector3(0.1, 0.1, 1)
 
 [node name="Thumb" type="Node3D"]
 script = ExtResource("1_b665p")
+pellet_count = 10
 fire_rate = 1.5
 bullet = ExtResource("2_4dj6u")
-bullet_speed = 10.0
+bullet_damage = 0.5
+bullet_speed = 80.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_2gn6w")

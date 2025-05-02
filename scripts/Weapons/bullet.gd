@@ -55,7 +55,7 @@ func _on_hitbox_area_entered(area: Area3D) -> void:
 			print(di.damage)
 			print(bullet_damage)
 			if area.damage(di):
-				damaged_enemy.emit()
+				damaged_enemy.emit(di.damage)
 		self.queue_free()
 
 func _on_hitbox_body_entered(body: Node3D) -> void:

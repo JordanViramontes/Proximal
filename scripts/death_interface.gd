@@ -8,7 +8,7 @@ func activate(dur: float):
 	countdown = dur
 	activated = true
 	var fade_twn = get_tree().create_tween()
-	fade_twn.tween_property($ColorRect, "color", Color(0.0, 0.0, 0.0, 0.75), dur)
+	fade_twn.tween_property($ColorRect, "color", Color(0.0, 0.0, 0.0, 1.0), dur)
 
 func _process(delta: float):
 	if !activated: return

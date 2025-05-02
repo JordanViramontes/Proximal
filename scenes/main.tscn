@@ -178,6 +178,15 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("10_choun")
 
+[node name="ColorRect" type="ColorRect" parent="UI/DeathInterface"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
 [node name="Label" type="Label" parent="UI/DeathInterface"]
 layout_mode = 1
 anchors_preset = 8
@@ -195,14 +204,5 @@ theme = ExtResource("9_ya4ey")
 text = "you died!
 resetting in [BLANK]"
 horizontal_alignment = 1
-
-[node name="ColorRect" type="ColorRect" parent="UI/DeathInterface"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(1, 1, 1, 0)
 
 [node name="Timer" type="Timer" parent="UI/DeathInterface"]
