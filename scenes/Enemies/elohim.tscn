@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://bmc77hxkk2at1"]
+
+[ext_resource type="Script" uid="uid://b4fokfiw017fj" path="res://scripts/Enemies/elohim.gd" id="1_3vyl4"]
+[ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://scripts/components/health_component.gd" id="2_kemqb"]
+[ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="3_2so3s"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kemqb"]
+albedo_color = Color(0.171874, 0.357639, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_8wiwn"]
+material = SubResource("StandardMaterial3D_kemqb")
+height = 5.0
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_nlikr"]
+points = PackedVector3Array(0.571429, 2.142, -0.0634144, -0.539683, -2.22154, 0.174557, -0.539683, 2.22154, 0.174557, 0.33324, -2.142, 0.492032, 0.253953, -2.142, -0.539683, -0.222207, 2.142, -0.539683, -0.0634144, 2.142, 0.571429, 0.571429, -2.142, -0.0634144, -0.301494, -2.22154, 0.492032, -0.460286, -2.142, -0.38089, 0.492032, 2.142, 0.33324, 0.33324, 2.22154, -0.460286, -0.539683, 2.142, -0.222207, 0.167104, -2.41946, -0.211025, 0.0916344, 2.42579, 0.243365, -0.222207, -2.142, -0.539683, 0.492032, -2.22154, -0.301494, -0.301494, 2.22154, 0.492032, -0.142811, -2.06296, 0.571429, 0.33324, 2.142, 0.492032, 0.492032, -2.142, 0.33324, -0.136107, 2.43145, -0.212149, -0.539683, 2.142, 0.253953, 0.253953, 2.142, -0.539683, -0.38089, 2.142, -0.460286, 0.0951604, -2.142, 0.571429, 0.492032, 2.22154, -0.301494, -0.539683, -2.142, -0.222207, 0.091634, -2.42578, 0.243364, 0.571429, -2.142, 0.0951604, -0.212149, -2.43145, -0.136107, -0.539683, -2.142, 0.253953)
+
+[node name="Elohim" type="CharacterBody3D" groups=["Enemies"]]
+script = ExtResource("1_3vyl4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_8wiwn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("ConvexPolygonShape3D_nlikr")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("2_kemqb")
+
+[node name="HitboxComponent" type="Area3D" parent="."]
+script = ExtResource("3_2so3s")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent"]
+shape = SubResource("ConvexPolygonShape3D_nlikr")
+
+[node name="PathfindTimer" type="Timer" parent="."]
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+
+[node name="SummonTimer" type="Timer" parent="."]

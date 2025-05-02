@@ -1,7 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://b23jd5gsaghn7"]
+[gd_scene load_steps=11 format=3 uid="uid://bkhyaocomqp2q"]
 
 [ext_resource type="Script" uid="uid://iud8b5qauag5" path="res://scripts/Enemies/cherubim.gd" id="1_vrbru"]
-[ext_resource type="PackedScene" uid="uid://br0pvgk7t0dyh" path="res://scenes/Enemies/cherubim_bullet.tscn" id="2_yfmxc"]
+[ext_resource type="PackedScene" path="res://scenes/Enemies/cherubim_bullet.tscn" id="2_yfmxc"]
 [ext_resource type="ArrayMesh" uid="uid://fbn75aqihcfw" path="res://assets/models/enemies/cherub.obj" id="3_yfmxc"]
 [ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://scripts/components/health_component.gd" id="3_yq8ut"]
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="4_yvj4b"]
@@ -44,7 +44,6 @@ shape = SubResource("ConvexPolygonShape3D_yfmxc")
 collision_layer = 4
 collision_mask = 13
 script = ExtResource("4_yvj4b")
-shape = SubResource("ConvexPolygonShape3D_yfmxc")
 metadata/_custom_type_script = "uid://cgpmhci7164s6"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent"]
