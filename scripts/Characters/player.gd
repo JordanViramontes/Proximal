@@ -81,7 +81,6 @@ func _input(event: InputEvent) -> void:
 func _process(delta: float):
 	lean_pivot.rotation.z = lerp(lean_pivot.rotation.z, current_strafe_dir * LEAN_MULT, delta * LEAN_SMOOTH) # this causes some weirdness when you look down/up, working on a fix
 	look_direction = -head.global_basis.z
-	print(look_direction)
 
 # frame by frame physics
 func _physics_process(delta: float) -> void:
