@@ -17,6 +17,7 @@ var cherubim_slot: int = -1
 # components
 @onready var shoot_timer = $ShootCooldown
 @onready var mesh = $MeshInstance3D
+@onready var cherubim_node: Node3D = null
 
 # colors
 @onready var mat_roam = StandardMaterial3D.new()
@@ -47,6 +48,9 @@ func _physics_process(delta: float) -> void:
 		shoot_timer.stop()
 		if navigation_agent.is_navigation_finished():
 			return
+	elif current_state == ENEMY_STATE.cherubim_sit:
+		if cherubim_node:
+			global_position = cherubim_node.global_position
 	else:
 		if shoot_timer.is_stopped():
 			_on_bullet_timer_timeout()
@@ -84,6 +88,7 @@ func _on_pathfind_timer_timeout() -> void:
 	if current_state == ENEMY_STATE.cherubim_sit:
 		velocity.x = 0
 		velocity.y = 0
+		return
 	
 	super._on_pathfind_timer_timeout()
 	velocity.x = pathfindVel.x
@@ -157,7 +162,10 @@ func _on_hitbox_component_body_entered(body: Node3D) -> void:
 		return
 	
 	print("reached! " + str(body))
-	cherubim_friend._on_ishim_reached_cherubim(self)
+	cherubim_node = cherubim_friend._on_ishim_reached_cherubim(self)
+	if not cherubim_node:
+		current_state = ENEMY_STATE.roam
+
 
 # when died
 func on_reach_zero_health():
