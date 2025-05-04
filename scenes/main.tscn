@@ -112,7 +112,7 @@ light_specular = 0.0
 shadow_enabled = true
 omni_range = 56.2857
 
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." groups=["Navigator"]]
 navigation_mesh = SubResource("NavigationMesh_tipki")
 
 [node name="Stage" type="Node3D" parent="NavigationRegion3D"]
@@ -129,7 +129,7 @@ material = SubResource("StandardMaterial3D_pqxd8")
 [node name="map_draft" parent="NavigationRegion3D/Stage" instance=ExtResource("8_tipki")]
 transform = Transform3D(3.84, 0, 0, 0, 3.84, 0, 0, 0, 3.84, 0, 0, 0)
 
-[node name="EnemySpawnPath" type="Path3D" parent="NavigationRegion3D"]
+[node name="EnemySpawnPath" type="Path3D" parent="NavigationRegion3D" groups=["EnemySpawnParent"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0320868, 0)
 curve = SubResource("Curve3D_tefeu")
 script = ExtResource("6_o6xl0")

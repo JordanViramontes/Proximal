@@ -4,10 +4,13 @@ extends EnemyBase
 @export var player_run_radius = 10
 @export var comfy_radius = 5
 @export var touch_damage = 3
+@export var bene_spawn_angle = 45
 
 # components
 @onready var summon_cooldown = $SummonCooldown
 @onready var summoning_timer = $SummoningTimer
+@onready var be_elohim_ranger_path = "res://scenes/Enemies/be_elohim_ranger.tscn"
+@onready var enemy_spawn_parent = get_tree().get_first_node_in_group("EnemySpawnParent")
 
 # colors
 @onready var mat_roam = StandardMaterial3D.new()
@@ -74,10 +77,10 @@ func _on_pathfind_timer_timeout() -> void:
 		summon_cooldown.start() 
 	
 	super._on_pathfind_timer_timeout()
-	velocity.x = pathfindVel.x
-	velocity.z = pathfindVel.z
-	#velocity.x = 0
-	#velocity.y = 0
+	#velocity.x = pathfindVel.x
+	#velocity.z = pathfindVel.z
+	velocity.x = 0
+	velocity.y = 0
 	
 	#print("vel: " + str(pathfindVel) + ", state: " + str(current_state))
 
@@ -97,9 +100,9 @@ func get_target_from_state(state):
 		var new_target = global_position + away_direction * player_run_radius
 		return new_target
 
-# we are summoning!
+# we are in ummoning process!
 func _on_summon_cooldown_timeout() -> void:
-	print("beginning summoning sequence!")
+	#print("beginning summoning sequence!")
 	velocity.x = 0
 	velocity.z = 0
 	current_state = ENEMY_STATE.summoning
@@ -107,7 +110,6 @@ func _on_summon_cooldown_timeout() -> void:
 
 # finished summoning, go back to normal
 func _on_summoning_timer_timeout() -> void:
-	print("a");
 	# actually summon
 	summon_guys()
 	
@@ -119,4 +121,22 @@ func _on_summoning_timer_timeout() -> void:
 
 # summon small guys
 func summon_guys() -> void:
-	print("SUMMONING OOOOO!!!!")
+	var mob1 = load(be_elohim_ranger_path).instantiate()
+	var mob2 = load(be_elohim_ranger_path).instantiate()
+	
+	# calculate the horizontal velocity offsets for both bene
+	var direction_to_player = (player.global_position - self.global_position).normalized()
+	var dir1 = direction_to_player.rotated(Vector3.UP, bene_spawn_angle)
+	var dir2 = direction_to_player.rotated(Vector3.UP, bene_spawn_angle * -1)
+	#print("dir: " + str(direction_to_player))
+	#print("dir1: " + str(dir1))
+	#print("dir2: " + str(dir2))
+	
+	# spawn in the mob
+	var offset = 1
+	mob1.bene_initialize(global_position + Vector3(0, offset, 0), player_position, dir1)
+	mob2.bene_initialize(global_position + Vector3(0, offset, 0), player_position, dir2)
+	
+	# Spawn the mob by adding it to the Main scene.
+	enemy_spawn_parent.add_child(mob1)
+	enemy_spawn_parent.add_child(mob2)

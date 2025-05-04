@@ -158,7 +158,7 @@ func get_target_from_state(state):
 	if state == ENEMY_STATE.roam:
 		return player_position
 	elif state == ENEMY_STATE.spawn_edge:
-		return spawn_distance_vector
+		return global_position
 
 # set the movement target for navigation
 func set_movement_target(movement_target: Vector3):

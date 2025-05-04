@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bmc77hxkk2at1"]
+[gd_scene load_steps=10 format=3 uid="uid://bmc77hxkk2at1"]
 
 [ext_resource type="Script" uid="uid://b4fokfiw017fj" path="res://scripts/Enemies/elohim.gd" id="1_3vyl4"]
 [ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://scripts/components/health_component.gd" id="2_kemqb"]
@@ -10,7 +10,10 @@ albedo_color = Color(0.262783, 0.522983, 0, 1)
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_8wiwn"]
 material = SubResource("StandardMaterial3D_kemqb")
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2so3s"]
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kemqb"]
+height = 6.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2so3s"]
 albedo_color = Color(0.172549, 0.356863, 0, 1)
@@ -29,7 +32,7 @@ movement_speed = 2
 mesh = SubResource("CapsuleMesh_8wiwn")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("CapsuleShape3D_kemqb")
+shape = SubResource("CapsuleShape3D_2so3s")
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("2_kemqb")
@@ -49,11 +52,9 @@ mesh = SubResource("CapsuleMesh_nlikr")
 autostart = true
 
 [node name="SummonCooldown" type="Timer" parent="."]
-wait_time = 2.0
 one_shot = true
 
 [node name="SummoningTimer" type="Timer" parent="."]
-wait_time = 2.0
 one_shot = true
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]

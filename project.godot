@@ -38,6 +38,7 @@ Player=""
 Enemies=""
 WeaponManager=""
 EnemyBase=""
+EnemySpawnParent=""
 
 [input]
 

@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://cbhs6isi7tp"]
+
+[ext_resource type="Script" uid="uid://ctrdff26xvpi8" path="res://scripts/Enemies/be_elohim_ranger.gd" id="1_feee0"]
+[ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://scripts/components/health_component.gd" id="2_slhci"]
+[ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="3_771yh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mnyu3"]
+albedo_color = Color(0.428223, 0.599087, 0.223047, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_65pw1"]
+material = SubResource("StandardMaterial3D_mnyu3")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_slhci"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_i8yyd"]
+
+[node name="BeElohimRanger" type="CharacterBody3D"]
+script = ExtResource("1_feee0")
+spawn_acc = Vector3(0.1, 0.15, 0.1)
+max_health = 1.0
+spawn_distance_length = 2
+spawn_distance_height = 9
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_65pw1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_slhci")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("2_slhci")
+
+[node name="HitboxComponent" type="Area3D" parent="."]
+collision_mask = 5
+script = ExtResource("3_771yh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent"]
+shape = SubResource("SphereShape3D_i8yyd")
+
+[node name="PathfindTimer" type="Timer" parent="."]
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+avoidance_enabled = true
+radius = 10.0
+
+[node name="ShootCooldown" type="Timer" parent="."]
+
+[node name="SpawnWaitTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[connection signal="timeout" from="PathfindTimer" to="." method="_on_pathfind_timer_timeout"]
+[connection signal="timeout" from="SpawnWaitTimer" to="." method="_on_spawn_wait_timer_timeout"]
