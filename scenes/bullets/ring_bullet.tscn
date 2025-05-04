@@ -26,7 +26,6 @@ mesh = SubResource("TorusMesh_ihso4")
 collision_layer = 16
 collision_mask = 5
 script = ExtResource("3_bhhqk")
-shape = SubResource("SphereShape3D_otapr")
 has_health = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
