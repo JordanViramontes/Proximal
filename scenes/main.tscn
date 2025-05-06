@@ -144,6 +144,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.111441, 0.345013, 35.0068)
 
 [node name="Player" parent="." instance=ExtResource("6_tefeu")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -4.93703, 3, 15)
+DASH_SPEED = 50
 
 [node name="UI" type="Control" parent="."]
 layout_direction = 1
