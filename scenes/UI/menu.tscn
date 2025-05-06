@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://csh4bgg8yewjf"]
+[gd_scene load_steps=3 format=3 uid="uid://csh4bgg8yewjf"]
 
 [ext_resource type="Script" uid="uid://c3tkx1hh6cktm" path="res://menu.gd" id="1_u81ku"]
+[ext_resource type="Texture2D" uid="uid://b7fw7tcjti5kw" path="res://assets/UI/Background.png" id="2_2tfbb"]
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -10,6 +11,35 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_u81ku")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Node2D" type="Node2D" parent="Control"]
+position = Vector2(20, 20)
+
+[node name="Background" type="Sprite2D" parent="Control/Node2D"]
+scale = Vector2(5, 4)
+texture = ExtResource("2_2tfbb")
+
+[node name="Foreground" type="Sprite2D" parent="Control/Node2D"]
+
+[node name="Sprite2D3" type="Sprite2D" parent="Control/Node2D"]
+
+[node name="Sprite2D4" type="Sprite2D" parent="Control/Node2D"]
+
+[node name="Sprite2D5" type="Sprite2D" parent="Control/Node2D"]
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
