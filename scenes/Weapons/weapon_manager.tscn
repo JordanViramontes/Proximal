@@ -28,7 +28,6 @@ visible = false
 [node name="Pinky" parent="." instance=ExtResource("8_r1oqp")]
 visible = false
 bullet_damage = 100.0
-is_hitscan = true
 
 [node name="DashTimer" type="Timer" parent="."]
 wait_time = 0.5

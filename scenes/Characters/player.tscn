@@ -21,7 +21,6 @@ height = 0.2
 
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
-visible = false
 collision_layer = 8
 script = ExtResource("1_i3pqv")
 WALKING_SPEED = 15.0
@@ -50,6 +49,8 @@ shape = SubResource("ConvexPolygonShape3D_1jxqw")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 
 [node name="ShakeableCamera" parent="LeanPivot/Head" instance=ExtResource("2_np5j3")]
+collision_layer = 128
+collision_mask = 0
 max_x = 5.0
 max_y = 5.0
 max_z = 2.5

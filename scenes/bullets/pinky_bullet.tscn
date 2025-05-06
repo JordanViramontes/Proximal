@@ -17,7 +17,6 @@ mesh_material = ExtResource("2_pdrtw")
 [node name="RayCast3D" type="RayCast3D" parent="."]
 target_position = Vector3(0, 0, 1)
 collision_mask = 21
-hit_from_inside = true
 collide_with_areas = true
 
 [node name="TracerTransformOrigin" type="Node3D" parent="."]

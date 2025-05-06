@@ -21,6 +21,7 @@ var can_shoot: bool = true
 signal on_shoot
 signal on_ceasefire
 signal on_ability_shoot
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	shoot_timer.wait_time = 1/fire_rate

@@ -34,22 +34,22 @@ func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	
 #shooting healing bullet
 func on_on_ability_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
+	print("on-on-onability shoot called with %s, %s, %s" % [from_pos, look_direction, velocity])
 	if ability_bullet == null:
-		print("index.gd - set my bullet property bro! i dont have it!")
+		print("ring.gd - set my bullet property bro! i dont have it!")
 		
 	var b = ability_bullet.instantiate()
 	if b == null: # just in case
-		print("index.gd - bullet did not instantiate")
+		print("ring.gd - bullet did not instantiate")
 		return
 	
 	b.position = $BulletEmergePoint.global_position # is one meter ahead of the player, which lines up with the barrel of the weapon
 	b.bullet_speed = bullet_speed
 	b.bullet_damage = bullet_damage
+	b.facing_axis = look_direction
+	b.direction = look_direction
 	
 	World.world.add_child(b)
-	
-	# add small permutation to firing direction
-	b.direction = Util.permute_vector(look_direction, bullet_spread)
 
 func on_bullet_hit(damage: float):
 	experience += 1.0*(4-level)

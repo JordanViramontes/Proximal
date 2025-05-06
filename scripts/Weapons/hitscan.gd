@@ -51,7 +51,7 @@ func tracer_func():
 	var hit_point = global_position + distance * direction
 	var hit_dist = distance
 	raycast.force_raycast_update() # so we can get the result in _ready() 
-	# (would otherwise have to wait for next physics frame, should be fine performance-wise for this weapon only
+	# (would otherwise have to wait for next physics frame, should be fine performance-wise for this weapon only)
 	if raycast.is_colliding():
 		hit_point = raycast.get_collision_point()
 		hit_dist = (hit_point - global_position).length()
