@@ -2,6 +2,8 @@ extends Control
 
 # play button should send user to game scene
 func _on_play_pressed():
+	FadeToBlack.transition()
+	await FadeToBlack.on_transition_finished
 	get_tree().change_scene_to_file("res://scenes/main.tscn")
 
 # options button should allow to change ui elements, key binds, etc.
