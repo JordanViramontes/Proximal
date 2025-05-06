@@ -26,6 +26,8 @@ func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	# add small permutation to firing direction
 	b.direction = Util.permute_vector(look_direction, bullet_spread)
 	
+	$TraumaCauser.cause_trauma()
+	
 func on_bullet_hit(damage: float):
 	experience += 0.1*(4-level)
 	print("my bullet hit an enemy >:)")

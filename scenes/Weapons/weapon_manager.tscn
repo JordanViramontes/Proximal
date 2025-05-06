@@ -1,38 +1,14 @@
-[gd_scene load_steps=11 format=3 uid="uid://klyx4oq82x8k"]
+[gd_scene load_steps=7 format=3 uid="uid://klyx4oq82x8k"]
 
 [ext_resource type="Script" uid="uid://b4wfrgspyik6s" path="res://scripts/Weapons/weapon_manager.gd" id="1_583ps"]
-[ext_resource type="Script" uid="uid://cgr4wdrppjkc0" path="res://scripts/Weapons/weapon_base.gd" id="2_qlvm5"]
-[ext_resource type="PackedScene" uid="uid://b2nwv2k6ni68c" path="res://scenes/bullets/index_bullet.tscn" id="3_v6qfx"]
 [ext_resource type="PackedScene" uid="uid://dxdtidj4hp83f" path="res://scenes/Weapons/thumb.tscn" id="4_e55dp"]
 [ext_resource type="PackedScene" uid="uid://d07kbrumu4gbf" path="res://scenes/Weapons/index.tscn" id="4_qlvm5"]
 [ext_resource type="PackedScene" uid="uid://bm6i7l7q7whsf" path="res://scenes/Weapons/middle.tscn" id="6_12ses"]
 [ext_resource type="PackedScene" uid="uid://duneq26sd14wn" path="res://scenes/Weapons/ring.tscn" id="7_k5yqd"]
 [ext_resource type="PackedScene" uid="uid://b0epnjdv5u53e" path="res://scenes/Weapons/pinky.tscn" id="8_r1oqp"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3ye0t"]
-resource_local_to_scene = true
-
-[sub_resource type="BoxMesh" id="BoxMesh_u865a"]
-resource_local_to_scene = true
-material = SubResource("StandardMaterial3D_3ye0t")
-size = Vector3(0.1, 0.1, 1)
-
 [node name="Weapon_Manager" type="Node3D" groups=["WeaponManager"]]
 script = ExtResource("1_583ps")
-
-[node name="Base_Weapon" type="Node3D" parent="."]
-script = ExtResource("2_qlvm5")
-bullet = ExtResource("3_v6qfx")
-bullet_damage = 1.0
-bullet_speed = 20.0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Base_Weapon"]
-mesh = SubResource("BoxMesh_u865a")
-
-[node name="BulletEmergePoint" type="Node3D" parent="Base_Weapon"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
-
-[node name="ShootCooldown" type="Timer" parent="Base_Weapon"]
 
 [node name="Thumb" parent="." instance=ExtResource("4_e55dp")]
 visible = false

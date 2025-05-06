@@ -1,6 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://bfdo44kle73uq"]
+[gd_scene load_steps=13 format=3 uid="uid://bfdo44kle73uq"]
 
 [ext_resource type="Script" uid="uid://cpi5w5meyf7w1" path="res://scripts/Characters/player.gd" id="1_i3pqv"]
+[ext_resource type="PackedScene" uid="uid://pake15kqry6s" path="res://scenes/Camera/shakeable_camera.tscn" id="2_np5j3"]
 [ext_resource type="Texture2D" uid="uid://52vn44k3ngct" path="res://assets/textures/crosshair_dev.png" id="3_8iw34"]
 [ext_resource type="Script" path="res://scenes/Characters/health_bar.gd" id="4_7xbc7"]
 [ext_resource type="PackedScene" uid="uid://klyx4oq82x8k" path="res://scenes/Weapons/weapon_manager.tscn" id="4_dqkch"]
@@ -22,9 +23,14 @@ height = 0.2
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 collision_layer = 8
 script = ExtResource("1_i3pqv")
-DASH_SPEED = 50
+WALKING_SPEED = 15.0
+MAX_AIR_SPEED = 20.0
+ground_friction = 150.0
+air_friction = 150.0
+slide_height = 1.0
+DASH_SPEED = 80
 dash_accel = 2
-LEAN_AMOUNT = 0.2
+LEAN_AMOUNT = 0.05
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.18267, 0)
@@ -42,7 +48,10 @@ shape = SubResource("ConvexPolygonShape3D_1jxqw")
 [node name="Head" type="Node3D" parent="LeanPivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 
-[node name="Camera3D" type="Camera3D" parent="LeanPivot/Head"]
+[node name="ShakeableCamera" parent="LeanPivot/Head" instance=ExtResource("2_np5j3")]
+max_x = 5.0
+max_y = 5.0
+max_z = 2.5
 
 [node name="Weapon_Manager" parent="LeanPivot/Head" node_paths=PackedStringArray("player") instance=ExtResource("4_dqkch")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.291509, -0.296324, -0.453602)
