@@ -81,6 +81,7 @@ func _ready() -> void:
 	hitbox_component.damaged.connect(on_damaged)
 	# slide height
 	normal_height = head.position.y
+	Util.toggle_shield.connect(on_toggle_shield)
 
 # inputs
 func _input(event: InputEvent) -> void:
@@ -297,3 +298,12 @@ func on_reach_zero_health():
 # when you get damaged
 func on_damaged(di: DamageInstance):
 	print("damage deal to me!: " + str(di.damage) + ",\ttotal health: " + str(health_component.current_health))
+	
+func on_toggle_shield(state:bool):
+	if state == true:
+		$UI/shield_visual.show()
+		can_take_damage = false
+	else:
+		$UI/shield_visual.hide()
+		can_take_damage = true
+	pass
