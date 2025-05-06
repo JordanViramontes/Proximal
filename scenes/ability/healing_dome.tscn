@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://sk020iobm3eo"]
+
+[ext_resource type="Script" uid="uid://c20eogqx3jbht" path="res://scenes/ability/healing_dome.gd" id="1_x7agg"]
+[ext_resource type="SphereMesh" uid="uid://b7vt3s62uai2l" path="res://assets/meshes/ring_terrain_explosion_sphere.tres" id="2_cpxi5"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_80o6k"]
+radius = 6.0
+
+[node name="healing_dome" type="Node3D"]
+script = ExtResource("1_x7agg")
+lifetime = 5.0
+expand_time = 0.2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("2_cpxi5")
+
+[node name="Hitbox" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+shape = SubResource("SphereShape3D_80o6k")
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
+[connection signal="body_exited" from="Hitbox" to="." method="_on_hitbox_body_exited"]

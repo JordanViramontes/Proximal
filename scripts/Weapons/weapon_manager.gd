@@ -12,6 +12,8 @@ var curr_weapon # defined in ready
 var canUseWeapon: bool = true
 var canDash: bool = true
 signal dashInput
+signal abilityInput #healing 
+
 func _ready():
 	weapon_dictionary = [
 		$Thumb,
@@ -80,6 +82,13 @@ func shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 		curr_weapon.shoot(position, look_direction, velocity)
 	#print("weapon_manager - not shooting atm")
 
+func ability_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
+	if curr_weapon.is_hitscan:
+		curr_weapon.ability_shoot(from_pos, look_direction, velocity)
+	else:
+		curr_weapon.ability_shoot(position, look_direction, velocity)
+	#print("weapon_manager - not shooting atm")
+
 func cease_fire():
 	curr_weapon.cease_fire()
 
@@ -101,6 +110,10 @@ func use_ability(finger):
 			Util.toggle_shield.emit(true)
 			await get_tree().create_timer(2).timeout
 			Util.toggle_shield.emit(false)
+		3:
+			abilityInput.emit()
+			print("healing deploying")
+			pass
 		_:
 			print("weapon_manager - WARNING: no finger to use for ability")
 			return
