@@ -97,6 +97,10 @@ func use_ability(finger):
 			disableWeapons()
 			dashInput.emit()
 			$DashTimer.start()
+		2:
+			Util.toggle_shield.emit(true)
+			await get_tree().create_timer(2).timeout
+			Util.toggle_shield.emit(false)
 		_:
 			print("weapon_manager - WARNING: no finger to use for ability")
 			return
