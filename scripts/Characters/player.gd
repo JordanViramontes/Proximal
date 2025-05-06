@@ -72,6 +72,8 @@ var current_strafe_dir = 0
 @export var max_health: float = 100
 var current_health: int = max_health
 var can_take_damage: bool = true
+var is_healing: bool = false
+var healing_timer: float = 0.5
 
 func _ready() -> void:
 	# setup health component
@@ -82,6 +84,8 @@ func _ready() -> void:
 	# slide height
 	normal_height = head.position.y
 	Util.toggle_shield.connect(on_toggle_shield)
+	weapon.abilityInput.connect(on_ability_shoot)
+	Util.healing.connect(on_heal)
 
 # inputs
 func _input(event: InputEvent) -> void:
@@ -101,6 +105,14 @@ func _input(event: InputEvent) -> void:
 func _process(delta: float):
 	lean_pivot.rotation.z = lerp(lean_pivot.rotation.z, current_strafe_dir * LEAN_MULT, delta * LEAN_SMOOTH) # this causes some weirdness when you look down/up, working on a fix
 	look_direction = -head.global_basis.z
+	
+	if is_healing == true:
+		healing_timer -= delta
+		if healing_timer <= 0:
+			health_component.heal(60);
+			print("healing! total health: " + str(health_component.current_health))
+			healing_timer = 0.5
+
 	
 	if Input.is_action_just_pressed("slide"):
 		is_sliding = true
@@ -307,3 +319,10 @@ func on_toggle_shield(state:bool):
 		$UI/shield_visual.hide()
 		can_take_damage = true
 	pass
+
+func on_ability_shoot():
+	weapon.ability_shoot(head.global_position, -head.global_basis.z, velocity)
+	
+func on_heal(state: bool) -> void:
+	is_healing = state
+		
