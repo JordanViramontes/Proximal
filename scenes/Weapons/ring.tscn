@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://duneq26sd14wn"]
+[gd_scene load_steps=6 format=3 uid="uid://duneq26sd14wn"]
 
 [ext_resource type="Script" uid="uid://cc7ls8xbh0snk" path="res://scenes/Weapons/ring.gd" id="1_oaqjv"]
+[ext_resource type="PackedScene" uid="uid://drw72tdjmshya" path="res://scenes/ability/ring_ability.tscn" id="2_7g3be"]
 [ext_resource type="PackedScene" uid="uid://cn2c867ej4ifx" path="res://scenes/bullets/ring_bullet.tscn" id="2_vum0y"]
 [ext_resource type="Material" uid="uid://pdp13fj43mhq" path="res://assets/materials/m_ring_weapon.tres" id="3_cdqlc"]
 
@@ -12,6 +13,7 @@ size = Vector3(0.1, 0.1, 1)
 [node name="Ring" type="Node3D"]
 script = ExtResource("1_oaqjv")
 shoot_velocity_inherit_damping = 0.4
+ability_bullet = ExtResource("2_7g3be")
 bullet = ExtResource("2_vum0y")
 bullet_speed = 10.0
 

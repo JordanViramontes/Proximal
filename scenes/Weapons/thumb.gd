@@ -1,6 +1,6 @@
 extends WeaponBase
 
-@export var pellet_count: float = 0
+@export var pellet_count: int = 0
 @export var pellet_spread: float = 0.1
 
 func _ready() -> void:
@@ -11,7 +11,7 @@ func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	if bullet == null:
 		print("thumb.gd - set my bullet property bro! i dont have it!")
 		
-	pellet_count = 3*(level)
+	#pellet_count = 3*(level)
 	
 	for i in range(pellet_count):
 		var b = bullet.instantiate()
@@ -29,7 +29,7 @@ func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 		b.direction = permute_vector_weighted(look_direction, pellet_spread, 0.4)
 	
 
-func on_bullet_hit():
+func on_bullet_hit(damage: float):
 	experience += 0.1*(4-level)
 	print(experience)
 	if experience >= 10.0*(level):

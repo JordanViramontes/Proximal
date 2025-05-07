@@ -1,19 +1,24 @@
-[gd_scene load_steps=5 format=3 uid="uid://d07kbrumu4gbf"]
+[gd_scene load_steps=7 format=3 uid="uid://d07kbrumu4gbf"]
 
-[ext_resource type="Script" uid="uid://bmmmkxnxaeqwv" path="res://index.gd" id="1_d8pwy"]
+[ext_resource type="Script" uid="uid://cljgu2clkn4w8" path="res://scenes/Weapons/index.gd" id="1_d8pwy"]
 [ext_resource type="PackedScene" uid="uid://b2nwv2k6ni68c" path="res://scenes/bullets/index_bullet.tscn" id="2_l5o4i"]
 [ext_resource type="Material" uid="uid://gse6mhar2dkn" path="res://assets/materials/m_index_weapon.tres" id="3_d8pwy"]
+[ext_resource type="PackedScene" uid="uid://kyg130pr8w03" path="res://scenes/Camera/trauma_causer.tscn" id="4_pkhb3"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_2gn6w"]
 resource_local_to_scene = true
 material = ExtResource("3_d8pwy")
 size = Vector3(0.1, 0.1, 1)
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_p258f"]
+radius = 1.435
+
 [node name="Index" type="Node3D"]
 script = ExtResource("1_d8pwy")
-fire_rate = 10.0
+fire_rate = 12.0
 bullet = ExtResource("2_l5o4i")
-bullet_speed = 40.0
+bullet_damage = 1.0
+bullet_speed = 90.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_2gn6w")
@@ -22,3 +27,11 @@ mesh = SubResource("BoxMesh_2gn6w")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
 
 [node name="ShootCooldown" type="Timer" parent="."]
+
+[node name="TraumaCauser" parent="." instance=ExtResource("4_pkhb3")]
+collision_layer = 0
+collision_mask = 128
+trauma_amount = 0.12
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TraumaCauser"]
+shape = SubResource("SphereShape3D_p258f")

@@ -13,6 +13,7 @@ size = Vector3(0.1, 0.1, 1)
 script = ExtResource("1_exoxp")
 fire_rate = 0.66
 bullet = ExtResource("2_55j32")
+is_hitscan = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_2gn6w")

@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cgum2rvlodt51"]
+
+[ext_resource type="Texture2D" uid="uid://buhfxyyim1agq" path="res://assets/textures/ground.png" id="1_kp7yi"]
+
+[resource]
+albedo_texture = ExtResource("1_kp7yi")
+uv1_scale = Vector3(40.015, 40.015, 40.015)
+uv1_triplanar_sharpness = 10.556
+texture_filter = 0

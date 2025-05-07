@@ -166,5 +166,6 @@ func deal_damage_to_player(di: DamageInstance):
 	# check if the player can take damage
 	if player.can_take_damage:
 		player.get_node("HitboxComponent").damage(di)
-	
+	else:
+		print("shielding")
 	# if not, do something else
