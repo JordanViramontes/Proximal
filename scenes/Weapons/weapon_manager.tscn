@@ -12,6 +12,13 @@ script = ExtResource("1_583ps")
 
 [node name="Thumb" parent="." instance=ExtResource("4_e55dp")]
 visible = false
+pellet_spread = null
+experience = null
+level = null
+degradation = null
+fire_rate = null
+active = null
+is_hitscan = null
 
 [node name="Index" parent="." instance=ExtResource("4_qlvm5")]
 visible = false

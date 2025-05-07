@@ -1,18 +1,20 @@
 extends Node3D
 
-
 @export var player: Player # kind of hate that i have this but o well! 
 
 # weapon variables
 var weapon_dictionary
 var curr_weapon_index
 var curr_weapon # defined in ready
+var xp_dictionary = [0.0, 0.0, 0.0, 0.0, 0.0]
+var xp_scale = [100.0, 100.0, 500.0, 50.0, 20.0]
+var weapon_level = [1, 1, 1, 1, 1]
 
 # weapon / ability authentication
 var canUseWeapon: bool = true
 var canDash: bool = true
 signal dashInput
-signal abilityInput #healing 
+signal abilityInput #healing
 
 func _ready():
 	weapon_dictionary = [
@@ -136,4 +138,6 @@ func _on_dash_timer_timeout() -> void:
 
 # recieve signal from earning xp
 func _on_earn_experience(xp: float):
-	print("earned: " + str(xp) + "xp")
+	curr_weapon.add_xp(xp)
+	print("earned: " + str(xp) + "xp for " + str(curr_weapon))
+	curr_weapon.print_xp(str(weapon_dictionary[curr_weapon_index]))
