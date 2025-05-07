@@ -38,7 +38,7 @@ var total_states = 2
 @onready var pathfind_timer: Timer = $PathfindTimer
 @onready var weapon_manager = get_tree().get_first_node_in_group("WeaponManager")
 @onready var player = get_tree().get_first_node_in_group("Player")
-@onready var player_position = player.global_position
+@onready var player_position
 
 # signals
 signal die
