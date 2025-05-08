@@ -17,7 +17,10 @@ func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	
 	b.position = $BulletEmergePoint.global_position # is one meter ahead of the player, which lines up with the barrel of the weapon
 	b.bullet_speed = bullet_speed
+	
+	# Weapon gets more powerful as level increases
 	b.bullet_damage = bullet_damage*(1 + level*0.2)
+	
 	b.direction = look_direction
 	
 	World.world.add_child(b)

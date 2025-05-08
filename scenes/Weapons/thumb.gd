@@ -11,6 +11,7 @@ func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	if bullet == null:
 		print("thumb.gd - set my bullet property bro! i dont have it!")
 	
+	# Number of pellets increase as level increases
 	for i in range(pellet_count+level):
 		var b = bullet.instantiate()
 		if b == null: # just in case

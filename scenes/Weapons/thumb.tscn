@@ -11,18 +11,11 @@ size = Vector3(0.1, 0.1, 1)
 
 [node name="Thumb" type="Node3D"]
 script = ExtResource("1_b665p")
-pellet_count = null
-pellet_spread = null
-experience = null
-level = null
 upgrade_quota = 150.0
 degradation = 2.4
-fire_rate = null
-active = null
 bullet = ExtResource("2_4dj6u")
 bullet_damage = 0.5
 bullet_speed = 80.0
-is_hitscan = null
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_2gn6w")
