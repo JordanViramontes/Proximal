@@ -165,6 +165,7 @@ func set_movement_target(movement_target: Vector3):
 	navigation_agent.set_target_position(movement_target)
 	next_path_position = navigation_agent.get_next_path_position()
 	pathfindVel = global_position.direction_to(next_path_position) * movement_speed
+	#print("we: " + str(self) + ", p: " + str(pathfindVel))
 
 func deal_damage_to_player(di: DamageInstance):
 	# check if the player can take damage

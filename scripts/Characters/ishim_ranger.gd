@@ -161,7 +161,7 @@ func _on_hitbox_component_body_entered(body: Node3D) -> void:
 	if body is not Cherubim:
 		return
 	
-	print("reached! " + str(body))
+	#print("reached! " + str(body))
 	cherubim_node = cherubim_friend._on_ishim_reached_cherubim(self)
 	if not cherubim_node:
 		current_state = ENEMY_STATE.roam

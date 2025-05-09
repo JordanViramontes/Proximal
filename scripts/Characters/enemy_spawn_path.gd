@@ -17,8 +17,9 @@ var DEBUG_enemy_list = [
 	"res://scenes/Enemies/ishim_ranger.tscn", # RANGER 2
 	"res://scenes/Enemies/cherubim.tscn", # CHERUBIM WORM 3
 	"res://scenes/Enemies/elohim.tscn", # ELOHIM 4
+	"res://scenes/Enemies/be_elohim_ranger.tscn", # BENE ELOHIM 5
 ]
-var DEBUG_enemy_ptr = 4
+var DEBUG_enemy_ptr = 5
 var DEBUG_wave: bool = true
 
 # components
