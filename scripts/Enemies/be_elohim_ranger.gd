@@ -1,12 +1,20 @@
 extends EnemyBase
 
 # variables
-@export var player_run_radius = 10
-@export var comfy_radius = 15
+@export var player_run_radius = 8
+@export var comfy_radius = 18
+@export var comfy_stop_timer = 1
+@export var comfy_friction = 0.075
+@export var comfy_bool: bool = true
+var comfy_stop_friction: Vector3 = Vector3.ZERO
+
+@export var air_friction: float = 0.5
+@export var air_preferred_dist: float = 3
+var air_y_distance: float = 0
 
 @export var bullet: PackedScene
 @export var bullet_radius: float = 1.5
-@export var bullet_velocity: float = 8
+@export var bullet_velocity: float = 13
 @export var bullet_max_range:float = 13
 @export var bullet_gravity: float = -2
 
@@ -27,6 +35,7 @@ var bobbing_wait: bool = true;
 var bobbing_vel:float = 0;
 @export var bobbing_acc: float = 0.05;
 @onready var bobbing_max: float = bobbing_acc * 60 * bob_timer.wait_time;
+var bob_distance: float = 0
 
 # colors
 @onready var mat_roam = StandardMaterial3D.new()
@@ -49,9 +58,9 @@ func _ready() -> void:
 	total_states += 3
 	
 	# colors
-	mat_roam.albedo_color = Color("ff79ff")
-	mat_run_away.albedo_color = Color("ffcbfd")
-	mat_comfy.albedo_color = Color("fe5bff")
+	mat_roam.albedo_color = Color("6d9939")
+	mat_run_away.albedo_color = Color("85b947")
+	mat_comfy.albedo_color = Color("4b6b25")
 	
 	super._ready()
 	
@@ -88,14 +97,37 @@ func _physics_process(delta: float) -> void:
 			current_state = ENEMY_STATE.spawn_wait
 			spawn_wait_timer.start()
 	
-	if current_state == ENEMY_STATE.roam:
+	if current_state == ENEMY_STATE.comfy:
+		#print("vel: " + str(velocity))
+		if abs(velocity.x) > 0.1:
+			velocity.x += sign(velocity.x) * -1 * comfy_stop_friction.x
+		else:
+			velocity.x = 0
+		
+		if abs(velocity.z) > 0.1:
+			velocity.z += sign(velocity.z) * -1 * comfy_stop_friction.z
+		else:
+			velocity.z = 0
+	
+	if current_state != ENEMY_STATE.spawn_edge:
+		# set bobbing vel
 		if bobbing_dir:
 			bobbing_vel += bobbing_acc;
 		else:
 			bobbing_vel -= bobbing_acc;
-		#print("y: " + str(bobbing_vel))
+		
 		velocity.y = bobbing_vel
-	
+		bob_distance += bobbing_vel * delta
+		
+		# check for height compared to player
+		if air_y_distance > air_preferred_dist + 0.5:
+			velocity.y -= air_friction
+		if air_y_distance < air_preferred_dist - 0.5:
+			velocity.y += air_friction
+		#print("y: " + str(global_position.y))
+		#print("b: " + str(bob_distance))
+		#print("d: " + str(y_distance))
+
 	move_and_slide()
 
 # done spawning fully
@@ -107,16 +139,60 @@ func _on_spawn_wait_timer_timeout() -> void:
 	bob_timer.start()
 
 func _on_pathfind_timer_timeout() -> void:
+	# update distance for vertical movement
+	air_y_distance = (global_position.y - bob_distance) - player.global_position.y
+	print("a: " + str(air_y_distance))
+	
+	# start shoot cooldown
+	if shoot_timer.is_stopped():
+		shoot_timer.start()
+	
 	# we want to calculate only based on x and z, effectively an infinite cone
 	var our_2D_pos = Vector2(global_position.x, global_position.z)
 	var player_2D_pos = Vector2(player.global_position.x, player.global_position.z)
 	var distance_towards_player = our_2D_pos.distance_to(player_2D_pos)
 	
-	var direction = global_position.direction_to(player.global_position)
-	var pathfindVel = direction * movement_speed
+	# if we're in radius distance, change state 
+	if distance_towards_player <= player_run_radius:
+		current_state = ENEMY_STATE.run_away
+		if mesh.material_override != mat_run_away:
+			mesh.set_surface_override_material(0, mat_run_away)
+	elif distance_towards_player <= comfy_radius:
+		#print("NOW COMFY!")
+		current_state = ENEMY_STATE.comfy
+		if mesh.material_override != mat_comfy:
+			mesh.set_surface_override_material(0, mat_comfy)
+	else:
+		current_state = ENEMY_STATE.roam
+		if mesh.material_override != mat_roam:
+			mesh.set_surface_override_material(0, mat_roam)
+	
+	var pathfindVel: Vector3 = Vector3.ZERO
+	if current_state == ENEMY_STATE.roam:
+		var direction = global_position.direction_to(player.global_position)
+		pathfindVel = direction * movement_speed
+	elif current_state == ENEMY_STATE.comfy:
+		if comfy_bool:
+			var normal = velocity.normalized()
+			var x = abs(normal.x)
+			var z = abs(normal.z)
+			comfy_stop_friction = Vector3(x * comfy_friction / comfy_stop_timer, 0, z * comfy_friction/ comfy_stop_timer)
+			#print("F: " + str(comfy_stop_friction))
+			comfy_bool = false
+		return
+	elif current_state == ENEMY_STATE.run_away:
+		var away_direction = (global_position - player.global_position).normalized()
+		#var new_target = global_position + away_direction * player_run_radius
+		pathfindVel = away_direction * movement_speed
+	
+	# reset comfy bool
+	if current_state != ENEMY_STATE.comfy:
+		comfy_bool = true
+	
+	
+	
 	velocity.x = pathfindVel.x
 	velocity.z = pathfindVel.z
-	#print("vel: " + str(velocity))
 
 # set the movement target for navigation
 func set_movement_target(movement_target: Vector3):
@@ -125,7 +201,6 @@ func set_movement_target(movement_target: Vector3):
 	print("next: " + str(next_path_position))
 	pathfindVel = global_position.direction_to(next_path_position) * movement_speed
 	#print("we: " + str(self) + ", p: " + str(pathfindVel))
-
 
 func get_target_from_state(state):
 	if state == ENEMY_STATE.roam:
@@ -142,7 +217,6 @@ func get_target_from_state(state):
 	else:
 		return player_position
 
-
 func _on_bob_timeout() -> void:
 	if bobbing_wait:
 		if bobbing_dir:
@@ -150,14 +224,38 @@ func _on_bob_timeout() -> void:
 			bobbing_wait = false;
 			if bobbing_vel != bobbing_max:
 				bobbing_vel = bobbing_max
-			print("bob up: " + str(bobbing_vel))
+			#print("bob up: " + str(bobbing_vel))
 		else:
 			bobbing_dir = true;
 			bobbing_wait = false;
 			if bobbing_vel != -1 * bobbing_max:
 				bobbing_vel = -1 * bobbing_max
-			print("bob down: " + str(bobbing_vel))
+			#print("bob down: " + str(bobbing_vel))
 	else:
 		bobbing_wait = true;
 	
 	#print("dir: " + str(bobbing_dir))
+
+func _on_shoot_cooldown_timeout() -> void:
+	if current_state != ENEMY_STATE.spawn_edge && current_state != ENEMY_STATE.spawn_wait:
+		var b = bullet.instantiate()
+		if b == null: # just in case
+			print("be_elohim_ranger.gd - bullet did not instantiate")
+			return
+		
+		player_position = player.global_position #update the player pos for calculations
+		
+		# find displacement, distance, and use that to get time
+		var direction_transform = Vector3(0, 2, 0)
+		if current_state == ENEMY_STATE.roam:
+			direction_transform = Vector3(0, 4, 0)
+		var direction = (player.global_transform.origin + direction_transform - self.global_transform.origin).normalized()
+		var initial_velocity = direction * bullet_velocity
+		
+		# initialize the bullet
+		b.initialize(initial_velocity, self)
+		b.position = global_position
+		
+		World.world.add_child(b)
+		
+		#print("bene shot: " + str(b))

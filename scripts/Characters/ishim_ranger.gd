@@ -112,7 +112,7 @@ func get_target_from_state(state):
 	elif state == ENEMY_STATE.cherubim_alert:
 		# if the cherubim died while going
 		if not cherubim_friend:
-			print("cherubim friend died lol")
+			#print("cherubim friend died lol")
 			current_state = ENEMY_STATE.roam
 			return player_position
 		
