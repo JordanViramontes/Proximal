@@ -139,7 +139,7 @@ mob_scene = ExtResource("7_o6xl0")
 transform = Transform3D(-0.994941, 0, -0.100405, 0, 1, 0, 0.100405, 0, -0.994941, -55.1679, 0, -3.37566)
 
 [node name="TestSpawnPoint" type="Node3D" parent="NavigationRegion3D/EnemySpawnPath"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.111441, 0.345013, 35.0068)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.111441, 2.34501, 35.0068)
 
 [node name="Stage" type="Node3D" parent="."]
 

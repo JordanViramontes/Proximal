@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cbhs6isi7tp"]
+[gd_scene load_steps=8 format=3 uid="uid://dlnfvx0oei2os"]
 
 [ext_resource type="Script" uid="uid://ctrdff26xvpi8" path="res://scripts/Enemies/be_elohim_ranger.gd" id="1_feee0"]
 [ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://scripts/components/health_component.gd" id="2_slhci"]
@@ -18,6 +18,8 @@ material = SubResource("StandardMaterial3D_mnyu3")
 script = ExtResource("1_feee0")
 spawn_acc = Vector3(0.1, 0.15, 0.1)
 max_health = 1.0
+movement_speed = 8
+nav_target_dist = 2
 spawn_distance_length = 2
 spawn_distance_height = 12
 
@@ -31,6 +33,7 @@ shape = SubResource("SphereShape3D_slhci")
 script = ExtResource("2_slhci")
 
 [node name="HitboxComponent" type="Area3D" parent="."]
+collision_layer = 4
 collision_mask = 5
 script = ExtResource("3_771yh")
 
@@ -38,10 +41,7 @@ script = ExtResource("3_771yh")
 shape = SubResource("SphereShape3D_i8yyd")
 
 [node name="PathfindTimer" type="Timer" parent="."]
-
-[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
-avoidance_enabled = true
-radius = 10.0
+wait_time = 0.5
 
 [node name="ShootCooldown" type="Timer" parent="."]
 
@@ -49,5 +49,15 @@ radius = 10.0
 wait_time = 0.5
 one_shot = true
 
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+avoidance_enabled = true
+radius = 10.0
+debug_enabled = true
+
+[node name="Bob" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
 [connection signal="timeout" from="PathfindTimer" to="." method="_on_pathfind_timer_timeout"]
 [connection signal="timeout" from="SpawnWaitTimer" to="." method="_on_spawn_wait_timer_timeout"]
+[connection signal="timeout" from="Bob" to="." method="_on_bob_timeout"]

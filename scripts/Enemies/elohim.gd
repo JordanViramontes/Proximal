@@ -5,6 +5,7 @@ extends EnemyBase
 @export var comfy_radius = 5
 @export var touch_damage = 3
 @export var bene_spawn_angle = 45
+var DEBUG_spawn_bool = true;
 
 # components
 @onready var summon_cooldown = $SummonCooldown
@@ -111,17 +112,16 @@ func _on_summon_cooldown_timeout() -> void:
 # finished summoning, go back to normal
 func _on_summoning_timer_timeout() -> void:
 	# actually summon
-	summon_guys()
+	if DEBUG_spawn_bool:
+		summon_guys()
+		DEBUG_spawn_bool = false
 	
 	current_state = ENEMY_STATE.roam
 	_on_pathfind_timer_timeout()
-	
-	
-
 
 # summon small guys
 func summon_guys() -> void:
-	var mob1 = load(be_elohim_ranger_path).instantiate()
+	#var mob1 = load(be_elohim_ranger_path).instantiate()
 	var mob2 = load(be_elohim_ranger_path).instantiate()
 	
 	# calculate the horizontal velocity offsets for both bene
@@ -134,9 +134,10 @@ func summon_guys() -> void:
 	
 	# spawn in the mob
 	var offset = 1
-	mob1.bene_initialize(global_position + Vector3(0, offset, 0), player_position, dir1)
+	#mob1.bene_initialize(global_position + Vector3(0, offset, 0), player_position, dir1)
 	mob2.bene_initialize(global_position + Vector3(0, offset, 0), player_position, dir2)
 	
 	# Spawn the mob by adding it to the Main scene.
-	enemy_spawn_parent.add_child(mob1)
+	print("SPAWN PARENT: " + str(enemy_spawn_parent))
+	#enemy_spawn_parent.add_child(mob1)
 	enemy_spawn_parent.add_child(mob2)
