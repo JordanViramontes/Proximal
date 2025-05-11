@@ -17,7 +17,7 @@ func initialize(initial_velocity, creator):
 	
 	# this will send a signal to enemy which will send signal to player to take damage
 	damage_player.connect(creator.deal_damage_to_player)
-	print("CREATED")
+	#print("CREATED")
 
 func _physics_process(delta: float) -> void:
 	#print("speed: " + str(bullet_speed) + ", pos: " + str(self.global_position))
@@ -27,9 +27,9 @@ func _physics_process(delta: float) -> void:
 
 func _on_hitbox_area_entered(area: Area3D) -> void:
 	# check that we are in a player
-	print("IN HITBOX")
+	#print("IN HITBOX")
 	var area_owner = area.get_owner()
-	print(" IN AREA: " + str(area_owner))
+	#print(" IN AREA: " + str(area_owner))
 	if area_owner is Player:
 		# assign damage isntance and deal damage from the enemy POV
 		var di = DamageInstance.new({

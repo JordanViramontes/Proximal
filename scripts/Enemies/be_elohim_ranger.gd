@@ -141,7 +141,7 @@ func _on_spawn_wait_timer_timeout() -> void:
 func _on_pathfind_timer_timeout() -> void:
 	# update distance for vertical movement
 	air_y_distance = (global_position.y - bob_distance) - player.global_position.y
-	print("a: " + str(air_y_distance))
+	#print("a: " + str(air_y_distance))
 	
 	# start shoot cooldown
 	if shoot_timer.is_stopped():

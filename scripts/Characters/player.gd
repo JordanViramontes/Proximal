@@ -295,7 +295,7 @@ func _on_weapon_manager_dash_input() -> void:
 	print("dashing! input: " + str(dash_vel))
 	velocity += dash_vel * DASH_SPEED * Vector3(1, 0.2, 1)
 	#velocity.y = 0
-	print("velocity: " + str(velocity))
+	#print("velocity: " + str(velocity))
 
 func kill_player():
 	die.emit()

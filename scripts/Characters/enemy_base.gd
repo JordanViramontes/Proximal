@@ -134,6 +134,10 @@ func on_damaged(di: DamageInstance):
 	if (hitflash_tween and hitflash_tween.is_running()):
 		hitflash_tween.stop()
 	hitflash_tween = get_tree().create_tween()
+	# check if our material is correct
+	if $MeshInstance3D.material_overlay == null:
+		var new_material := StandardMaterial3D.new()
+		$MeshInstance3D.material_overlay = new_material
 	$MeshInstance3D.material_overlay.albedo_color = Color(1.0, 1.0, 1.0, 1.0) # set alpha
 	hitflash_tween.tween_property($MeshInstance3D, "material_overlay:albedo_color", Color(1.0, 1.0, 1.0, 0.0), 0.1) # tween alpha
 	emit_signal("drop_xp", xp_on_damaged) # emit experience points
