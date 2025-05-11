@@ -19,7 +19,7 @@ script = ExtResource("1_feee0")
 spawn_acc = Vector3(0.1, 0.15, 0.1)
 max_health = 1.0
 spawn_distance_length = 2
-spawn_distance_height = 9
+spawn_distance_height = 12
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_65pw1")
