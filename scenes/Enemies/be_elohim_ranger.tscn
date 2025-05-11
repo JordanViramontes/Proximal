@@ -1,0 +1,72 @@
+[gd_scene load_steps=9 format=3 uid="uid://cbhs6isi7tp"]
+
+[ext_resource type="Script" uid="uid://ctrdff26xvpi8" path="res://scripts/Enemies/be_elohim_ranger.gd" id="1_feee0"]
+[ext_resource type="PackedScene" uid="uid://dfqpjffr77ts" path="res://scenes/bullets/bene_bullet.tscn" id="2_771yh"]
+[ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://scripts/components/health_component.gd" id="2_slhci"]
+[ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="3_771yh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mnyu3"]
+albedo_color = Color(0.521358, 0.723719, 0.279387, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_65pw1"]
+material = SubResource("StandardMaterial3D_mnyu3")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_slhci"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_i8yyd"]
+
+[node name="BeElohimRanger" type="CharacterBody3D"]
+collision_layer = 4
+script = ExtResource("1_feee0")
+player_run_radius = 12
+comfy_radius = 22
+air_preferred_dist = 7.0
+bullet = ExtResource("2_771yh")
+bullet_velocity = 20.0
+spawn_acc = Vector3(0.1, 0.15, 0.1)
+max_health = 1.0
+movement_speed = 8
+nav_target_dist = 2
+spawn_distance_length = 2
+spawn_distance_height = 12
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_65pw1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_slhci")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("2_slhci")
+
+[node name="HitboxComponent" type="Area3D" parent="."]
+collision_layer = 4
+collision_mask = 5
+script = ExtResource("3_771yh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent"]
+shape = SubResource("SphereShape3D_i8yyd")
+
+[node name="PathfindTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="ShootCooldown" type="Timer" parent="."]
+autostart = true
+
+[node name="SpawnWaitTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+avoidance_enabled = true
+radius = 10.0
+debug_enabled = true
+
+[node name="Bob" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[connection signal="timeout" from="PathfindTimer" to="." method="_on_pathfind_timer_timeout"]
+[connection signal="timeout" from="ShootCooldown" to="." method="_on_shoot_cooldown_timeout"]
+[connection signal="timeout" from="SpawnWaitTimer" to="." method="_on_spawn_wait_timer_timeout"]
+[connection signal="timeout" from="Bob" to="." method="_on_bob_timeout"]
