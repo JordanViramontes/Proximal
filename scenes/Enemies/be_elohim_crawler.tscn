@@ -1,0 +1,64 @@
+[gd_scene load_steps=8 format=3 uid="uid://b065qvknhmu0k"]
+
+[ext_resource type="Script" uid="uid://df5ktq5yi58kn" path="res://be_elohim_crawler.gd" id="1_m3eit"]
+[ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://scripts/components/health_component.gd" id="2_1bav6"]
+[ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="3_u8att"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m3eit"]
+albedo_color = Color(0.101545, 0.32091, 0.304664, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_o101c"]
+material = SubResource("StandardMaterial3D_m3eit")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_myaq0"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_tgk7v"]
+
+[node name="BeElohimCrawler" type="CharacterBody3D"]
+script = ExtResource("1_m3eit")
+player_run_radius = 12
+comfy_radius = 22
+air_preferred_dist = 7.0
+movement_speed = 8
+nav_target_dist = 2
+spawn_distance_length = 2
+spawn_distance_height = 12
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_o101c")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_myaq0")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("2_1bav6")
+
+[node name="HitboxComponent" type="Area3D" parent="."]
+collision_layer = 4
+collision_mask = 5
+script = ExtResource("3_u8att")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent"]
+shape = SubResource("SphereShape3D_tgk7v")
+
+[node name="PathfindTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="ShootCooldown" type="Timer" parent="."]
+autostart = true
+
+[node name="SpawnWaitTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+avoidance_enabled = true
+radius = 10.0
+debug_enabled = true
+
+[node name="Bob" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[connection signal="timeout" from="PathfindTimer" to="." method="_on_pathfind_timer_timeout"]

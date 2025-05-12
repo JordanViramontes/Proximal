@@ -17,7 +17,8 @@ var DEBUG_enemy_list = [
 	"res://scenes/Enemies/ishim_ranger.tscn", # RANGER 2
 	"res://scenes/Enemies/cherubim.tscn", # CHERUBIM WORM 3
 	"res://scenes/Enemies/elohim.tscn", # ELOHIM 4
-	"res://scenes/Enemies/be_elohim_ranger.tscn", # BENE ELOHIM 5
+	"res://scenes/Enemies/be_elohim_crawler.tscn", # BENE ELOHIM CRAWLER 5
+	"res://scenes/Enemies/be_elohim_ranger.tscn", # BENE ELOHIM RANGER 6
 ]
 var DEBUG_enemy_ptr = 5
 var DEBUG_wave: bool = true
@@ -120,19 +121,8 @@ func spawnEnemy(mob_path, debug_flag):
 	if not debug_flag:
 		mob.initialize(mob_spawn_location.position, player_position)
 	else:
-		# for cheribum
-		if mob_path == DEBUG_enemy_list[3]:
-			var spawn_point = test_spawn_point.global_position
-			#var ishim1 = load(DEBUG_enemy_list[2]).instantiate()
-			#var ishim2 = load(DEBUG_enemy_list[2]).instantiate()
-			#ishim1.initialize(spawn_point + Vector3(10, 0 ,0), player_position)
-			#ishim2.initialize(spawn_point + Vector3(-10, 0 ,0), player_position)
-			mob.initialize(spawn_point + Vector3(10, 0 ,0), player_position)
-			#add_child(ishim1)
-			#add_child(ishim2)
-		else:
-			var spawn_point = test_spawn_point.global_position
-			mob.initialize(spawn_point, player_position)
+		var spawn_point = test_spawn_point.global_position
+		mob.initialize(spawn_point, player_position)
 	
 	# Spawn the mob by adding it to the Main scene.
 	add_child(mob)

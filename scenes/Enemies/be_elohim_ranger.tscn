@@ -5,11 +5,11 @@
 [ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://scripts/components/health_component.gd" id="2_slhci"]
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="3_771yh"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mnyu3"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_771yh"]
 albedo_color = Color(0.521358, 0.723719, 0.279387, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_65pw1"]
-material = SubResource("StandardMaterial3D_mnyu3")
+material = SubResource("StandardMaterial3D_771yh")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_slhci"]
 
@@ -49,6 +49,7 @@ shape = SubResource("SphereShape3D_i8yyd")
 
 [node name="PathfindTimer" type="Timer" parent="."]
 wait_time = 0.5
+autostart = true
 
 [node name="ShootCooldown" type="Timer" parent="."]
 autostart = true
