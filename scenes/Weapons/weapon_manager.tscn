@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://klyx4oq82x8k"]
+[gd_scene load_steps=8 format=3 uid="uid://klyx4oq82x8k"]
 
 [ext_resource type="Script" uid="uid://b4wfrgspyik6s" path="res://scripts/Weapons/weapon_manager.gd" id="1_583ps"]
 [ext_resource type="PackedScene" uid="uid://dxdtidj4hp83f" path="res://scenes/Weapons/thumb.tscn" id="4_e55dp"]
@@ -6,6 +6,10 @@
 [ext_resource type="PackedScene" uid="uid://bm6i7l7q7whsf" path="res://scenes/Weapons/middle.tscn" id="6_12ses"]
 [ext_resource type="PackedScene" uid="uid://duneq26sd14wn" path="res://scenes/Weapons/ring.tscn" id="7_k5yqd"]
 [ext_resource type="PackedScene" uid="uid://b0epnjdv5u53e" path="res://scenes/Weapons/pinky.tscn" id="8_r1oqp"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3ye0t"]
+resource_local_to_scene = true
+albedo_color = Color(0.5168, 0.605973, 0.76, 1)
 
 [node name="Weapon_Manager" type="Node3D" groups=["WeaponManager"]]
 script = ExtResource("1_583ps")
@@ -15,7 +19,7 @@ visible = false
 
 [node name="Index" parent="." instance=ExtResource("4_qlvm5")]
 visible = false
-bullet_damage = 1.0
+depleted_material = SubResource("StandardMaterial3D_3ye0t")
 
 [node name="Middle" parent="." instance=ExtResource("6_12ses")]
 visible = false
