@@ -90,6 +90,8 @@ shape = SubResource("ConcavePolygonShape3D_tuq3r")
 
 [node name="Player" parent="." instance=ExtResource("3_tfeb0")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -2.11622, 16.1266, 34.5985)
+air_accel = 10.0
+air_move_speed = 10.0
 DASH_SPEED = 20
 dash_cooldown = 2.0
 
