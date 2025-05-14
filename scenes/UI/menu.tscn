@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://ym3cvmyxqe21"]
 
-[ext_resource type="Script" path="res://menu.gd" id="1_u81ku"]
+[ext_resource type="Script" uid="uid://c3tkx1hh6cktm" path="res://menu.gd" id="1_u81ku"]
 [ext_resource type="Texture2D" uid="uid://b7fw7tcjti5kw" path="res://assets/UI/Background.png" id="2_2tfbb"]
 [ext_resource type="Script" uid="uid://cjsgsm0xbsigh" path="res://scenes/UI/ParallaxMotion.gd" id="2_2un8v"]
 [ext_resource type="Texture2D" uid="uid://b68qmdpntr6t5" path="res://assets/UI/SinnersHandMidground2.png" id="3_78n2u"]
@@ -42,10 +42,12 @@ grow_vertical = 2
 position = Vector2(20, 20)
 
 [node name="Background" type="Sprite2D" parent="Parallax/Node2D"]
+texture_filter = 1
 scale = Vector2(5, 4)
 texture = ExtResource("2_2tfbb")
 
 [node name="Midground2" type="Sprite2D" parent="Parallax/Node2D"]
+texture_filter = 1
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("3_78n2u")
 script = ExtResource("2_2un8v")
@@ -53,6 +55,7 @@ move_force = 4
 lag_point = 135.0
 
 [node name="Mask" type="Sprite2D" parent="Parallax/Node2D"]
+texture_filter = 1
 position = Vector2(0, -30)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("5_svcqa")
@@ -61,6 +64,7 @@ move_force = 3
 lag_point = 90.0
 
 [node name="Midground" type="Sprite2D" parent="Parallax/Node2D"]
+texture_filter = 1
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("3_ny0ke")
 script = ExtResource("2_2un8v")
@@ -68,6 +72,7 @@ move_force = 2
 lag_point = 45.0
 
 [node name="Foreground" type="Sprite2D" parent="Parallax/Node2D"]
+texture_filter = 1
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("3_iysyy")
 script = ExtResource("2_2un8v")
@@ -79,37 +84,40 @@ position = Vector2(0, 3)
 texture = ExtResource("3_iysyy")
 
 [node name="Play" type="Button" parent="."]
+texture_filter = 1
 layout_mode = 2
 offset_left = 10.0
 offset_top = 168.0
-offset_right = 60.0
-offset_bottom = 205.0
+offset_right = 66.0
+offset_bottom = 209.0
 theme_override_fonts/font = ExtResource("8_ofy2k")
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 36
 theme_override_styles/normal = SubResource("StyleBoxEmpty_ypw4e")
 text = "PLAY"
 alignment = 0
 
 [node name="Options" type="Button" parent="."]
+texture_filter = 1
 layout_mode = 2
 offset_left = 10.0
 offset_top = 209.0
-offset_right = 89.0
-offset_bottom = 246.0
+offset_right = 98.0
+offset_bottom = 250.0
 theme_override_fonts/font = ExtResource("8_ofy2k")
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 36
 theme_override_styles/normal = SubResource("StyleBoxEmpty_aklih")
 text = "OPTIONS"
 alignment = 0
 
 [node name="Quit" type="Button" parent="."]
+texture_filter = 1
 layout_mode = 2
 offset_left = 10.0
 offset_top = 274.0
-offset_right = 60.0
-offset_bottom = 311.0
+offset_right = 65.0
+offset_bottom = 315.0
 theme_override_fonts/font = ExtResource("8_ofy2k")
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 36
 theme_override_styles/normal = SubResource("StyleBoxEmpty_wav1i")
 text = "QUIT"
 alignment = 0
