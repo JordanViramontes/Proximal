@@ -103,19 +103,21 @@ offset_bottom = 48.0
 rotation = -0.0238783
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="UI/Control" node_paths=PackedStringArray("player")]
+texture_filter = 1
 layout_mode = 0
 offset_left = 60.0
 offset_top = 22.0
 offset_right = 992.0
 offset_bottom = 289.0
 scale = Vector2(0.102084, 0.0276196)
-value = 50.0
+value = 100.0
 nine_patch_stretch = true
 texture_progress = ExtResource("6_8u6hb")
 script = ExtResource("4_7xbc7")
 player = NodePath("../../..")
 
 [node name="TextureRect" type="TextureRect" parent="UI/Control"]
+texture_filter = 1
 layout_mode = 0
 offset_right = 932.0
 offset_bottom = 267.0
