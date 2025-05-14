@@ -24,9 +24,10 @@ var wish_dir := Vector3.ZERO
 @export var ground_friction := 2.5
 
 # air movement settings
-@export var air_cap := 0.5
-@export var air_accel := 800.0
-@export var air_move_speed := 500.0
+@export var air_cap := 10.0
+@export var air_accel := 50.0
+@export var air_move_speed := 50.0
+@export var air_speed_limit := 20.0 # hard limit on air speed
 @export var air_deccel := 0.5
 @export var air_friction := 1.0
 @export var jump_velocity = 4.5
@@ -44,9 +45,10 @@ var double_jumpable := false
 # sliding
 @export_category("Sliding")
 @export var slide_height: float = 0.5
-@export var slide_deccel: float = 6.0
+@export var slide_deccel: float = 0.80
 @export var slide_speed_boost: float = 10.0
 var normal_height: float
+var buffered_slide: bool = false
 var is_sliding: bool = false
 
 # Abilities
@@ -64,10 +66,11 @@ const height = 1.8
 
 # leaning
 @export_category("Camera Properties")
-@export var LEAN_MULT = 0.1
+@export var LEAN_MULT = 0.01
 @export var LEAN_SMOOTH = 10.0
-@export var LEAN_AMOUNT = 0.001
+@export var LEAN_AMOUNT = 0.0005
 var current_strafe_dir = 0
+var current_forward_dir = 0
 
 # components
 @onready var lean_pivot := $LeanPivot
@@ -126,6 +129,7 @@ func _headbob_effect(delta):
 # frame by frame
 func _process(delta: float):
 	lean_pivot.rotation.z = lerp(lean_pivot.rotation.z, -current_strafe_dir * LEAN_MULT, delta * LEAN_SMOOTH) # this causes some weirdness when you look down/up, working on a fix
+	lean_pivot.rotation.x = lerp(lean_pivot.rotation.x, 0.5 * current_forward_dir * LEAN_MULT, delta * LEAN_SMOOTH)
 	look_direction = -head.global_basis.z
 	
 	if is_healing == true:
@@ -137,9 +141,10 @@ func _process(delta: float):
 
 	
 	if Input.is_action_just_pressed("slide"):
-		is_sliding = true
+		buffered_slide = true
 	if Input.is_action_just_released("slide"):
-		is_sliding = false
+		buffered_slide = false
+		if is_sliding: exit_slide()
 
 
 func _handle_air_physics(delta: float) -> void:
@@ -153,11 +158,27 @@ func _handle_air_physics(delta: float) -> void:
 	if add_speed_til_cap > 0:
 		var accel_speed = air_accel * air_move_speed * delta
 		accel_speed = min(accel_speed, add_speed_til_cap)
-		self.velocity += accel_speed * wish_dir
+		if self.velocity.length() < air_speed_limit:
+			self.velocity += accel_speed * wish_dir
 
 
 func _handle_ground_physics(delta: float) -> void:
 	if is_dashing(): return
+	
+	if is_sliding:
+		# keep the same velocity that they entered with
+		var cur_speed_in_wish_dir = self.velocity.dot(wish_dir)
+		var vel_change_dir = (self.velocity.normalized() + wish_dir).normalized() * cur_speed_in_wish_dir * delta
+		
+		self.velocity += vel_change_dir
+		
+		
+		# just add some friction
+		var drop = slide_deccel * delta * 0.01
+		var new_speed = max(self.velocity.length() - drop, 0.0)
+		if self.velocity.length() > 0:
+			new_speed /= self.velocity.length()
+		self.velocity *= new_speed
 	
 	var cur_speed_in_wish_dir = self.velocity.dot(wish_dir)
 	var add_speed_til_cap = walk_speed - cur_speed_in_wish_dir
@@ -198,6 +219,7 @@ func _physics_process(delta: float) -> void:
 	var input_dir = Input.get_vector("left", "right", "forward", "back").normalized()
 	
 	current_strafe_dir = input_dir.x
+	current_forward_dir = input_dir.y
 	
 	wish_dir = self.global_transform.basis * Vector3(input_dir.x, 0.0, input_dir.y)
 	
@@ -209,6 +231,7 @@ func _physics_process(delta: float) -> void:
 			handle_finish_dash()
 	
 	if is_on_floor():
+		if buffered_slide: enter_slide()
 		_handle_ground_physics(delta)
 		double_jumpable = true
 	else:
@@ -239,6 +262,18 @@ func handle_shooting():
 
 func handle_finish_dash() -> void:
 	self.velocity /= 5
+
+func enter_slide() -> void:
+	is_sliding = true
+	head.position.y = slide_height
+	#if is_on_floor():
+		## add slide boost velocity
+		#var add_amount = self.velocity.normalized() * slide_speed_boost
+		#self.velocity += add_amount
+
+func exit_slide() -> void:
+	is_sliding = false
+	head.position.y = normal_height
 
 # recieve dash input from WeaponManager
 func _on_weapon_manager_dash_input() -> void:

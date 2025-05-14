@@ -24,6 +24,7 @@ shape = SubResource("ConcavePolygonShape3D_tfeb0")
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -2.11622, 16.1266, 34.5985)
 DASH_SPEED = 20
 dash_cooldown = 2.0
+LEAN_MULT = 0.01
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.761097, -0.648638, -7.10543e-15, 0.0983372, -0.115387, 0.988441, -0.641141, 0.752299, 0.151606, 0, 31.355, 0)
