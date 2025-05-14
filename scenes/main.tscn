@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://drj4up00u5x88" path="res://scripts/Characters/enemy_spawn_path.gd" id="6_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://bfdo44kle73uq" path="res://scenes/Characters/player.tscn" id="6_tefeu"]
 [ext_resource type="PackedScene" uid="uid://b3ghxetcov6va" path="res://scenes/Enemies/enemy_base.tscn" id="7_o6xl0"]
-[ext_resource type="Script" uid="uid://c0md12nt0jei1" path="res://scripts/fps_counter.gd" id="8_85g3d"]
+[ext_resource type="Script" path="res://scripts/fps_counter.gd" id="8_85g3d"]
 [ext_resource type="PackedScene" uid="uid://dbn175mecst55" path="res://assets/models/map/map_draft.blend" id="8_tipki"]
 [ext_resource type="Shader" uid="uid://drfc1fob3nean" path="res://assets/shaders/water.gdshader" id="9_85g3d"]
 [ext_resource type="Theme" uid="uid://rsglqw8mc02x" path="res://assets/themes/default.tres" id="9_ya4ey"]
