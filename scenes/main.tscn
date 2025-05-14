@@ -12,33 +12,33 @@
 [ext_resource type="Theme" uid="uid://rsglqw8mc02x" path="res://assets/themes/default.tres" id="9_ya4ey"]
 [ext_resource type="Script" uid="uid://cqq4wmrgc8xv7" path="res://scripts/death_interface.gd" id="10_choun"]
 
-[sub_resource type="Gradient" id="Gradient_85g3d"]
+[sub_resource type="Gradient" id="Gradient_ya4ey"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 metadata/_snap_enabled = true
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_choun"]
-noise_type = 3
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ya4ey"]
-seamless = true
-color_ramp = SubResource("Gradient_85g3d")
-noise = SubResource("FastNoiseLite_choun")
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_eb6dy"]
 noise_type = 3
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_trceg"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ya4ey"]
 seamless = true
+color_ramp = SubResource("Gradient_ya4ey")
 noise = SubResource("FastNoiseLite_eb6dy")
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_85g3d"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_trceg"]
+noise_type = 3
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_trceg"]
+seamless = true
+noise = SubResource("FastNoiseLite_trceg")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_a8y0u"]
 noise_type = 3
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_choun"]
 seamless = true
-noise = SubResource("FastNoiseLite_85g3d")
+noise = SubResource("FastNoiseLite_a8y0u")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_choun"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jkv2x"]
 render_priority = 0
 shader = ExtResource("9_85g3d")
 shader_parameter/albedo = Color(0.0462085, 0.0622912, 0.120032, 1)
@@ -55,18 +55,18 @@ shader_parameter/noise_scale = 10.0
 shader_parameter/height_scale = 0.2
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_tipki"]
-material = SubResource("ShaderMaterial_choun")
+material = SubResource("ShaderMaterial_jkv2x")
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_ssbh5"]
 panorama = ExtResource("1_8wojv")
 energy_multiplier = 0.5
 
-[sub_resource type="Sky" id="Sky_w0v2c"]
+[sub_resource type="Sky" id="Sky_jbj1t"]
 sky_material = SubResource("PanoramaSkyMaterial_ssbh5")
 
 [sub_resource type="Environment" id="Environment_5o0bn"]
 background_mode = 2
-sky = SubResource("Sky_w0v2c")
+sky = SubResource("Sky_jbj1t")
 ambient_light_source = 3
 ambient_light_color = Color(1, 1, 1, 1)
 tonemap_mode = 2
