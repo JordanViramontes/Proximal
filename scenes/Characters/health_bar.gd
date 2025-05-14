@@ -1,10 +1,13 @@
 extends TextureProgressBar
 
-@export var player: Player
+@export var health_component: Node
 
 func _ready():
-	player.health_change.connect(update)
-	update()
+	if health_component:
+		health_component.health_change.connect(update)
+		update()
+	else:
+		print("HealthComponent not assigned!")
 
 func update():
-	value = player.current_health * 100 / player.max_health
+	value = health_component.current_health * 100 / health_component.max_health
