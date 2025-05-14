@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Proximal"
-run/main_scene="uid://rdcxne2i7lkc"
+run/main_scene="uid://ym3cvmyxqe21"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -39,6 +39,7 @@ Player=""
 Enemies=""
 WeaponManager=""
 EnemyBase=""
+EnemySpawnParent=""
 
 [gui]
 
