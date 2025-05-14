@@ -21,24 +21,51 @@ var can_shoot: bool = true
 @export var bullet_speed: float
 @export var is_hitscan: bool
 
+@export var depleted_material: Material
+var normal_material: Material
+
+# ability stuff
+@export var ability_cooldown := 5.0 # default 5 seconds
+var current_ability_cooldown := 0.0 # <= 0 if the ability is off cooldown
+
 # reference to manager
 @onready var weapon_manager = $".."
 signal on_shoot
 signal on_ceasefire
 signal on_ability_shoot
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	shoot_timer.wait_time = 1/(fire_rate*level)
 	shoot_timer.timeout.connect(func(): can_shoot = true)
+	
+	normal_material = $MeshInstance3D.mesh.material
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	tick += 1
 	# Over time, XP degrades
 	if tick % 150 == 0:
 		decrease_xp()
 	pass
+
+func _physics_process(delta: float) -> void:
+	if current_ability_cooldown > 0.0:
+		current_ability_cooldown -= delta
+
+func use_ability() -> bool:
+	if current_ability_cooldown > 0.0:
+		return false
+	else:
+		current_ability_cooldown = ability_cooldown
+		if depleted_material:
+			$MeshInstance3D.mesh.material = depleted_material.duplicate()
+			var depleted_tween = get_tree().create_tween()
+			depleted_tween.set_ease(Tween.EASE_IN_OUT)
+			#depleted_tween.set_trans(Tween.TRANS_CUBIC)
+			depleted_tween.tween_property($MeshInstance3D.mesh.material, "albedo_color", normal_material.albedo_color, ability_cooldown)
+			depleted_tween.finished.connect(_on_depleted_tween_finish)
+		else:
+			print("%s set my depleted material for visual indication of ability cooldown :)" % self)
+		return true
 
 # shoot a bullet from the weapon
 func shoot(from_pos: Vector3, direction: Vector3, velocity: Vector3 = Vector3.ZERO) -> void:
@@ -69,6 +96,7 @@ func cease_fire():
 	if on_ceasefire != null: on_ceasefire.emit() 
 	else: print("hello from weapon_base! you probably forgot to set the on_ceasefire signal on the inheritor of this script :3")
 
+<<<<<<< HEAD
 func add_xp(xp: float):
 	# XP gets harder to increase as level increases (XP cap at level 4)
 	experience += xp*(4-level)
@@ -87,3 +115,10 @@ func decrease_xp():
 	
 func print_xp(name: String):
 	print(name + " xp: " + str(experience))
+=======
+func _on_depleted_tween_finish():
+	$MeshInstance3D.mesh.material = normal_material
+	var recharge_particles: GPUParticles3D = $RechargeParticles
+	if recharge_particles:
+		recharge_particles.restart()
+>>>>>>> e2509d5172a6a761a833763f817a6b9c152504d3

@@ -107,9 +107,9 @@ func set_weapon_unactive(weapon):
 func use_ability(finger):
 	match finger:
 		1:
-			disableWeapons()
-			dashInput.emit()
-			$DashTimer.start()
+			if curr_weapon.use_ability():
+				disableWeapons(0.5) # disable for whatever the dash length is idk
+				dashInput.emit()
 		2:
 			Util.toggle_shield.emit(true)
 			await get_tree().create_timer(2).timeout
@@ -122,7 +122,12 @@ func use_ability(finger):
 			print("weapon_manager - WARNING: no finger to use for ability")
 			return
 
-func disableWeapons():
+func disableWeapons(time: float = 0.0):
+	if time > 0.0:
+		var t: Timer = $DashTimer
+		if not t.is_stopped(): t.stop()
+		t.wait_time = time
+		t.start()
 	print("disable weapons")
 	canUseWeapon = false
 

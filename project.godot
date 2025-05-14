@@ -39,6 +39,7 @@ Player=""
 Enemies=""
 WeaponManager=""
 EnemyBase=""
+EnemySpawnParent=""
 
 [gui]
 
