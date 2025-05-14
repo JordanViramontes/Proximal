@@ -1,17 +1,17 @@
-[gd_scene load_steps=28 format=3 uid="uid://dwckn628u33ab"]
+[gd_scene load_steps=28 format=3 uid="uid://rdcxne2i7lkc"]
 
 [ext_resource type="Texture2D" uid="uid://cqur83lk7fjfl" path="res://assets/hdris/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="1_8wojv"]
-[ext_resource type="Script" uid="uid://bpvwqw4pbfs3m" path="res://scripts/Areas/world.gd" id="1_dctr2"]
+[ext_resource type="Script" path="res://scripts/Areas/world.gd" id="1_dctr2"]
 [ext_resource type="Texture2D" uid="uid://c7ao2jw0rnah0" path="res://assets/textures/dev/grids/Dark/texture_07.png" id="2_4n1ka"]
-[ext_resource type="Script" uid="uid://drj4up00u5x88" path="res://scripts/Characters/enemy_spawn_path.gd" id="6_o6xl0"]
+[ext_resource type="Script" path="res://scripts/Characters/enemy_spawn_path.gd" id="6_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://bfdo44kle73uq" path="res://scenes/Characters/player.tscn" id="6_tefeu"]
 [ext_resource type="PackedScene" uid="uid://b3ghxetcov6va" path="res://scenes/Enemies/enemy_base.tscn" id="7_o6xl0"]
-[ext_resource type="Script" uid="uid://c0md12nt0jei1" path="res://scripts/fps_counter.gd" id="8_85g3d"]
+[ext_resource type="Script" path="res://scripts/fps_counter.gd" id="8_85g3d"]
 [ext_resource type="PackedScene" uid="uid://dbn175mecst55" path="res://assets/models/map/map_draft.blend" id="8_tipki"]
-[ext_resource type="Shader" uid="uid://drfc1fob3nean" path="res://assets/shaders/water.gdshader" id="9_85g3d"]
+[ext_resource type="Shader" path="res://assets/shaders/water.gdshader" id="9_85g3d"]
 [ext_resource type="Theme" uid="uid://rsglqw8mc02x" path="res://assets/themes/default.tres" id="9_ya4ey"]
 [ext_resource type="Script" uid="uid://cqq4wmrgc8xv7" path="res://scripts/death_interface.gd" id="10_choun"]
-[ext_resource type="PackedScene" uid="uid://b23jd5gsaghn7" path="res://scenes/Enemies/cherubim.tscn" id="12_eb6dy"]
+[ext_resource type="PackedScene" path="res://scenes/Enemies/cherubim.tscn" id="12_eb6dy"]
 
 [sub_resource type="Gradient" id="Gradient_85g3d"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)

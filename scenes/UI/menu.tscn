@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://csh4bgg8yewjf"]
+[gd_scene load_steps=5 format=3 uid="uid://ym3cvmyxqe21"]
 
-[ext_resource type="Script" uid="uid://c3tkx1hh6cktm" path="res://menu.gd" id="1_u81ku"]
+[ext_resource type="Script" path="res://menu.gd" id="1_u81ku"]
 [ext_resource type="Texture2D" uid="uid://b7fw7tcjti5kw" path="res://assets/UI/Background.png" id="2_2tfbb"]
+[ext_resource type="Script" uid="uid://cjsgsm0xbsigh" path="res://scenes/UI/ParallaxMotion.gd" id="2_2un8v"]
+[ext_resource type="Texture2D" uid="uid://c2x8j4y8vnd1d" path="res://assets/UI/SinnersHandForeground.png" id="3_iysyy"]
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -30,10 +32,9 @@ grow_vertical = 2
 position = Vector2(20, 20)
 
 [node name="Background" type="Sprite2D" parent="Parallax/Node2D"]
+visible = false
 scale = Vector2(5, 4)
 texture = ExtResource("2_2tfbb")
-
-[node name="Foreground" type="Sprite2D" parent="Parallax/Node2D"]
 
 [node name="Sprite2D3" type="Sprite2D" parent="Parallax/Node2D"]
 
@@ -41,7 +42,19 @@ texture = ExtResource("2_2tfbb")
 
 [node name="Sprite2D5" type="Sprite2D" parent="Parallax/Node2D"]
 
+[node name="Foreground" type="Sprite2D" parent="Parallax/Node2D"]
+scale = Vector2(1.48, 1.48)
+texture = ExtResource("3_iysyy")
+script = ExtResource("2_2un8v")
+
+[node name="Foreground2" type="Sprite2D" parent="Parallax/Node2D/Foreground"]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(0, 3)
+texture = ExtResource("3_iysyy")
+
 [node name="MarginContainer" type="MarginContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
