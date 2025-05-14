@@ -2,7 +2,8 @@ extends Sprite2D
 
 @export var move_force : int = 1
 @export var amplitude: float = 4.0
-@export var speed: float = 0.5
+@export var speed: float = 1
+# lag_point delays the bobbing animation
 @export var lag_point: float = 0
 
 var time_passed: float = 0.0

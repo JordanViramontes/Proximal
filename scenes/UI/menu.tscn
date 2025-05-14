@@ -1,32 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://ym3cvmyxqe21"]
+[gd_scene load_steps=7 format=3 uid="uid://ym3cvmyxqe21"]
 
 [ext_resource type="Script" path="res://menu.gd" id="1_u81ku"]
 [ext_resource type="Texture2D" uid="uid://b7fw7tcjti5kw" path="res://assets/UI/Background.png" id="2_2tfbb"]
 [ext_resource type="Script" uid="uid://cjsgsm0xbsigh" path="res://scenes/UI/ParallaxMotion.gd" id="2_2un8v"]
+[ext_resource type="Texture2D" uid="uid://b68qmdpntr6t5" path="res://assets/UI/SinnersHandMidground2.png" id="3_78n2u"]
 [ext_resource type="Texture2D" uid="uid://c2x8j4y8vnd1d" path="res://assets/UI/SinnersHandForeground.png" id="3_iysyy"]
 [ext_resource type="Texture2D" uid="uid://d0l03dkfp8t4f" path="res://assets/UI/SinnersHandMidground.png" id="3_ny0ke"]
-[ext_resource type="Script" uid="uid://bx40dkacexaf1" path="res://scenes/UI/dust.gd" id="6_78n2u"]
-
-[sub_resource type="Gradient" id="Gradient_ny0ke"]
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_78n2u"]
-gradient = SubResource("Gradient_ny0ke")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_svcqa"]
-particle_flag_disable_z = true
-emission_shape = 3
-emission_box_extents = Vector3(550, 1, 1)
-gravity = Vector3(0, 10, 0)
-radial_accel_min = -1.0
-radial_accel_max = -1.0
-damping_min = 5.0
-damping_max = 5.0
-scale_max = 3.0
-color_ramp = SubResource("GradientTexture1D_78n2u")
-collision_mode = 1
-collision_friction = 1.0
-collision_bounce = 0.0
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -55,26 +34,23 @@ grow_vertical = 2
 position = Vector2(20, 20)
 
 [node name="Background" type="Sprite2D" parent="Parallax/Node2D"]
-visible = false
 scale = Vector2(5, 4)
 texture = ExtResource("2_2tfbb")
 
 [node name="Sprite2D3" type="Sprite2D" parent="Parallax/Node2D"]
 
-[node name="Sprite2D4" type="Sprite2D" parent="Parallax/Node2D"]
+[node name="Midground2" type="Sprite2D" parent="Parallax/Node2D"]
+texture = ExtResource("3_78n2u")
+script = ExtResource("2_2un8v")
+move_force = 3
+lag_point = 90.0
 
 [node name="Midground" type="Sprite2D" parent="Parallax/Node2D"]
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("3_ny0ke")
 script = ExtResource("2_2un8v")
 move_force = 2
-lag_point = 90.0
-
-[node name="Midground2" type="Sprite2D" parent="Parallax/Node2D/Midground"]
-modulate = Color(0, 0, 0, 1)
-z_index = -1
-position = Vector2(0, 1)
-texture = ExtResource("3_ny0ke")
+lag_point = 45.0
 
 [node name="Foreground" type="Sprite2D" parent="Parallax/Node2D"]
 scale = Vector2(1.5, 1.5)
@@ -86,14 +62,6 @@ modulate = Color(0, 0, 0, 1)
 z_index = -1
 position = Vector2(0, 3)
 texture = ExtResource("3_iysyy")
-
-[node name="Dust" type="GPUParticles2D" parent="Parallax/Node2D"]
-position = Vector2(-320, -181)
-scale = Vector2(1.39998, 0.943769)
-amount = 32
-lifetime = 20.0
-process_material = SubResource("ParticleProcessMaterial_svcqa")
-script = ExtResource("6_78n2u")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 visible = false
