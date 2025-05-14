@@ -11,13 +11,14 @@ config_version=5
 [application]
 
 config/name="Proximal"
-run/main_scene="res://scenes/main.tscn"
+run/main_scene="uid://rdcxne2i7lkc"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Util="*res://scripts/util.gd"
+FadeToBlack="*res://scenes/Transitions/fade_to_black.tscn"
 
 [display]
 
