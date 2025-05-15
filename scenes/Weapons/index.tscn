@@ -44,6 +44,7 @@ bullet_speed = 90.0
 depleted_material = ExtResource("3_p258f")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
 mesh = SubResource("BoxMesh_2gn6w")
 
 [node name="BulletEmergePoint" type="Node3D" parent="."]

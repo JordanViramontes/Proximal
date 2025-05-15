@@ -15,6 +15,7 @@ fire_rate = 100.0
 bullet = ExtResource("2_72tuf")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
 mesh = SubResource("BoxMesh_2gn6w")
 
 [node name="BulletEmergePoint" type="Node3D" parent="."]

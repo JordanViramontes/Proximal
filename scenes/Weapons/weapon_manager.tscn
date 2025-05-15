@@ -24,8 +24,9 @@
 resource_local_to_scene = true
 albedo_color = Color(0.5168, 0.605973, 0.76, 1)
 
-[node name="Weapon_Manager" type="Node3D" groups=["WeaponManager"]]
+[node name="Weapon_Manager" type="Node3D" node_paths=PackedStringArray("hand_visual_base") groups=["WeaponManager"]]
 script = ExtResource("1_583ps")
+hand_visual_base = NodePath("HandBase")
 
 [node name="Thumb" parent="." instance=ExtResource("4_e55dp")]
 visible = false
@@ -57,7 +58,6 @@ script = ExtResource("8_q123h")
 finger_list = [NodePath("ThumbIndicator"), NodePath("IndexIndicator"), NodePath("MiddleIndicator"), NodePath("RingIndicator"), NodePath("PinkyIndicator")]
 
 [node name="ThumbIndicator" type="MeshInstance3D" parent="HandBase"]
-transform = Transform3D(0.999999, 0.000364624, 0.00178357, -0.000357814, 0.999993, -0.00379465, -0.00178493, 0.003794, 0.999991, 0, 0, 0)
 mesh = ExtResource("12_oqedj")
 script = ExtResource("10_8as1b")
 highlighted_material = ExtResource("9_oqedj")

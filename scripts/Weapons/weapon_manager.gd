@@ -2,6 +2,7 @@ extends Node3D
 
 
 @export var player: Player # kind of hate that i have this but o well! 
+@export var hand_visual_base: MeshInstance3D
 
 # weapon variables
 var weapon_dictionary
@@ -23,8 +24,7 @@ func _ready():
 		$Pinky
 	]
 	curr_weapon_index = 1
-	curr_weapon = weapon_dictionary[curr_weapon_index]
-	set_weapon_active(curr_weapon)
+	set_current_weapon(curr_weapon_index)
 
 # code for polling inputs
 func _process(delta: float):
@@ -64,14 +64,14 @@ func change_weapon_to(weapon_index):
 	if weapon_index == 5: # scroll wrap
 		weapon_index = 0
 	
+	
+	
 	# set previous weapon stuff
 	cease_fire()
 	set_weapon_unactive(curr_weapon)
 	
 	# change weapon variables
-	curr_weapon_index = weapon_index
-	curr_weapon = weapon_dictionary[curr_weapon_index]
-	set_weapon_active(curr_weapon)
+	set_current_weapon(weapon_index)
 	
 	print("Changed weapon to: " + str(curr_weapon))
 
@@ -94,9 +94,14 @@ func ability_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3
 func cease_fire():
 	curr_weapon.cease_fire()
 
-func set_weapon_active(weapon):
-	weapon.visible = true
-	weapon.active = true
+
+func set_current_weapon(index: int):
+	curr_weapon = weapon_dictionary[index]
+	hand_visual_base.select_finger(index)
+	curr_weapon_index = index
+	curr_weapon.visible = true
+	curr_weapon.active = true
+
 
 func set_weapon_unactive(weapon):
 	weapon.visible = false
