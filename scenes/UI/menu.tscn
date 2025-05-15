@@ -122,6 +122,77 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_wav1i")
 text = "QUIT"
 alignment = 0
 
+[node name="Options Menu" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Options Menu"]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_right = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Options Menu/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Options Menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Vol_Label" type="Label" parent="Options Menu/MarginContainer/VBoxContainer/HBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_ofy2k")
+theme_override_font_sizes/font_size = 18
+text = "Volume:"
+
+[node name="Options_Exit" type="Button" parent="Options Menu/MarginContainer/VBoxContainer/HBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 18
+text = "X"
+
+[node name="Volume" type="HSlider" parent="Options Menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+value = 50.0
+
+[node name="Vol_Label" type="Label" parent="Options Menu/MarginContainer/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_ofy2k")
+theme_override_font_sizes/font_size = 18
+text = "Resolutions:"
+
+[node name="Resolutions" type="OptionButton" parent="Options Menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+selected = 4
+item_count = 6
+popup/item_0/text = "1920x1080"
+popup/item_0/id = 0
+popup/item_1/text = "1600x900"
+popup/item_1/id = 1
+popup/item_2/text = "1280x720"
+popup/item_2/id = 2
+popup/item_3/text = "1024x576"
+popup/item_3/id = 3
+popup/item_4/text = "640x360"
+popup/item_4/id = 4
+popup/item_5/text = "256x144"
+popup/item_5/id = 5
+
 [connection signal="pressed" from="Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="Options Menu/MarginContainer/VBoxContainer/HBoxContainer/Options_Exit" to="." method="_on_options_exit_pressed"]
+[connection signal="value_changed" from="Options Menu/MarginContainer/VBoxContainer/Volume" to="." method="_on_volume_value_changed"]
+[connection signal="item_selected" from="Options Menu/MarginContainer/VBoxContainer/Resolutions" to="." method="_on_resolutions_item_selected"]
