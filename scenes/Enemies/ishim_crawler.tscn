@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://bjteq07i0vf8m"]
+[gd_scene load_steps=10 format=3 uid="uid://bjteq07i0vf8m"]
 
 [ext_resource type="Script" uid="uid://cbg7uu84mlv15" path="res://scripts/Characters/ishim_crawler.gd" id="1_lgyoi"]
 [ext_resource type="Material" uid="uid://cv7l0r86mk435" path="res://assets/materials/hitflash_mat.tres" id="1_ovggl"]
 [ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://scripts/components/health_component.gd" id="3_oaf2w"]
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="4_kebby"]
+[ext_resource type="Texture2D" uid="uid://bckscsuhohlt7" path="res://assets/sprites/test_man.png" id="5_jfxgx"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vrbru"]
 albedo_color = Color(0.254902, 0.521569, 1, 1)
@@ -24,6 +25,7 @@ max_health = 5.0
 movement_speed = 6
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." groups=["Enemies"]]
+visible = false
 material_overlay = ExtResource("1_ovggl")
 mesh = SubResource("CapsuleMesh_vd578")
 
@@ -49,6 +51,12 @@ wait_time = 1.2
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 avoidance_enabled = true
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(3.885, 0, 0, 0, 3.885, 0, 0, 0, 3.885, 0, 0, 0)
+billboard = 1
+texture_filter = 0
+texture = ExtResource("5_jfxgx")
 
 [connection signal="body_entered" from="HitboxComponent" to="." method="_on_hitbox_component_body_entered"]
 [connection signal="timeout" from="PathfindTimer" to="." method="_on_pathfind_timer_timeout"]

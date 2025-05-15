@@ -1,11 +1,24 @@
-[gd_scene load_steps=8 format=3 uid="uid://klyx4oq82x8k"]
+[gd_scene load_steps=21 format=3 uid="uid://klyx4oq82x8k"]
 
 [ext_resource type="Script" uid="uid://b4wfrgspyik6s" path="res://scripts/Weapons/weapon_manager.gd" id="1_583ps"]
 [ext_resource type="PackedScene" uid="uid://dxdtidj4hp83f" path="res://scenes/Weapons/thumb.tscn" id="4_e55dp"]
 [ext_resource type="PackedScene" uid="uid://d07kbrumu4gbf" path="res://scenes/Weapons/index.tscn" id="4_qlvm5"]
 [ext_resource type="PackedScene" uid="uid://bm6i7l7q7whsf" path="res://scenes/Weapons/middle.tscn" id="6_12ses"]
+[ext_resource type="ArrayMesh" uid="uid://b5mw6ajijkm3t" path="res://assets/meshes/hand_base.obj" id="7_0digo"]
 [ext_resource type="PackedScene" uid="uid://duneq26sd14wn" path="res://scenes/Weapons/ring.tscn" id="7_k5yqd"]
+[ext_resource type="Script" uid="uid://d17gyl0lwxqg" path="res://scenes/Weapons/indicators/hand_visual_base.gd" id="8_q123h"]
 [ext_resource type="PackedScene" uid="uid://b0epnjdv5u53e" path="res://scenes/Weapons/pinky.tscn" id="8_r1oqp"]
+[ext_resource type="ArrayMesh" uid="uid://bjbj80xkk5vv3" path="res://assets/meshes/middle.obj" id="8_rbcgb"]
+[ext_resource type="ArrayMesh" uid="uid://byjngos1bb4n0" path="res://assets/meshes/index.obj" id="9_k5l7f"]
+[ext_resource type="Material" uid="uid://cx7vrvoh613mk" path="res://assets/materials/m_thumb_weapon.tres" id="9_oqedj"]
+[ext_resource type="ArrayMesh" uid="uid://b3ryvwdcg70ml" path="res://assets/meshes/pinky.obj" id="10_6bhtj"]
+[ext_resource type="Script" uid="uid://dmwanuw5iin6b" path="res://scenes/Weapons/indicators/weapon_visual_indicator.gd" id="10_8as1b"]
+[ext_resource type="Material" uid="uid://gse6mhar2dkn" path="res://assets/materials/m_index_weapon.tres" id="11_8as1b"]
+[ext_resource type="ArrayMesh" uid="uid://ctoogaekjnhij" path="res://assets/meshes/ring.obj" id="11_68b4n"]
+[ext_resource type="ArrayMesh" uid="uid://cu6ytjvfj0faj" path="res://assets/meshes/thumb.obj" id="12_oqedj"]
+[ext_resource type="Material" uid="uid://825y816fpras" path="res://assets/materials/m_middle_weapon.tres" id="13_q123h"]
+[ext_resource type="Material" uid="uid://pdp13fj43mhq" path="res://assets/materials/m_ring_weapon.tres" id="15_aab8g"]
+[ext_resource type="Material" uid="uid://d3pkbqg8petcg" path="res://assets/materials/m_pinky_weapon.tres" id="17_17xcm"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3ye0t"]
 resource_local_to_scene = true
@@ -36,5 +49,39 @@ bullet_damage = 100.0
 [node name="DashTimer" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true
+
+[node name="HandBase" type="MeshInstance3D" parent="." node_paths=PackedStringArray("finger_list")]
+transform = Transform3D(-3.86924e-08, -9.89687e-10, -1, -0.0821344, 0.99515, 3.57314e-09, 0.830951, 0.0983645, -4.62108e-08, 0.021, -0.231041, -0.756)
+mesh = ExtResource("7_0digo")
+script = ExtResource("8_q123h")
+finger_list = [NodePath("ThumbIndicator"), NodePath("IndexIndicator"), NodePath("MiddleIndicator"), NodePath("RingIndicator"), NodePath("PinkyIndicator")]
+
+[node name="ThumbIndicator" type="MeshInstance3D" parent="HandBase"]
+transform = Transform3D(0.999999, 0.000364624, 0.00178357, -0.000357814, 0.999993, -0.00379465, -0.00178493, 0.003794, 0.999991, 0, 0, 0)
+mesh = ExtResource("12_oqedj")
+script = ExtResource("10_8as1b")
+highlighted_material = ExtResource("9_oqedj")
+
+[node name="IndexIndicator" type="MeshInstance3D" parent="HandBase"]
+mesh = ExtResource("9_k5l7f")
+skeleton = NodePath("../..")
+script = ExtResource("10_8as1b")
+highlighted_material = ExtResource("11_8as1b")
+
+[node name="MiddleIndicator" type="MeshInstance3D" parent="HandBase"]
+mesh = ExtResource("8_rbcgb")
+skeleton = NodePath("../..")
+script = ExtResource("10_8as1b")
+highlighted_material = ExtResource("13_q123h")
+
+[node name="RingIndicator" type="MeshInstance3D" parent="HandBase"]
+mesh = ExtResource("11_68b4n")
+script = ExtResource("10_8as1b")
+highlighted_material = ExtResource("15_aab8g")
+
+[node name="PinkyIndicator" type="MeshInstance3D" parent="HandBase"]
+mesh = ExtResource("10_6bhtj")
+script = ExtResource("10_8as1b")
+highlighted_material = ExtResource("17_17xcm")
 
 [connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
