@@ -25,10 +25,11 @@ var spawning_velocity = Vector3(0, 0, 0)
 var ENEMY_STATE = {
 	"roam":0,
 	"spawn_edge":1,
-	"dead":2
+	"dead":2,
+	"stunned":3
 }
 var current_state = ENEMY_STATE.spawn_edge
-var total_states = 2
+var total_states = 3
 
 # components
 @onready var health_component := $HealthComponent
@@ -106,6 +107,12 @@ func _process(delta: float) -> void:
 	pass
 
 func _physics_process(delta):
+	if current_state == ENEMY_STATE.stunned:
+		#print("STUNNED")
+		velocity = Vector3.ZERO
+		move_and_slide()
+		return
+	
 	# spawning along the edge, you will have a straight line to path towards until you reach the target
 	if current_state == ENEMY_STATE.spawn_edge:
 		if global_position.distance_to(spawn_distance_vector) < 0.1:
@@ -136,6 +143,7 @@ func on_damaged(di: DamageInstance):
 
 # update pathfind when the timer happens
 func _on_pathfind_timer_timeout() -> void:
+	print("CHECK PATHFIND")
 	# update vars
 	player_position = player.global_position
 	
@@ -155,6 +163,8 @@ func get_target_from_state(state):
 		return player_position
 	elif state == ENEMY_STATE.spawn_edge:
 		return spawn_distance_vector
+	else:
+		return global_position
 
 # set the movement target for navigation
 func set_movement_target(movement_target: Vector3):
@@ -169,3 +179,17 @@ func deal_damage_to_player(di: DamageInstance):
 	else:
 		print("shielding")
 	# if not, do something else
+
+func _on_recieve_stun() -> void:
+	print("enemy_base.gd stunned: " + str(self))
+	current_state = ENEMY_STATE.stunned
+	pathfind_timer.stop() # disable pathfinding
+	pathfind_timer.autostart = false
+	can_damage_player = false
+
+func _on_recieve_unstun() -> void:
+	print("enemy_base.gd un-stunned: " + str(self))
+	current_state = ENEMY_STATE.roam
+	pathfind_timer.start() # disable pathfinding
+	pathfind_timer.autostart = true
+	can_damage_player = true

@@ -1,12 +1,22 @@
 extends Node3D
 
 
-@export var player: Player # kind of hate that i have this but o well! 
+@onready var player: Player = get_tree().get_first_node_in_group("Player")
+#@export var player: Player # kind of hate that i have this but o well! 
 
 # weapon variables
 var weapon_dictionary
 var curr_weapon_index
 var curr_weapon # defined in ready
+
+# hitbox
+@onready var hitboxColl: CollisionShape3D = $StunHitbox/CollisionShape3D
+@onready var hitboxTimer: Timer = $StunHitboxTimer
+@onready var stunEnemyTimer: Timer = $StunEnemyTimer
+#@onready var hitboxCol: CollisionShape3D = $StunHitbox/CollisionShape3D
+var face_dir: Vector3 = Vector3.ZERO
+var currently_stunned_enemies: Array[EnemyBase] = []
+var can_stun: bool = true;
 
 # weapon / ability authentication
 var canUseWeapon: bool = true
@@ -25,6 +35,8 @@ func _ready():
 	curr_weapon_index = 1
 	curr_weapon = weapon_dictionary[curr_weapon_index]
 	set_weapon_active(curr_weapon)
+	
+	hitboxColl.disabled = true
 
 # code for polling inputs
 func _process(delta: float):
@@ -49,7 +61,16 @@ func _process(delta: float):
 		use_ability(curr_weapon_index)
 	if Input.is_action_just_pressed("hotkey_dash"): # Index = 1
 		use_ability(1)
+	
+	# debug
+	if Input.is_action_just_pressed("debug_enemy_stun"):
+		if can_stun == true:
+			stun_enemies()
 
+func _physics_process(delta: float) -> void:
+	face_dir = Vector3.FORWARD
+	hitboxColl.look_at(self.position + to_global(face_dir), Vector3.UP)
+	pass
 
 # 3 ways of recieving new weapon change, either scroll wheels (handled in _process),
 # hotkey (also _process), and weapon wheel (recieve signal from wheel node)
@@ -137,3 +158,32 @@ func _on_dash_timer_timeout() -> void:
 # recieve signal from earning xp
 func _on_earn_experience(xp: float):
 	print("earned: " + str(xp) + "xp")
+
+func stun_enemies() -> void:
+	print("weapon_manager.gd: stunning")
+	hitboxColl.disabled = false
+	can_stun = false
+	hitboxTimer.start()
+	stunEnemyTimer.start()
+
+func _on_stun_hitbox_timer_timeout() -> void:
+	# diabled stun hitbox coll and unstun enemies
+	print("weapon_manager.gd: stun hitbox disabled")
+	hitboxColl.disabled = true
+
+func _on_stun_hitbox_body_entered(body: EnemyBase) -> void:
+	print("weapon_manager.gd: stun hitbox found: " + str(body))
+	currently_stunned_enemies.push_back(body)
+	body._on_recieve_stun()
+
+
+func _on_stun_enemy_timer_timeout() -> void:
+	print ("weapon_manager.gd: unstunning")
+	can_stun = true
+	
+	# flush stunned array
+	for i in currently_stunned_enemies:
+		if i:
+			i._on_recieve_unstun()
+	
+	currently_stunned_enemies = []
