@@ -123,7 +123,6 @@ text = "QUIT"
 alignment = 0
 
 [node name="Options Menu" type="Control" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -131,51 +130,69 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="Options Menu"]
+[node name="PanelContainer" type="PanelContainer" parent="Options Menu"]
+self_modulate = Color(1, 1, 1, 0.607843)
 layout_mode = 1
-anchors_preset = 13
-anchor_left = 0.5
-anchor_right = 0.5
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -200.0
-offset_right = 200.0
+offset_left = 120.0
+offset_top = 18.0
+offset_right = -120.0
+offset_bottom = -18.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Options Menu/MarginContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Options Menu/PanelContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Options Menu/MarginContainer/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Options Menu/PanelContainer/MarginContainer"]
 layout_mode = 2
+size_flags_vertical = 3
 
-[node name="Vol_Label" type="Label" parent="Options Menu/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Options Menu/PanelContainer/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Options Menu/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Vol_Label" type="Label" parent="Options Menu/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
 texture_filter = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("8_ofy2k")
 theme_override_font_sizes/font_size = 18
 text = "Volume:"
 
-[node name="Options_Exit" type="Button" parent="Options Menu/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Options_Exit" type="Button" parent="Options Menu/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 10
 theme_override_font_sizes/font_size = 18
 text = "X"
 
-[node name="Volume" type="HSlider" parent="Options Menu/MarginContainer/VBoxContainer"]
+[node name="Volume" type="HSlider" parent="Options Menu/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 value = 50.0
 
-[node name="Vol_Label" type="Label" parent="Options Menu/MarginContainer/VBoxContainer"]
+[node name="Res_Label" type="Label" parent="Options Menu/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer"]
 texture_filter = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("8_ofy2k")
 theme_override_font_sizes/font_size = 18
 text = "Resolutions:"
 
-[node name="Resolutions" type="OptionButton" parent="Options Menu/MarginContainer/VBoxContainer"]
+[node name="Resolutions" type="OptionButton" parent="Options Menu/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 18
 selected = 4
+allow_reselect = true
 item_count = 6
 popup/item_0/text = "1920x1080"
 popup/item_0/id = 0
@@ -193,6 +210,6 @@ popup/item_5/id = 5
 [connection signal="pressed" from="Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="Quit" to="." method="_on_quit_pressed"]
-[connection signal="pressed" from="Options Menu/MarginContainer/VBoxContainer/HBoxContainer/Options_Exit" to="." method="_on_options_exit_pressed"]
-[connection signal="value_changed" from="Options Menu/MarginContainer/VBoxContainer/Volume" to="." method="_on_volume_value_changed"]
-[connection signal="item_selected" from="Options Menu/MarginContainer/VBoxContainer/Resolutions" to="." method="_on_resolutions_item_selected"]
+[connection signal="pressed" from="Options Menu/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/Options_Exit" to="." method="_on_options_exit_pressed"]
+[connection signal="value_changed" from="Options Menu/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/Volume" to="." method="_on_volume_value_changed"]
+[connection signal="item_selected" from="Options Menu/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/Resolutions" to="." method="_on_resolutions_item_selected"]
