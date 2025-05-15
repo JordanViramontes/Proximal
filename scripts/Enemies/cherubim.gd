@@ -185,7 +185,7 @@ func _on_ishim_area_body_entered(body: Node3D) -> void:
 		alerted_ishims.append(body)
 		body.goto_cherubim(self)
 
-func _on_ishim_reached_cherubim(ishim: IshimRanger) -> void:
+func _on_ishim_reached_cherubim(ishim: IshimRanger) -> Node3D:
 	# avoid duplicate enemies
 	if ishim.current_state == ishim.ENEMY_STATE.cherubim_sit:
 		return
@@ -208,31 +208,24 @@ func _on_ishim_reached_cherubim(ishim: IshimRanger) -> void:
 	# if there was no found slot
 	if not ishim_slot:
 		print("couldnt find slot! current count: " + str(ishim_count) + ", slots: " + str(ishims))
-		return
+		return null
 	
-	# set ishim to our local tree
-	if ishim.get_parent():
-		if ishim_parent == null:
-			ishim_parent = ishim.get_parent()
-		ishim.get_parent().remove_child(ishim)  # Remove obj2 from its current parent
-		var transform = ishim_slot.global_transform # get transformation of ishim node to avoid errors with roatation
-		ishim_count += 1
-		add_child(ishim)  # Make obj2 a child of obj1
-		
-		# set ishim stuff
-		ishim.velocity = Vector3.ZERO
-		ishim.global_transform = transform
-		ishim.current_state = ishim.ENEMY_STATE.cherubim_sit
-		#print("finished, current count: " + str(ishim_count) + ", slots: " + str(ishims))
-		
-		# reset alerted ishims if we've reached max
-		if ishim_count >= 2:
-			print("full:" + str(alerted_ishims))
-			for i in alerted_ishims:
-				if i is IshimRanger && i.current_state == i.ENEMY_STATE.cherubim_alert:
-					i.cherubim_alerted = false
-					i.current_state = i.ENEMY_STATE.roam
-			alerted_ishims = []
+	# set ishim stuff
+	ishim.velocity = Vector3.ZERO
+	ishim.global_transform = transform
+	ishim.current_state = ishim.ENEMY_STATE.cherubim_sit
+	ishim_count += 1
+	
+	# reset alerted ishims if we've reached max
+	if ishim_count >= 2:
+		print("full:" + str(alerted_ishims))
+		for i in alerted_ishims:
+			if i is IshimRanger && i.current_state == i.ENEMY_STATE.cherubim_alert:
+				i.cherubim_alerted = false
+				i.current_state = i.ENEMY_STATE.roam
+		alerted_ishims = []
+	
+	return ishim_slot
 
 func _on_ishim_died(cherubim_slot):
 	ishim_count -= 1
@@ -244,15 +237,13 @@ func on_reach_zero_health():
 	for i in ishims:
 		if i:
 			#print("ish: " + str(i))
-			if i.get_parent():
-				i.get_parent().remove_child(i)
-			get_tree().current_scene.add_child(i)
 			if i == ishims[0]:
 				i.global_position = ishim_spot1.global_position
 			else:
 				i.global_position = ishim_spot2.global_position
 			i.current_state = i.ENEMY_STATE.roam
 			i.cherubim_alerted = false
+			i.cherubim_node = null
 		
 	super.on_reach_zero_health()
 

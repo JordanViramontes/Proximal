@@ -89,18 +89,22 @@ func _ready() -> void:
 	
 	# set up target distance for spawn_edge, calculate spawn_distance_vector using trig
 	if current_state == ENEMY_STATE.spawn_edge:
-		var spawn_angle = (Vector2.ZERO - Vector2(position.x, position.z)).angle() # get the angle
-		var spawn_distance_x = position.x + spawn_distance_length * cos(spawn_angle) # do trig to find the distance
-		var spawn_distance_z = position.z + spawn_distance_length * sin(spawn_angle)
-		
-		spawn_distance_vector = Vector3(spawn_distance_x, global_position.y + spawn_distance_height, spawn_distance_z)
-		spawning_velocity = Vector3((spawn_distance_vector-global_position)/spawning_time)
-		
+		spawning_velocity = calculateSpwaningVelocity()
 		# disable collision
 		collision.disabled = true
 	
 	# set the target
 	set_movement_target(get_target_from_state(current_state))
+
+func calculateSpwaningVelocity() -> Vector3:
+	var spawn_angle = (Vector2.ZERO - Vector2(position.x, position.z)).angle() # get the angle
+	var spawn_distance_x = position.x + spawn_distance_length * cos(spawn_angle) # do trig to find the distance
+	var spawn_distance_z = position.z + spawn_distance_length * sin(spawn_angle)
+	
+	spawn_distance_vector = Vector3(spawn_distance_x, global_position.y + spawn_distance_height, spawn_distance_z)
+	spawning_velocity = Vector3((spawn_distance_vector-global_position)/spawning_time)
+	
+	return spawning_velocity
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -137,6 +141,10 @@ func on_damaged(di: DamageInstance):
 	if (hitflash_tween and hitflash_tween.is_running()):
 		hitflash_tween.stop()
 	hitflash_tween = get_tree().create_tween()
+	# check if our material is correct
+	if $MeshInstance3D.material_overlay == null:
+		var new_material := StandardMaterial3D.new()
+		$MeshInstance3D.material_overlay = new_material
 	$MeshInstance3D.material_overlay.albedo_color = Color(1.0, 1.0, 1.0, 1.0) # set alpha
 	hitflash_tween.tween_property($MeshInstance3D, "material_overlay:albedo_color", Color(1.0, 1.0, 1.0, 0.0), 0.1) # tween alpha
 	emit_signal("drop_xp", xp_on_damaged) # emit experience points
@@ -171,6 +179,7 @@ func set_movement_target(movement_target: Vector3):
 	navigation_agent.set_target_position(movement_target)
 	next_path_position = navigation_agent.get_next_path_position()
 	pathfindVel = global_position.direction_to(next_path_position) * movement_speed
+	#print("we: " + str(self) + ", p: " + str(pathfindVel))
 
 func deal_damage_to_player(di: DamageInstance):
 	# check if the player can take damage

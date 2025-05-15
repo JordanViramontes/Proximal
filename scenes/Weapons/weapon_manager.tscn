@@ -1,5 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://klyx4oq82x8k"]
 
+
 [ext_resource type="Script" uid="uid://b4wfrgspyik6s" path="res://scripts/Weapons/weapon_manager.gd" id="1_583ps"]
 [ext_resource type="PackedScene" uid="uid://dxdtidj4hp83f" path="res://scenes/Weapons/thumb.tscn" id="4_e55dp"]
 [ext_resource type="PackedScene" uid="uid://d07kbrumu4gbf" path="res://scenes/Weapons/index.tscn" id="4_qlvm5"]
@@ -28,6 +29,7 @@ visible = false
 
 [node name="Index" parent="." instance=ExtResource("4_qlvm5")]
 visible = false
+depleted_material = SubResource("StandardMaterial3D_3ye0t")
 
 [node name="Middle" parent="." instance=ExtResource("6_12ses")]
 visible = false

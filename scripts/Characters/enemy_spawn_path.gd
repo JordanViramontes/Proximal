@@ -16,8 +16,10 @@ var DEBUG_enemy_list = [
 	"res://scenes/Enemies/ishim_crawler.tscn", # CRAWLER 1
 	"res://scenes/Enemies/ishim_ranger.tscn", # RANGER 2
 	"res://scenes/Enemies/cherubim.tscn", # CHERUBIM WORM 3
+	"res://scenes/Enemies/elohim.tscn", # ELOHIM 4
+	"res://scenes/Enemies/be_elohim_ranger.tscn", # BENE ELOHIM 5
 ]
-var DEBUG_enemy_ptr = 3
+var DEBUG_enemy_ptr = 5
 var DEBUG_wave: bool = true
 
 # components
@@ -30,6 +32,7 @@ class Wave:
 		"res://scenes/Enemies/ishim_crawler.tscn":-1, #ISHIM_CRAWLER
 		"res://scenes/Enemies/ishim_ranger.tscn":-1, #ISHIM_RANGER
 		"res://scenes/Enemies/cherubim.tscn":-1, # CHERUBIM WORM
+		"res://scenes/Enemies/elohim.tscn":-1, # ELOHIM 
 	}
 	var enemy_health_multiplier: float = -1 
 	var enemy_damage_multiplier: float = -1
