@@ -5,12 +5,12 @@
 [ext_resource type="Texture2D" uid="uid://c7ao2jw0rnah0" path="res://assets/textures/dev/grids/Dark/texture_07.png" id="2_4n1ka"]
 [ext_resource type="Script" uid="uid://drj4up00u5x88" path="res://scripts/Characters/enemy_spawn_path.gd" id="6_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://bfdo44kle73uq" path="res://scenes/Characters/player.tscn" id="6_tefeu"]
-[ext_resource type="PackedScene" uid="uid://b3ghxetcov6va" path="res://scenes/Enemies/enemy_base.tscn" id="7_o6xl0"]
 [ext_resource type="Script" uid="uid://c0md12nt0jei1" path="res://scripts/fps_counter.gd" id="8_85g3d"]
 [ext_resource type="PackedScene" uid="uid://dbn175mecst55" path="res://assets/models/map/map_draft.blend" id="8_tipki"]
 [ext_resource type="Shader" uid="uid://drfc1fob3nean" path="res://assets/shaders/water.gdshader" id="9_85g3d"]
 [ext_resource type="Theme" uid="uid://rsglqw8mc02x" path="res://assets/themes/default.tres" id="9_ya4ey"]
 [ext_resource type="Script" uid="uid://cqq4wmrgc8xv7" path="res://scripts/death_interface.gd" id="10_choun"]
+[ext_resource type="Script" uid="uid://vc054ubkxfcw" path="res://scenes/wave_info.gd" id="10_ya4ey"]
 
 [sub_resource type="Gradient" id="Gradient_ya4ey"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -134,13 +134,18 @@ transform = Transform3D(3.84, 0, 0, 0, 3.84, 0, 0, 0, 3.84, 0, 0, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0320868, 0)
 curve = SubResource("Curve3D_tefeu")
 script = ExtResource("6_o6xl0")
-mob_scene = ExtResource("7_o6xl0")
 
 [node name="EnemySpawner" type="PathFollow3D" parent="NavigationRegion3D/EnemySpawnPath"]
 transform = Transform3D(-0.994941, 0, -0.100405, 0, 1, 0, 0.100405, 0, -0.994941, -55.1679, 0, -3.37566)
 
 [node name="TestSpawnPoint" type="Node3D" parent="NavigationRegion3D/EnemySpawnPath"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.111441, 2.34501, 35.0068)
+
+[node name="WaveTimer" type="Timer" parent="NavigationRegion3D/EnemySpawnPath"]
+one_shot = true
+
+[node name="UpdateTimer" type="Timer" parent="NavigationRegion3D/EnemySpawnPath"]
+autostart = true
 
 [node name="Player" parent="." instance=ExtResource("6_tefeu")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -4.93703, 5.62312, 15)
@@ -166,6 +171,19 @@ grow_horizontal = 0
 theme = ExtResource("9_ya4ey")
 text = "fps:"
 script = ExtResource("8_85g3d")
+
+[node name="WaveInfo" type="Label" parent="UI" groups=["WaveInfoLabel"]]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_top = 25.0
+offset_bottom = 48.0
+grow_horizontal = 0
+theme = ExtResource("9_ya4ey")
+text = "Time Left: "
+script = ExtResource("10_ya4ey")
 
 [node name="DeathInterface" type="Control" parent="UI"]
 visible = false
@@ -205,3 +223,6 @@ resetting in [BLANK]"
 horizontal_alignment = 1
 
 [node name="Timer" type="Timer" parent="UI/DeathInterface"]
+
+[connection signal="timeout" from="NavigationRegion3D/EnemySpawnPath/WaveTimer" to="NavigationRegion3D/EnemySpawnPath" method="_on_wave_timer_timeout"]
+[connection signal="timeout" from="NavigationRegion3D/EnemySpawnPath/UpdateTimer" to="NavigationRegion3D/EnemySpawnPath" method="_on_update_timer_timeout"]

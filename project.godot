@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Proximal"
-run/main_scene="uid://ym3cvmyxqe21"
+run/main_scene="uid://dwckn628u33ab"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
