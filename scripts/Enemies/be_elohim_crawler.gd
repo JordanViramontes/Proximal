@@ -58,9 +58,9 @@ func _ready() -> void:
 	total_states += 3
 	
 	# colors
-	mat_roam.albedo_color = Color("6d9939")
-	mat_run_away.albedo_color = Color("85b947")
-	mat_comfy.albedo_color = Color("4b6b25")
+	mat_roam.albedo_color = Color("3d9f98")
+	mat_run_away.albedo_color = Color("6addd4")
+	mat_comfy.albedo_color = Color("1a524e")
 	
 	super._ready()
 	
@@ -116,7 +116,8 @@ func _physics_process(delta: float) -> void:
 		else:
 			bobbing_vel -= bobbing_acc;
 		
-		velocity.y = bobbing_vel
+		#velocity.y = bobbing_vel
+		print("BOB:"  + str(bobbing_vel))
 		bob_distance += bobbing_vel * delta
 		
 		# check for height compared to player

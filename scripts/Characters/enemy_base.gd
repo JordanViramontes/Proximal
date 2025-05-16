@@ -20,6 +20,7 @@ var spawning_velocity = Vector3(0, 0, 0)
 @export var spawning_time = 2
 @export var spawn_distance_length = 1 # distance to travel towards origin
 @export var spawn_distance_height = 3 # units to travel vertically while in spawning state
+var wave_category: int = 0
 
 # states
 var ENEMY_STATE = {
@@ -42,6 +43,7 @@ var total_states = 2
 
 # signals
 signal die
+signal die_from_wave(wave: int)
 signal take_damage
 signal drop_xp(xp: float)
 signal deal_damage(damage: float)
@@ -54,11 +56,12 @@ var can_damage_player: bool = true
 @onready var attack_timer := Timer.new()
 
 # Constructor called by spawner
-func initialize(starting_position, init_player_position):
+func initialize(starting_position, init_player_position, wave):
 	# spawning
 	current_state = ENEMY_STATE.spawn_edge
 	position = starting_position
 	player_position = init_player_position
+	wave_category = wave
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:	
@@ -107,7 +110,9 @@ func calculateSpwaningVelocity() -> Vector3:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	# kill self if we are out of bounds
+	if global_position.y < -20:
+		on_reach_zero_health()
 
 func _physics_process(delta):
 	# spawning along the edge, you will have a straight line to path towards until you reach the target
@@ -125,6 +130,7 @@ func _physics_process(delta):
 
 # When they dead as hell
 func on_reach_zero_health():
+	emit_signal("die_from_wave", wave_category)
 	die.emit()
 	emit_signal("drop_xp", xp_on_death) # emit experience points
 	self.queue_free()

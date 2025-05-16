@@ -5,9 +5,11 @@ class_name BulletBase
 
 @export var bullet_damage: float = 2.5
 @export var bullet_speed: float = 10.0
+@export var self_delete_range: float = 100
 var x_spin_speed: float
 var y_spin_speed: float
 var z_spin_speed: float
+var initial_pos: Vector3 = Vector3.ZERO
 
 var direction: Vector3 = Vector3.ZERO
 
@@ -26,10 +28,13 @@ func _ready() -> void:
 	x_spin_speed = randf_range(-2*PI, 2*PI)
 	y_spin_speed = randf_range(-2*PI, 2*PI)
 	z_spin_speed = randf_range(-2*PI, 2*PI)
+	initial_pos = global_position
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	# check for self delete
+	if abs(global_position.distance_to(initial_pos)) > self_delete_range:
+		self.queue_free()
 
 func _physics_process(delta: float) -> void:
 	self.position += direction * bullet_speed * delta

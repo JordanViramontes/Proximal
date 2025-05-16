@@ -126,27 +126,18 @@ func _on_bullet_timer_timeout() -> void:
 	if current_state == ENEMY_STATE.roam || current_state == ENEMY_STATE.comfy || current_state == ENEMY_STATE.cherubim_sit:
 		var b = bullet.instantiate()
 		if b == null: # just in case
-			print("isham_ranger.gd - bullet did not instantiate")
+			print("be_elohim_ranger.gd - bullet did not instantiate")
 			return
 		
 		player_position = player.global_position #update the player pos for calculations
 		
 		# find displacement, distance, and use that to get time
-		var displacement = Vector3(player_position.x, player_position.y+1.5, player_position.z) - global_position
-		var direction = displacement.normalized()
-		var h_displacement: Vector3 = Vector3(displacement.x, 0, displacement.z)
-		var h_distance = h_displacement.length()
-		if h_distance > bullet_max_range:
-			h_distance = bullet_max_range
-		var t = (h_distance / bullet_velocity)
-		
-		# use time and kinematics to get velocity
-		var h_v = h_displacement.normalized() * bullet_velocity
-		var v_v = (displacement.y + (0.5 * bullet_gravity * t * t)) / t
-		var initial_velocity = Vector3(h_v.x, v_v, h_v.z)
+		var direction_transform = Vector3(0, 1.5, 0)
+		var direction = (player.global_transform.origin + direction_transform - self.global_transform.origin).normalized()
+		var initial_velocity = direction * bullet_velocity
 		
 		# initialize the bullet
-		b.initialize(initial_velocity, direction, bullet_gravity, self)
+		b.initialize(initial_velocity, self)
 		b.position = global_position
 		
 		World.world.add_child(b)
@@ -158,11 +149,15 @@ func goto_cherubim(cherubim: Cherubim) -> void:
 
 # check if we've reached a cherubim
 func _on_hitbox_component_body_entered(body: Node3D) -> void:
+	if current_state == ENEMY_STATE.spawn_edge:
+		return
+	
 	if body is not Cherubim:
 		return
 	
 	#print("reached! " + str(body))
-	cherubim_node = cherubim_friend._on_ishim_reached_cherubim(self)
+	if cherubim_friend:
+		cherubim_node = cherubim_friend._on_ishim_reached_cherubim(self)
 	if not cherubim_node:
 		current_state = ENEMY_STATE.roam
 
