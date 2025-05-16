@@ -45,9 +45,11 @@ var DEBUG_wave: bool = true
 @onready var wave_info_label = get_tree().get_first_node_in_group("WaveInfoLabel")
 
 # signals
+signal updateWaveCount(wave: int)
 signal updateWaveTimer(time: int)
 signal updateEnemyCount(enemies: int)
-signal updateLabelTimerType(timer: bool)
+signal updateNextWaveVisibility(visible: bool)
+signal updateNextWaveTimer(time: int)
 
 # wave struct holds all information about each wave
 class Wave:
@@ -144,6 +146,7 @@ func spawnWave(wave_index):
 	update_timer.start()
 	emit_signal("updateWaveTimer", wave_timer.time_left)
 	emit_signal("updateEnemyCount", current_wave_enemy_count)
+	emit_signal("updateWaveCount", current_wave + 1)
 
 func TESTspawnWave():
 	# for debugging enemies
@@ -195,6 +198,8 @@ func printWave(wave_index):
 
 # one of the ways waves end
 func _on_wave_timer_timeout() -> void:
+	emit_signal("updateWaveTimer", 0)
+	
 	# avoid ending multiple waves at once
 	if can_change_wave == false:
 		return
@@ -226,16 +231,25 @@ func end_wave() -> void:
 	wave_timer.stop()
 	
 	next_wave_timer.start()
-	
-	can_change_wave = true
+	update_timer.stop()
+	update_timer.wait_time = 1
+	update_timer.start()
+	emit_signal("updateNextWaveTimer", next_wave_timer.time_left)
+	emit_signal("updateNextWaveVisibility", true)
 
 # timer for UI
 func _on_update_timer_timeout() -> void:
+	if not can_change_wave:
+		emit_signal("updateNextWaveTimer", next_wave_timer.time_left)
+		return
+	
 	if wave_timer.time_left >= 1:
 		emit_signal("updateWaveTimer", wave_timer.time_left)
 
 # starts a new wave
 func _on_next_wave_timer_timeout() -> void:
 	# change wave and start a new one
+	emit_signal("updateNextWaveVisibility", false)
 	current_wave += 1
 	spawnWave(current_wave)
+	can_change_wave = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://dwckn628u33ab"]
+[gd_scene load_steps=29 format=3 uid="uid://dwckn628u33ab"]
 
 [ext_resource type="Texture2D" uid="uid://cqur83lk7fjfl" path="res://assets/hdris/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="1_8wojv"]
 [ext_resource type="Script" uid="uid://bpvwqw4pbfs3m" path="res://scripts/Areas/world.gd" id="1_dctr2"]
@@ -11,6 +11,7 @@
 [ext_resource type="Theme" uid="uid://rsglqw8mc02x" path="res://assets/themes/default.tres" id="9_ya4ey"]
 [ext_resource type="Script" uid="uid://cqq4wmrgc8xv7" path="res://scripts/death_interface.gd" id="10_choun"]
 [ext_resource type="Script" uid="uid://vc054ubkxfcw" path="res://scenes/wave_info.gd" id="10_ya4ey"]
+[ext_resource type="Script" uid="uid://bsg3bg0jpnpjr" path="res://scripts/next_wave_starting_in.gd" id="11_eb6dy"]
 
 [sub_resource type="Gradient" id="Gradient_ya4ey"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -92,6 +93,10 @@ _data = {
 "tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 }
 point_count = 17
+
+[sub_resource type="LabelSettings" id="LabelSettings_ya4ey"]
+line_spacing = -5.0
+font_size = 27
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_dctr2")
@@ -186,9 +191,23 @@ offset_top = 25.0
 offset_bottom = 48.0
 grow_horizontal = 0
 theme = ExtResource("9_ya4ey")
-text = "Time Left: 
+text = "Wave: 
+Time Left: 
 Enemies Left:"
 script = ExtResource("10_ya4ey")
+
+[node name="NextWaveStartingIn" type="Label" parent="UI"]
+layout_mode = 0
+offset_left = 202.0
+offset_top = 96.0
+offset_right = 440.0
+offset_bottom = 181.0
+text = "NEXT WAVE SPAWNING IN:
+3"
+label_settings = SubResource("LabelSettings_ya4ey")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("11_eb6dy")
 
 [node name="DeathInterface" type="Control" parent="UI"]
 visible = false
