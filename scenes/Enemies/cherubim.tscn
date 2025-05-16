@@ -1,5 +1,4 @@
-
-[gd_scene load_steps=11 format=3 uid="uid://bkhyaocomqp2q"]
+[gd_scene load_steps=12 format=3 uid="uid://bkhyaocomqp2q"]
 
 [ext_resource type="Script" uid="uid://iud8b5qauag5" path="res://scripts/Enemies/cherubim.gd" id="1_vrbru"]
 [ext_resource type="PackedScene" uid="uid://br0pvgk7t0dyh" path="res://scenes/Enemies/cherubim_bullet.tscn" id="2_yfmxc"]

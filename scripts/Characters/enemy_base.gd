@@ -151,7 +151,6 @@ func on_damaged(di: DamageInstance):
 
 # update pathfind when the timer happens
 func _on_pathfind_timer_timeout() -> void:
-	print("CHECK PATHFIND")
 	# update vars
 	player_position = player.global_position
 	
