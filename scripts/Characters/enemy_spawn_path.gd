@@ -128,7 +128,7 @@ func spawnWave(wave_index):
 	var wave = waveDictionary[wave_index]
 	print("TOTAL IN THIS WAVE: " + str(wave.total_enemies))
 	var enemy_count = wave.enemy_count
-	current_wave_enemy_count = wave.total_enemies
+	current_wave_enemy_count += wave.total_enemies
 	
 	# parse enemy_count, mob_path has the file path to the enemy scene
 	for mob_path in enemy_count.keys():  
@@ -209,10 +209,10 @@ func _on_wave_timer_timeout() -> void:
 
 # every time an enemy dies, update the enemy counter, if we have 0 enemies left start next wave
 func enemy_dies(from_wave: int) -> void:
-	print("DIEDIEDIED: " + str(from_wave))
+	#print("DIEDIEDIED: " + str(from_wave))
 	# only lower count for enemies in the current wave
-	if from_wave != current_wave:
-		return
+	#if from_wave != current_wave:
+		#return
 	
 	current_wave_enemy_count -= 1
 	emit_signal("updateEnemyCount", current_wave_enemy_count)

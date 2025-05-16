@@ -110,7 +110,9 @@ func calculateSpwaningVelocity() -> Vector3:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	# kill self if we are out of bounds
+	if global_position.y < -20:
+		on_reach_zero_health()
 
 func _physics_process(delta):
 	# spawning along the edge, you will have a straight line to path towards until you reach the target
