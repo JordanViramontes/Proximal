@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cpi5w5meyf7w1" path="res://scripts/Characters/player.gd" id="1_i3pqv"]
 [ext_resource type="PackedScene" uid="uid://pake15kqry6s" path="res://scenes/Camera/shakeable_camera.tscn" id="2_np5j3"]
 [ext_resource type="Texture2D" uid="uid://52vn44k3ngct" path="res://assets/textures/crosshair_dev.png" id="3_8iw34"]
-[ext_resource type="Script" uid="uid://3a112of4lpr" path="res://scenes/Characters/health_bar.gd" id="4_7xbc7"]
+[ext_resource type="Script" path="res://scenes/Characters/health_bar.gd" id="4_7xbc7"]
 [ext_resource type="PackedScene" uid="uid://klyx4oq82x8k" path="res://scenes/Weapons/weapon_manager.tscn" id="4_dqkch"]
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="4_jbyc3"]
 [ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://scripts/components/health_component.gd" id="4_np5j3"]
@@ -25,13 +25,11 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 
 collision_layer = 8
 script = ExtResource("1_i3pqv")
 ground_friction = 150.0
-air_accel = 25.0
-air_speed_limit = 40.0
 jump_velocity = 5.0
 slide_height = 1.0
 DASH_SPEED = 80
 dash_accel = 2
-LEAN_AMOUNT = 1.0
+LEAN_AMOUNT = 0.05
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.18267, 0)
@@ -121,22 +119,20 @@ offset_right = 39.0
 offset_bottom = 48.0
 rotation = -0.0238783
 
-[node name="TextureProgressBar" type="TextureProgressBar" parent="UI/Control" node_paths=PackedStringArray("health_component")]
-texture_filter = 1
+[node name="TextureProgressBar" type="TextureProgressBar" parent="UI/Control" node_paths=PackedStringArray("player")]
 layout_mode = 0
 offset_left = 60.0
 offset_top = 22.0
 offset_right = 992.0
 offset_bottom = 289.0
 scale = Vector2(0.102084, 0.0276196)
-value = 100.0
+value = 50.0
 nine_patch_stretch = true
 texture_progress = ExtResource("6_8u6hb")
 script = ExtResource("4_7xbc7")
-health_component = NodePath("../../../HealthComponent")
+player = NodePath("../../..")
 
 [node name="TextureRect" type="TextureRect" parent="UI/Control"]
-texture_filter = 1
 layout_mode = 0
 offset_right = 932.0
 offset_bottom = 267.0
