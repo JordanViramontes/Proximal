@@ -1,9 +1,10 @@
 extends Path3D
 
 # variables
-@export var starting_wave = 0
+@export var starting_wave: int = 0
 var current_wave = starting_wave
-var can_change_wave = true
+var current_wave_enemy_count: int = 0
+var can_change_wave: bool = true
 var waveDictionary = [
 	Wave.new([5, 0, 0, 0], 1, 1, 10), # 1
 	Wave.new([3, 3, 0, 0], 1, 1, 20),
@@ -40,10 +41,13 @@ var DEBUG_wave: bool = true
 @onready var test_spawn_point = $TestSpawnPoint
 @onready var wave_timer = $WaveTimer
 @onready var update_timer = $UpdateTimer
+@onready var next_wave_timer = $NextWaveTimer
 @onready var wave_info_label = get_tree().get_first_node_in_group("WaveInfoLabel")
 
 # signals
 signal updateWaveTimer(time: int)
+signal updateEnemyCount(enemies: int)
+signal updateLabelTimerType(timer: bool)
 
 # wave struct holds all information about each wave
 class Wave:
@@ -122,6 +126,7 @@ func spawnWave(wave_index):
 	var wave = waveDictionary[wave_index]
 	print("TOTAL IN THIS WAVE: " + str(wave.total_enemies))
 	var enemy_count = wave.enemy_count
+	current_wave_enemy_count = wave.total_enemies
 	
 	# parse enemy_count, mob_path has the file path to the enemy scene
 	for mob_path in enemy_count.keys():  
@@ -138,6 +143,7 @@ func spawnWave(wave_index):
 	update_timer.wait_time = 1
 	update_timer.start()
 	emit_signal("updateWaveTimer", wave_timer.time_left)
+	emit_signal("updateEnemyCount", current_wave_enemy_count)
 
 func TESTspawnWave():
 	# for debugging enemies
@@ -155,13 +161,16 @@ func spawnEnemy(mob_path, debug_flag):
 	mob_spawn_location.progress_ratio = randf()
 	var player_position = player.global_position
 	if not debug_flag:
-		mob.initialize(mob_spawn_location.position, player_position)
+		mob.initialize(mob_spawn_location.position, player_position, current_wave)
 	else:
 		var spawn_point = test_spawn_point.global_position
-		mob.initialize(spawn_point, player_position)
+		mob.initialize(spawn_point, player_position, current_wave)
 	
 	# Spawn the mob by adding it to the Main scene.
 	add_child(mob)
+	
+	# set the signal for mob
+	mob.die_from_wave.connect(self.enemy_dies)
 
 func nextWave():
 	if current_wave >= waveDictionary.size() - 1:
@@ -193,20 +202,40 @@ func _on_wave_timer_timeout() -> void:
 	can_change_wave = false
 	end_wave()
 
+# every time an enemy dies, update the enemy counter, if we have 0 enemies left start next wave
+func enemy_dies(from_wave: int) -> void:
+	print("DIEDIEDIED: " + str(from_wave))
+	# only lower count for enemies in the current wave
+	if from_wave != current_wave:
+		return
+	
+	current_wave_enemy_count -= 1
+	emit_signal("updateEnemyCount", current_wave_enemy_count)
+	
+	if current_wave_enemy_count <= 0:
+		if can_change_wave == false:
+			return
+		
+		can_change_wave = false
+		end_wave()
 
+# end the current wave and start the next wave
 func end_wave() -> void:
 	print("ending wave: " + str(current_wave))
 	# stop timers
 	wave_timer.stop()
-	update_timer.stop()
 	
-	# change wave and start a new one
-	current_wave += 1
-	spawnWave(current_wave)
+	next_wave_timer.start()
 	
 	can_change_wave = true
 
-
+# timer for UI
 func _on_update_timer_timeout() -> void:
 	if wave_timer.time_left >= 1:
 		emit_signal("updateWaveTimer", wave_timer.time_left)
+
+# starts a new wave
+func _on_next_wave_timer_timeout() -> void:
+	# change wave and start a new one
+	current_wave += 1
+	spawnWave(current_wave)

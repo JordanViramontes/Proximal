@@ -147,6 +147,10 @@ one_shot = true
 [node name="UpdateTimer" type="Timer" parent="NavigationRegion3D/EnemySpawnPath"]
 autostart = true
 
+[node name="NextWaveTimer" type="Timer" parent="NavigationRegion3D/EnemySpawnPath"]
+wait_time = 2.0
+one_shot = true
+
 [node name="Player" parent="." instance=ExtResource("6_tefeu")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -4.93703, 5.62312, 15)
 DASH_SPEED = 50
@@ -182,7 +186,8 @@ offset_top = 25.0
 offset_bottom = 48.0
 grow_horizontal = 0
 theme = ExtResource("9_ya4ey")
-text = "Time Left: "
+text = "Time Left: 
+Enemies Left:"
 script = ExtResource("10_ya4ey")
 
 [node name="DeathInterface" type="Control" parent="UI"]
@@ -226,3 +231,4 @@ horizontal_alignment = 1
 
 [connection signal="timeout" from="NavigationRegion3D/EnemySpawnPath/WaveTimer" to="NavigationRegion3D/EnemySpawnPath" method="_on_wave_timer_timeout"]
 [connection signal="timeout" from="NavigationRegion3D/EnemySpawnPath/UpdateTimer" to="NavigationRegion3D/EnemySpawnPath" method="_on_update_timer_timeout"]
+[connection signal="timeout" from="NavigationRegion3D/EnemySpawnPath/NextWaveTimer" to="NavigationRegion3D/EnemySpawnPath" method="_on_next_wave_timer_timeout"]
