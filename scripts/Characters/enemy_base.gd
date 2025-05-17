@@ -216,5 +216,3 @@ func apply_vacuum_force(direction: Vector3, strength: float, target_pos: Vector3
 	vacuum_velocity = direction.normalized() * (strength / weight)
 	vacuum_timer = vacuum_duration
 	_on_recieve_stun()
-	
->>>>>>> b8f36b81e1ec6fb9f577d444d775e6dbc64c725d

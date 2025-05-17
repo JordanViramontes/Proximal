@@ -146,24 +146,16 @@ func get_target_from_state(state):
 		# else return the cherubim pos
 		return cherubim_friend.global_position
 	elif state == ENEMY_STATE.cherubim_sit:
-<<<<<<< HEAD
 		return global_position
-=======
-		return position
->>>>>>> b8f36b81e1ec6fb9f577d444d775e6dbc64c725d
 	else:
 		return global_position
 
 # whenever the timer ends, shoot! 
 func _on_bullet_timer_timeout() -> void:
-<<<<<<< HEAD
-	if current_state in [ENEMY_STATE.roam, ENEMY_STATE.comfy, ENEMY_STATE.cherubim_sit]:
-=======
 	if not can_damage_player:
 		return
-	
-	if current_state == ENEMY_STATE.roam || current_state == ENEMY_STATE.comfy || current_state == ENEMY_STATE.cherubim_sit:
->>>>>>> b8f36b81e1ec6fb9f577d444d775e6dbc64c725d
+
+	if current_state in [ENEMY_STATE.roam, ENEMY_STATE.comfy, ENEMY_STATE.cherubim_sit]:
 		var b = bullet.instantiate()
 		if b == null: # just in case
 			print("ishim_ranger.gd - bullet did not instantiate")
