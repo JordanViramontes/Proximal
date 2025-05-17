@@ -121,9 +121,14 @@ func get_target_from_state(state):
 		var away_direction = (global_position - player.global_position).normalized()
 		var new_target = global_position + away_direction * player_run_radius
 		return new_target
+	else:
+		return global_position
 
 # whenever the timer ends, shoot! 
 func _on_shoot_cooldown_timeout() -> void:
+	if not can_damage_player:
+		return
+	
 	if current_state != ENEMY_STATE.spawn_edge:
 		var b = bullet.instantiate()
 		if b == null: # just in case
