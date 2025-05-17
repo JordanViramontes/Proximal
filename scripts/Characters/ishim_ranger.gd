@@ -66,7 +66,11 @@ func _physics_process(delta: float) -> void:
 		if not is_on_floor():
 			velocity += get_gravity() * delta
 
-func _on_pathfind_timer_timeout() -> void:	
+func _on_pathfind_timer_timeout() -> void:
+	# avoid pathfinding
+	if current_state == ENEMY_STATE.spawn_edge:
+		return
+	
 	# if we're sitting on a cherubim
 	if current_state == ENEMY_STATE.cherubim_sit:
 		velocity.x = 0
@@ -79,8 +83,8 @@ func _on_pathfind_timer_timeout() -> void:
 	distance_towards_player = our_2D_pos.distance_to(player_2D_pos)
 	var init_state = current_state
 	
-	# if we're not spawning or in a cherubim alert
-	if current_state not in [ENEMY_STATE.spawn_edge, ENEMY_STATE.cherubim_alert, ENEMY_STATE.cherubim_sit]:
+	# if we're notin a cherubim alert change states if needed
+	if current_state not in [ENEMY_STATE.cherubim_alert, ENEMY_STATE.cherubim_sit]:
 		# if we're in radius distance, change state 
 		if distance_towards_player <= player_run_radius:
 			current_state = ENEMY_STATE.run_away
@@ -182,7 +186,6 @@ func _on_hitbox_component_body_entered(body: Node3D) -> void:
 		cherubim_node = cherubim_friend._on_ishim_reached_cherubim(self)
 	if not cherubim_node:
 		current_state = ENEMY_STATE.roam
-
 
 # when died
 func on_reach_zero_health():

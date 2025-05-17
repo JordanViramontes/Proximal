@@ -23,6 +23,7 @@ collision_layer = 4
 script = ExtResource("1_cw4bv")
 bullet = ExtResource("5_8pu60")
 max_health = 1.0
+movement_speed = 8
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." groups=["Enemies"]]
 material_overlay = ExtResource("2_4eule")

@@ -6,17 +6,19 @@ class_name Cherubim
 @export var player_run_radius = 45
 @export var comfy_radius = 50
 @export var touch_damage = 3
-var ishim: EnemyBase
+@export var turn_angle = 0.5
+var ishim: IshimRanger
 var ishim_count = 0
 var ishims = [null, null]
 var alerted_ishims = []
 var ishim_parent = null
 
+# bullet vars
 @export var bullet: PackedScene
 @export var bullet_radius: float = 3
 @export var bullet_velocity: float = 15
 @export var bullet_gravity: float = -15
-@export var bullet_close_range: float = 20
+@export var bullet_range_close: float = 20
 @export var bullet_velocity_close: float = 4
 @export var bullet_gravity_close: float = -7
 
@@ -58,49 +60,62 @@ func _ready() -> void:
 	super._ready()
 
 func _process(delta: float) -> void:
-	if player and player.is_inside_tree():
-		look_at(Vector3(player.global_position.x, position.y, player.global_position.z))
+	pass
+		#look_at(Vector3(player.global_position.x, position.y, player.global_position.z))
 	
 	#print("ishim count: " + str(ishim_count))
 
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
 	
-	# states
-	if current_state == ENEMY_STATE.run_away: # running away state
-		if navigation_agent.is_navigation_finished():
-			return
-	else:
-		if shoot_timer.is_stopped():
-			_on_shoot_cooldown_timeout()
-			shoot_timer.start()
-	
+	# turn towards the player
 	if current_state != ENEMY_STATE.spawn_edge:
-		# gravity
-		if not is_on_floor():
-			velocity += get_gravity() * delta
+		if player and player.is_inside_tree():
+			# get direction of self
+			var forward = -transform.basis.z
+			var facing_dir = Vector2(forward.x, forward.z).normalized()
+			
+			# get direction of player
+			var distance_to_player = player.global_position - global_position
+			var facing_player = Vector2(distance_to_player.x, distance_to_player.z).normalized()
+			
+			# angle
+			var angle_to_player = facing_dir.angle_to(facing_player)
+			
+			if abs(angle_to_player) > deg_to_rad(1):
+				var turn_sign = sign(angle_to_player)
+				rotate_y(deg_to_rad(turn_angle * turn_sign * -1))
+		
+		if current_state != ENEMY_STATE.spawn_edge:
+			# gravity
+			if not is_on_floor():
+				velocity += get_gravity() * delta
+	
+	# finally move
+	move_and_slide()
+
 
 func _on_pathfind_timer_timeout() -> void:
+	if current_state == ENEMY_STATE.spawn_edge:
+		return
+	
 	# we want to calculate only based on x and z, effectively an infinite cone
 	var our_2D_pos = Vector2(global_position.x, global_position.z)
 	var player_2D_pos = Vector2(player.global_position.x, player.global_position.z)
 	var distance_towards_player = our_2D_pos.distance_to(player_2D_pos)
 	
-	# if we're not spawning
-	if current_state != ENEMY_STATE.spawn_edge:
-		# if we're in radius distance, change state 
-		if distance_towards_player <= player_run_radius:
-			current_state = ENEMY_STATE.run_away
-			#if current_color != mat_run_away:
-				#set_materials(mat_run_away)
-		elif distance_towards_player <= comfy_radius:
-			current_state = ENEMY_STATE.comfy
-			#if current_color != mat_comfy:
-				#set_materials(mat_comfy)
-		else:
-			current_state = ENEMY_STATE.roam
-			#if current_color != mat_roam:
-				#set_materials(mat_roam)
+	# change state if needed
+	if distance_towards_player <= player_run_radius:
+		current_state = ENEMY_STATE.run_away
+	elif distance_towards_player <= comfy_radius:
+		current_state = ENEMY_STATE.comfy
+	else:
+		current_state = ENEMY_STATE.roam
+	
+	# if we're not shooting for some reason?
+	if shoot_timer.is_stopped():
+		_on_shoot_cooldown_timeout()
+		shoot_timer.start()
 	
 	super._on_pathfind_timer_timeout()
 	velocity.x = pathfindVel.x
@@ -138,16 +153,16 @@ func _on_shoot_cooldown_timeout() -> void:
 		var displacement = Vector3(player_position.x, player_position.y + 5, player_position.z) - shoot_point.global_position
 		var direction = displacement.normalized()
 		var h_displacement: Vector3 = Vector3(displacement.x, 0, displacement.z)
-		var h_distance = h_displacement.length()
-		if h_distance < bullet_close_range: # set vars to close vars if too close
+		var h_distance = sqrt(displacement.x * displacement.x + displacement.z * displacement.z) # distance formula!
+		if h_distance < bullet_range_close: # set vars to close vars if too close
 			b_v = bullet_velocity_close
 			b_g = bullet_gravity_close
-		var t = (h_distance / b_v)
+		var t = max((h_distance / b_v), 0.01)
 
 		# use time and kinematics to get velocity
-		var h_v = h_displacement.normalized() * b_v
+		var h_v = Vector2(displacement.x, displacement.z).normalized() * b_v
 		var v_v = (displacement.y + (0.5 * b_g * t * t)) / t
-		var initial_velocity = Vector3(h_v.x, v_v, h_v.z)
+		var initial_velocity = Vector3(h_v.x, v_v, h_v.y)
 		
 		# initialize the bullet
 		b.initialize(initial_velocity, direction, bullet_gravity, self)
@@ -176,7 +191,7 @@ func _on_ishim_area_body_entered(body: Node3D) -> void:
 	
 	# check if we are at max ishim
 	if ishim_count < 2 && not body.cherubim_alerted:
-		print("signaling to: " + str(body))
+		#print("signaling to: " + str(body))
 		alerted_ishims.append(body)
 		body.goto_cherubim(self)
 
@@ -229,9 +244,9 @@ func _on_ishim_died(cherubim_slot):
 
 # When they dead as hell
 func on_reach_zero_health():
+	# FREE ISHIMS
 	for i in ishims:
 		if i:
-			#print("ish: " + str(i))
 			if i == ishims[0]:
 				i.global_position = ishim_spot1.global_position
 			else:

@@ -10,7 +10,7 @@
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vrbru"]
 albedo_color = Color(0.831366, 0.191113, 0.0643092, 1)
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_yfmxc"]
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_yq8ut"]
 points = PackedVector3Array(-1.45535, -0.459353, -1.54969, 1.29956, 1.49812, 1.78091, -0.196009, -0.0662305, 4.2619, -0.929344, 2.33705, 0.407684, 0.761967, -0.5, -3.14676, 0.298417, 0.552757, -3.6619, 1.32938, -0.470734, 2.04746, 0.402671, 2.46269, 2.78122, 0.797879, 2.33334, -0.130228, -1.21078, 1.5, 2.12873, 1.66095, 0.552757, -1.18455, -1.33625, -0.45543, 2.0291, -1.55789, 0.552757, -1.68095, 0.422433, 0.924209, 4.2619, -0.177455, 2.37857, -0.925103, -1.06281, 0.552757, -3.04218, -0.420731, 2.45124, 2.76199, -0.544092, -0.497132, -3.37718, -0.443713, 0.800594, 4.2619, 0.523857, -0.5, 3.3901, 1.04186, 0.552757, -3.04218, 1.53794, -0.448005, -1.07529, -1.6819, 0.552757, -0.937901, 0.377172, 2.37153, -0.808479, 0.925069, 2.36158, 1.62049, -0.319697, 0.552757, -3.6619, -0.778784, -0.492045, 3.1373, -1.55046, -0.440195, 0.983901, 1.53444, -0.444765, 1.1008, -0.956568, 2.37709, 1.41293, 0.422433, 0.181304, 4.2619, 1.33334, -0.475039, -2.03684)
 
 [sub_resource type="SphereMesh" id="SphereMesh_yfmxc"]
@@ -28,7 +28,6 @@ radius = 15.0
 collision_layer = 4
 script = ExtResource("1_vrbru")
 bullet = ExtResource("2_yfmxc")
-bullet_close_range = 15.0
 bullet_velocity_close = 2.0
 bullet_gravity_close = -4.0
 movement_speed = 2
@@ -40,7 +39,8 @@ material_overlay = ExtResource("3_yvj4b")
 mesh = ExtResource("3_yfmxc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("ConvexPolygonShape3D_yfmxc")
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_yq8ut")
 
 [node name="HitboxComponent" type="Area3D" parent="."]
 collision_layer = 4
@@ -49,13 +49,14 @@ script = ExtResource("4_yvj4b")
 metadata/_custom_type_script = "uid://cgpmhci7164s6"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent"]
-shape = SubResource("ConvexPolygonShape3D_yfmxc")
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_yq8ut")
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("3_yq8ut")
 
 [node name="PathfindTimer" type="Timer" parent="."]
-wait_time = 0.5
+wait_time = 1.5
 autostart = true
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
@@ -65,7 +66,7 @@ avoidance_enabled = true
 wait_time = 1.5
 
 [node name="ShootPoint" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.85247, -2.27164)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.24739, -2.27164)
 
 [node name="Ishim1" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2, -3)
