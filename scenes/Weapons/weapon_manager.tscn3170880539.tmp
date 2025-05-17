@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://klyx4oq82x8k"]
+[gd_scene load_steps=11 format=3 uid="uid://klyx4oq82x8k"]
 
 [ext_resource type="Script" uid="uid://b4wfrgspyik6s" path="res://scripts/Weapons/weapon_manager.gd" id="1_583ps"]
 [ext_resource type="PackedScene" uid="uid://dxdtidj4hp83f" path="res://scenes/Weapons/thumb.tscn" id="4_e55dp"]
@@ -8,21 +8,16 @@
 [ext_resource type="PackedScene" uid="uid://duneq26sd14wn" path="res://scenes/Weapons/ring.tscn" id="7_k5yqd"]
 [ext_resource type="PackedScene" uid="uid://b0epnjdv5u53e" path="res://scenes/Weapons/pinky.tscn" id="8_r1oqp"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e55dp"]
-resource_local_to_scene = true
-albedo_color = Color(0.5168, 0.605973, 0.76, 1)
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_imgyp"]
-transparency = 1
 albedo_color = Color(0, 1, 1, 0.196078)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_12ses"]
 top_radius = 2.0
-bottom_radius = 10.0
-height = 20.0
+bottom_radius = 5.0
+height = 10.0
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_imgyp"]
-points = PackedVector3Array(-9.70925, -9.70735, -1.81906, 2.05714, 9.40353, 0.880142, 2.05713, 9.40352, -0.880141, 9.70925, -9.70735, 1.81906, 1.81997, -9.71032, -9.71032, -1.81997, -9.71032, 9.71032, -2.05714, 9.40353, -0.880142, -8.40148, -9.599, 5.09929, -5.10106, -9.60044, -8.40109, 5.10106, -9.60044, 8.40109, 8.40148, -9.599, -5.09929, -0.882083, 9.40275, 2.05656, -0.587256, 8.2255, -2.64306, 5.10106, -9.60044, -8.40109, -5.98864, -9.57958, 7.78446, 7.78539, -9.58115, 5.98845, -7.7853, -9.57874, -5.98695, 1.81997, -9.7103, 9.7103, 9.70924, -9.70734, -1.81906, -9.70924, -9.70734, 1.81906, 0.882082, 9.40273, 2.05656, -2.0518, 9.08712, 1.1717, -1.81997, -9.7103, -9.7103, 0.882083, 9.40275, -2.05656, 6.72293, -8.76684, -6.72161, -1.45587, 9.31535, -1.7456, -3.91691, -9.63844, 9.03639, 9.03624, -9.63639, 3.91532, -9.03624, -9.63639, -3.91532, -2.64442, 8.2224, 0.58692, 6.72293, -8.76684, 6.72161, 0.885043, -7.96013, 9.14058)
+points = PackedVector3Array(-2.38477, 3.57538, -0.44624, 1.9325, 4.75854, 0.743411, 1.9325, 4.75853, -0.743409, 4.87576, -4.87673, 0.913489, -0.913834, -4.87666, -4.87569, -2.56538, -4.82914, 4.225, -4.87536, -4.87538, -0.913414, 1.96807, -4.84618, 4.54256, 3.01271, -4.82017, -3.91613, -0.743435, 4.75777, 1.93274, -0.743434, 4.75776, -1.93274, -4.54209, -4.84473, 1.96804, -3.79365, -4.8557, -3.18642, 4.71855, -4.87115, -1.52169, 0.743435, 4.75777, -1.93274, 4.13585, -4.90276, 2.75701, -0.913833, -4.87666, 4.87569, 0.743434, 4.75776, 1.93274, -1.78662, 4.7646, 1.04191, 0.913833, -4.87666, -4.87569, -1.78662, 4.76461, -1.04191, -2.56538, -4.82914, -4.22501, 4.13585, -4.90276, -2.75701, -4.87536, -4.87538, 0.913415, -3.4217, -4.46198, 3.42103, 0.449965, -3.89762, 4.64716, 3.1058, -4.43678, 3.69731, 1.47428, 4.71747, -1.47399, 1.47428, 4.71747, 1.47399, 4.78669, -4.33781, -0.297997, -4.54209, -4.84473, -1.96804, -0.298292, 4.62584, -2.08857)
 
 [node name="Weapon_Manager" type="Node3D" groups=["WeaponManager"]]
 script = ExtResource("1_583ps")
@@ -32,7 +27,6 @@ visible = false
 
 [node name="Index" parent="." instance=ExtResource("4_qlvm5")]
 visible = false
-depleted_material = SubResource("StandardMaterial3D_e55dp")
 
 [node name="Middle" parent="." instance=ExtResource("6_12ses")]
 visible = false
@@ -57,24 +51,16 @@ script = ExtResource("7_imgyp")
 metadata/_custom_type_script = "uid://cgpmhci7164s6"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StunHitbox"]
-transform = Transform3D(1, 0, 0, 0, -7.45058e-08, -1, 0, 1, -7.45058e-08, 0, 0, -10)
-visible = false
+transform = Transform3D(1, 0, 0, 0, -7.45058e-08, -1, 0, 1, -7.45058e-08, 0, 0, 5)
 material_override = SubResource("StandardMaterial3D_imgyp")
 mesh = SubResource("CylinderMesh_12ses")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StunHitbox"]
-transform = Transform3D(1, 0, 0, 0, -7.45058e-08, -1, 0, 1, -7.45058e-08, 0, 0, -10)
+transform = Transform3D(1, 0, 0, 0, -2.18557e-07, -1, 0, 1, -2.18557e-07, 0, 0, 5)
 shape = SubResource("ConvexPolygonShape3D_imgyp")
 
 [node name="StunHitboxTimer" type="Timer" parent="."]
-wait_time = 0.1
-one_shot = true
-
-[node name="StunEnemyTimer" type="Timer" parent="."]
-wait_time = 1.5
-one_shot = true
+wait_time = 0.5
 
 [connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
 [connection signal="body_entered" from="StunHitbox" to="." method="_on_stun_hitbox_body_entered"]
-[connection signal="timeout" from="StunHitboxTimer" to="." method="_on_stun_hitbox_timer_timeout"]
-[connection signal="timeout" from="StunEnemyTimer" to="." method="_on_stun_enemy_timer_timeout"]

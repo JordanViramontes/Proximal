@@ -159,6 +159,9 @@ func get_target_from_state(state):
 
 # whenever the timer ends, shoot! 
 func _on_shoot_cooldown_timeout() -> void:
+	if not can_damage_player:
+		return
+	
 	if current_state != ENEMY_STATE.spawn_edge:
 		var b = bullet.instantiate()
 		if b == null: # just in case

@@ -56,6 +56,8 @@ func get_target_from_state(state):
 		return player_position
 	elif state == ENEMY_STATE.lunge:
 		return player_position
+	elif state == ENEMY_STATE.spawn_edge:
+		return spawn_distance_vector
 	else:
 		return global_position
 
