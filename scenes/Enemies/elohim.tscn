@@ -49,6 +49,7 @@ shape = SubResource("CapsuleShape3D_kemqb")
 mesh = SubResource("CapsuleMesh_nlikr")
 
 [node name="PathfindTimer" type="Timer" parent="."]
+wait_time = 1.5
 autostart = true
 
 [node name="SummonCooldown" type="Timer" parent="."]

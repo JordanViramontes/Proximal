@@ -28,7 +28,7 @@ max_health = 1.0
 movement_speed = 8
 nav_target_dist = 2
 spawn_distance_length = 2
-spawn_distance_height = 12
+spawn_distance_height = 10
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_65pw1")

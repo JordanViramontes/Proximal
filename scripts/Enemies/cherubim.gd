@@ -3,8 +3,8 @@ extends EnemyBase
 class_name Cherubim
 
 # variables
-@export var player_run_radius = 45
-@export var comfy_radius = 50
+@export var player_run_radius = 30
+@export var comfy_radius = 35
 @export var touch_damage = 3
 @export var turn_angle = 0.5
 var ishim: IshimRanger
@@ -12,6 +12,9 @@ var ishim_count = 0
 var ishims = [null, null]
 var alerted_ishims = []
 var ishim_parent = null
+var our_2D_pos: Vector2 = Vector2.ZERO
+var player_2D_pos: Vector2 = Vector2.ZERO
+var distance_towards_player: float = 0
 
 # bullet vars
 @export var bullet: PackedScene
@@ -100,9 +103,9 @@ func _on_pathfind_timer_timeout() -> void:
 		return
 	
 	# we want to calculate only based on x and z, effectively an infinite cone
-	var our_2D_pos = Vector2(global_position.x, global_position.z)
-	var player_2D_pos = Vector2(player.global_position.x, player.global_position.z)
-	var distance_towards_player = our_2D_pos.distance_to(player_2D_pos)
+	our_2D_pos = Vector2(global_position.x, global_position.z)
+	player_2D_pos = Vector2(player.global_position.x, player.global_position.z)
+	distance_towards_player = our_2D_pos.distance_to(player_2D_pos)
 	
 	# change state if needed
 	if distance_towards_player <= player_run_radius:
@@ -136,6 +139,8 @@ func get_target_from_state(state):
 		var away_direction = (global_position - player.global_position).normalized()
 		var new_target = global_position + away_direction * player_run_radius
 		return new_target
+	else:
+		return global_position
 
 # whenever the timer ends, shoot! 
 func _on_shoot_cooldown_timeout() -> void:

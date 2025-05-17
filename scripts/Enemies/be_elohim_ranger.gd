@@ -7,6 +7,9 @@ extends EnemyBase
 @export var comfy_friction = 0.075
 @export var comfy_bool: bool = true
 var comfy_stop_friction: Vector3 = Vector3.ZERO
+var our_2D_pos: Vector2 = Vector2.ZERO
+var player_2D_pos: Vector2 = Vector2.ZERO
+var distance_towards_player: float = 0
 
 @export var air_friction: float = 0.5
 @export var air_preferred_dist: float = 3
@@ -139,33 +142,33 @@ func _on_spawn_wait_timer_timeout() -> void:
 	bob_timer.start()
 
 func _on_pathfind_timer_timeout() -> void:
+	if current_state == ENEMY_STATE.spawn_edge:
+		return
+	
 	# update distance for vertical movement
 	air_y_distance = (global_position.y - bob_distance) - player.global_position.y
-	#print("a: " + str(air_y_distance))
 	
 	# start shoot cooldown
 	if shoot_timer.is_stopped():
 		shoot_timer.start()
 	
 	# we want to calculate only based on x and z, effectively an infinite cone
-	var our_2D_pos = Vector2(global_position.x, global_position.z)
-	var player_2D_pos = Vector2(player.global_position.x, player.global_position.z)
-	var distance_towards_player = our_2D_pos.distance_to(player_2D_pos)
+	our_2D_pos = Vector2(global_position.x, global_position.z)
+	player_2D_pos = Vector2(player.global_position.x, player.global_position.z)
+	distance_towards_player = our_2D_pos.distance_to(player_2D_pos)
+	var init_state = current_state
 	
 	# if we're in radius distance, change state 
 	if distance_towards_player <= player_run_radius:
 		current_state = ENEMY_STATE.run_away
-		if mesh.material_override != mat_run_away:
-			mesh.set_surface_override_material(0, mat_run_away)
 	elif distance_towards_player <= comfy_radius:
 		#print("NOW COMFY!")
 		current_state = ENEMY_STATE.comfy
-		if mesh.material_override != mat_comfy:
-			mesh.set_surface_override_material(0, mat_comfy)
 	else:
 		current_state = ENEMY_STATE.roam
-		if mesh.material_override != mat_roam:
-			mesh.set_surface_override_material(0, mat_roam)
+	
+	if init_state != current_state:
+		get_mesh_mat_from_state(current_state)
 	
 	var pathfindVel: Vector3 = Vector3.ZERO
 	if current_state == ENEMY_STATE.roam:
@@ -173,49 +176,34 @@ func _on_pathfind_timer_timeout() -> void:
 		pathfindVel = direction * movement_speed
 	elif current_state == ENEMY_STATE.comfy:
 		if comfy_bool:
-			var normal = velocity.normalized()
-			var x = abs(normal.x)
-			var z = abs(normal.z)
-			comfy_stop_friction = Vector3(x * comfy_friction / comfy_stop_timer, 0, z * comfy_friction/ comfy_stop_timer)
+			var normal = velocity.normalized().abs()
+			comfy_stop_friction = Vector3(
+				normal.x * comfy_friction / comfy_stop_timer, 
+				0, 
+				normal.z * comfy_friction/ comfy_stop_timer)
 			#print("F: " + str(comfy_stop_friction))
 			comfy_bool = false
 		return
 	elif current_state == ENEMY_STATE.run_away:
 		var away_direction = (global_position - player.global_position).normalized()
-		#var new_target = global_position + away_direction * player_run_radius
 		pathfindVel = away_direction * movement_speed
 	
 	# reset comfy bool
 	if current_state != ENEMY_STATE.comfy:
 		comfy_bool = true
 	
-	
-	
 	velocity.x = pathfindVel.x
 	velocity.z = pathfindVel.z
 
-# set the movement target for navigation
-func set_movement_target(movement_target: Vector3):
-	navigation_agent.set_target_position(movement_target)
-	next_path_position = navigation_agent.get_next_path_position()
-	print("next: " + str(next_path_position))
-	pathfindVel = global_position.direction_to(next_path_position) * movement_speed
-	#print("we: " + str(self) + ", p: " + str(pathfindVel))
-
-func get_target_from_state(state):
+func get_mesh_mat_from_state(state):
 	if state == ENEMY_STATE.roam:
-		print("returning player pos: " + str(player_position))
-		return player_position
-	elif state == ENEMY_STATE.spawn_edge:
-		return global_position
-	elif state == ENEMY_STATE.comfy:
-		return global_position
+		mesh.set_surface_override_material(0, mat_roam)
 	elif state == ENEMY_STATE.run_away:
-		var away_direction = (global_position - player.global_position).normalized()
-		var new_target = global_position + away_direction * player_run_radius
-		return new_target
+		mesh.set_surface_override_material(0, mat_run_away)
+	elif state == ENEMY_STATE.comfy:
+		mesh.set_surface_override_material(0, mat_comfy)
 	else:
-		return player_position
+		mesh.set_surface_override_material(0, mat_roam)
 
 func _on_bob_timeout() -> void:
 	if bobbing_wait:
