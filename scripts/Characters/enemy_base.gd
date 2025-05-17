@@ -21,6 +21,13 @@ var spawning_velocity = Vector3(0, 0, 0)
 @export var spawn_distance_length = 1 # distance to travel towards origin
 @export var spawn_distance_height = 3 # units to travel vertically while in spawning state
 
+#vacuum pull
+@export var weight = 1.0
+var vacuum_velocity = Vector3.ZERO
+var vacuum_timer = 0.0
+var vacuum_duration = 3  # seconds
+var vacuum_target_position: Vector3
+
 # states
 var ENEMY_STATE = {
 	"roam":0,
@@ -112,22 +119,37 @@ func _process(delta: float) -> void:
 
 func _physics_process(delta):
 	if current_state == ENEMY_STATE.stunned:
-		#print("STUNNED")
-		velocity = Vector3.ZERO
-		move_and_slide()
-		return
-	
-	# spawning along the edge, you will have a straight line to path towards until you reach the target
+		if vacuum_timer > 0.0:
+			# If close enough to front of player, stop pulling
+			if global_position.distance_to(vacuum_target_position) < 1.0:  # <-- Stop distance
+				vacuum_velocity = Vector3.ZERO
+				velocity = Vector3.ZERO
+				_on_recieve_stun()
+				await get_tree().create_timer(2).timeout # stun for 2 second after pull
+				_on_recieve_unstun() #stun process in the vacuum function
+				return
+			vacuum_timer -= delta
+			velocity = vacuum_velocity
+			move_and_slide()
+			return
+		else:
+			vacuum_velocity = Vector3.ZERO
+			velocity = Vector3.ZERO
+			_on_recieve_stun()
+			await get_tree().create_timer(2).timeout # stun for 2 second after pull
+			_on_recieve_unstun()  #stun process in the vacuum function
+			move_and_slide()
+			return
+	# Spawning logic
 	if current_state == ENEMY_STATE.spawn_edge:
 		if global_position.distance_to(spawn_distance_vector) < 0.1:
-				# disable collision
-				collision.disabled = false
-				current_state = ENEMY_STATE.roam
-				velocity = Vector3.ZERO
-				return
+			collision.disabled = false
+			current_state = ENEMY_STATE.roam
+			velocity = Vector3.ZERO
+			return
 		velocity = spawning_velocity
-	
-	# finally move
+
+	# Default movement
 	move_and_slide()
 
 # When they dead as hell
@@ -201,3 +223,10 @@ func _on_recieve_unstun() -> void:
 	pathfind_timer.start() # disable pathfinding
 	pathfind_timer.autostart = true
 	can_damage_player = true
+	
+func apply_vacuum_force(direction: Vector3, strength: float, target_pos: Vector3):
+	vacuum_target_position = target_pos
+	vacuum_velocity = direction.normalized() * (strength / weight)
+	vacuum_timer = vacuum_duration
+	_on_recieve_stun()
+	
