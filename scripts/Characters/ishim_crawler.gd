@@ -7,7 +7,6 @@ class_name IshimCrawler
 @export var lunge_dist = 16
 @export var lunge_range = 12
 @export var touch_damage = 5
-@export var is_lunging = false
 
 # components
 @onready var lunge_timer = $LungeTimer
@@ -63,7 +62,7 @@ func get_target_from_state(state):
 # pathfinding state
 func _on_pathfind_timer_timeout() -> void:
 	# avoid pathfinder
-	if current_state == ENEMY_STATE.spawn_edge || current_state == ENEMY_STATE.lunge:
+	if current_state in [ENEMY_STATE.spawn_edge, ENEMY_STATE.lunge]:
 		return
 	
 	# update state to lunge if in range, avoid calling pathfinder
@@ -87,9 +86,6 @@ func _on_lunge_timer_timeout() -> void:
 		current_state = ENEMY_STATE.roam
 		mesh.set_surface_override_material(0, mat_roam)
 		return
-	
-	# update nav stuff
-	#super._on_pathfind_timer_timeout()
 	
 	# to avoid wonky movement
 	if not is_on_floor():

@@ -5,14 +5,16 @@ class_name IshimRanger
 # variables
 @export var player_run_radius = 10
 @export var comfy_radius = 15
-@export var bullet: PackedScene
-@export var bullet_radius: float = 1.5
-@export var bullet_velocity: float = 8
-@export var bullet_max_range:float = 13
-@export var bullet_gravity: float = -2
 var cherubim_alerted: bool = false
 var cherubim_friend: Cherubim
 var cherubim_slot: int = -1
+var our_2D_pos: Vector2 = Vector2.ZERO
+var player_2D_pos: Vector2 = Vector2.ZERO
+var distance_towards_player: float = 0
+
+# bullet variables
+@export var bullet: PackedScene
+@export var bullet_velocity: float = 10
 
 # components
 @onready var shoot_timer = $ShootCooldown
@@ -46,53 +48,70 @@ func _physics_process(delta: float) -> void:
 	# state logic for shooting
 	if current_state == ENEMY_STATE.run_away: # running away state
 		shoot_timer.stop()
-		if navigation_agent.is_navigation_finished():
-			return
-	elif current_state == ENEMY_STATE.cherubim_sit:
-		if cherubim_node:
-			global_position = cherubim_node.global_position
+		#if navigation_agent.is_navigation_finished():
+			#return
 	else:
 		if shoot_timer.is_stopped():
 			_on_bullet_timer_timeout()
 			shoot_timer.start()
 	
+	# keep sitting on cherubim
+	if current_state == ENEMY_STATE.cherubim_sit:
+		if cherubim_node:
+			global_position = cherubim_node.global_position
+	
 	# state logic for gravity
-	if current_state != ENEMY_STATE.spawn_edge && current_state != ENEMY_STATE.cherubim_sit:
+	if current_state not in [ENEMY_STATE.spawn_edge, ENEMY_STATE.cherubim_sit]:
 		# gravity
 		if not is_on_floor():
 			velocity += get_gravity() * delta
 
-func _on_pathfind_timer_timeout() -> void:
-	# we want to calculate only based on x and z, effectively an infinite cone
-	var our_2D_pos = Vector2(global_position.x, global_position.z)
-	var player_2D_pos = Vector2(player.global_position.x, player.global_position.z)
-	var distance_towards_player = our_2D_pos.distance_to(player_2D_pos)
-	
-	# if we're not spawning or in a cherubim alert
-	if current_state != ENEMY_STATE.spawn_edge && current_state != ENEMY_STATE.cherubim_alert && current_state != ENEMY_STATE.cherubim_sit:
-		# if we're in radius distance, change state 
-		if distance_towards_player <= player_run_radius:
-			current_state = ENEMY_STATE.run_away
-			if mesh.material_override != mat_run_away:
-				mesh.set_surface_override_material(0, mat_run_away)
-		elif distance_towards_player <= comfy_radius:
-			current_state = ENEMY_STATE.comfy
-			if mesh.material_override != mat_comfy:
-				mesh.set_surface_override_material(0, mat_comfy)
-		else:
-			current_state = ENEMY_STATE.roam
-			if mesh.material_override != mat_roam:
-				mesh.set_surface_override_material(0, mat_roam)
-	
-	# if we're sitting
+func _on_pathfind_timer_timeout() -> void:	
+	# if we're sitting on a cherubim
 	if current_state == ENEMY_STATE.cherubim_sit:
 		velocity.x = 0
 		velocity.y = 0
 		return
 	
+	# we want to calculate only based on x and z, effectively an infinite cone
+	our_2D_pos = Vector2(global_position.x, global_position.z)
+	player_2D_pos = Vector2(player.global_position.x, player.global_position.z)
+	distance_towards_player = our_2D_pos.distance_to(player_2D_pos)
+	var init_state = current_state
+	
+	# if we're not spawning or in a cherubim alert
+	if current_state not in [ENEMY_STATE.spawn_edge, ENEMY_STATE.cherubim_alert, ENEMY_STATE.cherubim_sit]:
+		# if we're in radius distance, change state 
+		if distance_towards_player <= player_run_radius:
+			current_state = ENEMY_STATE.run_away
+		elif distance_towards_player <= comfy_radius:
+			current_state = ENEMY_STATE.comfy
+		else:
+			current_state = ENEMY_STATE.roam
+	
+	# update mesh if we changed states
+	if init_state != current_state:
+		get_mesh_mat_from_state(current_state)
+	
+	# avoid pathfinding
+	if current_state == ENEMY_STATE.comfy:
+		velocity.x = 0
+		velocity.z = 0
+		return
+	
 	super._on_pathfind_timer_timeout()
 	velocity.x = pathfindVel.x
 	velocity.z = pathfindVel.z
+
+func get_mesh_mat_from_state(state):
+	if state == ENEMY_STATE.roam:
+		mesh.set_surface_override_material(0, mat_roam)
+	elif state == ENEMY_STATE.run_away:
+		mesh.set_surface_override_material(0, mat_run_away)
+	elif state == ENEMY_STATE.comfy:
+		mesh.set_surface_override_material(0, mat_comfy)
+	else:
+		mesh.set_surface_override_material(0, mat_roam)
 
 func get_target_from_state(state):
 	if state == ENEMY_STATE.roam:
@@ -101,7 +120,7 @@ func get_target_from_state(state):
 		return spawn_distance_vector
 	elif state == ENEMY_STATE.comfy:
 		# if we are comfy, dont move :D
-		return position
+		return global_position
 	elif state == ENEMY_STATE.run_away:
 		# get the distance between player and self (relative position)
 		# new target is our pos - the relative position (new_target)
@@ -119,14 +138,16 @@ func get_target_from_state(state):
 		# else return the cherubim pos
 		return cherubim_friend.global_position
 	elif state == ENEMY_STATE.cherubim_sit:
-		return position
+		return global_position
+	else:
+		return global_position
 
 # whenever the timer ends, shoot! 
 func _on_bullet_timer_timeout() -> void:
-	if current_state == ENEMY_STATE.roam || current_state == ENEMY_STATE.comfy || current_state == ENEMY_STATE.cherubim_sit:
+	if current_state in [ENEMY_STATE.roam, ENEMY_STATE.comfy, ENEMY_STATE.cherubim_sit]:
 		var b = bullet.instantiate()
 		if b == null: # just in case
-			print("be_elohim_ranger.gd - bullet did not instantiate")
+			print("ishim_ranger.gd - bullet did not instantiate")
 			return
 		
 		player_position = player.global_position #update the player pos for calculations
@@ -142,6 +163,7 @@ func _on_bullet_timer_timeout() -> void:
 		
 		World.world.add_child(b)
 
+# called by the cherubim and alerts the ishim
 func goto_cherubim(cherubim: Cherubim) -> void:
 	cherubim_alerted = true
 	current_state = ENEMY_STATE.cherubim_alert

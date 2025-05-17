@@ -33,7 +33,7 @@ var DEBUG_enemy_list = [
 	"res://scenes/Enemies/be_elohim_crawler.tscn", # BENE ELOHIM CRAWLER 5
 	"res://scenes/Enemies/be_elohim_ranger.tscn", # BENE ELOHIM RANGER 6
 ]
-var DEBUG_enemy_ptr = 1
+var DEBUG_enemy_ptr = 2
 var DEBUG_wave: bool = true
 
 # components
