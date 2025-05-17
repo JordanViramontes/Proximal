@@ -24,7 +24,7 @@ func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	b.facing_axis = look_direction
 	b.initial_velocity = velocity * shoot_velocity_inherit_damping
 	b.speed = bullet_speed
-	b.bullet_damage = bullet_damage
+	b.bullet_damage = bullet_damage*(1 + level*0.8)
 	b.initial_direction = (look_direction + Vector3.UP).normalized()
 	b.horizontal_damping = bullet_velocity_damping
 	b.gravity = bullet_gravity

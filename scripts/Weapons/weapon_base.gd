@@ -4,6 +4,7 @@ class_name WeaponBase
 # Experience Points
 @export var experience: float = 0
 @export var level: int = 1
+signal experience_change
 
 # Quota and degradation rate is different for every weapon
 @export var upgrade_quota: float = 100.0
@@ -96,8 +97,8 @@ func cease_fire():
 	if on_ceasefire != null: on_ceasefire.emit() 
 	else: print("hello from weapon_base! you probably forgot to set the on_ceasefire signal on the inheritor of this script :3")
 
-<<<<<<< HEAD
 func add_xp(xp: float):
+	experience_change.emit()
 	# XP gets harder to increase as level increases (XP cap at level 4)
 	experience += xp*(4-level)
 	# If XP is high enough, weapon gets upgraded
@@ -107,7 +108,12 @@ func add_xp(xp: float):
 
 func decrease_xp():
 	if experience > 0.0:
+		experience_change.emit()
 		experience -= degradation
+	else:
+		experience_change.emit()
+		experience = 0.0
+
 	# If XP degrades enough, weapon gets downgraded
 	if experience < (level-1)*upgrade_quota:
 		level -= 1
@@ -115,10 +121,9 @@ func decrease_xp():
 	
 func print_xp(name: String):
 	print(name + " xp: " + str(experience))
-=======
+	
 func _on_depleted_tween_finish():
 	$MeshInstance3D.mesh.material = normal_material
 	var recharge_particles: GPUParticles3D = $RechargeParticles
 	if recharge_particles:
 		recharge_particles.restart()
->>>>>>> e2509d5172a6a761a833763f817a6b9c152504d3
