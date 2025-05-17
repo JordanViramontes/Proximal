@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://da0phsu0gckgf" path="res://scenes/Weapons/pinky.gd" id="1_exoxp"]
 [ext_resource type="PackedScene" uid="uid://djtp4uqwyjuk6" path="res://scenes/bullets/pinky_bullet.tscn" id="2_55j32"]
-[ext_resource type="Material" uid="uid://d3pkbqg8petcg" path="res://assets/materials/m_pinky_weapon.tres" id="3_v84yc"]
+[ext_resource type="Material" uid="uid://d3pkbqg8petcg" path="res://assets/materials/weapons/m_pinky_weapon.tres" id="3_v84yc"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_2gn6w"]
 resource_local_to_scene = true

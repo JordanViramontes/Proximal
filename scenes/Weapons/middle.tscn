@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bg0rwu2uw0tqo" path="res://scenes/Weapons/middle.gd" id="1_l4hd8"]
 [ext_resource type="PackedScene" uid="uid://2cxmf5x5hcgw" path="res://scenes/bullets/middle_bullet.tscn" id="2_72tuf"]
-[ext_resource type="Material" uid="uid://825y816fpras" path="res://assets/materials/m_middle_weapon.tres" id="2_swt6j"]
+[ext_resource type="Material" uid="uid://825y816fpras" path="res://assets/materials/weapons/m_middle_weapon.tres" id="2_swt6j"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_2gn6w"]
 resource_local_to_scene = true

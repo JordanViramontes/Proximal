@@ -1,13 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://d07kbrumu4gbf"]
+[gd_scene load_steps=10 format=3 uid="uid://d07kbrumu4gbf"]
 
 [ext_resource type="Script" uid="uid://cljgu2clkn4w8" path="res://scenes/Weapons/index.gd" id="1_d8pwy"]
 [ext_resource type="PackedScene" uid="uid://b2nwv2k6ni68c" path="res://scenes/bullets/index_bullet.tscn" id="2_l5o4i"]
-[ext_resource type="Material" uid="uid://gse6mhar2dkn" path="res://assets/materials/m_index_weapon.tres" id="3_d8pwy"]
-[ext_resource type="Material" uid="uid://dh234h00a6nrs" path="res://assets/materials/m_index_weapon_depleted.tres" id="3_p258f"]
+[ext_resource type="Material" uid="uid://gse6mhar2dkn" path="res://assets/materials/weapons/m_index_weapon.tres" id="3_d8pwy"]
 [ext_resource type="PackedScene" uid="uid://kyg130pr8w03" path="res://scenes/Camera/trauma_causer.tscn" id="4_pkhb3"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_2gn6w"]
-resource_local_to_scene = true
 material = ExtResource("3_d8pwy")
 size = Vector3(0.1, 0.1, 1)
 
@@ -41,7 +39,6 @@ fire_rate = 12.0
 bullet = ExtResource("2_l5o4i")
 bullet_damage = 1.0
 bullet_speed = 90.0
-depleted_material = ExtResource("3_p258f")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 visible = false

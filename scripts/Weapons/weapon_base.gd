@@ -16,8 +16,9 @@ var can_shoot: bool = true
 @export var bullet_speed: float
 @export var is_hitscan: bool
 
-@export var depleted_material: Material
-var normal_material: Material
+#@export var depleted_material: Material
+@export var depleted_color: Color
+var default_material: Material
 
 # ability stuff
 @export var ability_cooldown := 5.0 # default 5 seconds
@@ -32,8 +33,6 @@ signal on_ability_shoot
 func _ready() -> void:
 	shoot_timer.wait_time = 1/fire_rate
 	shoot_timer.timeout.connect(func(): can_shoot = true)
-	
-	normal_material = $MeshInstance3D.mesh.material
 
 func _process(delta: float) -> void:
 	pass
@@ -47,15 +46,14 @@ func use_ability() -> bool:
 		return false
 	else:
 		current_ability_cooldown = ability_cooldown
-		if depleted_material:
-			$MeshInstance3D.mesh.material = depleted_material.duplicate()
-			var depleted_tween = get_tree().create_tween()
-			depleted_tween.set_ease(Tween.EASE_IN_OUT)
-			#depleted_tween.set_trans(Tween.TRANS_CUBIC)
-			depleted_tween.tween_property($MeshInstance3D.mesh.material, "albedo_color", normal_material.albedo_color, ability_cooldown)
-			depleted_tween.finished.connect(_on_depleted_tween_finish)
-		else:
-			print("%s set my depleted material for visual indication of ability cooldown :)" % self)
+
+		var recharge_color = $MeshInstance3D.mesh.material.albedo_color
+		$MeshInstance3D.mesh.material.albedo_color = depleted_color # set my color to the color of the depleted material
+		var depleted_tween = get_tree().create_tween()
+		depleted_tween.set_ease(Tween.EASE_IN_OUT)
+		depleted_tween.tween_property($MeshInstance3D.mesh.material, "albedo_color", recharge_color, ability_cooldown)
+		depleted_tween.finished.connect(_on_depleted_tween_finish)
+		
 		return true
 
 # shoot a bullet from the weapon
@@ -85,7 +83,6 @@ func cease_fire():
 	else: print("hello from weapon_base! you probably forgot to set the on_ceasefire signal on the inheritor of this script :3")
 
 func _on_depleted_tween_finish():
-	$MeshInstance3D.mesh.material = normal_material
 	var recharge_particles: GPUParticles3D = $RechargeParticles
 	if recharge_particles:
 		recharge_particles.restart()

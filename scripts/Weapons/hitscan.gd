@@ -64,7 +64,7 @@ func tracer_func():
 					"creator_position" : self.global_position
 				})
 				if col.damage(di):
-					damaged_enemy.emit()
+					damaged_enemy.emit(di)
 	
 	tracer_transform_origin.look_at(hit_point, Vector3.UP)
 	tracer.mesh.height = hit_dist
