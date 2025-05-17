@@ -143,7 +143,7 @@ func summon_guys() -> void:
 	var offset = 1
 	mob1.bene_initialize(global_position + Vector3(0, offset, 0), player_position, dir1, wave_category)
 	mob2.bene_initialize(global_position + Vector3(0, offset, 0), player_position, dir2, wave_category)
-	print("check: " + str(mob1) + "\n" + str(mob2))
+	#print("check: " + str(mob1) + "\n" + str(mob2))
 	
 	# Spawn the mob by adding it to the Main scene.
 	#print("SPAWN PARENT: " + str(enemy_spawn_parent))

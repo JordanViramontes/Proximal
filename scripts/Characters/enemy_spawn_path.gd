@@ -1,28 +1,28 @@
 extends Path3D
 
 # variables
-@export var starting_wave: int = 0
-var current_wave = starting_wave
-var current_wave_enemy_count: int = 0
-var can_change_wave: bool = true
 var waveDictionary = [
-	Wave.new([5, 0, 0, 0], 1, 1, 10), # 1
+	Wave.new([5, 0, 0, 0], 1, 1, 10), # 0
 	Wave.new([3, 3, 0, 0], 1, 1, 20),
 	Wave.new([5, 5, 0, 0], 1, 1, 20),
 	Wave.new([0, 10, 0, 0], 1, 1, 20),
-	Wave.new([0, 6, 2, 0], 1, 1, 20), # 5
+	Wave.new([0, 6, 2, 0], 1, 1, 20), # 4
 	Wave.new([3, 5, 1, 0], 1, 1, 20),
 	Wave.new([6, 6, 2, 0], 1, 1, 20),
 	Wave.new([10, 2, 0, 0], 1, 1, 20),
 	Wave.new([6, 8, 1, 0], 1, 1, 20),
-	Wave.new([3, 0, 0, 1], 1, 1, 20), # 10
+	Wave.new([3, 0, 0, 1], 1, 1, 20), # 9
 	Wave.new([2, 3, 0, 3], 1, 1, 20),
 	Wave.new([3, 6, 2, 3], 1, 1, 20),
 	Wave.new([3, 10, 5, 1], 1, 1, 20),
 	Wave.new([7, 4, 2, 2], 1, 1, 20),
-	Wave.new([10, 10, 5, 5], 1, 1, 20), #15
+	Wave.new([10, 10, 5, 5], 1, 1, 20), #14
 ]
-var wave = waveDictionary[0]
+@export var starting_wave: int = 14
+var current_wave = starting_wave
+var current_wave_enemy_count: int = 0
+var can_change_wave: bool = true
+var wave = waveDictionary[starting_wave]
 
 # DEBUG components
 var DEBUG_enemy_list = [
@@ -34,7 +34,7 @@ var DEBUG_enemy_list = [
 	"res://scenes/Enemies/be_elohim_crawler.tscn", # BENE ELOHIM CRAWLER 5
 	"res://scenes/Enemies/be_elohim_ranger.tscn", # BENE ELOHIM RANGER 6
 ]
-var DEBUG_enemy_ptr = 4
+var DEBUG_enemy_ptr = 3
 var DEBUG_wave: bool = true
 
 # components
@@ -122,12 +122,12 @@ func _process(delta):
 
 func spawnWave(wave_index):
 	# make sure we're valid
-	if wave_index > waveDictionary.size() || wave_index < 0:
+	if wave_index < 0:
 		return
 		
 	# variables
-	if not current_wave >= waveDictionary.size():
-		wave = waveDictionary[wave_index]
+	if current_wave >= waveDictionary.size():
+		wave = waveDictionary[waveDictionary.size()-1]
 	print("TOTAL IN THIS WAVE: " + str(wave.total_enemies))
 	var enemy_count = wave.enemy_count
 	current_wave_enemy_count += wave.total_enemies
@@ -157,8 +157,8 @@ func TESTspawnWave():
 		spawnEnemy(DEBUG_enemy_list[DEBUG_enemy_ptr], 1)
 
 func spawnEnemy(mob_path, debug_flag):
-	if mob_path == "res://scenes/Enemies/cherubim.tscn":
-		return
+	#if mob_path == "res://scenes/Enemies/cherubim.tscn":
+		#return
 	
 	var mob = load(mob_path).instantiate()
 	

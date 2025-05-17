@@ -7,7 +7,8 @@ class_name IshimRanger
 @export var comfy_radius = 15
 var cherubim_alerted: bool = false
 var cherubim_friend: Cherubim
-var cherubim_slot: int = -1
+var cherubim_node: Node3D = null
+var cherubim_node_index: int = -1
 var our_2D_pos: Vector2 = Vector2.ZERO
 var player_2D_pos: Vector2 = Vector2.ZERO
 var distance_towards_player: float = 0
@@ -19,7 +20,10 @@ var distance_towards_player: float = 0
 # components
 @onready var shoot_timer = $ShootCooldown
 @onready var mesh = $MeshInstance3D
-@onready var cherubim_node: Node3D = null
+
+# signals
+signal reached_cherubim_friend(ishim: IshimRanger)
+signal tell_cherubim_we_died(ishim: IshimRanger, index: int)
 
 # colors
 @onready var mat_roam = StandardMaterial3D.new()
@@ -173,22 +177,51 @@ func goto_cherubim(cherubim: Cherubim) -> void:
 	current_state = ENEMY_STATE.cherubim_alert
 	cherubim_friend = cherubim
 
-# check if we've reached a cherubim
-func _on_hitbox_component_body_entered(body: Node3D) -> void:
-	if current_state == ENEMY_STATE.spawn_edge:
-		return
-	
-	if body is not Cherubim:
-		return
-	
-	#print("reached! " + str(body))
-	if cherubim_friend:
-		cherubim_node = cherubim_friend._on_ishim_reached_cherubim(self)
-	if not cherubim_node:
-		current_state = ENEMY_STATE.roam
-
 # when died
 func on_reach_zero_health():
-	if current_state == ENEMY_STATE.cherubim_sit && cherubim_friend:
-		cherubim_friend._on_ishim_died(cherubim_slot)
+	#if current_state == ENEMY_STATE.cherubim_sit && cherubim_friend:
+		#cherubim_friend._on_ishim_died(cherubim_slot)
+	if cherubim_friend:
+		emit_signal("tell_cherubim_we_died", self, cherubim_node_index)
 	super.on_reach_zero_health()
+
+# check if we've reached a cherubim
+func _on_hitbox_component_body_entered(body: Cherubim) -> void:
+	if current_state != ENEMY_STATE.cherubim_alert:
+		return
+	#
+	if cherubim_friend == body:
+		#print("reached! " + str(body))
+		emit_signal("reached_cherubim_friend", self)
+
+# cherubim alerts us to follow it
+func on_alerted_to_run_to_cherubim(cherubim: Cherubim):
+	#print("ishim_ranger.gd: going to: " + str(cherubim))
+	current_state = ENEMY_STATE.cherubim_alert
+	cherubim_alerted = true
+	cherubim_friend = cherubim
+
+# stop running! 
+func on_alerted_to_stop_running_to_cherubim():
+	#print("ishim_ranger.gd: im stopping!")
+	current_state = ENEMY_STATE.roam
+	cherubim_alerted = false
+	cherubim_friend = null
+
+# we're seated on the cherubim
+func on_cherubim_wants_us_seated(node: Node3D, index: int):
+	#print("sitting on: " + str(node))
+	cherubim_node = node
+	cherubim_node_index = index
+	current_state = ENEMY_STATE.cherubim_sit
+	velocity = Vector3.ZERO
+	global_position = cherubim_node.global_position
+
+# cherubim died, reset stuff
+func on_alerted_cherubim_died():
+	#print("ishim_ranger.gd: cherubim died :(")
+	current_state = ENEMY_STATE.roam
+	cherubim_node = null
+	cherubim_friend = null
+	cherubim_alerted = false
+	cherubim_node_index = -1

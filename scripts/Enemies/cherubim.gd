@@ -10,7 +10,6 @@ class_name Cherubim
 var ishim: IshimRanger
 var ishim_count = 0
 var ishims = [null, null]
-var alerted_ishims = []
 var ishim_parent = null
 var our_2D_pos: Vector2 = Vector2.ZERO
 var player_2D_pos: Vector2 = Vector2.ZERO
@@ -34,7 +33,10 @@ var distance_towards_player: float = 0
 @onready var ishim_spot2 = $Ishim2
 
 # signals
-signal ishim_in_range
+signal tell_ishim_to_come(cherubim: Cherubim)
+signal tell_ishim_to_stop_coming
+signal sit_ishim_on_me(node: Node3D)
+signal tell_ishim_i_died
 
 # colors
 @onready var mat_roam: Color
@@ -50,15 +52,18 @@ func _ready() -> void:
 	total_states += 2
 	
 	# get ishim id
-	for enemy in get_tree().get_nodes_in_group("Enemies"):
-		if enemy.name == "Ishim":
-			ishim = enemy
+	#for enemy in get_tree().get_nodes_in_group("Enemies"):
+		#if enemy.name == "Ishim":
+			#ishim = enemy
 	
 	# colors
 	mat_roam = Color("f03b19")
 	mat_run_away = Color("fd7257")
 	mat_comfy = Color("991f07")
 	current_color = mat_roam
+	
+	# disable hitbox
+	ishim_area.monitoring = false
 	
 	super._ready()
 
@@ -72,25 +77,25 @@ func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
 	
 	# turn towards the player
-	#if current_state != ENEMY_STATE.spawn_edge:
-		#if player and player.is_inside_tree():
-			## get direction of self
-			#var forward = -transform.basis.z
-			#var facing_dir = Vector2(forward.x, forward.z).normalized()
-			#
-			## get direction of player
-			#var distance_to_player = player.global_position - global_position
-			#var facing_player = Vector2(distance_to_player.x, distance_to_player.z).normalized()
-			#
-			## angle
-			#var angle_to_player = facing_dir.angle_to(facing_player)
-			#
-			#if abs(angle_to_player) > deg_to_rad(1):
-				#var turn_sign = sign(angle_to_player)
-				#rotate_y(deg_to_rad(turn_angle * turn_sign * -1))
-		
 	if current_state != ENEMY_STATE.spawn_edge:
-		# gravity
+		if player and player.is_inside_tree():
+			# get direction of self
+			var forward = -transform.basis.z
+			var facing_dir = Vector2(forward.x, forward.z).normalized()
+			
+			# get direction of player
+			var distance_to_player = player.global_position - global_position
+			var facing_player = Vector2(distance_to_player.x, distance_to_player.z).normalized()
+			
+			# angle
+			var angle_to_player = facing_dir.angle_to(facing_player)
+			
+			if abs(angle_to_player) > deg_to_rad(1):
+				var turn_sign = sign(angle_to_player)
+				rotate_y(deg_to_rad(turn_angle * turn_sign * -1))
+	
+	# gravity
+	if current_state != ENEMY_STATE.spawn_edge:
 		if not is_on_floor():
 			velocity += get_gravity() * delta
 	
@@ -101,6 +106,10 @@ func _physics_process(delta: float) -> void:
 func _on_pathfind_timer_timeout() -> void:
 	if current_state == ENEMY_STATE.spawn_edge:
 		return
+	
+	# enable hitbox if not already
+	if ishim_area.monitoring == false:
+		ishim_area.monitoring = true
 	
 	# we want to calculate only based on x and z, effectively an infinite cone
 	our_2D_pos = Vector2(global_position.x, global_position.z)
@@ -119,6 +128,12 @@ func _on_pathfind_timer_timeout() -> void:
 	if shoot_timer.is_stopped():
 		_on_shoot_cooldown_timeout()
 		shoot_timer.start()
+		
+	# check for ishim
+	if ishim_count < 2:
+		#print("need ishim!")
+		ishim_area.monitoring = false
+		ishim_area.monitoring = true
 	
 	super._on_pathfind_timer_timeout()
 	velocity.x = pathfindVel.x
@@ -190,79 +205,73 @@ func _on_hitbox_component_body_entered(body: Node3D) -> void:
 	deal_damage_to_player(di)
 
 # used when an ishim ranger is found within the ishim range
-func _on_ishim_area_body_entered(body: Node3D) -> void:
-	if body is not IshimRanger:
+func _on_ishim_area_body_entered(body: IshimRanger) -> void:
+	# avoid alreting cherubims that are already alerted
+	if body.cherubim_alerted:
 		return
 	
-	# check if we are at max ishim
-	if ishim_count < 2 && not body.cherubim_alerted:
-		#print("signaling to: " + str(body))
-		alerted_ishims.append(body)
-		body.goto_cherubim(self)
-
-func _on_ishim_reached_cherubim(ishim: IshimRanger) -> Node3D:
-	# avoid duplicate enemies
-	if ishim.current_state == ishim.ENEMY_STATE.cherubim_sit:
-		return
-	
-	# get the ishim "slot"
-	var ishim_slot = null
+	#print("found: " + str(body))
 	if ishim_count < 2:
-		for i in ishims.size():
-			if ishims[i] == null:
-				ishims[i] = ishim
-				ishim.cherubim_slot = i
-				if i == 0:
-					ishim_slot = ishim_spot1
-				else:
-					ishim_slot = ishim_spot2
-				break
+		# connect signals to the desired ishim ranger
+		#print("connecting to and signlaing to: " + str(body))
+		self.tell_ishim_to_come.connect(body.on_alerted_to_run_to_cherubim)
+		self.tell_ishim_to_stop_coming.connect(body.on_alerted_to_stop_running_to_cherubim)
+		body.tell_cherubim_we_died.connect(self.on_ishim_dies_while_running)
+		body.reached_cherubim_friend.connect(self.on_ishim_reaches_cherubim)
+		emit_signal("tell_ishim_to_come", self)
+		#alerted_ishims.push_back(body)
+		ishim_count += 1
+		#print("COUNT NOW: " + str(ishim_count))
+		
+		# disable area if we hit 2
+		if ishim_count >= 2:
+			ishim_area.monitoring = false
+
+# signal recieved from cherubim when it reaches me!
+func on_ishim_reaches_cherubim(ishim: IshimRanger):
+	#print("cherubim.gd: reached: " + str(ishim))
+	# get the next availble seat
+	var nodeCnt = 0
+	for i in ishims:
+		if not i: # seat available
+			#print("seat available at " + str(nodeCnt))
+			ishims[nodeCnt] = ishim
+			self.tell_ishim_to_come.disconnect(ishim.on_alerted_to_run_to_cherubim)
+			self.tell_ishim_to_stop_coming.disconnect(ishim.on_alerted_to_stop_running_to_cherubim)
+			ishim.reached_cherubim_friend.disconnect(self.on_ishim_reaches_cherubim)
+			break
+		nodeCnt += 1
+	
+	# sit them
+	if nodeCnt == 0:
+		#emit_signal("sit_ishim_on_me", ishim_spot1)
+		ishim.on_cherubim_wants_us_seated(ishim_spot1, 0)
+	elif nodeCnt == 1:
+		#emit_signal("sit_ishim_on_me", ishim_spot2)
+		ishim.on_cherubim_wants_us_seated(ishim_spot2, 1)
 	else:
+		print("cherubim.gd: NOWERE FOR ISHIM TO SIT!!")
 		return
 	
-	# if there was no found slot
-	if not ishim_slot:
-		print("couldnt find slot! current count: " + str(ishim_count) + ", slots: " + str(ishims))
-		return null
-	
-	# set ishim stuff
-	ishim.velocity = Vector3.ZERO
-	ishim.global_transform = transform
-	ishim.current_state = ishim.ENEMY_STATE.cherubim_sit
-	ishim_count += 1
-	
-	# reset alerted ishims if we've reached max
-	if ishim_count >= 2:
-		print("full:" + str(alerted_ishims))
-		for i in alerted_ishims:
-			if i is IshimRanger && i.current_state == i.ENEMY_STATE.cherubim_alert:
-				i.cherubim_alerted = false
-				i.current_state = i.ENEMY_STATE.roam
-		alerted_ishims = []
-	
-	return ishim_slot
+	# connect
+	self.tell_ishim_i_died.connect(ishim.on_alerted_cherubim_died)
 
-func _on_ishim_died(cherubim_slot):
+func on_ishim_dies_while_running(ishim: IshimRanger, index: int) -> void:
 	ishim_count -= 1
-	ishims[cherubim_slot] = null
-	reset_ishim_check()
+	
+	# remove ishim from node
+	if index != -1:
+		ishims[index] = null
+	
+	# look for ishims
+	if ishim_area.monitoring == false:
+		ishim_area.monitoring = true
 
 # When they dead as hell
 func on_reach_zero_health():
 	# FREE ISHIMS
 	for i in ishims:
 		if i:
-			if i == ishims[0]:
-				i.global_position = ishim_spot1.global_position
-			else:
-				i.global_position = ishim_spot2.global_position
-			i.current_state = i.ENEMY_STATE.roam
-			i.cherubim_alerted = false
-			i.cherubim_node = null
+			emit_signal("tell_ishim_i_died")
 		
 	super.on_reach_zero_health()
-
-func reset_ishim_check():
-	# reset the area
-	ishim_area.monitoring = false
-	ishim_area.monitoring = true

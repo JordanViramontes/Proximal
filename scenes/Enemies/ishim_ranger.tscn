@@ -21,6 +21,7 @@ height = 2.12418
 [node name="IshimRanger" type="CharacterBody3D" groups=["Enemies"]]
 collision_layer = 4
 script = ExtResource("1_cw4bv")
+comfy_radius = 20
 bullet = ExtResource("5_8pu60")
 max_health = 1.0
 movement_speed = 8
