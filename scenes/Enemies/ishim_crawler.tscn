@@ -20,6 +20,7 @@ height = 2.27475
 [node name="IshimCrawler" type="CharacterBody3D" groups=["Enemies"]]
 collision_layer = 4
 script = ExtResource("1_lgyoi")
+lunge_dist = 10
 max_health = 5.0
 movement_speed = 6
 

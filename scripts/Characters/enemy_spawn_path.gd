@@ -33,7 +33,7 @@ var DEBUG_enemy_list = [
 	"res://scenes/Enemies/be_elohim_crawler.tscn", # BENE ELOHIM CRAWLER 5
 	"res://scenes/Enemies/be_elohim_ranger.tscn", # BENE ELOHIM RANGER 6
 ]
-var DEBUG_enemy_ptr = 5
+var DEBUG_enemy_ptr = 1
 var DEBUG_wave: bool = true
 
 # components
@@ -209,6 +209,8 @@ func _on_wave_timer_timeout() -> void:
 
 # every time an enemy dies, update the enemy counter, if we have 0 enemies left start next wave
 func enemy_dies(from_wave: int) -> void:
+	if not DEBUG_wave:
+		return
 	#print("DIEDIEDIED: " + str(from_wave))
 	# only lower count for enemies in the current wave
 	#if from_wave != current_wave:
