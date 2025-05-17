@@ -22,6 +22,7 @@ var waveDictionary = [
 	Wave.new([7, 4, 2, 2], 1, 1, 20),
 	Wave.new([10, 10, 5, 5], 1, 1, 20), #15
 ]
+var wave = waveDictionary[0]
 
 # DEBUG components
 var DEBUG_enemy_list = [
@@ -125,7 +126,8 @@ func spawnWave(wave_index):
 		return
 		
 	# variables
-	var wave = waveDictionary[wave_index]
+	if not current_wave >= waveDictionary.size():
+		wave = waveDictionary[wave_index]
 	print("TOTAL IN THIS WAVE: " + str(wave.total_enemies))
 	var enemy_count = wave.enemy_count
 	current_wave_enemy_count += wave.total_enemies
@@ -155,6 +157,9 @@ func TESTspawnWave():
 		spawnEnemy(DEBUG_enemy_list[DEBUG_enemy_ptr], 1)
 
 func spawnEnemy(mob_path, debug_flag):
+	if mob_path == "res://scenes/Enemies/cherubim.tscn":
+		return
+	
 	var mob = load(mob_path).instantiate()
 	
 	# Choose a random location on the SpawnPath, We store the reference to the SpawnLocation node.
@@ -174,6 +179,9 @@ func spawnEnemy(mob_path, debug_flag):
 	
 	# set the signal for mob
 	mob.die_from_wave.connect(self.enemy_dies)
+	
+	if mob is Elohim:
+		mob.add_new_enemies.connect(self.increase_enemy_count)
 
 func nextWave():
 	if current_wave >= waveDictionary.size() - 1:
@@ -255,3 +263,11 @@ func _on_next_wave_timer_timeout() -> void:
 	current_wave += 1
 	spawnWave(current_wave)
 	can_change_wave = true
+
+# increases enemy count if something other than me spawns enemies
+func increase_enemy_count(amount: int):
+	if not DEBUG_wave:
+		return
+	
+	current_wave_enemy_count += amount
+	emit_signal("updateEnemyCount", current_wave_enemy_count)

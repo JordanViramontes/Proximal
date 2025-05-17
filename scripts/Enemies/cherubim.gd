@@ -72,27 +72,27 @@ func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
 	
 	# turn towards the player
-	if current_state != ENEMY_STATE.spawn_edge:
-		if player and player.is_inside_tree():
-			# get direction of self
-			var forward = -transform.basis.z
-			var facing_dir = Vector2(forward.x, forward.z).normalized()
-			
-			# get direction of player
-			var distance_to_player = player.global_position - global_position
-			var facing_player = Vector2(distance_to_player.x, distance_to_player.z).normalized()
-			
-			# angle
-			var angle_to_player = facing_dir.angle_to(facing_player)
-			
-			if abs(angle_to_player) > deg_to_rad(1):
-				var turn_sign = sign(angle_to_player)
-				rotate_y(deg_to_rad(turn_angle * turn_sign * -1))
+	#if current_state != ENEMY_STATE.spawn_edge:
+		#if player and player.is_inside_tree():
+			## get direction of self
+			#var forward = -transform.basis.z
+			#var facing_dir = Vector2(forward.x, forward.z).normalized()
+			#
+			## get direction of player
+			#var distance_to_player = player.global_position - global_position
+			#var facing_player = Vector2(distance_to_player.x, distance_to_player.z).normalized()
+			#
+			## angle
+			#var angle_to_player = facing_dir.angle_to(facing_player)
+			#
+			#if abs(angle_to_player) > deg_to_rad(1):
+				#var turn_sign = sign(angle_to_player)
+				#rotate_y(deg_to_rad(turn_angle * turn_sign * -1))
 		
-		if current_state != ENEMY_STATE.spawn_edge:
-			# gravity
-			if not is_on_floor():
-				velocity += get_gravity() * delta
+	if current_state != ENEMY_STATE.spawn_edge:
+		# gravity
+		if not is_on_floor():
+			velocity += get_gravity() * delta
 	
 	# finally move
 	move_and_slide()

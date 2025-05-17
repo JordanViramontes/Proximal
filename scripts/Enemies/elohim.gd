@@ -1,11 +1,14 @@
 extends EnemyBase
 
+class_name Elohim
+
 # variables
 @export var player_run_radius = 45
 @export var comfy_radius = 50
 @export var touch_damage = 3
 @export var bene_spawn_angle = 45
 var DEBUG_spawn_bool = true;
+var initial_summon = true
 var our_2D_pos: Vector2 = Vector2.ZERO
 var player_2D_pos: Vector2 = Vector2.ZERO
 var distance_towards_player: float = 0
@@ -15,6 +18,9 @@ var distance_towards_player: float = 0
 @onready var summoning_timer = $SummoningTimer
 @onready var be_elohim_ranger_path = "res://scenes/Enemies/be_elohim_ranger.tscn"
 @onready var enemy_spawn_parent = get_tree().get_first_node_in_group("EnemySpawnParent")
+
+# signal
+signal add_new_enemies(enemies: int)
 
 # colors
 @onready var mat_roam = StandardMaterial3D.new()
@@ -33,9 +39,15 @@ func _ready() -> void:
 	mat_summoning.albedo_color = Color("438500")
 	
 	super._ready()
+	
 
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
+	
+	if  initial_summon && current_state!= ENEMY_STATE.spawn_edge:
+		summon_cooldown.stop()
+		_on_summon_cooldown_timeout()
+		initial_summon = false
 	
 	# state logic for gravity
 	if current_state != ENEMY_STATE.spawn_edge:
@@ -108,9 +120,11 @@ func _on_summon_cooldown_timeout() -> void:
 # finished summoning, go back to normal
 func _on_summoning_timer_timeout() -> void:
 	# actually summon
-	if DEBUG_spawn_bool:
-		summon_guys()
-		DEBUG_spawn_bool = false
+	#if DEBUG_spawn_bool:
+		#summon_guys()
+		#DEBUG_spawn_bool = false
+	
+	summon_guys()
 	
 	current_state = ENEMY_STATE.roam
 	_on_pathfind_timer_timeout()
@@ -135,3 +149,10 @@ func summon_guys() -> void:
 	#print("SPAWN PARENT: " + str(enemy_spawn_parent))
 	enemy_spawn_parent.add_child(mob1)
 	enemy_spawn_parent.add_child(mob2)
+	
+	mob1.die_from_wave.connect(enemy_spawn_parent.enemy_dies)
+	mob2.die_from_wave.connect(enemy_spawn_parent.enemy_dies)
+	
+	
+	
+	emit_signal("add_new_enemies", 2)

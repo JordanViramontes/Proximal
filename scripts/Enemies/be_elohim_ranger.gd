@@ -1,5 +1,7 @@
 extends EnemyBase
 
+class_name BeneElohimRanger
+
 # variables
 @export var player_run_radius = 8
 @export var comfy_radius = 18
