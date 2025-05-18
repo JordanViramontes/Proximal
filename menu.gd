@@ -2,7 +2,9 @@ extends Control
 
 # preload action input button and grab action list
 @onready var input_button_scene = preload("res://input_button.tscn")
-@onready var action_list = $"Options Menu/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer"
+@onready var action_list = $"Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/VBoxContainer"
+@onready var volume = $"Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Volume"
+@onready var fullscreen_checkbox = $"Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainer2/Fullscreen_Checkbox"
 
 var is_remapping = false
 var action_to_remap = null
@@ -29,7 +31,13 @@ var input_actions = {
 }
 
 func _ready():
+	_load_keybindings_from_settings()
 	_create_action_list()
+	var video_settings = ConfigFileHandler.load_video_settings()
+	fullscreen_checkbox.button_pressed = video_settings.fullscreen
+	
+	var audio_settings = ConfigFileHandler.load_audio_settings()
+	volume.value = min(audio_settings.master_volume, 1.0) * 100
 
 # play button should send user to game scene
 func _on_play_pressed():
@@ -48,6 +56,12 @@ func _on_quit_pressed():
 func _on_volume_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db(0, value)
 	print("volume set to: " + str(value))
+
+
+func _on_volume_drag_ended(value_changed: bool) -> void:
+	if value_changed:
+		ConfigFileHandler.save_audio_setting("master_volume", volume.value / 100)
+
 
 # resolution setting
 func _on_resolutions_item_selected(index: int) -> void:
@@ -68,9 +82,17 @@ func _on_resolutions_item_selected(index: int) -> void:
 func _on_options_exit_pressed() -> void:
 	$"Options Menu".visible = false
 
+func _load_keybindings_from_settings():
+	var keybindings = ConfigFileHandler.load_keybindings()
+	for action in keybindings.keys():
+		InputMap.action_erase_events(action)
+		InputMap.action_add_event(action, keybindings[action])
+
 func _create_action_list() -> void:
-	InputMap.load_from_project_settings()
-		
+	# clear existing buttons
+	for child in action_list.get_children():
+		child.queue_free()
+	
 	for action in input_actions:
 		var button = input_button_scene.instantiate()
 		var action_label = button.find_child("LabelAction")
@@ -103,6 +125,7 @@ func _input(event):
 			
 			InputMap.action_erase_events(action_to_remap)
 			InputMap.action_add_event(action_to_remap, event)
+			ConfigFileHandler.save_keybinding(action_to_remap, event)
 			_update_action_list(remapping_button, event)
 			
 			is_remapping = false
@@ -113,3 +136,21 @@ func _input(event):
 			
 func _update_action_list(button, event):
 	button.find_child("LabelInput").text = event.as_text().trim_suffix(" (Physical)")
+
+
+func _on_fullscreen_checkbox_toggled(toggled_on: bool) -> void:
+	ConfigFileHandler.save_video_setting("fullscreen", toggled_on)
+	
+	if toggled_on: 
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
+	else:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		
+
+func _on_reset_button_pressed() -> void:
+	InputMap.load_from_project_settings()
+	for action in input_actions:
+		var events = InputMap.action_get_events(action)
+		if events.size() > 0:
+			ConfigFileHandler.save_keybinding(action, events[0])
+	_create_action_list()
