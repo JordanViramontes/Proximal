@@ -21,7 +21,8 @@ colors = PackedColorArray(0, 0, 0, 1)
 gradient = SubResource("Gradient_3dysb")
 
 [sub_resource type="Gradient" id="Gradient_igr1w"]
-colors = PackedColorArray(0.252028, 0.252028, 0.252028, 1, 0.804345, 0.844028, 0.972737, 1)
+offsets = PackedFloat32Array(0, 0.676056, 1)
+colors = PackedColorArray(0.136826, 0.136826, 0.136826, 1, 0.538019, 0.538019, 0.538019, 1, 1, 1, 1, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_lrq8j"]
 gradient = SubResource("Gradient_igr1w")

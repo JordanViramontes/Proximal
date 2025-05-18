@@ -35,6 +35,9 @@ signal on_shoot
 signal on_ceasefire
 signal on_ability_shoot
 
+# signals
+signal send_ui_ability_time(time_left: float)
+
 func _ready() -> void:
 	shoot_timer.wait_time = 1/(fire_rate*level)
 	shoot_timer.timeout.connect(func(): can_shoot = true)
@@ -66,6 +69,10 @@ func use_ability() -> bool:
 			depleted_tween.finished.connect(_on_depleted_tween_finish)
 		else:
 			print("%s set my depleted material for visual indication of ability cooldown :)" % self)
+		
+		# send signal
+		emit_signal("send_ui_ability_time", ability_cooldown)
+		
 		return true
 
 # shoot a bullet from the weapon

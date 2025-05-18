@@ -183,7 +183,6 @@ func _on_stun_hitbox_body_entered(body: EnemyBase) -> void:
 	currently_stunned_enemies.push_back(body)
 	body._on_recieve_stun()
 
-
 func _on_stun_enemy_timer_timeout() -> void:
 	print ("weapon_manager.gd: unstunning")
 	can_stun = true
