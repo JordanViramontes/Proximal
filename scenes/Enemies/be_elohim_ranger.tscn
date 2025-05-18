@@ -14,6 +14,7 @@ material = SubResource("StandardMaterial3D_771yh")
 [sub_resource type="SphereShape3D" id="SphereShape3D_slhci"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_i8yyd"]
+radius = 0.970053
 
 [node name="BeElohimRanger" type="CharacterBody3D"]
 collision_layer = 4

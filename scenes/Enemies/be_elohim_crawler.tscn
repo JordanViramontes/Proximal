@@ -13,6 +13,7 @@ material = SubResource("StandardMaterial3D_m3eit")
 [sub_resource type="SphereShape3D" id="SphereShape3D_myaq0"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_tgk7v"]
+radius = 0.785919
 
 [node name="BeElohimCrawler" type="CharacterBody3D"]
 script = ExtResource("1_m3eit")

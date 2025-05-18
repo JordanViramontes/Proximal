@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bkhyaocomqp2q"]
+[gd_scene load_steps=13 format=3 uid="uid://bkhyaocomqp2q"]
 
 [ext_resource type="Script" uid="uid://iud8b5qauag5" path="res://scripts/Enemies/cherubim.gd" id="1_vrbru"]
 [ext_resource type="PackedScene" uid="uid://br0pvgk7t0dyh" path="res://scenes/Enemies/cherubim_bullet.tscn" id="2_yfmxc"]
@@ -10,8 +10,13 @@
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vrbru"]
 albedo_color = Color(0.831366, 0.191113, 0.0643092, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_yq8ut"]
-size = Vector3(3.00342, 2.97644, 5.75409)
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yvj4b"]
+radius = 1.36237
+height = 7.6612
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yq8ut"]
+radius = 1.70323
+height = 8.34714
 
 [sub_resource type="SphereMesh" id="SphereMesh_yfmxc"]
 radius = 0.25
@@ -39,8 +44,8 @@ material_overlay = ExtResource("3_yvj4b")
 mesh = ExtResource("3_yfmxc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.00292975, 0.98822, -0.410858)
-shape = SubResource("BoxShape3D_yq8ut")
+transform = Transform3D(-1, 8.74228e-08, -3.82137e-15, 0, -4.37114e-08, -1, -8.74228e-08, -1, 4.37114e-08, 0.0270381, 0.840859, -0.362501)
+shape = SubResource("CapsuleShape3D_yvj4b")
 
 [node name="HitboxComponent" type="Area3D" parent="."]
 collision_layer = 4
@@ -49,8 +54,8 @@ script = ExtResource("4_yvj4b")
 metadata/_custom_type_script = "uid://cgpmhci7164s6"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent"]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.00292975, 0.98822, -0.410858)
-shape = SubResource("BoxShape3D_yq8ut")
+transform = Transform3D(-1, 8.74228e-08, -3.82137e-15, 0, -4.37114e-08, -1, -8.74228e-08, -1, 4.37114e-08, 0.0270381, 0.682748, -0.362501)
+shape = SubResource("CapsuleShape3D_yq8ut")
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("3_yq8ut")
@@ -81,6 +86,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, -3)
 mesh = SubResource("SphereMesh_yq8ut")
 
 [node name="IshimArea" type="Area3D" parent="." groups=["Enemies"]]
+collision_layer = 0
 collision_mask = 5
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="IshimArea"]
