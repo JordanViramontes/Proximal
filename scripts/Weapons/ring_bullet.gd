@@ -10,6 +10,8 @@ signal damaged_enemy
 
 var facing_axis: Vector3
 
+@export var type: DamageInstance.DamageType
+
 func _ready():
 	super()
 	$Hitbox.damaged.connect(_on_hitbox_damaged)
@@ -27,6 +29,10 @@ func _on_hitbox_damaged(di: DamageInstance):
 	var e = shoot_explosion.instantiate()
 	e.position = position
 	e.face_dir = (self.global_position - di.creator_position).normalized()
+	
+	# give the shoot explosion the damage and damage type of the damageinstance!
+	e.explosion_damage = bullet_damage * di.damage
+	e.type = di.type
 	World.world.add_child(e)
 	self.queue_free()
 
@@ -34,6 +40,9 @@ func _on_hitbox_area_entered(area: Area3D) -> void:
 	# hitting Guys (actors/hitboxes)
 	var e = terrain_explosion.instantiate()
 	e.position = position
+	
+	e.explosion_damage = bullet_damage
+	e.type = DamageInstance.DamageType.Ring
 	World.world.add_child(e)
 	self.queue_free()
 
@@ -42,5 +51,8 @@ func _on_hitbox_body_entered(body: Node3D) -> void:
 	# hitting terrain
 	var e = terrain_explosion.instantiate()
 	e.position = position
+	
+	e.explosion_damage = bullet_damage
+	e.type = DamageInstance.DamageType.Ring
 	World.world.add_child(e)
 	self.queue_free()

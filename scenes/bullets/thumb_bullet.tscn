@@ -12,6 +12,7 @@ radius = 0.12328
 [node name="ThumbBullet" type="Node3D"]
 script = ExtResource("1_pfkav")
 spin = true
+type = 1
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_wi1hg")

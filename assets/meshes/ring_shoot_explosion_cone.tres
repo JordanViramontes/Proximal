@@ -9,5 +9,5 @@ albedo_color = Color(0, 0.741176, 0, 1)
 resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_5sagf")
 top_radius = 0.0
-bottom_radius = 10.0
-height = 20.0
+bottom_radius = 20.0
+height = 30.0

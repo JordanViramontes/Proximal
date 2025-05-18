@@ -18,6 +18,7 @@ script = ExtResource("1_ihso4")
 rotation_rate = 10.0
 terrain_explosion = ExtResource("2_83hhm")
 shoot_explosion = ExtResource("3_tom41")
+type = 4
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("TorusMesh_ihso4")

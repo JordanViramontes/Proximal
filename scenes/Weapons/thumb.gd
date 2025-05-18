@@ -47,12 +47,12 @@ func permute_vector_weighted(v: Vector3, spread: float, weight: float):
 func on_on_ability_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	print("on-on-onability shoot called with %s, %s, %s" % [from_pos, look_direction, velocity])
 	if ability_bullet == null:
-		print("thumb.gd - set my bullet property bro! i dont have it!")
+		print("thumb.gd - set my ability bullet property bro! i dont have it!")
 		return
 		
 	var b = ability_bullet.instantiate()
 	if b == null:
-		print("thumb.gd - bullet did not instantiate")
+		print("thumb.gd - ability bullet did not instantiate")
 		return
 	
 	b.position = $BulletEmergePoint.global_position

@@ -18,7 +18,7 @@ var spawn_location: Vector3
 
 @export var spin: bool = false
 
-var type: DamageInstance.DamageType
+@export var type: DamageInstance.DamageType
 
 signal damaged_enemy
 

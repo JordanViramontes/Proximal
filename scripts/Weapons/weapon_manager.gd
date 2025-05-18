@@ -127,8 +127,7 @@ func use_ability(finger):
 	match finger:
 		0:
 			abilityInput.emit()
-			print("vaccum")
-			pass
+			print(abilityInput.get_connections())
 		1:
 			if curr_weapon.use_ability():
 				disableWeapons(0.5) # disable for whatever the dash length is idk
