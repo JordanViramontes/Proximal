@@ -15,7 +15,17 @@ var input_actions = {
 	"left": "Strafe Left",
 	"right": "Strafe Right",
 	"jump": "Jump",
-	"shoot": "Shoot"
+	"hotkey_dash": "Dash",
+	"slide": "Slide",
+	"shoot": "Shoot",
+	"ability": "Weapon Ability",
+	"change_weapon_up": "Weapon Cycle Up",
+	"change_weapon_down": "Weapon Cycle Down",
+	"hotkey_thumb": "Thumb",
+	"hotkey_index": "Index",
+	"hotkey_middle": "Middle",
+	"hotkey_ring": "Ring",
+	"hotkey_pinky": "Pinky"
 }
 
 func _ready():
