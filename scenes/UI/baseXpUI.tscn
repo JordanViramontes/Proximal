@@ -1,0 +1,98 @@
+[gd_scene load_steps=12 format=3 uid="uid://byrblrkj4ab5k"]
+
+[ext_resource type="Texture2D" uid="uid://dadb66jjnpji0" path="res://assets/textures/hand_xp_ui/thumb.png" id="1_6ec0q"]
+[ext_resource type="Script" path="res://scenes/Weapons/thumb_progress_bar.gd" id="2_3dysb"]
+
+[sub_resource type="Gradient" id="Gradient_o4ggq"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.03169, 0.04963, 0.167372, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_igr1w"]
+gradient = SubResource("Gradient_o4ggq")
+
+[sub_resource type="Gradient" id="Gradient_m8thc"]
+colors = PackedColorArray(0.321569, 0.4, 0.803922, 1, 0.804345, 0.844028, 0.972737, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_lrq8j"]
+gradient = SubResource("Gradient_m8thc")
+
+[sub_resource type="Gradient" id="Gradient_ff60f"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_vt2vd"]
+gradient = SubResource("Gradient_ff60f")
+
+[sub_resource type="Gradient" id="Gradient_nfryv"]
+colors = PackedColorArray(0, 0, 0, 1, 1, 0.548798, 0.484858, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_vx3hn"]
+gradient = SubResource("Gradient_nfryv")
+
+[sub_resource type="LabelSettings" id="LabelSettings_o3vk8"]
+paragraph_spacing = -10.0
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -9.5
+offset_right = 152.0
+offset_bottom = 9.5
+grow_vertical = 2
+theme_override_constants/separation = 3
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+texture = ExtResource("1_6ec0q")
+expand_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 1
+
+[node name="Control" type="Control" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="XpProgressBar" type="TextureProgressBar" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(100, 9)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 2
+value = 70.0
+nine_patch_stretch = true
+texture_under = SubResource("GradientTexture2D_igr1w")
+texture_progress = SubResource("GradientTexture2D_lrq8j")
+script = ExtResource("2_3dysb")
+
+[node name="AbilityProgressBar" type="TextureProgressBar" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(100, 3)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 2
+value = 70.0
+nine_patch_stretch = true
+texture_under = SubResource("GradientTexture2D_vt2vd")
+texture_progress = SubResource("GradientTexture2D_vx3hn")
+script = ExtResource("2_3dysb")
+
+[node name="Control2" type="Control" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Lvl: 1"
+label_settings = SubResource("LabelSettings_o3vk8")
+vertical_alignment = 1
