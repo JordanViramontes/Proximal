@@ -44,7 +44,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 1
 
-[node name="LabelAction2" type="Label" parent="MarginContainer/HBoxContainer"]
+[node name="LabelInput" type="Label" parent="MarginContainer/HBoxContainer"]
 texture_filter = 1
 layout_mode = 2
 mouse_filter = 1
