@@ -1,20 +1,30 @@
-[gd_scene load_steps=12 format=3 uid="uid://byrblrkj4ab5k"]
+[gd_scene load_steps=15 format=3 uid="uid://byrblrkj4ab5k"]
 
+[ext_resource type="Script" uid="uid://cp5i3d4ehsbob" path="res://scenes/UI/base_xp_ui.gd" id="1_3dysb"]
 [ext_resource type="Texture2D" uid="uid://dadb66jjnpji0" path="res://assets/textures/hand_xp_ui/thumb.png" id="1_6ec0q"]
 [ext_resource type="Script" path="res://scenes/Weapons/thumb_progress_bar.gd" id="2_3dysb"]
 
-[sub_resource type="Gradient" id="Gradient_o4ggq"]
+[sub_resource type="Gradient" id="Gradient_6ec0q"]
+offsets = PackedFloat32Array(0, 0.883117, 1)
+colors = PackedColorArray(0, 0, 0, 0.890196, 0, 0, 0, 0.300586, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_3dysb"]
+gradient = SubResource("Gradient_6ec0q")
+width = 150
+height = 20
+
+[sub_resource type="Gradient" id="Gradient_3dysb"]
 offsets = PackedFloat32Array(0)
-colors = PackedColorArray(0.03169, 0.04963, 0.167372, 1)
+colors = PackedColorArray(0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_igr1w"]
-gradient = SubResource("Gradient_o4ggq")
+gradient = SubResource("Gradient_3dysb")
 
-[sub_resource type="Gradient" id="Gradient_m8thc"]
-colors = PackedColorArray(0.321569, 0.4, 0.803922, 1, 0.804345, 0.844028, 0.972737, 1)
+[sub_resource type="Gradient" id="Gradient_igr1w"]
+colors = PackedColorArray(0.252028, 0.252028, 0.252028, 1, 0.804345, 0.844028, 0.972737, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_lrq8j"]
-gradient = SubResource("Gradient_m8thc")
+gradient = SubResource("Gradient_igr1w")
 
 [sub_resource type="Gradient" id="Gradient_ff60f"]
 offsets = PackedFloat32Array(0)
@@ -24,32 +34,38 @@ colors = PackedColorArray(0, 0, 0, 1)
 gradient = SubResource("Gradient_ff60f")
 
 [sub_resource type="Gradient" id="Gradient_nfryv"]
-colors = PackedColorArray(0, 0, 0, 1, 1, 0.548798, 0.484858, 1)
+colors = PackedColorArray(0.560601, 0.188851, 0.52211, 1, 0.851309, 0.460016, 0.801553, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_vx3hn"]
 gradient = SubResource("Gradient_nfryv")
 
 [sub_resource type="LabelSettings" id="LabelSettings_o3vk8"]
 paragraph_spacing = -10.0
+font_size = 18
 
-[node name="Control" type="Control"]
+[node name="BaseXpUI" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_3dysb")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_direction = 1
+layout_mode = 0
+offset_right = 172.0
+offset_bottom = 190.0
+scale = Vector2(1, 0.1)
+texture = SubResource("GradientTexture2D_3dysb")
+expand_mode = 4
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -9.5
 offset_right = 152.0
-offset_bottom = 9.5
-grow_vertical = 2
+offset_bottom = 19.0
 theme_override_constants/separation = 3
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
@@ -71,7 +87,7 @@ custom_minimum_size = Vector2(100, 9)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 2
-value = 70.0
+value = 100.0
 nine_patch_stretch = true
 texture_under = SubResource("GradientTexture2D_igr1w")
 texture_progress = SubResource("GradientTexture2D_lrq8j")
@@ -82,7 +98,7 @@ custom_minimum_size = Vector2(100, 3)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 2
-value = 70.0
+value = 100.0
 nine_patch_stretch = true
 texture_under = SubResource("GradientTexture2D_vt2vd")
 texture_progress = SubResource("GradientTexture2D_vx3hn")
@@ -91,8 +107,12 @@ script = ExtResource("2_3dysb")
 [node name="Control2" type="Control" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer"]
+[node name="Label" type="Label" parent="."]
 layout_mode = 2
+offset_left = 127.0
+offset_top = 2.0
+offset_right = 155.0
+offset_bottom = 23.0
 text = "Lvl: 1"
 label_settings = SubResource("LabelSettings_o3vk8")
 vertical_alignment = 1

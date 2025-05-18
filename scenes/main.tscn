@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://dwckn628u33ab"]
+[gd_scene load_steps=31 format=3 uid="uid://dwckn628u33ab"]
 
 [ext_resource type="Texture2D" uid="uid://cqur83lk7fjfl" path="res://assets/hdris/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="1_8wojv"]
 [ext_resource type="Script" uid="uid://bpvwqw4pbfs3m" path="res://scripts/Areas/world.gd" id="1_dctr2"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://cqq4wmrgc8xv7" path="res://scripts/death_interface.gd" id="10_choun"]
 [ext_resource type="Script" uid="uid://vc054ubkxfcw" path="res://scenes/wave_info.gd" id="10_ya4ey"]
 [ext_resource type="Script" uid="uid://bsg3bg0jpnpjr" path="res://scripts/next_wave_starting_in.gd" id="11_eb6dy"]
+[ext_resource type="Script" uid="uid://b886ylfmdgmqa" path="res://scenes/weapon_xp_gui.gd" id="13_a8y0u"]
 [ext_resource type="PackedScene" uid="uid://byrblrkj4ab5k" path="res://scenes/UI/baseXpUI.tscn" id="13_trceg"]
 
 [sub_resource type="Gradient" id="Gradient_ya4ey"]
@@ -252,14 +253,18 @@ horizontal_alignment = 1
 
 [node name="WeaponXpGUI" type="VBoxContainer" parent="UI"]
 layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 7.0
-offset_top = -117.0
-offset_right = 163.0
+anchors_preset = -1
+anchor_left = 0.011
+anchor_top = 0.981
+anchor_right = 0.011
+anchor_bottom = 0.981
+offset_left = -0.0400004
+offset_top = -103.16
+offset_right = 171.96
+offset_bottom = -0.160034
 grow_vertical = 0
-theme_override_constants/separation = 25
+theme_override_constants/separation = 21
+script = ExtResource("13_a8y0u")
 
 [node name="Thumb" parent="UI/WeaponXpGUI" instance=ExtResource("13_trceg")]
 layout_mode = 2
