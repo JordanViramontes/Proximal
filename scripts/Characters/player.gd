@@ -104,6 +104,8 @@ func _ready() -> void:
 	Util.toggle_shield.connect(on_toggle_shield)
 	weapon.abilityInput.connect(on_ability_shoot)
 	Util.healing.connect(on_heal)
+	
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 # inputs
 func _input(event: InputEvent) -> void:
@@ -314,12 +316,9 @@ func on_damaged(di: DamageInstance):
 	
 func on_toggle_shield(state:bool):
 	if state == true:
-		$UI/shield_visual.show()
 		can_take_damage = false
 	else:
-		$UI/shield_visual.hide()
 		can_take_damage = true
-	pass
 
 # for shooting/projectile abilities
 func on_ability_shoot():

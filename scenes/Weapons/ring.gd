@@ -16,9 +16,6 @@ func _ready() -> void:
 	on_shoot.connect(on_on_shoot)
 	on_ability_shoot.connect(on_on_ability_shoot)
 
-func _process(delta: float) -> void:
-	super._process(delta)
-	$RingDisplay/Label.text = ("carried rings: %s" % carried_rings)
 
 func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	if carried_rings <= 0:
