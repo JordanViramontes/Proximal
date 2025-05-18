@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://d07kbrumu4gbf"]
+[gd_scene load_steps=7 format=3 uid="uid://d07kbrumu4gbf"]
 
 [ext_resource type="Script" uid="uid://cljgu2clkn4w8" path="res://scenes/Weapons/index.gd" id="1_d8pwy"]
 [ext_resource type="PackedScene" uid="uid://b2nwv2k6ni68c" path="res://scenes/bullets/index_bullet.tscn" id="2_l5o4i"]
@@ -12,27 +12,6 @@ size = Vector3(0.1, 0.1, 1)
 [sub_resource type="SphereShape3D" id="SphereShape3D_p258f"]
 radius = 1.435
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_p258f"]
-particle_flag_rotate_y = true
-emission_shape_offset = Vector3(0.01, 0.01, 0.01)
-emission_shape = 1
-emission_sphere_radius = 1.0
-angle_min = -720.0
-angle_max = 720.0
-direction = Vector3(0, 1, 0)
-initial_velocity_max = 1.0
-gravity = Vector3(0, 0, 0)
-color = Color(0, 0, 1, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p258f"]
-emission_enabled = true
-emission = Color(0, 1, 1, 1)
-billboard_mode = 1
-
-[sub_resource type="QuadMesh" id="QuadMesh_iu4ke"]
-material = SubResource("StandardMaterial3D_p258f")
-size = Vector2(0.1, 0.1)
-
 [node name="Index" type="Node3D"]
 script = ExtResource("1_d8pwy")
 fire_rate = 12.0
@@ -44,9 +23,6 @@ bullet_speed = 90.0
 visible = false
 mesh = SubResource("BoxMesh_2gn6w")
 
-[node name="BulletEmergePoint" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
-
 [node name="ShootCooldown" type="Timer" parent="."]
 
 [node name="TraumaCauser" parent="." instance=ExtResource("4_pkhb3")]
@@ -56,12 +32,3 @@ trauma_amount = 0.12
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TraumaCauser"]
 shape = SubResource("SphereShape3D_p258f")
-
-[node name="RechargeParticles" type="GPUParticles3D" parent="."]
-emitting = false
-amount = 10
-lifetime = 0.2
-one_shot = true
-explosiveness = 0.41
-process_material = SubResource("ParticleProcessMaterial_p258f")
-draw_pass_1 = SubResource("QuadMesh_iu4ke")

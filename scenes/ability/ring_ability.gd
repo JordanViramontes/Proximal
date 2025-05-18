@@ -5,8 +5,6 @@ extends BulletBase
 
 var facing_axis: Vector3
 
-
-
 func _physics_process(delta: float):
 	print(direction)
 	super(delta)

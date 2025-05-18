@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://duneq26sd14wn"]
+[gd_scene load_steps=7 format=3 uid="uid://duneq26sd14wn"]
 
 [ext_resource type="Script" uid="uid://cc7ls8xbh0snk" path="res://scenes/Weapons/ring.gd" id="1_oaqjv"]
 [ext_resource type="PackedScene" uid="uid://drw72tdjmshya" path="res://scenes/ability/ring_ability.tscn" id="2_7g3be"]
 [ext_resource type="PackedScene" uid="uid://cn2c867ej4ifx" path="res://scenes/bullets/ring_bullet.tscn" id="2_vum0y"]
 [ext_resource type="Material" uid="uid://pdp13fj43mhq" path="res://assets/materials/weapons/m_ring_weapon.tres" id="3_cdqlc"]
+[ext_resource type="Theme" uid="uid://rsglqw8mc02x" path="res://assets/themes/default.tres" id="5_oopk3"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_2gn6w"]
 resource_local_to_scene = true
@@ -21,7 +22,17 @@ bullet_speed = 10.0
 visible = false
 mesh = SubResource("BoxMesh_2gn6w")
 
-[node name="BulletEmergePoint" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
-
 [node name="ShootCooldown" type="Timer" parent="."]
+
+[node name="RingDisplay" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="RingDisplay"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 19.0
+theme = ExtResource("5_oopk3")
+text = "carried rings: "

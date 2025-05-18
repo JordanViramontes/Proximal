@@ -12,8 +12,16 @@ var curr_weapon # defined in ready
 # weapon / ability authentication
 var canUseWeapon: bool = true
 var canDash: bool = true
+var shield_duration: float = 2.0
 signal dashInput
 signal abilityInput #healing 
+
+# recoil stuff
+var total_recoil: float
+var max_recoil: float = 1.0
+var recoil_direction: Vector3 = Vector3.BACK # recoil should be in positive z direction....!
+@export var recoil_recovery_rate: float # amount per frame we recover from recoil
+@export var recoil_reduction_rate: float
 
 func _ready():
 	weapon_dictionary = [
@@ -25,6 +33,13 @@ func _ready():
 	]
 	curr_weapon_index = 1
 	set_current_weapon(curr_weapon_index)
+	
+	# move them to where the visual base is
+	for i in range(len(weapon_dictionary)):
+		weapon_dictionary[i].position = hand_visual_base.position
+		weapon_dictionary[i].bullet_emerge_point = $BulletEmergePoint
+	
+	$Ring.used_ring.connect(on_used_ring)
 
 # code for polling inputs
 func _process(delta: float):
@@ -49,6 +64,10 @@ func _process(delta: float):
 		use_ability(curr_weapon_index)
 	if Input.is_action_just_pressed("hotkey_dash"): # Index = 1
 		use_ability(1)
+	
+	
+	# recoil
+	update_recoil(delta)
 
 
 # 3 ways of recieving new weapon change, either scroll wheels (handled in _process),
@@ -94,33 +113,30 @@ func ability_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3
 func cease_fire():
 	curr_weapon.cease_fire()
 
-
 func set_current_weapon(index: int):
 	curr_weapon = weapon_dictionary[index]
 	hand_visual_base.select_finger(index)
 	curr_weapon_index = index
-	curr_weapon.visible = true
+	#curr_weapon.visible = true
 	curr_weapon.active = true
 
-
 func set_weapon_unactive(weapon):
-	weapon.visible = false
+	#weapon.visible = false
 	weapon.active = false
 
 func use_ability(finger):
 	match finger:
 		1:
-			if curr_weapon.use_ability():
+			if weapon_dictionary[finger].use_ability():
 				disableWeapons(0.5) # disable for whatever the dash length is idk
 				dashInput.emit()
 		2:
-			Util.toggle_shield.emit(true)
-			await get_tree().create_timer(2).timeout
-			Util.toggle_shield.emit(false)
+			weapon_dictionary[finger].use_ability()
+			# DONT NEED THE IF STATEMENT because the ability logic is handled on the middle finger weapon
 		3:
-			abilityInput.emit()
-			print("healing deploying")
-			pass
+			if weapon_dictionary[finger].use_ability():
+				abilityInput.emit()
+				print("healing deploying")
 		_:
 			print("weapon_manager - WARNING: no finger to use for ability")
 			return
@@ -147,3 +163,27 @@ func _on_dash_timer_timeout() -> void:
 # recieve signal from earning xp
 func _on_earn_experience(xp: float):
 	print("earned: " + str(xp) + "xp")
+
+
+
+#region Recoil Causing
+# cause recoil, intended to be called from BaseWeapon inheritors that are my children
+func cause_recoil(amount: float) -> void:
+	total_recoil = clamp(total_recoil + amount, 0.0, max_recoil)
+
+func cause_recoil_clamped(amount: float, limit: float) -> void:
+	total_recoil = clamp(total_recoil + amount, 0.0, max(max_recoil, limit))
+
+# update the current recoil of the hand_visual, uses total_recoil variable
+# should be called in _process() probably
+func update_recoil(delta: float):
+	total_recoil = max(total_recoil - delta * recoil_reduction_rate, 0.0)
+	hand_visual_base.position = clamp(hand_visual_base.position + recoil_direction * total_recoil * total_recoil * delta, Vector3.ZERO, recoil_direction)
+	
+	# scale the speed at which we recover by how far away we are
+	hand_visual_base.position = hand_visual_base.position.move_toward(Vector3.ZERO, delta * recoil_recovery_rate * hand_visual_base.position.length())
+#endregion
+
+# provide connection to the hand visual to update the ring visual when the ring uses ammunition
+func on_used_ring():
+	hand_visual_base.lose_ring()

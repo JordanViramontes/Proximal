@@ -1,6 +1,7 @@
-[gd_scene load_steps=21 format=3 uid="uid://klyx4oq82x8k"]
+[gd_scene load_steps=23 format=3 uid="uid://klyx4oq82x8k"]
 
 [ext_resource type="Script" uid="uid://b4wfrgspyik6s" path="res://scripts/Weapons/weapon_manager.gd" id="1_583ps"]
+[ext_resource type="PackedScene" uid="uid://ct507jmi31qnp" path="res://scenes/particles/recharge_particles.tscn" id="4_dg7pw"]
 [ext_resource type="PackedScene" uid="uid://dxdtidj4hp83f" path="res://scenes/Weapons/thumb.tscn" id="4_e55dp"]
 [ext_resource type="PackedScene" uid="uid://d07kbrumu4gbf" path="res://scenes/Weapons/index.tscn" id="4_qlvm5"]
 [ext_resource type="PackedScene" uid="uid://bm6i7l7q7whsf" path="res://scenes/Weapons/middle.tscn" id="6_12ses"]
@@ -20,71 +21,102 @@
 [ext_resource type="Material" uid="uid://825y816fpras" path="res://assets/materials/weapons/m_middle_weapon.tres" id="13_q123h"]
 [ext_resource type="Material" uid="uid://pdp13fj43mhq" path="res://assets/materials/weapons/m_ring_weapon.tres" id="15_aab8g"]
 [ext_resource type="Material" uid="uid://d3pkbqg8petcg" path="res://assets/materials/weapons/m_pinky_weapon.tres" id="17_17xcm"]
+[ext_resource type="PackedScene" uid="uid://cvp5b0l33tb0u" path="res://scenes/Weapons/indicators/visual_ring_indicator.tscn" id="21_17xcm"]
 
 [node name="Weapon_Manager" type="Node3D" node_paths=PackedStringArray("hand_visual_base") groups=["WeaponManager"]]
 script = ExtResource("1_583ps")
-hand_visual_base = NodePath("HandBase")
+hand_visual_base = NodePath("HandVisual")
+recoil_recovery_rate = 10.0
+recoil_reduction_rate = 1.7
+
+[node name="BulletEmergePoint" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.232565)
 
 [node name="Thumb" parent="." instance=ExtResource("4_e55dp")]
-visible = false
+ability_recharge_particle_color = Color(1, 0, 0, 0.576471)
+trauma_amount = 0.5
+recoil_limit = 0.75
+recoil_amount = 0.75
 
 [node name="Index" parent="." instance=ExtResource("4_qlvm5")]
-visible = false
+ability_recharge_particle_color = Color(0, 0, 1, 0.533333)
+ability_recharge_particles = ExtResource("4_dg7pw")
+trauma_amount = 0.4
+recoil_limit = 0.1
+recoil_amount = 0.25
 
 [node name="Middle" parent="." instance=ExtResource("6_12ses")]
-visible = false
 bullet_damage = 0.05
 is_hitscan = true
+ability_recharge_particle_color = Color(1, 1, 0, 0.501961)
+ability_recharge_particles = ExtResource("4_dg7pw")
+trauma_amount = 0.2
+recoil_limit = 0.1
+recoil_amount = 0.01
 
 [node name="Ring" parent="." instance=ExtResource("7_k5yqd")]
-visible = false
+ability_cooldown = 0.0
+ability_recharge_particle_color = Color(0, 1, 0, 0.509804)
 
 [node name="Pinky" parent="." instance=ExtResource("8_r1oqp")]
-visible = false
 bullet_damage = 100.0
+ability_recharge_particle_color = Color(0.972549, 0.356863, 0.945098, 0.486275)
+trauma_amount = 0.75
+recoil_limit = 2.0
+recoil_amount = 2.0
 
 [node name="DashTimer" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true
 
-[node name="HandBase" type="MeshInstance3D" parent="." node_paths=PackedStringArray("finger_list")]
-transform = Transform3D(-3.86924e-08, -9.89687e-10, -1, -0.0821344, 0.99515, 3.57314e-09, 0.830951, 0.0983645, -4.62108e-08, 0.021, -0.231041, -0.756)
+[node name="HandVisual" type="MeshInstance3D" parent="." node_paths=PackedStringArray("finger_list", "ring_indicator_list")]
+transform = Transform3D(-2.4118e-08, -4.90185e-10, -0.659, -0.0541005, 0.655804, 2.3547e-09, 0.547333, 0.0648222, -2.88058e-08, 0, 0, 0)
 mesh = ExtResource("7_0digo")
 surface_material_override/0 = ExtResource("8_17xcm")
 script = ExtResource("8_q123h")
 finger_list = [NodePath("ThumbIndicator"), NodePath("IndexIndicator"), NodePath("MiddleIndicator"), NodePath("RingIndicator"), NodePath("PinkyIndicator")]
 finger_materials = Array[Material]([ExtResource("9_oqedj"), ExtResource("11_8as1b"), ExtResource("13_q123h"), ExtResource("15_aab8g"), ExtResource("17_17xcm")])
+ring_indicator_list = [NodePath("VisualRingIndicator1"), NodePath("VisualRingIndicator2"), NodePath("VisualRingIndicator3")]
 
-[node name="ThumbIndicator" type="MeshInstance3D" parent="HandBase"]
+[node name="ThumbIndicator" type="MeshInstance3D" parent="HandVisual"]
 mesh = ExtResource("12_oqedj")
 script = ExtResource("10_8as1b")
 highlighted_material = ExtResource("9_oqedj")
 non_highlighted_material = ExtResource("8_17xcm")
 
-[node name="IndexIndicator" type="MeshInstance3D" parent="HandBase"]
+[node name="IndexIndicator" type="MeshInstance3D" parent="HandVisual"]
 mesh = ExtResource("9_k5l7f")
 skeleton = NodePath("../..")
 script = ExtResource("10_8as1b")
 highlighted_material = ExtResource("11_8as1b")
 non_highlighted_material = ExtResource("8_17xcm")
 
-[node name="MiddleIndicator" type="MeshInstance3D" parent="HandBase"]
+[node name="MiddleIndicator" type="MeshInstance3D" parent="HandVisual"]
 mesh = ExtResource("8_rbcgb")
 skeleton = NodePath("../..")
 script = ExtResource("10_8as1b")
 highlighted_material = ExtResource("13_q123h")
 non_highlighted_material = ExtResource("8_17xcm")
 
-[node name="RingIndicator" type="MeshInstance3D" parent="HandBase"]
+[node name="RingIndicator" type="MeshInstance3D" parent="HandVisual"]
 mesh = ExtResource("11_68b4n")
 script = ExtResource("10_8as1b")
 highlighted_material = ExtResource("15_aab8g")
 non_highlighted_material = ExtResource("8_17xcm")
 
-[node name="PinkyIndicator" type="MeshInstance3D" parent="HandBase"]
+[node name="PinkyIndicator" type="MeshInstance3D" parent="HandVisual"]
 mesh = ExtResource("10_6bhtj")
 script = ExtResource("10_8as1b")
 highlighted_material = ExtResource("17_17xcm")
 non_highlighted_material = ExtResource("8_17xcm")
+
+[node name="VisualRingIndicator1" parent="HandVisual" instance=ExtResource("21_17xcm")]
+transform = Transform3D(0.0966797, 0.995316, 3.23193e-08, -0.995316, 0.0966797, 3.70984e-08, 3.38e-08, -3.57545e-08, 1, -0.14913, 0.0118686, -0.0972435)
+
+[node name="VisualRingIndicator2" parent="HandVisual" instance=ExtResource("21_17xcm")]
+transform = Transform3D(-0.0368879, 0.999321, 3.72046e-08, -0.999321, -0.0368879, 3.73443e-08, 3.86913e-08, -3.58017e-08, 1, -0.204589, 0.0134663, -0.0972435)
+
+[node name="VisualRingIndicator3" parent="HandVisual" instance=ExtResource("21_17xcm")]
+transform = Transform3D(-0.05793, 0.998322, 3.79754e-08, -0.998322, -0.05793, 3.73234e-08, 3.94606e-08, -3.57495e-08, 1, -0.253138, 0.0201478, -0.0972435)
 
 [connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]

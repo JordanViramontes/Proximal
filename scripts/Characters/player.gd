@@ -60,6 +60,7 @@ var is_sliding: bool = false
 @export var dash_timer := 0.4 # dash lasts for this long
 var current_dash_time := 0.0 
 var last_dash_time := -dash_cooldown
+@export var ring_healing_amount: float = 5
 
 # h
 const height = 1.8
@@ -135,7 +136,7 @@ func _process(delta: float):
 	if is_healing == true:
 		healing_timer -= delta
 		if healing_timer <= 0:
-			health_component.heal(60);
+			health_component.heal(ring_healing_amount);
 			print("healing! total health: " + str(health_component.current_health))
 			healing_timer = 0.5
 
@@ -318,6 +319,7 @@ func on_toggle_shield(state:bool):
 		can_take_damage = true
 	pass
 
+# for shooting/projectile abilities
 func on_ability_shoot():
 	weapon.ability_shoot(head.global_position, -head.global_basis.z, velocity)
 	

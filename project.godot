@@ -43,6 +43,7 @@ EnemySpawnParent=""
 
 [gui]
 
+theme/custom="uid://rsglqw8mc02x"
 theme/custom_font="uid://be672lysxmsqk"
 theme/default_font_antialiasing=0
 

@@ -7,10 +7,13 @@ extends WeaponBase
 var shadow: bool = false
 var current_bullet: HitscanBullet
 
+@export var shield_duration: float
+
 func _ready() -> void:
 	super._ready()
 	on_shoot.connect(on_on_shoot)
 	on_ceasefire.connect(on_on_ceasefire)
+	used_ability.connect(on_used_ability)
 
 func on_on_shoot(from_position: Vector3, look_direction: Vector3, velocity: Vector3):
 	if bullet == null:
@@ -25,7 +28,7 @@ func on_on_shoot(from_position: Vector3, look_direction: Vector3, velocity: Vect
 		current_bullet = b
 		
 	current_bullet.position = to_local(from_position)
-	current_bullet.tracer_origin = $BulletEmergePoint.global_position # is one meter ahead of the player, which lines up with the barrel of the weapon
+	current_bullet.tracer_origin = bullet_emerge_point.global_position # is one meter ahead of the player, which lines up with the barrel of the weapon
 	current_bullet.bullet_damage = bullet_damage*(level)
 	current_bullet.distance = bullet_range
 	current_bullet.direction = look_direction
@@ -54,3 +57,9 @@ func on_bullet_hit(damage: float):
 	if experience >= 10.0*(level):
 		level += 1
 		print("LEVEL UP! ", level)
+
+# this function is always called if the ability is not on cooldown
+func on_used_ability():
+	Util.toggle_shield.emit(true)
+	await get_tree().create_timer(shield_duration).timeout
+	Util.toggle_shield.emit(false)

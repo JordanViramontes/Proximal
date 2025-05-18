@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvp5b0l33tb0u"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_lo253"]
+inner_radius = 0.046
+outer_radius = 0.06
+rings = 12
+
+[node name="VisualRingIndicator" type="MeshInstance3D"]
+mesh = SubResource("TorusMesh_lo253")

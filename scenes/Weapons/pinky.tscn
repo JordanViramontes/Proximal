@@ -1,13 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://b0epnjdv5u53e"]
+[gd_scene load_steps=7 format=3 uid="uid://b0epnjdv5u53e"]
 
 [ext_resource type="Script" uid="uid://da0phsu0gckgf" path="res://scenes/Weapons/pinky.gd" id="1_exoxp"]
 [ext_resource type="PackedScene" uid="uid://djtp4uqwyjuk6" path="res://scenes/bullets/pinky_bullet.tscn" id="2_55j32"]
 [ext_resource type="Material" uid="uid://d3pkbqg8petcg" path="res://assets/materials/weapons/m_pinky_weapon.tres" id="3_v84yc"]
+[ext_resource type="PackedScene" uid="uid://kyg130pr8w03" path="res://scenes/Camera/trauma_causer.tscn" id="4_bwrpf"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_2gn6w"]
 resource_local_to_scene = true
 material = ExtResource("3_v84yc")
 size = Vector3(0.1, 0.1, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_byqhw"]
+radius = 1.435
 
 [node name="Pinky" type="Node3D"]
 script = ExtResource("1_exoxp")
@@ -19,7 +23,12 @@ is_hitscan = true
 visible = false
 mesh = SubResource("BoxMesh_2gn6w")
 
-[node name="BulletEmergePoint" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
-
 [node name="ShootCooldown" type="Timer" parent="."]
+
+[node name="TraumaCauser" parent="." instance=ExtResource("4_bwrpf")]
+collision_layer = 0
+collision_mask = 128
+trauma_amount = 0.5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TraumaCauser"]
+shape = SubResource("SphereShape3D_byqhw")
