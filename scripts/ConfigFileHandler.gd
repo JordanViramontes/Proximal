@@ -14,15 +14,15 @@ func _ready():
 		config.set_value("keybinding", "slide", "Ctrl")
 		config.set_value("keybinding", "shoot", "mouse_1")
 		config.set_value("keybinding", "ability", "mouse_2")
-		config.set_value("keybinding", "change_weapon_up", "mouse_wheel_up")
-		config.set_value("keybinding", "change_weapon_down", "mouse_wheel_down")
+		config.set_value("keybinding", "change_weapon_up", "mouse_4")
+		config.set_value("keybinding", "change_weapon_down", "mouse_5")
 		config.set_value("keybinding", "hotkey_thumb", "1")
 		config.set_value("keybinding", "hotkey_index", "2")
 		config.set_value("keybinding", "hotkey_middle", "3")
 		config.set_value("keybinding", "hotkey_ring", "4")
 		config.set_value("keybinding", "hotkey_pinky", "5")
 		
-		config.set_value("video", "fullscreen", true)
+		config.set_value("video", "fullscreen", false)
 		
 		config.set_value("audio", "master_volume", 1.0)
 		
