@@ -5,10 +5,11 @@ class_name WeaponBase
 var bullet_emerge_point: Node3D # should be set in the parent WeaponManager
 
 # Experience Points
+@export_group("Experience & Levels")
 @export var experience: float = 0
 @export var level: int = 1
 
-# shoots projectiles with a travel time
+@export_group("Shooting & Bullets")
 var shoot_cooldown: float = 0.05 # seconds
 @export var fire_rate: float = 2 # shots per second
 @onready var shoot_timer: Timer = $ShootCooldown
@@ -19,16 +20,21 @@ var can_shoot: bool = true
 @export var bullet_speed: float
 @export var is_hitscan: bool
 
-#@export var depleted_material: Material
-@export var depleted_color: Color
-var default_material: Material
-
+@export_group("Abilities")
 # ability stuff
 @export var ability_cooldown := 5.0 # default 5 seconds
 var current_ability_cooldown := 0.0 # <= 0 if the ability is off cooldown
 @export var ability_recharge_particle_color: Color
 @export var ability_recharge_particles: PackedScene
 var recharge_particles: GPUParticles3D
+@export var depleted_color: Color
+var default_material: Material
+
+
+@export_group("Trauma & Recoil")
+@export var trauma_amount: float
+@export var recoil_limit: float
+@export var recoil_amount: float
 
 # reference to manager
 @onready var weapon_manager = $".."
@@ -36,10 +42,6 @@ signal on_shoot
 signal on_ceasefire
 signal on_ability_shoot
 signal used_ability
-
-@export var trauma_amount: float
-@export var recoil_limit: float
-@export var recoil_amount: float
 
 func _ready() -> void:
 	shoot_timer.wait_time = 1/fire_rate

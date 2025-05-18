@@ -114,9 +114,9 @@ non_highlighted_material = ExtResource("8_17xcm")
 transform = Transform3D(0.0966797, 0.995316, 3.23193e-08, -0.995316, 0.0966797, 3.70984e-08, 3.38e-08, -3.57545e-08, 1, -0.14913, 0.0118686, -0.0972435)
 
 [node name="VisualRingIndicator2" parent="HandVisual" instance=ExtResource("21_17xcm")]
-transform = Transform3D(-0.0368879, 0.999321, 3.72046e-08, -0.999321, -0.0368879, 3.73443e-08, 3.86913e-08, -3.58017e-08, 1, -0.204589, 0.0134663, -0.0972435)
+transform = Transform3D(-0.148517, 0.988912, 4.12977e-08, -0.988911, -0.148517, 3.70464e-08, 4.2769e-08, -3.53377e-08, 1, -0.200692, 0.0137878, -0.0972435)
 
 [node name="VisualRingIndicator3" parent="HandVisual" instance=ExtResource("21_17xcm")]
-transform = Transform3D(-0.05793, 0.998322, 3.79754e-08, -0.998322, -0.05793, 3.73234e-08, 3.94606e-08, -3.57495e-08, 1, -0.253138, 0.0201478, -0.0972435)
+transform = Transform3D(0.0800425, 0.996793, 3.2927e-08, -0.996793, 0.0800424, 3.71648e-08, 3.441e-08, -3.57962e-08, 1, -0.24601, 0.0207358, -0.0972435)
 
 [connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]

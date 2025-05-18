@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://dwckn628u33ab"]
+[gd_scene load_steps=28 format=3 uid="uid://dwckn628u33ab"]
 
 [ext_resource type="Texture2D" uid="uid://cqur83lk7fjfl" path="res://assets/hdris/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="1_8wojv"]
 [ext_resource type="Script" uid="uid://bpvwqw4pbfs3m" path="res://scripts/Areas/world.gd" id="1_dctr2"]
@@ -11,6 +11,7 @@
 [ext_resource type="Shader" uid="uid://drfc1fob3nean" path="res://assets/shaders/water.gdshader" id="9_85g3d"]
 [ext_resource type="Theme" uid="uid://rsglqw8mc02x" path="res://assets/themes/default.tres" id="9_ya4ey"]
 [ext_resource type="Script" uid="uid://cqq4wmrgc8xv7" path="res://scripts/death_interface.gd" id="10_choun"]
+[ext_resource type="Texture2D" uid="uid://52vn44k3ngct" path="res://assets/textures/crosshair_dev.png" id="12_eb6dy"]
 
 [sub_resource type="Gradient" id="Gradient_ya4ey"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -96,16 +97,34 @@ point_count = 17
 [node name="World" type="Node3D"]
 script = ExtResource("1_dctr2")
 
-[node name="Water" type="MeshInstance3D" parent="."]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+stretch_shrink = 2
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+scaling_3d_scale = 1.0
+canvas_item_default_texture_filter = 0
+size = Vector2i(576, 324)
+render_target_update_mode = 4
+
+[node name="Water" type="MeshInstance3D" parent="SubViewportContainer/SubViewport"]
 transform = Transform3D(139.761, 0, 0, 0, 1.00205, 0, 0, 0, 152.767, 0, 0, 0)
 mesh = SubResource("PlaneMesh_tipki")
+skeleton = NodePath("../../..")
 
-[node name="Env" type="Node3D" parent="."]
+[node name="Env" type="Node3D" parent="SubViewportContainer/SubViewport"]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="Env"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer/SubViewport/Env"]
 environment = SubResource("Environment_5o0bn")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="Env"]
+[node name="OmniLight3D" type="OmniLight3D" parent="SubViewportContainer/SubViewport/Env"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.2101, 0)
 light_energy = 16.0
 light_indirect_energy = 0.0
@@ -113,12 +132,12 @@ light_specular = 0.0
 shadow_enabled = true
 omni_range = 699.931
 
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." groups=["Navigator"]]
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="SubViewportContainer/SubViewport" groups=["Navigator"]]
 navigation_mesh = SubResource("NavigationMesh_tipki")
 
-[node name="Stage" type="Node3D" parent="NavigationRegion3D"]
+[node name="Stage" type="Node3D" parent="SubViewportContainer/SubViewport/NavigationRegion3D"]
 
-[node name="CSGBox3D" type="CSGBox3D" parent="NavigationRegion3D/Stage"]
+[node name="CSGBox3D" type="CSGBox3D" parent="SubViewportContainer/SubViewport/NavigationRegion3D/Stage"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, -0.5, 0)
 visible = false
 use_collision = true
@@ -127,22 +146,22 @@ collision_mask = 0
 size = Vector3(50, 1, 50)
 material = SubResource("StandardMaterial3D_pqxd8")
 
-[node name="map_draft" parent="NavigationRegion3D/Stage" instance=ExtResource("8_tipki")]
+[node name="map_draft" parent="SubViewportContainer/SubViewport/NavigationRegion3D/Stage" instance=ExtResource("8_tipki")]
 transform = Transform3D(3.84, 0, 0, 0, 3.84, 0, 0, 0, 3.84, 0, 0, 0)
 
-[node name="EnemySpawnPath" type="Path3D" parent="NavigationRegion3D" groups=["EnemySpawnParent"]]
+[node name="EnemySpawnPath" type="Path3D" parent="SubViewportContainer/SubViewport/NavigationRegion3D" groups=["EnemySpawnParent"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0320868, 0)
 curve = SubResource("Curve3D_tefeu")
 script = ExtResource("6_o6xl0")
 mob_scene = ExtResource("7_o6xl0")
 
-[node name="EnemySpawner" type="PathFollow3D" parent="NavigationRegion3D/EnemySpawnPath"]
+[node name="EnemySpawner" type="PathFollow3D" parent="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath"]
 transform = Transform3D(-0.994941, 0, -0.100405, 0, 1, 0, 0.100405, 0, -0.994941, -55.1679, 0, -3.37566)
 
-[node name="TestSpawnPoint" type="Node3D" parent="NavigationRegion3D/EnemySpawnPath"]
+[node name="TestSpawnPoint" type="Node3D" parent="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.111441, 2.34501, 35.0068)
 
-[node name="Player" parent="." instance=ExtResource("6_tefeu")]
+[node name="Player" parent="SubViewportContainer/SubViewport" instance=ExtResource("6_tefeu")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -4.93703, 5.62312, 15)
 DASH_SPEED = 50
 
@@ -152,19 +171,21 @@ layout_mode = 3
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -640.0
-offset_bottom = 360.0
+offset_left = -1152.0
+offset_top = 1.0
+offset_bottom = 648.0
 grow_horizontal = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 
 [node name="FPS Counter" type="Label" parent="UI"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -40.0
-offset_bottom = 23.0
+offset_left = -44.0
+offset_bottom = 42.0
 grow_horizontal = 0
 theme = ExtResource("9_ya4ey")
 text = "fps:"
@@ -187,6 +208,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(1, 1, 1, 0)
 
 [node name="Label" type="Label" parent="UI/DeathInterface"]
@@ -208,3 +230,25 @@ resetting in [BLANK]"
 horizontal_alignment = 1
 
 [node name="Timer" type="Timer" parent="UI/DeathInterface"]
+
+[node name="CenterContainer" type="CenterContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -576.0
+offset_top = -324.0
+offset_right = 576.0
+offset_bottom = 324.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Crosshair" type="TextureRect" parent="UI/CenterContainer"]
+texture_filter = 1
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("12_eb6dy")

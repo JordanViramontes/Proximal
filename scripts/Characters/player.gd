@@ -287,6 +287,8 @@ func _on_weapon_manager_dash_input() -> void:
 	
 	last_dash_time = current_time # timer reset
 	var dash_vel: Vector3 = wish_dir.normalized()
+	if dash_vel.is_zero_approx():
+		dash_vel = Vector3(look_direction.x, 0.0, look_direction.z)
 	#var dash_vel: Vector3 = look_direction.normalized()
 	print("dashing! input: " + str(dash_vel))
 	
