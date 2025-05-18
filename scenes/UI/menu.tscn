@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://ym3cvmyxqe21"]
+[gd_scene load_steps=13 format=3 uid="uid://ym3cvmyxqe21"]
 
 [ext_resource type="Script" uid="uid://c3tkx1hh6cktm" path="res://menu.gd" id="1_u81ku"]
 [ext_resource type="Texture2D" uid="uid://b7fw7tcjti5kw" path="res://assets/UI/Background.png" id="2_2tfbb"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://d0l03dkfp8t4f" path="res://assets/UI/SinnersHandMidground.png" id="3_ny0ke"]
 [ext_resource type="Texture2D" uid="uid://cpwrg21fbj3ml" path="res://assets/UI/Mask.png" id="5_svcqa"]
 [ext_resource type="FontFile" uid="uid://be672lysxmsqk" path="res://assets/fonts/Silver.ttf" id="8_ofy2k"]
+[ext_resource type="PackedScene" uid="uid://c642ojdgp1aoi" path="res://input_button.tscn" id="9_ypw4e"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ypw4e"]
 
@@ -191,7 +192,7 @@ text = "Resolutions:"
 [node name="Resolutions" type="OptionButton" parent="Options Menu/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
-selected = 4
+selected = 2
 allow_reselect = true
 item_count = 6
 popup/item_0/text = "1920x1080"
@@ -206,6 +207,28 @@ popup/item_4/text = "640x360"
 popup/item_4/id = 4
 popup/item_5/text = "256x144"
 popup/item_5/id = 5
+
+[node name="Res_Label2" type="Label" parent="Options Menu/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_ofy2k")
+theme_override_font_sizes/font_size = 18
+text = "Inputs:"
+
+[node name="InputButton" parent="Options Menu/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("9_ypw4e")]
+layout_mode = 2
+
+[node name="InputButton2" parent="Options Menu/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("9_ypw4e")]
+layout_mode = 2
+
+[node name="InputButton3" parent="Options Menu/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("9_ypw4e")]
+layout_mode = 2
+
+[node name="InputButton4" parent="Options Menu/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("9_ypw4e")]
+layout_mode = 2
+
+[node name="InputButton5" parent="Options Menu/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("9_ypw4e")]
+layout_mode = 2
 
 [connection signal="pressed" from="Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="Options" to="." method="_on_options_pressed"]
