@@ -1,8 +1,11 @@
 [gd_scene load_steps=12 format=3 uid="uid://klyx4oq82x8k"]
 
 [ext_resource type="Script" uid="uid://b4wfrgspyik6s" path="res://scripts/Weapons/weapon_manager.gd" id="1_583ps"]
+[ext_resource type="Texture2D" uid="uid://bvurgleetxoyy" path="res://assets/textures/ExperienceBar.png" id="3_e55dp"]
+[ext_resource type="Script" uid="uid://bagqhuvbgtwm8" path="res://scenes/Weapons/thumb_progress_bar.gd" id="4_12ses"]
 [ext_resource type="PackedScene" uid="uid://dxdtidj4hp83f" path="res://scenes/Weapons/thumb.tscn" id="4_e55dp"]
 [ext_resource type="PackedScene" uid="uid://d07kbrumu4gbf" path="res://scenes/Weapons/index.tscn" id="4_qlvm5"]
+[ext_resource type="Script" uid="uid://djdhf760r4r35" path="res://scenes/Weapons/thumb_level.gd" id="5_12ses"]
 [ext_resource type="PackedScene" uid="uid://bm6i7l7q7whsf" path="res://scenes/Weapons/middle.tscn" id="6_12ses"]
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="7_imgyp"]
 [ext_resource type="PackedScene" uid="uid://duneq26sd14wn" path="res://scenes/Weapons/ring.tscn" id="7_k5yqd"]
@@ -29,6 +32,45 @@ script = ExtResource("1_583ps")
 
 [node name="Thumb" parent="." instance=ExtResource("4_e55dp")]
 visible = false
+
+[node name="Control" type="Control" parent="Thumb"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 532.0
+offset_right = 637.0
+offset_bottom = 40.0
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="Thumb/Control" node_paths=PackedStringArray("thumb_experience")]
+layout_mode = 0
+offset_left = -83.0
+offset_top = 21.0
+offset_right = 70.0
+offset_bottom = 31.0
+max_value = 150.0
+value = 95.0
+nine_patch_stretch = true
+texture_progress = ExtResource("3_e55dp")
+script = ExtResource("4_12ses")
+thumb_experience = NodePath("../..")
+
+[node name="TextureRect" type="TextureRect" parent="Thumb/Control"]
+layout_mode = 0
+offset_left = -217.0
+offset_top = 57.0
+offset_right = -96.0
+offset_bottom = 97.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Thumb/Control" node_paths=PackedStringArray("thumb_experience")]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 19.0
+offset_right = 110.0
+offset_bottom = 38.0
+text = "Lv. 1"
+fit_content = true
+scroll_active = false
+script = ExtResource("5_12ses")
+thumb_experience = NodePath("../..")
 
 [node name="Index" parent="." instance=ExtResource("4_qlvm5")]
 visible = false

@@ -23,7 +23,7 @@ func _on_hitbox_area_entered(area: Area3D):
 
 func _on_hitbox_body_entered(body: Node3D):
 	if body is Player:
-		print("healing")
+		print("healing")	
 		Util.healing.emit(true)
 
 func _on_hitbox_body_exited(body: Node3D) -> void:

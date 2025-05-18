@@ -24,11 +24,10 @@ func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	b.facing_axis = look_direction
 	b.initial_velocity = velocity * shoot_velocity_inherit_damping
 	b.speed = bullet_speed
-	b.bullet_damage = bullet_damage
+	b.bullet_damage = bullet_damage*(1 + level*0.8)
 	b.initial_direction = (look_direction + Vector3.UP).normalized()
 	b.horizontal_damping = bullet_velocity_damping
 	b.gravity = bullet_gravity
-	b.damaged_enemy.connect(on_bullet_hit)
 	
 	World.world.add_child(b)
 	
@@ -45,16 +44,11 @@ func on_on_ability_shoot(from_pos: Vector3, look_direction: Vector3, velocity: V
 	
 	b.position = $BulletEmergePoint.global_position # is one meter ahead of the player, which lines up with the barrel of the weapon
 	b.bullet_speed = bullet_speed
-	b.bullet_damage = bullet_damage
+	
+	# Weapon gets more powerful as level increases
+	b.bullet_damage = bullet_damage*(1 + level*0.8)
+	
 	b.facing_axis = look_direction
 	b.direction = look_direction
 	
 	World.world.add_child(b)
-
-func on_bullet_hit(damage: float):
-	experience += 1.0*(4-level)
-	print("my bullet hit an enemy >:)")
-	print(experience)
-	if experience >= 10.0*(level):
-		level += 1
-		print("LEVEL UP! ", level)

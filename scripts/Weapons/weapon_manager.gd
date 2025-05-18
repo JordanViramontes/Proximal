@@ -1,6 +1,5 @@
 extends Node3D
 
-
 @onready var player: Player = get_tree().get_first_node_in_group("Player")
 #@export var player: Player # kind of hate that i have this but o well! 
 
@@ -8,6 +7,9 @@ extends Node3D
 var weapon_dictionary
 var curr_weapon_index
 var curr_weapon # defined in ready
+var xp_dictionary = [0.0, 0.0, 0.0, 0.0, 0.0]
+var xp_scale = [100.0, 100.0, 500.0, 50.0, 20.0]
+var weapon_level = [1, 1, 1, 1, 1]
 
 # hitbox
 @onready var hitboxColl: CollisionShape3D = $StunHitbox/CollisionShape3D
@@ -22,7 +24,7 @@ var can_stun: bool = true;
 var canUseWeapon: bool = true
 var canDash: bool = true
 signal dashInput
-signal abilityInput #healing 
+signal abilityInput #healing
 
 func _ready():
 	weapon_dictionary = [
@@ -196,3 +198,6 @@ func _on_stun_enemy_timer_timeout() -> void:
 			i._on_recieve_unstun()
 	
 	currently_stunned_enemies = []
+	curr_weapon.add_xp(xp)
+	print("earned: " + str(xp) + "xp for " + str(curr_weapon))
+	curr_weapon.print_xp(str(weapon_dictionary[curr_weapon_index]))
