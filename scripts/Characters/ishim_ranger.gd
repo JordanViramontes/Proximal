@@ -189,7 +189,11 @@ func on_reach_zero_health():
 	super.on_reach_zero_health()
 
 # check if we've reached a cherubim
-func _on_hitbox_component_body_entered(body: Cherubim) -> void:
+func _on_hitbox_component_body_entered(body: Node3D) -> void:
+	# check
+	if body is not Cherubim:
+		return
+	
 	if current_state != ENEMY_STATE.cherubim_alert:
 		return
 	#

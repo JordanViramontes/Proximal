@@ -63,7 +63,7 @@ func _ready() -> void:
 	current_color = mat_roam
 	
 	# disable hitbox
-	ishim_area.monitoring = false
+	ishim_area.set_deferred("monitoring", false)
 	
 	super._ready()
 
@@ -109,7 +109,7 @@ func _on_pathfind_timer_timeout() -> void:
 	
 	# enable hitbox if not already
 	if ishim_area.monitoring == false:
-		ishim_area.monitoring = true
+		ishim_area.set_deferred("monitoring", true)
 	
 	# we want to calculate only based on x and z, effectively an infinite cone
 	our_2D_pos = Vector2(global_position.x, global_position.z)
@@ -132,8 +132,8 @@ func _on_pathfind_timer_timeout() -> void:
 	# check for ishim
 	if ishim_count < 2:
 		#print("need ishim!")
-		ishim_area.monitoring = false
-		ishim_area.monitoring = true
+		ishim_area.set_deferred("monitoring", false)
+		ishim_area.set_deferred("monitoring", true)
 	
 	super._on_pathfind_timer_timeout()
 	velocity.x = pathfindVel.x
@@ -208,7 +208,11 @@ func _on_hitbox_component_body_entered(body: Node3D) -> void:
 	deal_damage_to_player(di)
 
 # used when an ishim ranger is found within the ishim range
-func _on_ishim_area_body_entered(body: IshimRanger) -> void:
+func _on_ishim_area_body_entered(body: Node3D) -> void:
+	# check
+	if body is not IshimRanger:
+		return
+	
 	# avoid alreting cherubims that are already alerted
 	if body.cherubim_alerted:
 		return
@@ -228,7 +232,7 @@ func _on_ishim_area_body_entered(body: IshimRanger) -> void:
 		
 		# disable area if we hit 2
 		if ishim_count >= 2:
-			ishim_area.monitoring = false
+			ishim_area.set_deferred("monitoring", false)
 
 # signal recieved from cherubim when it reaches me!
 func on_ishim_reaches_cherubim(ishim: IshimRanger):
@@ -268,7 +272,7 @@ func on_ishim_dies_while_running(ishim: IshimRanger, index: int) -> void:
 	
 	# look for ishims
 	if ishim_area.monitoring == false:
-		ishim_area.monitoring = true
+		ishim_area.set_deferred("monitoring", true)
 
 # When they dead as hell
 func on_reach_zero_health():
