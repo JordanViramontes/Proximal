@@ -37,6 +37,7 @@ signal on_ability_shoot
 
 # signals
 signal send_ui_ability_time(time_left: float)
+signal send_ui_xp_updated(xp: float)
 
 func _ready() -> void:
 	shoot_timer.wait_time = 1/(fire_rate*level)
@@ -112,6 +113,9 @@ func add_xp(xp: float):
 	if experience > level*upgrade_quota:
 		level += 1
 		print("LEVEL UP to " + str(level))
+	
+	# send xp to ui
+	emit_signal("send_ui_xp_updated", experience)
 
 func decrease_xp():
 	if experience > 0.0:
@@ -125,6 +129,9 @@ func decrease_xp():
 	if experience < (level-1)*upgrade_quota:
 		level -= 1
 		print("LEVEL DOWN to " + str(level))
+	
+	# send xp to ui
+	emit_signal("send_ui_xp_updated", experience)
 	
 func print_xp(name: String):
 	print(name + " xp: " + str(experience))

@@ -58,6 +58,7 @@ func initialize(weapon: int):
 	# set signals
 	print("finger: " + str(component))
 	component.send_ui_ability_time.connect(self.set_ability_cooldown_ui)
+	component.send_ui_xp_updated.connect(self.set_new_xp_ui)
 
 func create_new_gradient_texture(color) -> GradientTexture2D:
 	# Create a new Gradient resource
@@ -78,11 +79,16 @@ func create_new_gradient_texture(color) -> GradientTexture2D:
 	
 	return grad_texture
 
+# when an ability gets used
 func set_ability_cooldown_ui(time: float):
 	ability_time_current = 0
 	ability_time_max = time
 	ability_progress_bar.value = 0
 	is_ability_cooldown = true
+
+# when a weapon changes
+func set_new_xp_ui(xp: float):
+	print("xp: " + str(xp))
 
 func _process(delta: float) -> void:
 	if is_ability_cooldown:
@@ -93,3 +99,20 @@ func _process(delta: float) -> void:
 		# check that we're done
 		if ability_progress_bar.value == 100:
 			is_ability_cooldown = false
+
+# bens work
+#var initial_value: float = 0
+#
+## Called when the node enters the scene tree for the first time.
+#func _ready() -> void:
+	#if thumb_experience:
+		#thumb_experience.experience_change.connect(update)
+		#update()
+	#else:
+		#pass
+#
+#func update():
+	#initial_value = thumb_experience.experience
+	#while initial_value > 150.0:
+		#initial_value -= 150.0
+	#value = initial_value
