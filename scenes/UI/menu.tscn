@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://ym3cvmyxqe21"]
 
-[ext_resource type="Script" uid="uid://c3tkx1hh6cktm" path="res://menu.gd" id="1_u81ku"]
+[ext_resource type="Script" path="res://menu.gd" id="1_u81ku"]
 [ext_resource type="Texture2D" uid="uid://b7fw7tcjti5kw" path="res://assets/UI/Background.png" id="2_2tfbb"]
 [ext_resource type="Script" uid="uid://cjsgsm0xbsigh" path="res://scenes/UI/ParallaxMotion.gd" id="2_2un8v"]
 [ext_resource type="Texture2D" uid="uid://b68qmdpntr6t5" path="res://assets/UI/SinnersHandMidground2.png" id="3_78n2u"]
@@ -123,6 +123,7 @@ text = "QUIT"
 alignment = 0
 
 [node name="Options Menu" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
