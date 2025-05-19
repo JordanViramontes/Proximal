@@ -33,6 +33,12 @@ func _on_hitbox_damaged(di: DamageInstance):
 	# give the shoot explosion the damage and damage type of the damageinstance!
 	e.explosion_damage = bullet_damage * di.damage
 	e.type = di.type
+	
+	var de_connections = damaged_enemy.get_connections()
+	print(de_connections)
+	for conn in de_connections:
+		e.damaged_enemy.connect(conn.callable)
+	
 	World.world.add_child(e)
 	self.queue_free()
 
@@ -43,6 +49,12 @@ func _on_hitbox_area_entered(area: Area3D) -> void:
 	
 	e.explosion_damage = bullet_damage
 	e.type = DamageInstance.DamageType.Ring
+	
+	var de_connections = damaged_enemy.get_connections()
+	print(de_connections)
+	for conn in de_connections:
+		e.damaged_enemy.connect(conn.callable)
+	
 	World.world.add_child(e)
 	self.queue_free()
 
@@ -54,5 +66,11 @@ func _on_hitbox_body_entered(body: Node3D) -> void:
 	
 	e.explosion_damage = bullet_damage
 	e.type = DamageInstance.DamageType.Ring
+	
+	var de_connections = damaged_enemy.get_connections()
+	print(de_connections)
+	for conn in de_connections:
+		e.damaged_enemy.connect(conn.callable)
+	
 	World.world.add_child(e)
 	self.queue_free()
