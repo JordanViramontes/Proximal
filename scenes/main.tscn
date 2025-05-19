@@ -10,9 +10,9 @@
 [ext_resource type="Shader" uid="uid://drfc1fob3nean" path="res://assets/shaders/water.gdshader" id="9_85g3d"]
 [ext_resource type="Theme" uid="uid://rsglqw8mc02x" path="res://assets/themes/default.tres" id="9_ya4ey"]
 [ext_resource type="Script" uid="uid://cqq4wmrgc8xv7" path="res://scripts/death_interface.gd" id="10_choun"]
-[ext_resource type="Script" path="res://scenes/wave_info.gd" id="10_ya4ey"]
-[ext_resource type="Script" path="res://scripts/next_wave_starting_in.gd" id="11_eb6dy"]
-[ext_resource type="Script" path="res://scenes/weapon_xp_gui.gd" id="13_a8y0u"]
+[ext_resource type="Script" uid="uid://vc054ubkxfcw" path="res://scenes/wave_info.gd" id="10_ya4ey"]
+[ext_resource type="Script" uid="uid://bsg3bg0jpnpjr" path="res://scripts/next_wave_starting_in.gd" id="11_eb6dy"]
+[ext_resource type="Script" uid="uid://b886ylfmdgmqa" path="res://scenes/weapon_xp_gui.gd" id="13_a8y0u"]
 [ext_resource type="PackedScene" uid="uid://byrblrkj4ab5k" path="res://scenes/UI/baseXpUI.tscn" id="13_trceg"]
 
 [sub_resource type="Gradient" id="Gradient_ya4ey"]
