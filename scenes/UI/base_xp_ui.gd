@@ -14,6 +14,7 @@ var ability_time_current = 0
 
 # xp
 var weapon_level: int = 1
+var decrease_level_up_alpha: bool = false
 
 # components
 @onready var hand_texture_node = $HBoxContainer/TextureRect
@@ -21,6 +22,9 @@ var weapon_level: int = 1
 @onready var weapon_level_label = $WeaponLevel
 @onready var ability_progress_bar = $HBoxContainer/VBoxContainer/AbilityProgressBar
 @onready var weapon_manager = get_tree().get_first_node_in_group("WeaponManager")
+@onready var level_up = $LevelUp
+@onready var level_up_timer = $LevelUpTimer
+
 
 func initialize(weapon: int):
 	var image
@@ -59,15 +63,19 @@ func initialize(weapon: int):
 	# set ability progress bar texture
 	ability_progress_bar.texture_progress = create_new_gradient_texture(color)
 	
-	# set signals
-	print("finger: " + str(component))
-	component.send_ui_ability_time.connect(self.set_ability_cooldown_ui)
-	component.send_ui_xp_updated.connect(self.set_new_xp_ui)
-	component.send_ui_xp_level_updated.connect(self.set_new_xp_level_ui)
+	# set visibilities
+	level_up.visible = false
+	#level_up.modulate.a = 1
 	
 	# reset values
 	xp_progress_bar.value = 0
 	ability_progress_bar.value = 100
+	
+	# set signals
+	#print("finger: " + str(component))
+	component.send_ui_ability_time.connect(self.set_ability_cooldown_ui)
+	component.send_ui_xp_updated.connect(self.set_new_xp_ui)
+	component.send_ui_xp_level_updated.connect(self.set_new_xp_level_ui)
 
 func create_new_gradient_texture(color) -> GradientTexture2D:
 	# Create a new Gradient resource
@@ -95,7 +103,7 @@ func set_ability_cooldown_ui(time: float):
 	ability_progress_bar.value = 0
 	is_ability_cooldown = true
 
-# when a weapon changes
+# weapon xp changes
 func set_new_xp_ui(xp: float):
 	var initial_value: float = xp
 	while initial_value > 100:
@@ -103,9 +111,18 @@ func set_new_xp_ui(xp: float):
 	xp_progress_bar.value = initial_value
 	#print("setting value to: " + str(initial_value))
 
+# weapon level changes
 func set_new_xp_level_ui(level_direction: float):
+	var initial_level = weapon_level
 	weapon_level = level_direction
 	weapon_level_label.text = "Lvl: " + str(weapon_level)
+	
+	# level up
+	if weapon_level > initial_level:
+		#print("setting visible: yes")
+		level_up.self_modulate.a = 1
+		level_up.visible = true
+		level_up_timer.start()
 
 func _process(delta: float) -> void:
 	if is_ability_cooldown:
@@ -116,20 +133,15 @@ func _process(delta: float) -> void:
 		# check that we're done
 		if ability_progress_bar.value == 100:
 			is_ability_cooldown = false
+	
+	# level up and downt
+	if decrease_level_up_alpha:
+		level_up.self_modulate.a -= 0.5 * delta
+		level_up.queue_redraw()
+		if level_up.self_modulate.a <= 0:
+			level_up.visible = false
+			#print("setting visible: no")
 
-# bens work
-#var initial_value: float = 0
-#
-## Called when the node enters the scene tree for the first time.
-#func _ready() -> void:
-	#if thumb_experience:
-		#thumb_experience.experience_change.connect(update)
-		#update()
-	#else:
-		#pass
-#
-#func update():
-	#initial_value = thumb_experience.experience
-	#while initial_value > 150.0:
-		#initial_value -= 150.0
-	#value = initial_value
+
+func _on_level_up_timer_timeout() -> void:
+	decrease_level_up_alpha = true

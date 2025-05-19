@@ -1,8 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://byrblrkj4ab5k"]
+[gd_scene load_steps=16 format=3 uid="uid://byrblrkj4ab5k"]
 
 [ext_resource type="Script" uid="uid://cp5i3d4ehsbob" path="res://scenes/UI/base_xp_ui.gd" id="1_3dysb"]
 [ext_resource type="Texture2D" uid="uid://dadb66jjnpji0" path="res://assets/textures/hand_xp_ui/thumb.png" id="1_6ec0q"]
-[ext_resource type="Script" path="res://scenes/Weapons/thumb_progress_bar.gd" id="2_3dysb"]
+[ext_resource type="Texture2D" uid="uid://cmskmstru5y4v" path="res://assets/textures/hand_xp_ui/level_up.png" id="4_o4ggq"]
 
 [sub_resource type="Gradient" id="Gradient_6ec0q"]
 offsets = PackedFloat32Array(0, 0.883117, 1)
@@ -27,6 +27,31 @@ colors = PackedColorArray(0.136826, 0.136826, 0.136826, 1, 0.538019, 0.538019, 0
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_lrq8j"]
 gradient = SubResource("Gradient_igr1w")
 
+[sub_resource type="GDScript" id="GDScript_3dysb"]
+script/source = "extends TextureProgressBar
+
+@export var thumb_experience: Node
+var initial_value: float = 0
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	if thumb_experience:
+		thumb_experience.experience_change.connect(update)
+		update()
+	else:
+		pass
+
+func update():
+	initial_value = thumb_experience.experience
+	while initial_value > 150.0:
+		initial_value -= 150.0
+	value = initial_value
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
 [sub_resource type="Gradient" id="Gradient_ff60f"]
 offsets = PackedFloat32Array(0)
 colors = PackedColorArray(0, 0, 0, 1)
@@ -49,11 +74,13 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -442.0
+offset_bottom = -341.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_3dysb")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="BackGradient" type="TextureRect" parent="."]
 layout_direction = 1
 layout_mode = 0
 offset_right = 172.0
@@ -92,7 +119,7 @@ value = 100.0
 nine_patch_stretch = true
 texture_under = SubResource("GradientTexture2D_igr1w")
 texture_progress = SubResource("GradientTexture2D_lrq8j")
-script = ExtResource("2_3dysb")
+script = SubResource("GDScript_3dysb")
 
 [node name="AbilityProgressBar" type="TextureProgressBar" parent="HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(100, 3)
@@ -103,7 +130,7 @@ value = 100.0
 nine_patch_stretch = true
 texture_under = SubResource("GradientTexture2D_vt2vd")
 texture_progress = SubResource("GradientTexture2D_vx3hn")
-script = ExtResource("2_3dysb")
+script = SubResource("GDScript_3dysb")
 
 [node name="Control2" type="Control" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -117,3 +144,18 @@ offset_bottom = 23.0
 text = "Lvl: 1"
 label_settings = SubResource("LabelSettings_o3vk8")
 vertical_alignment = 1
+
+[node name="LevelUp" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 157.0
+offset_top = 2.0
+offset_right = 257.0
+offset_bottom = 102.0
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("4_o4ggq")
+
+[node name="LevelUpTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[connection signal="timeout" from="LevelUpTimer" to="." method="_on_level_up_timer_timeout"]
