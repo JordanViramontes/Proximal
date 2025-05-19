@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://bjteq07i0vf8m"]
+[gd_scene load_steps=12 format=3 uid="uid://bjteq07i0vf8m"]
 
 [ext_resource type="Script" uid="uid://cbg7uu84mlv15" path="res://scripts/Characters/ishim_crawler.gd" id="1_lgyoi"]
 [ext_resource type="Material" uid="uid://cv7l0r86mk435" path="res://assets/materials/hitflash_mat.tres" id="1_ovggl"]
 [ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://scripts/components/health_component.gd" id="3_oaf2w"]
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="4_kebby"]
 [ext_resource type="Texture2D" uid="uid://bckscsuhohlt7" path="res://assets/sprites/test_man.png" id="5_jfxgx"]
+[ext_resource type="Shader" uid="uid://cxpcdyu7soiyp" path="res://assets/shaders/thank_you_uslash_theduriel.gdshader" id="5_ocuuy"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vrbru"]
 albedo_color = Color(0.254902, 0.521569, 1, 1)
@@ -18,10 +19,29 @@ material = SubResource("StandardMaterial3D_vrbru")
 radius = 0.751309
 height = 2.27475
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lrlfc"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("5_ocuuy")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/texture_albedo = ExtResource("5_jfxgx")
+shader_parameter/albedo_texture_size = Vector2i(64, 64)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = Vector4(1, 0, 0, 0)
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/hitflash_amount = 0.0
+
 [node name="IshimCrawler" type="CharacterBody3D" groups=["Enemies"]]
 collision_layer = 4
 script = ExtResource("1_lgyoi")
 max_health = 5.0
+hitflash_material = ExtResource("1_ovggl")
 movement_speed = 6
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." groups=["Enemies"]]
@@ -54,6 +74,7 @@ avoidance_enabled = true
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(3.885, 0, 0, 0, 3.885, 0, 0, 0, 3.885, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_lrlfc")
 billboard = 1
 texture_filter = 0
 texture = ExtResource("5_jfxgx")

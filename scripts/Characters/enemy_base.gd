@@ -107,6 +107,8 @@ func calculateSpwaningVelocity() -> Vector3:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if hitflash_tween and not hitflash_tween.is_valid():
+		hitflash_tween.kill()
 	pass
 
 func _physics_process(delta):
@@ -134,13 +136,36 @@ func on_damaged(di: DamageInstance):
 	if (hitflash_tween and hitflash_tween.is_running()):
 		hitflash_tween.stop()
 	hitflash_tween = get_tree().create_tween()
-	# check if our material is correct
-	if $MeshInstance3D.material_overlay == null:
-		var new_material := StandardMaterial3D.new()
-		$MeshInstance3D.material_overlay = new_material
-	$MeshInstance3D.material_overlay.albedo_color = Color(1.0, 1.0, 1.0, 1.0) # set alpha
-	hitflash_tween.tween_property($MeshInstance3D, "material_overlay:albedo_color", Color(1.0, 1.0, 1.0, 0.0), 0.1) # tween alpha
+	
+	var visual_element = get_node_or_null("MeshInstance3D")
+	if not visual_element or not visual_element.visible:
+		visual_element = get_node_or_null("Sprite3D")
+		if not visual_element:
+			print("%s does not have any visual represnetation to put a hitflash material on! resolve this immediately." % self)
+	
+	if visual_element:
+		if visual_element is Sprite3D:
+			# hope and pray that the sprite has the shader param we're looking for
+			if visual_element.material_override: # baby ass safeguard
+				hitflash_tween.tween_method(
+					awesome.bind(visual_element),
+					2.0, 
+					0.0, 
+					0.1
+				)
+
+		elif visual_element is MeshInstance3D:
+			if visual_element.material_overlay == null:
+				var new_material := StandardMaterial3D.new()
+				visual_element.material_overlay = new_material
+			visual_element.material_overlay.albedo_color = Color(1.0, 1.0, 1.0, 1.0) # set alpha
+			hitflash_tween.tween_property(visual_element, "material_overlay:albedo_color", Color(1.0, 1.0, 1.0, 0.0), 0.1) # tween alpha
+
 	emit_signal("drop_xp", xp_on_damaged) # emit experience points
+
+func awesome(value: float, visual_element: Sprite3D): 
+	if visual_element:
+		visual_element.material_override.set_shader_parameter("hitflash_amount", value)
 
 # update pathfind when the timer happens
 func _on_pathfind_timer_timeout() -> void:
