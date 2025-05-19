@@ -12,9 +12,13 @@ var is_ability_cooldown = false
 var ability_time_max = 0
 var ability_time_current = 0
 
+# xp
+var weapon_level: int = 1
+
 # components
 @onready var hand_texture_node = $HBoxContainer/TextureRect
 @onready var xp_progress_bar = $HBoxContainer/VBoxContainer/XpProgressBar
+@onready var weapon_level_label = $WeaponLevel
 @onready var ability_progress_bar = $HBoxContainer/VBoxContainer/AbilityProgressBar
 @onready var weapon_manager = get_tree().get_first_node_in_group("WeaponManager")
 
@@ -59,6 +63,11 @@ func initialize(weapon: int):
 	print("finger: " + str(component))
 	component.send_ui_ability_time.connect(self.set_ability_cooldown_ui)
 	component.send_ui_xp_updated.connect(self.set_new_xp_ui)
+	component.send_ui_xp_level_updated.connect(self.set_new_xp_level_ui)
+	
+	# reset values
+	xp_progress_bar.value = 0
+	ability_progress_bar.value = 100
 
 func create_new_gradient_texture(color) -> GradientTexture2D:
 	# Create a new Gradient resource
@@ -88,7 +97,15 @@ func set_ability_cooldown_ui(time: float):
 
 # when a weapon changes
 func set_new_xp_ui(xp: float):
-	print("xp: " + str(xp))
+	var initial_value: float = xp
+	while initial_value > 100:
+		initial_value -= 100
+	xp_progress_bar.value = initial_value
+	#print("setting value to: " + str(initial_value))
+
+func set_new_xp_level_ui(level_direction: float):
+	weapon_level = level_direction
+	weapon_level_label.text = "Lvl: " + str(weapon_level)
 
 func _process(delta: float) -> void:
 	if is_ability_cooldown:

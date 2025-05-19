@@ -197,5 +197,5 @@ func _on_stun_enemy_timer_timeout() -> void:
 # recieve signal from earning xp
 func _on_earn_experience(xp: float):
 	curr_weapon.add_xp(xp)
-	print("earned: " + str(xp) + "xp for " + str(curr_weapon))
+	#print("earned: " + str(xp) + "xp for " + str(curr_weapon))
 	curr_weapon.print_xp(str(weapon_dictionary[curr_weapon_index]))

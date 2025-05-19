@@ -38,6 +38,7 @@ signal on_ability_shoot
 # signals
 signal send_ui_ability_time(time_left: float)
 signal send_ui_xp_updated(xp: float)
+signal send_ui_xp_level_updated(level: int) 
 
 func _ready() -> void:
 	shoot_timer.wait_time = 1/(fire_rate*level)
@@ -112,7 +113,9 @@ func add_xp(xp: float):
 	# If XP is high enough, weapon gets upgraded
 	if experience > level*upgrade_quota:
 		level += 1
-		print("LEVEL UP to " + str(level))
+		#print("LEVEL UP to " + str(level))
+		emit_signal("send_ui_xp_level_updated", level)
+		
 	
 	# send xp to ui
 	emit_signal("send_ui_xp_updated", experience)
@@ -128,13 +131,15 @@ func decrease_xp():
 	# If XP degrades enough, weapon gets downgraded
 	if experience < (level-1)*upgrade_quota:
 		level -= 1
-		print("LEVEL DOWN to " + str(level))
+		#print("LEVEL DOWN to " + str(level))
+		emit_signal("send_ui_xp_level_updated", level)
 	
 	# send xp to ui
 	emit_signal("send_ui_xp_updated", experience)
 	
 func print_xp(name: String):
-	print(name + " xp: " + str(experience))
+	return
+	#print(name + " xp: " + str(experience))
 	
 func _on_depleted_tween_finish():
 	$MeshInstance3D.mesh.material = normal_material

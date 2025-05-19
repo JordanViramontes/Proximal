@@ -108,7 +108,7 @@ script = ExtResource("2_3dysb")
 [node name="Control2" type="Control" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="."]
+[node name="WeaponLevel" type="Label" parent="."]
 layout_mode = 2
 offset_left = 127.0
 offset_top = 2.0
