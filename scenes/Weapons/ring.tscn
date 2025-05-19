@@ -14,6 +14,8 @@ size = Vector3(0.1, 0.1, 1)
 script = ExtResource("1_oaqjv")
 shoot_velocity_inherit_damping = 0.4
 ability_bullet = ExtResource("2_7g3be")
+upgrade_quota = 50.0
+degradation = 1.2
 bullet = ExtResource("2_vum0y")
 bullet_speed = 10.0
 

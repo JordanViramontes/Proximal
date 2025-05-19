@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://dxdtidj4hp83f"]
 
 [ext_resource type="Script" uid="uid://cnqssw8swmrv5" path="res://scenes/Weapons/thumb.gd" id="1_b665p"]
-[ext_resource type="PackedScene" uid="uid://co580m3bpg52c" path="res://scenes/ability/thumb_ability.tscn" id="2_3tbkt"]
+[ext_resource type="PackedScene" path="res://scenes/ability/thumb_ability.tscn" id="2_3tbkt"]
 [ext_resource type="PackedScene" uid="uid://dmmosaxs1o0am" path="res://scenes/bullets/thumb_bullet.tscn" id="2_4dj6u"]
 [ext_resource type="Material" uid="uid://cx7vrvoh613mk" path="res://assets/materials/m_thumb_weapon.tres" id="3_sobuh"]
 
@@ -14,6 +14,8 @@ size = Vector3(0.1, 0.1, 1)
 script = ExtResource("1_b665p")
 pellet_count = 10
 ability_bullet = ExtResource("2_3tbkt")
+upgrade_quota = 150.0
+degradation = 2.4
 fire_rate = 1.5
 bullet = ExtResource("2_4dj6u")
 bullet_damage = 0.5

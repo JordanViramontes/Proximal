@@ -18,7 +18,7 @@ var waveDictionary = [
 	Wave.new([7, 4, 2, 2], 1, 1, 20),
 	Wave.new([10, 10, 5, 5], 1, 1, 20), #14
 ]
-@export var starting_wave: int = 14
+@export var starting_wave: int = 0
 var current_wave = starting_wave
 var current_wave_enemy_count: int = 0
 var can_change_wave: bool = true

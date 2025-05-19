@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://dwckn628u33ab"]
+[gd_scene load_steps=29 format=3 uid="uid://dwckn628u33ab"]
 
 [ext_resource type="Texture2D" uid="uid://cqur83lk7fjfl" path="res://assets/hdris/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="1_8wojv"]
 [ext_resource type="Script" uid="uid://bpvwqw4pbfs3m" path="res://scripts/Areas/world.gd" id="1_dctr2"]
@@ -12,8 +12,6 @@
 [ext_resource type="Script" uid="uid://cqq4wmrgc8xv7" path="res://scripts/death_interface.gd" id="10_choun"]
 [ext_resource type="Script" uid="uid://vc054ubkxfcw" path="res://scenes/wave_info.gd" id="10_ya4ey"]
 [ext_resource type="Script" uid="uid://bsg3bg0jpnpjr" path="res://scripts/next_wave_starting_in.gd" id="11_eb6dy"]
-[ext_resource type="Script" uid="uid://b886ylfmdgmqa" path="res://scenes/weapon_xp_gui.gd" id="13_a8y0u"]
-[ext_resource type="PackedScene" uid="uid://byrblrkj4ab5k" path="res://scenes/UI/baseXpUI.tscn" id="13_trceg"]
 
 [sub_resource type="Gradient" id="Gradient_ya4ey"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -141,6 +139,7 @@ transform = Transform3D(3.84, 0, 0, 0, 3.84, 0, 0, 0, 3.84, 0, 0, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0320868, 0)
 curve = SubResource("Curve3D_tefeu")
 script = ExtResource("6_o6xl0")
+starting_wave = null
 
 [node name="EnemySpawner" type="PathFollow3D" parent="NavigationRegion3D/EnemySpawnPath"]
 transform = Transform3D(-0.994941, 0, -0.100405, 0, 1, 0, 0.100405, 0, -0.994941, -55.1679, 0, -3.37566)
@@ -188,9 +187,9 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -102.0
+offset_left = -40.0
 offset_top = 25.0
-offset_bottom = 94.0
+offset_bottom = 48.0
 grow_horizontal = 0
 theme = ExtResource("9_ya4ey")
 text = "Wave: 
@@ -249,36 +248,6 @@ resetting in [BLANK]"
 horizontal_alignment = 1
 
 [node name="Timer" type="Timer" parent="UI/DeathInterface"]
-
-[node name="WeaponXpGUI" type="VBoxContainer" parent="UI"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.011
-anchor_top = 0.981
-anchor_right = 0.011
-anchor_bottom = 0.981
-offset_left = -0.0400004
-offset_top = -103.16
-offset_right = 225.96
-offset_bottom = -0.160034
-grow_vertical = 0
-theme_override_constants/separation = 21
-script = ExtResource("13_a8y0u")
-
-[node name="Thumb" parent="UI/WeaponXpGUI" instance=ExtResource("13_trceg")]
-layout_mode = 2
-
-[node name="Index" parent="UI/WeaponXpGUI" instance=ExtResource("13_trceg")]
-layout_mode = 2
-
-[node name="Middle" parent="UI/WeaponXpGUI" instance=ExtResource("13_trceg")]
-layout_mode = 2
-
-[node name="Ring" parent="UI/WeaponXpGUI" instance=ExtResource("13_trceg")]
-layout_mode = 2
-
-[node name="Pinky" parent="UI/WeaponXpGUI" instance=ExtResource("13_trceg")]
-layout_mode = 2
 
 [connection signal="timeout" from="NavigationRegion3D/EnemySpawnPath/WaveTimer" to="NavigationRegion3D/EnemySpawnPath" method="_on_wave_timer_timeout"]
 [connection signal="timeout" from="NavigationRegion3D/EnemySpawnPath/UpdateTimer" to="NavigationRegion3D/EnemySpawnPath" method="_on_update_timer_timeout"]

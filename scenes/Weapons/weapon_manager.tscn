@@ -29,9 +29,13 @@ script = ExtResource("1_583ps")
 
 [node name="Thumb" parent="." instance=ExtResource("4_e55dp")]
 visible = false
+ability_bullet = null
+upgrade_quota = 100.0
+degradation = 1.0
 
 [node name="Index" parent="." instance=ExtResource("4_qlvm5")]
 visible = false
+fire_rate = 15.0
 depleted_material = SubResource("StandardMaterial3D_e55dp")
 
 [node name="Middle" parent="." instance=ExtResource("6_12ses")]

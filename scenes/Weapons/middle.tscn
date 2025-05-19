@@ -11,8 +11,11 @@ size = Vector3(0.1, 0.1, 1)
 
 [node name="Middle" type="Node3D"]
 script = ExtResource("1_l4hd8")
+upgrade_quota = 1000.0
+degradation = 15.3
 fire_rate = 100.0
 bullet = ExtResource("2_72tuf")
+bullet_damage = 1.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_2gn6w")
