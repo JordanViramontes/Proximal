@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 Util="*res://scripts/util.gd"
 FadeToBlack="*res://scenes/Transitions/fade_to_black.tscn"
+ConfigFileHandler="*res://scripts/ConfigFileHandler.gd"
 
 [display]
 
@@ -27,7 +28,6 @@ window/size/viewport_height=360
 window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="viewport"
-window/stretch/aspect="expand"
 
 [dotnet]
 

@@ -42,10 +42,12 @@ grow_vertical = 2
 position = Vector2(20, 20)
 
 [node name="Background" type="Sprite2D" parent="Parallax/Node2D"]
+texture_filter = 1
 scale = Vector2(5, 4)
 texture = ExtResource("2_2tfbb")
 
 [node name="Midground2" type="Sprite2D" parent="Parallax/Node2D"]
+texture_filter = 1
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("3_78n2u")
 script = ExtResource("2_2un8v")
@@ -53,6 +55,7 @@ move_force = 4
 lag_point = 135.0
 
 [node name="Mask" type="Sprite2D" parent="Parallax/Node2D"]
+texture_filter = 1
 position = Vector2(0, -30)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("5_svcqa")
@@ -61,6 +64,7 @@ move_force = 3
 lag_point = 90.0
 
 [node name="Midground" type="Sprite2D" parent="Parallax/Node2D"]
+texture_filter = 1
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("3_ny0ke")
 script = ExtResource("2_2un8v")
@@ -68,6 +72,7 @@ move_force = 2
 lag_point = 45.0
 
 [node name="Foreground" type="Sprite2D" parent="Parallax/Node2D"]
+texture_filter = 1
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("3_iysyy")
 script = ExtResource("2_2un8v")
@@ -79,41 +84,174 @@ position = Vector2(0, 3)
 texture = ExtResource("3_iysyy")
 
 [node name="Play" type="Button" parent="."]
+texture_filter = 1
 layout_mode = 2
 offset_left = 10.0
 offset_top = 168.0
-offset_right = 60.0
-offset_bottom = 205.0
+offset_right = 66.0
+offset_bottom = 209.0
 theme_override_fonts/font = ExtResource("8_ofy2k")
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 36
 theme_override_styles/normal = SubResource("StyleBoxEmpty_ypw4e")
 text = "PLAY"
 alignment = 0
 
 [node name="Options" type="Button" parent="."]
+texture_filter = 1
 layout_mode = 2
 offset_left = 10.0
 offset_top = 209.0
-offset_right = 89.0
-offset_bottom = 246.0
+offset_right = 98.0
+offset_bottom = 250.0
 theme_override_fonts/font = ExtResource("8_ofy2k")
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 36
 theme_override_styles/normal = SubResource("StyleBoxEmpty_aklih")
 text = "OPTIONS"
 alignment = 0
 
 [node name="Quit" type="Button" parent="."]
+texture_filter = 1
 layout_mode = 2
 offset_left = 10.0
 offset_top = 274.0
-offset_right = 60.0
-offset_bottom = 311.0
+offset_right = 65.0
+offset_bottom = 315.0
 theme_override_fonts/font = ExtResource("8_ofy2k")
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 36
 theme_override_styles/normal = SubResource("StyleBoxEmpty_wav1i")
 text = "QUIT"
 alignment = 0
 
+[node name="Options Menu" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Options Menu"]
+self_modulate = Color(1, 1, 1, 0.607843)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 120.0
+offset_top = 18.0
+offset_right = -120.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Options Menu/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Options Menu/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+vertical_scroll_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Vol_Label" type="Label" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_ofy2k")
+theme_override_font_sizes/font_size = 18
+text = "Volume:"
+
+[node name="Options_Exit" type="Button" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 18
+text = "X"
+
+[node name="Volume" type="HSlider" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+value = 50.0
+
+[node name="Res_Label" type="Label" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_ofy2k")
+theme_override_font_sizes/font_size = 18
+text = "Resolutions:"
+
+[node name="Resolutions" type="OptionButton" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+selected = 2
+allow_reselect = true
+item_count = 6
+popup/item_0/text = "1920x1080"
+popup/item_0/id = 0
+popup/item_1/text = "1600x900"
+popup/item_1/id = 1
+popup/item_2/text = "1280x720"
+popup/item_2/id = 2
+popup/item_3/text = "1024x576"
+popup/item_3/id = 3
+popup/item_4/text = "640x360"
+popup/item_4/id = 4
+popup/item_5/text = "256x144"
+popup/item_5/id = 5
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Fullscreen_Label" type="Label" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainer2"]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_ofy2k")
+theme_override_font_sizes/font_size = 18
+text = "Fullscreen:"
+
+[node name="Fullscreen_Checkbox" type="CheckBox" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+focus_mode = 0
+
+[node name="Res_Label2" type="Label" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_ofy2k")
+theme_override_font_sizes/font_size = 18
+text = "Inputs:"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Reset_Button" type="Button" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+focus_mode = 0
+theme_override_font_sizes/font_size = 18
+text = "Reset To Default"
+
 [connection signal="pressed" from="Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainer/Options_Exit" to="." method="_on_options_exit_pressed"]
+[connection signal="drag_ended" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Volume" to="." method="_on_volume_drag_ended"]
+[connection signal="value_changed" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Volume" to="." method="_on_volume_value_changed"]
+[connection signal="item_selected" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Resolutions" to="." method="_on_resolutions_item_selected"]
+[connection signal="toggled" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainer2/Fullscreen_Checkbox" to="." method="_on_fullscreen_checkbox_toggled"]
+[connection signal="pressed" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/Reset_Button" to="." method="_on_reset_button_pressed"]
