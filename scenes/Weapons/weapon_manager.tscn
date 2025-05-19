@@ -29,7 +29,6 @@ script = ExtResource("1_583ps")
 
 [node name="Thumb" parent="." instance=ExtResource("4_e55dp")]
 visible = false
-ability_bullet = null
 upgrade_quota = 100.0
 degradation = 1.0
 
