@@ -18,6 +18,8 @@ var mesh_fade_tween: Tween
 
 var tracer_origin: Vector3 # set in creator, is just the position of the bullet_emerge_point
 
+@export var type: DamageInstance.DamageType
+
 func _ready():
 	tracer_func()
 	
@@ -61,7 +63,8 @@ func tracer_func():
 			if col.damage:
 				var di = DamageInstance.new({
 					"damage" : bullet_damage,
-					"creator_position" : self.global_position
+					"creator_position" : self.global_position,
+					"type" : type
 				})
 				if col.damage(di):
 					damaged_enemy.emit()

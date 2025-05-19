@@ -17,6 +17,7 @@ ability_bullet = ExtResource("2_7g3be")
 upgrade_quota = 50.0
 degradation = 1.2
 bullet = ExtResource("2_vum0y")
+bullet_damage = 50.0
 bullet_speed = 10.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

@@ -13,6 +13,7 @@ height = 1.0
 [node name="PinkyBullet" type="Node3D"]
 script = ExtResource("1_kjuvj")
 mesh_material = ExtResource("2_pdrtw")
+type = 5
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
 target_position = Vector3(0, 0, 1)

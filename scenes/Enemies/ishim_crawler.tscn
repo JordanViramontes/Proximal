@@ -35,6 +35,7 @@ shape = SubResource("CapsuleShape3D_c7tqt")
 script = ExtResource("3_oaf2w")
 
 [node name="HitboxComponent" type="Area3D" parent="."]
+collision_layer = 4
 collision_mask = 9
 script = ExtResource("4_kebby")
 

@@ -6,18 +6,19 @@
 [ext_resource type="PackedScene" uid="uid://d382718nkl44c" path="res://scenes/bullets/ring_shoot_explosion.tscn" id="3_tom41"]
 
 [sub_resource type="TorusMesh" id="TorusMesh_ihso4"]
-inner_radius = 0.12
-outer_radius = 0.05
+inner_radius = 0.26
+outer_radius = 0.2
 rings = 12
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_otapr"]
-radius = 0.37497
+radius = 0.728872
 
 [node name="RingProjectile" type="Node3D"]
 script = ExtResource("1_ihso4")
 rotation_rate = 10.0
 terrain_explosion = ExtResource("2_83hhm")
 shoot_explosion = ExtResource("3_tom41")
+type = 4
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("TorusMesh_ihso4")
