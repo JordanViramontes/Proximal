@@ -127,7 +127,10 @@ func spawnWave(wave_index):
 		
 	# variables
 	if current_wave >= waveDictionary.size():
+		print("current wave is max! " + str(current_wave))
 		wave = waveDictionary[waveDictionary.size()-1]
+	else:
+		wave = waveDictionary[current_wave]
 	print("TOTAL IN THIS WAVE: " + str(wave.total_enemies))
 	var enemy_count = wave.enemy_count
 	current_wave_enemy_count += wave.total_enemies
