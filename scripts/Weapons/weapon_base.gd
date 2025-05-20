@@ -83,6 +83,7 @@ func shoot(from_pos: Vector3, direction: Vector3, velocity: Vector3 = Vector3.ZE
 	shoot_timer.wait_time = 1/(fire_rate*(1+level*0.2))
 	shoot_timer.timeout.connect(func(): can_shoot = true)
 	if not can_shoot or not weapon_manager.isCanUseWeapon():
+		#print("cant shoot")
 		return
 	
 	shoot_timer.start()

@@ -73,7 +73,7 @@ func initialize(starting_position, init_player_position, wave):
 func _ready() -> void:	
 	# connect signal to weaponmanager
 	drop_xp.connect(weapon_manager._on_earn_experience)
-	
+	die.connect(weapon_manager._on_enemy_die)
 	# health components
 	health_component.max_health = max_health
 	health_component.current_health = max_health
@@ -216,3 +216,4 @@ func apply_vacuum_force(direction: Vector3, strength: float, target_pos: Vector3
 	vacuum_velocity = direction.normalized() * (strength / weight)
 	vacuum_timer = vacuum_duration
 	_on_recieve_stun()
+	

@@ -100,10 +100,13 @@ func _ready() -> void:
 	hitbox_component.damaged.connect(on_damaged)
 	# slide height
 	normal_height = head.position.y
+	#shield visual
 	Util.toggle_shield.connect(on_toggle_shield)
 	weapon.abilityInput.connect(on_ability_shoot)
+	#healing
 	Util.healing.connect(on_heal)
-
+	#damage amp visual on sniper ability
+	Util.sniper_visual.connect(on_sniper_visual)
 # inputs
 func _input(event: InputEvent) -> void:
 	# input state 
@@ -324,3 +327,8 @@ func on_ability_shoot():
 func on_heal(state: bool) -> void:
 	is_healing = state
 		
+func on_sniper_visual(state:bool):
+	if state == true:
+		$UI/sniper_visual.show()
+	else:
+		$UI/sniper_visual.hide()

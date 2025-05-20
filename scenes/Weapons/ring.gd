@@ -5,15 +5,23 @@ extends WeaponBase
 @export var bullet_velocity_damping: float = 0.01
 @export var bullet_gravity: float = -10
 @export var ability_bullet: PackedScene
-
+var ammo_count: int
+@export var max_ammo: int = 3
 func _ready() -> void:
 	super._ready()
 	on_shoot.connect(on_on_shoot)
 	on_ability_shoot.connect(on_on_ability_shoot)
+	ammo_count = max_ammo
 
 func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	if bullet == null:
 		print("ring.gd - set my bullet property bro! i dont have it!")
+	#if no ammo
+	if ammo_count <= 0:
+		print("no ammo")
+		return
+	else:
+		ammo_count -= 1
 		
 	var b = bullet.instantiate()
 	if b == null: # just in case
@@ -33,10 +41,16 @@ func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	
 #shooting healing bullet
 func on_on_ability_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
-	print("on-on-onability shoot called with %s, %s, %s" % [from_pos, look_direction, velocity])
 	if ability_bullet == null:
 		print("ring.gd - set my bullet property bro! i dont have it!")
-		
+	
+	#if no ammo
+	if ammo_count <= 0:
+		print("no ammo")
+		return
+	else:
+		ammo_count -= 1
+	
 	var b = ability_bullet.instantiate()
 	if b == null: # just in case
 		print("ring.gd - bullet did not instantiate")

@@ -128,20 +128,30 @@ func set_weapon_unactive(weapon):
 func use_ability(finger):
 	match finger:
 		0:
-			abilityInput.emit()
-			print(abilityInput.get_connections())
+			if curr_weapon.use_ability():
+				abilityInput.emit()
+				print(abilityInput.get_connections())
+			
+			
 		1:
 			if curr_weapon.use_ability():
 				disableWeapons(0.5) # disable for whatever the dash length is idk
 				dashInput.emit()
 		2:
-			Util.toggle_shield.emit(true)
-			await get_tree().create_timer(2).timeout
-			Util.toggle_shield.emit(false)
+			if curr_weapon.use_ability():
+				Util.toggle_shield.emit(true)
+				await get_tree().create_timer(2).timeout
+				Util.toggle_shield.emit(false)
+			
 		3:
-			abilityInput.emit()
-			print("healing deploying")
-			pass
+			if curr_weapon.use_ability():
+				abilityInput.emit()
+				print("healing deploying")
+			
+		4:
+			if curr_weapon.use_ability():
+				abilityInput.emit()
+				print("sniping")
 		_:
 			print("weapon_manager - WARNING: no finger to use for ability")
 			return
@@ -198,3 +208,12 @@ func _on_earn_experience(xp: float):
 	curr_weapon.add_xp(xp)
 	#print("earned: " + str(xp) + "xp for " + str(curr_weapon))
 	curr_weapon.print_xp(str(weapon_dictionary[curr_weapon_index]))
+	
+
+func _on_enemy_die():
+	#ammo
+	var dice = randi_range(0, 10)
+	if weapon_dictionary[3].ammo_count < weapon_dictionary[3].max_ammo and dice < 2:
+		weapon_dictionary[3].ammo_count += 1
+		
+	print("ring count: " + str(weapon_dictionary[3].ammo_count))
