@@ -15,6 +15,10 @@ var time := 0.0
 @onready var cam: Camera3D = $Camera3D
 @onready var initial_rotation: Vector3 = cam.rotation_degrees
 
+func _ready():
+	Util.zoom_in.connect(zoom_in)
+	Util.zoom_out.connect(zoom_out)
+
 func _process(delta: float) -> void:
 	time += delta
 	trauma = max(trauma - delta * trauma_reduction_rate, 0.0)
@@ -32,3 +36,12 @@ func get_shake_intensity() -> float:
 func get_noise_from_seed(seed: int) -> float:
 	noise.seed = seed
 	return noise.get_noise_1d(time * noise_speed)
+	
+func zoom_in():
+	var a = get_tree().create_tween()
+	a.tween_property($Camera3D,"fov",25, 0.2)
+	pass
+func zoom_out():
+	var a = get_tree().create_tween()
+	a.tween_property($Camera3D,"fov",75, 0.2)
+	pass

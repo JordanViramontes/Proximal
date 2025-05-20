@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://wjjitxfupfoc"]
 
-[ext_resource type="ArrayMesh" uid="uid://mndmsj8bppte" path="res://assets/models/map/map_draft.obj" id="1_4xfga"]
+[ext_resource type="ArrayMesh" uid="uid://c7b2sjljko2fh" path="res://assets/models/map/map_draft.obj" id="1_4xfga"]
 
 [node name="Map" type="Node3D"]
 
