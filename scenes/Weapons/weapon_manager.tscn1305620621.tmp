@@ -1,0 +1,181 @@
+[gd_scene load_steps=31 format=3 uid="uid://ck1km5ocdhq0i"]
+
+[ext_resource type="Script" uid="uid://b4wfrgspyik6s" path="res://scripts/Weapons/weapon_manager.gd" id="1_583ps"]
+[ext_resource type="PackedScene" uid="uid://ct507jmi31qnp" path="res://scenes/particles/recharge_particles.tscn" id="4_dg7pw"]
+[ext_resource type="PackedScene" path="res://scenes/Weapons/thumb.tscn" id="4_e55dp"]
+[ext_resource type="PackedScene" uid="uid://d07kbrumu4gbf" path="res://scenes/Weapons/index.tscn" id="4_qlvm5"]
+[ext_resource type="PackedScene" path="res://scenes/Weapons/middle.tscn" id="6_12ses"]
+[ext_resource type="ArrayMesh" uid="uid://b5mw6ajijkm3t" path="res://assets/meshes/hand_base.obj" id="7_0digo"]
+[ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="7_imgyp"]
+[ext_resource type="PackedScene" uid="uid://duneq26sd14wn" path="res://scenes/Weapons/ring.tscn" id="7_k5yqd"]
+[ext_resource type="Material" uid="uid://bcdjmhea27vdq" path="res://assets/materials/weapons/weap_transparent_fresnel.tres" id="8_17xcm"]
+[ext_resource type="Script" uid="uid://d17gyl0lwxqg" path="res://scenes/Weapons/indicators/hand_visual_base.gd" id="8_q123h"]
+[ext_resource type="PackedScene" path="res://scenes/Weapons/pinky.tscn" id="8_r1oqp"]
+[ext_resource type="ArrayMesh" uid="uid://bjbj80xkk5vv3" path="res://assets/meshes/middle.obj" id="8_rbcgb"]
+[ext_resource type="ArrayMesh" uid="uid://byjngos1bb4n0" path="res://assets/meshes/index.obj" id="9_k5l7f"]
+[ext_resource type="Material" uid="uid://cx7vrvoh613mk" path="res://assets/materials/weapons/m_thumb_weapon.tres" id="9_oqedj"]
+[ext_resource type="ArrayMesh" uid="uid://b3ryvwdcg70ml" path="res://assets/meshes/pinky.obj" id="10_6bhtj"]
+[ext_resource type="Script" uid="uid://dmwanuw5iin6b" path="res://scenes/Weapons/indicators/weapon_visual_indicator.gd" id="10_8as1b"]
+[ext_resource type="Material" uid="uid://gse6mhar2dkn" path="res://assets/materials/weapons/m_index_weapon.tres" id="11_8as1b"]
+[ext_resource type="ArrayMesh" uid="uid://ctoogaekjnhij" path="res://assets/meshes/ring.obj" id="11_68b4n"]
+[ext_resource type="ArrayMesh" uid="uid://cu6ytjvfj0faj" path="res://assets/meshes/thumb.obj" id="12_oqedj"]
+[ext_resource type="Material" uid="uid://825y816fpras" path="res://assets/materials/weapons/m_middle_weapon.tres" id="13_q123h"]
+[ext_resource type="Material" uid="uid://pdp13fj43mhq" path="res://assets/materials/weapons/m_ring_weapon.tres" id="15_aab8g"]
+[ext_resource type="Material" uid="uid://d3pkbqg8petcg" path="res://assets/materials/weapons/m_pinky_weapon.tres" id="17_17xcm"]
+[ext_resource type="PackedScene" uid="uid://cvp5b0l33tb0u" path="res://scenes/Weapons/indicators/visual_ring_indicator.tscn" id="21_17xcm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vowkc"]
+resource_local_to_scene = true
+albedo_color = Color(0.997842, 0.722576, 0.676571, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fmnkm"]
+resource_local_to_scene = true
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lrvjc"]
+resource_local_to_scene = true
+albedo_color = Color(0.588788, 1, 0.532376, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vv2nl"]
+resource_local_to_scene = true
+albedo_color = Color(0.996726, 0.789049, 0.876373, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_imgyp"]
+transparency = 1
+albedo_color = Color(0, 1, 1, 0.196078)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_12ses"]
+top_radius = 2.0
+bottom_radius = 10.0
+height = 20.0
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_imgyp"]
+points = PackedVector3Array(-9.70925, -9.70735, -1.81906, 2.05714, 9.40353, 0.880142, 2.05713, 9.40352, -0.880141, 9.70925, -9.70735, 1.81906, 1.81997, -9.71032, -9.71032, -1.81997, -9.71032, 9.71032, -2.05714, 9.40353, -0.880142, -8.40148, -9.599, 5.09929, -5.10106, -9.60044, -8.40109, 5.10106, -9.60044, 8.40109, 8.40148, -9.599, -5.09929, -0.882083, 9.40275, 2.05656, -0.587256, 8.2255, -2.64306, 5.10106, -9.60044, -8.40109, -5.98864, -9.57958, 7.78446, 7.78539, -9.58115, 5.98845, -7.7853, -9.57874, -5.98695, 1.81997, -9.7103, 9.7103, 9.70924, -9.70734, -1.81906, -9.70924, -9.70734, 1.81906, 0.882082, 9.40273, 2.05656, -2.0518, 9.08712, 1.1717, -1.81997, -9.7103, -9.7103, 0.882083, 9.40275, -2.05656, 6.72293, -8.76684, -6.72161, -1.45587, 9.31535, -1.7456, -3.91691, -9.63844, 9.03639, 9.03624, -9.63639, 3.91532, -9.03624, -9.63639, -3.91532, -2.64442, 8.2224, 0.58692, 6.72293, -8.76684, 6.72161, 0.885043, -7.96013, 9.14058)
+
+[node name="Weapon_Manager" type="Node3D" node_paths=PackedStringArray("hand_visual_base") groups=["WeaponManager"]]
+script = ExtResource("1_583ps")
+recoil_recovery_rate = 10.0
+recoil_reduction_rate = 1.7
+hand_visual_base = NodePath("HandVisual")
+
+[node name="BulletEmergePoint" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.232565)
+
+[node name="Thumb" parent="." instance=ExtResource("4_e55dp")]
+visible = false
+upgrade_quota = 100.0
+degradation = 1.0
+depleted_material = SubResource("StandardMaterial3D_vowkc")
+
+[node name="Index" parent="." instance=ExtResource("4_qlvm5")]
+ability_recharge_particle_color = Color(0, 0, 1, 0.533333)
+ability_recharge_particles = ExtResource("4_dg7pw")
+trauma_amount = 0.4
+recoil_limit = 0.1
+recoil_amount = 0.25
+
+[node name="Middle" parent="." instance=ExtResource("6_12ses")]
+bullet_damage = 0.05
+depleted_material = SubResource("StandardMaterial3D_fmnkm")
+is_hitscan = true
+ability_recharge_particle_color = Color(1, 1, 0, 0.501961)
+ability_recharge_particles = ExtResource("4_dg7pw")
+trauma_amount = 0.2
+recoil_limit = 0.1
+recoil_amount = 0.01
+
+[node name="Ring" parent="." instance=ExtResource("7_k5yqd")]
+depleted_material = SubResource("StandardMaterial3D_lrvjc")
+ability_cooldown = 0.0
+ability_recharge_particle_color = Color(0, 1, 0, 0.509804)
+
+[node name="Pinky" parent="." instance=ExtResource("8_r1oqp")]
+depleted_material = SubResource("StandardMaterial3D_vv2nl")
+bullet_damage = 100.0
+ability_recharge_particle_color = Color(0.972549, 0.356863, 0.945098, 0.486275)
+trauma_amount = 0.75
+recoil_limit = 2.0
+recoil_amount = 2.0
+
+[node name="DashTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="StunHitbox" type="Area3D" parent="."]
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("7_imgyp")
+metadata/_custom_type_script = "uid://cgpmhci7164s6"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StunHitbox"]
+transform = Transform3D(1, 0, 0, 0, -7.45058e-08, -1, 0, 1, -7.45058e-08, 0, 0, -10)
+visible = false
+material_override = SubResource("StandardMaterial3D_imgyp")
+mesh = SubResource("CylinderMesh_12ses")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StunHitbox"]
+transform = Transform3D(1, 0, 0, 0, -7.45058e-08, -1, 0, 1, -7.45058e-08, 0, 0, -10)
+shape = SubResource("ConvexPolygonShape3D_imgyp")
+
+[node name="StunHitboxTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="StunEnemyTimer" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+
+[node name="HandVisual" type="MeshInstance3D" parent="." node_paths=PackedStringArray("finger_list", "ring_indicator_list")]
+transform = Transform3D(-2.4118e-08, -4.90185e-10, -0.659, -0.0541005, 0.655804, 2.3547e-09, 0.547333, 0.0648222, -2.88058e-08, 0, 0, 0)
+mesh = ExtResource("7_0digo")
+surface_material_override/0 = ExtResource("8_17xcm")
+script = ExtResource("8_q123h")
+finger_list = [NodePath("ThumbIndicator"), NodePath("IndexIndicator"), NodePath("MiddleIndicator"), NodePath("RingIndicator"), NodePath("PinkyIndicator")]
+finger_materials = Array[Material]([ExtResource("9_oqedj"), ExtResource("11_8as1b"), ExtResource("13_q123h"), ExtResource("15_aab8g"), ExtResource("17_17xcm")])
+ring_indicator_list = [NodePath("VisualRingIndicator1"), NodePath("VisualRingIndicator2"), NodePath("VisualRingIndicator3")]
+
+[node name="ThumbIndicator" type="MeshInstance3D" parent="HandVisual"]
+mesh = ExtResource("12_oqedj")
+script = ExtResource("10_8as1b")
+highlighted_material = ExtResource("9_oqedj")
+non_highlighted_material = ExtResource("8_17xcm")
+
+[node name="IndexIndicator" type="MeshInstance3D" parent="HandVisual"]
+mesh = ExtResource("9_k5l7f")
+skeleton = NodePath("../..")
+script = ExtResource("10_8as1b")
+highlighted_material = ExtResource("11_8as1b")
+non_highlighted_material = ExtResource("8_17xcm")
+
+[node name="MiddleIndicator" type="MeshInstance3D" parent="HandVisual"]
+mesh = ExtResource("8_rbcgb")
+skeleton = NodePath("../..")
+script = ExtResource("10_8as1b")
+highlighted_material = ExtResource("13_q123h")
+non_highlighted_material = ExtResource("8_17xcm")
+
+[node name="RingIndicator" type="MeshInstance3D" parent="HandVisual"]
+mesh = ExtResource("11_68b4n")
+script = ExtResource("10_8as1b")
+highlighted_material = ExtResource("15_aab8g")
+non_highlighted_material = ExtResource("8_17xcm")
+
+[node name="PinkyIndicator" type="MeshInstance3D" parent="HandVisual"]
+mesh = ExtResource("10_6bhtj")
+script = ExtResource("10_8as1b")
+highlighted_material = ExtResource("17_17xcm")
+non_highlighted_material = ExtResource("8_17xcm")
+
+[node name="VisualRingIndicator1" parent="HandVisual" instance=ExtResource("21_17xcm")]
+transform = Transform3D(0.0966797, 0.995316, 3.23193e-08, -0.995316, 0.0966797, 3.70984e-08, 3.38e-08, -3.57545e-08, 1, -0.14913, 0.0118686, -0.0972435)
+
+[node name="VisualRingIndicator2" parent="HandVisual" instance=ExtResource("21_17xcm")]
+transform = Transform3D(-0.148517, 0.988912, 4.12977e-08, -0.988911, -0.148517, 3.70464e-08, 4.2769e-08, -3.53377e-08, 1, -0.200692, 0.0137878, -0.0972435)
+
+[node name="VisualRingIndicator3" parent="HandVisual" instance=ExtResource("21_17xcm")]
+transform = Transform3D(0.0800425, 0.996793, 3.2927e-08, -0.996793, 0.0800424, 3.71648e-08, 3.441e-08, -3.57962e-08, 1, -0.24601, 0.0207358, -0.0972435)
+
+[connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
+[connection signal="body_entered" from="StunHitbox" to="." method="_on_stun_hitbox_body_entered"]
+[connection signal="timeout" from="StunHitboxTimer" to="." method="_on_stun_hitbox_timer_timeout"]
+[connection signal="timeout" from="StunEnemyTimer" to="." method="_on_stun_enemy_timer_timeout"]

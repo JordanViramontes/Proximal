@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://cql7cmlu5inwv"]
+
+[ext_resource type="Shader" uid="uid://chehmom4dgrr4" path="res://assets/shaders/billboard_hitflash.gdshader" id="1_14v0l"]
+[ext_resource type="Texture2D" uid="uid://bckscsuhohlt7" path="res://assets/sprites/test_man.png" id="2_0ww41"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_14v0l")
+shader_parameter/use_billboard = true
+shader_parameter/effect_enabled = false
+shader_parameter/albedo_texture = ExtResource("2_0ww41")

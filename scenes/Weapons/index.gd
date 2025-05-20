@@ -5,7 +5,7 @@ extends WeaponBase
 func _ready() -> void:
 	super._ready()
 	on_shoot.connect(on_on_shoot)
-
+	
 func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	if bullet == null:
 		print("index.gd - set my bullet property bro! i dont have it!")
@@ -15,7 +15,7 @@ func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 		print("index.gd - bullet did not instantiate")
 		return
 	
-	b.position = $BulletEmergePoint.global_position # is one meter ahead of the player, which lines up with the barrel of the weapon
+	b.position = bullet_emerge_point.global_position # is one meter ahead of the player, which lines up with the barrel of the weapon
 	b.bullet_speed = bullet_speed
 	
 	# Weapon gets more powerful as level increases
@@ -29,3 +29,12 @@ func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	b.direction = Util.permute_vector(look_direction, bullet_spread)
 	
 	$TraumaCauser.cause_trauma_conditional(0.4)
+
+	
+func on_bullet_hit(damage: float):
+	experience += 0.1*(4-level)
+	print("my bullet hit an enemy >:)")
+	print(experience)
+	if experience >= 10.0*(level):
+		level += 1
+		print("LEVEL UP! ", level)
