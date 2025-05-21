@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dxdtidj4hp83f"]
+[gd_scene load_steps=12 format=3 uid="uid://csvmm0fpkc6g3"]
 
 [ext_resource type="Script" uid="uid://cnqssw8swmrv5" path="res://scenes/Weapons/thumb.gd" id="1_b665p"]
 [ext_resource type="PackedScene" uid="uid://co580m3bpg52c" path="res://scenes/ability/thumb_ability.tscn" id="2_3tbkt"]
@@ -35,6 +35,7 @@ billboard_mode = 1
 [sub_resource type="QuadMesh" id="QuadMesh_fmxtx"]
 material = SubResource("StandardMaterial3D_17ykf")
 size = Vector2(0.1, 0.1)
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_17ykf"]
 radius = 1.435
 

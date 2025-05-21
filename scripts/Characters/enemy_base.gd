@@ -121,9 +121,9 @@ func _physics_process(delta):
 			if global_position.distance_to(vacuum_target_position) < 1.0:  # <-- Stop distance
 				vacuum_velocity = Vector3.ZERO
 				velocity = Vector3.ZERO
-				_on_recieve_stun()
-				await get_tree().create_timer(2).timeout # stun for 2 second after pull
-				_on_recieve_unstun() #stun process in the vacuum function
+				#_on_recieve_stun()
+				#await get_tree().create_timer(2).timeout # stun for 2 second after pull
+				#_on_recieve_unstun() #stun process in the vacuum function
 				return
 			vacuum_timer -= delta
 			velocity = vacuum_velocity

@@ -85,7 +85,7 @@ func use_ability() -> bool:
 			var depleted_tween = get_tree().create_tween()
 			depleted_tween.set_ease(Tween.EASE_IN_OUT)
 			#depleted_tween.set_trans(Tween.TRANS_CUBIC)
-			depleted_tween.tween_property($MeshInstance3D.mesh.material, "albedo_color", normal_material.albedo_color, ability_cooldown)
+			#depleted_tween.tween_property($MeshInstance3D.mesh.material, "albedo_color", normal_material.albedo_color, ability_cooldown)
 			depleted_tween.finished.connect(_on_depleted_tween_finish)
 		else:
 			print("%s set my depleted material for visual indication of ability cooldown :)" % self)

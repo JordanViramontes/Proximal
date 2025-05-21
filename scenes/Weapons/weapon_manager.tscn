@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b4wfrgspyik6s" path="res://scripts/Weapons/weapon_manager.gd" id="1_583ps"]
 [ext_resource type="PackedScene" uid="uid://ct507jmi31qnp" path="res://scenes/particles/recharge_particles.tscn" id="4_dg7pw"]
-[ext_resource type="PackedScene" path="res://scenes/Weapons/thumb.tscn" id="4_e55dp"]
+[ext_resource type="PackedScene" uid="uid://csvmm0fpkc6g3" path="res://scenes/Weapons/thumb.tscn" id="4_e55dp"]
 [ext_resource type="PackedScene" uid="uid://d07kbrumu4gbf" path="res://scenes/Weapons/index.tscn" id="4_qlvm5"]
 [ext_resource type="PackedScene" path="res://scenes/Weapons/middle.tscn" id="6_12ses"]
 [ext_resource type="ArrayMesh" uid="uid://b5mw6ajijkm3t" path="res://assets/meshes/hand_base.obj" id="7_0digo"]
@@ -44,13 +44,11 @@ albedo_color = Color(0.996726, 0.789049, 0.876373, 1)
 transparency = 1
 albedo_color = Color(0, 1, 1, 0.196078)
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_12ses"]
-top_radius = 2.0
-bottom_radius = 10.0
-height = 20.0
+[sub_resource type="BoxMesh" id="BoxMesh_vowkc"]
+size = Vector3(20, 20, 20)
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_imgyp"]
-points = PackedVector3Array(-9.70925, -9.70735, -1.81906, 2.05714, 9.40353, 0.880142, 2.05713, 9.40352, -0.880141, 9.70925, -9.70735, 1.81906, 1.81997, -9.71032, -9.71032, -1.81997, -9.71032, 9.71032, -2.05714, 9.40353, -0.880142, -8.40148, -9.599, 5.09929, -5.10106, -9.60044, -8.40109, 5.10106, -9.60044, 8.40109, 8.40148, -9.599, -5.09929, -0.882083, 9.40275, 2.05656, -0.587256, 8.2255, -2.64306, 5.10106, -9.60044, -8.40109, -5.98864, -9.57958, 7.78446, 7.78539, -9.58115, 5.98845, -7.7853, -9.57874, -5.98695, 1.81997, -9.7103, 9.7103, 9.70924, -9.70734, -1.81906, -9.70924, -9.70734, 1.81906, 0.882082, 9.40273, 2.05656, -2.0518, 9.08712, 1.1717, -1.81997, -9.7103, -9.7103, 0.882083, 9.40275, -2.05656, 6.72293, -8.76684, -6.72161, -1.45587, 9.31535, -1.7456, -3.91691, -9.63844, 9.03639, 9.03624, -9.63639, 3.91532, -9.03624, -9.63639, -3.91532, -2.64442, 8.2224, 0.58692, 6.72293, -8.76684, 6.72161, 0.885043, -7.96013, 9.14058)
+[sub_resource type="BoxShape3D" id="BoxShape3D_fmnkm"]
+size = Vector3(20, 20, 20)
 
 [node name="Weapon_Manager" type="Node3D" node_paths=PackedStringArray("hand_visual_base") groups=["WeaponManager"]]
 script = ExtResource("1_583ps")
@@ -111,11 +109,11 @@ metadata/_custom_type_script = "uid://cgpmhci7164s6"
 transform = Transform3D(1, 0, 0, 0, -7.45058e-08, -1, 0, 1, -7.45058e-08, 0, 0, -10)
 visible = false
 material_override = SubResource("StandardMaterial3D_imgyp")
-mesh = SubResource("CylinderMesh_12ses")
+mesh = SubResource("BoxMesh_vowkc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StunHitbox"]
 transform = Transform3D(1, 0, 0, 0, -7.45058e-08, -1, 0, 1, -7.45058e-08, 0, 0, -10)
-shape = SubResource("ConvexPolygonShape3D_imgyp")
+shape = SubResource("BoxShape3D_fmnkm")
 
 [node name="StunHitboxTimer" type="Timer" parent="."]
 wait_time = 0.1

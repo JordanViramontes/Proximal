@@ -50,7 +50,11 @@ func _ready():
 		weapon_dictionary[i].position = hand_visual_base.position
 		weapon_dictionary[i].bullet_emerge_point = $BulletEmergePoint
 	
+	# signals
 	$Ring.used_ring.connect(on_used_ring)
+	
+	# disable enemy stun hitbox
+	hitboxColl.disabled = true
 
 # code for polling inputs
 func _process(delta: float):
@@ -101,8 +105,6 @@ func change_weapon_to(weapon_index):
 		weapon_index = 4
 	if weapon_index == 5: # scroll wrap
 		weapon_index = 0
-	
-	
 	
 	# set previous weapon stuff
 	cease_fire()
@@ -204,7 +206,6 @@ func _on_stun_hitbox_body_entered(body: EnemyBase) -> void:
 
 func _on_stun_enemy_timer_timeout() -> void:
 	print ("weapon_manager.gd: unstunning")
-	can_stun = true
 	
 	# flush stunned array
 	for i in currently_stunned_enemies:
@@ -212,6 +213,8 @@ func _on_stun_enemy_timer_timeout() -> void:
 			i._on_recieve_unstun()
 	
 	currently_stunned_enemies = []
+	
+	can_stun = true
 
 # recieve signal from earning xp
 func _on_earn_experience(xp: float):
