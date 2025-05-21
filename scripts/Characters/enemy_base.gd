@@ -12,6 +12,7 @@ class_name EnemyBase
 @onready var pathfindVel: Vector3
 var can_damage_player: bool = true
 var wave_category: int = 0
+var is_dead = false
 
 # visual vars
 @export var hitflash_material: Material
@@ -151,6 +152,12 @@ func _physics_process(delta):
 
 # When they dead as hell
 func on_reach_zero_health():
+	# we already died!
+	if is_dead:
+		return
+	
+	print("we are dying! emitting signals: " + str(self))
+	is_dead = true
 	emit_signal("die_from_wave", wave_category)
 	die.emit()
 	emit_signal("drop_xp", xp_on_death) # emit experience points

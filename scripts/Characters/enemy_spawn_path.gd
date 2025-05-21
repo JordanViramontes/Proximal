@@ -228,6 +228,7 @@ func enemy_dies(from_wave: int) -> void:
 		#return
 	
 	current_wave_enemy_count -= 1
+	print("new amount: " + str(current_wave_enemy_count))
 	emit_signal("updateEnemyCount", current_wave_enemy_count)
 	
 	if current_wave_enemy_count <= 0:
