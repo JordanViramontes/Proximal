@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b0epnjdv5u53e"]
+[gd_scene load_steps=11 format=3 uid="uid://b0epnjdv5u53e"]
 
 [ext_resource type="Script" uid="uid://da0phsu0gckgf" path="res://scenes/Weapons/pinky.gd" id="1_exoxp"]
 [ext_resource type="PackedScene" uid="uid://djtp4uqwyjuk6" path="res://scenes/bullets/pinky_bullet.tscn" id="2_55j32"]
@@ -34,6 +34,7 @@ billboard_mode = 1
 [sub_resource type="QuadMesh" id="QuadMesh_byqhw"]
 material = SubResource("StandardMaterial3D_bwrpf")
 size = Vector2(0.1, 0.1)
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_byqhw"]
 radius = 1.435
 

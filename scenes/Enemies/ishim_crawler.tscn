@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://scripts/components/health_component.gd" id="3_oaf2w"]
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="4_kebby"]
 [ext_resource type="Texture2D" uid="uid://bckscsuhohlt7" path="res://assets/sprites/test_man.png" id="5_jfxgx"]
-[ext_resource type="Shader" uid="uid://cxpcdyu7soiyp" path="res://assets/shaders/thank_you_uslash_theduriel.gdshader" id="5_ocuuy"]
+[ext_resource type="Shader" path="res://assets/shaders/thank_you_uslash_theduriel.gdshader" id="5_ocuuy"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vrbru"]
 albedo_color = Color(0.254902, 0.521569, 1, 1)
@@ -42,8 +42,8 @@ collision_layer = 4
 script = ExtResource("1_lgyoi")
 lunge_dist = 10
 max_health = 5.0
-hitflash_material = ExtResource("1_ovggl")
 movement_speed = 6
+hitflash_material = ExtResource("1_ovggl")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." groups=["Enemies"]]
 visible = false

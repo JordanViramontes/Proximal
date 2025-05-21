@@ -164,6 +164,10 @@ func use_ability(finger):
 			if weapon_dictionary[finger].use_ability():
 				abilityInput.emit()
 				print("healing deploying")
+		4:
+			if weapon_dictionary[finger].use_ability():
+				abilityInput.emit()
+				print("sniping")
 		_:
 			print("weapon_manager - WARNING: no finger to use for ability")
 			return
