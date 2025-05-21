@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://klyx4oq82x8k"]
+[gd_scene load_steps=16 format=3 uid="uid://klyx4oq82x8k"]
 
 [ext_resource type="Script" uid="uid://b4wfrgspyik6s" path="res://scripts/Weapons/weapon_manager.gd" id="1_583ps"]
 [ext_resource type="PackedScene" uid="uid://dxdtidj4hp83f" path="res://scenes/Weapons/thumb.tscn" id="4_e55dp"]
@@ -8,9 +8,25 @@
 [ext_resource type="PackedScene" uid="uid://duneq26sd14wn" path="res://scenes/Weapons/ring.tscn" id="7_k5yqd"]
 [ext_resource type="PackedScene" uid="uid://b0epnjdv5u53e" path="res://scenes/Weapons/pinky.tscn" id="8_r1oqp"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_12ses"]
+resource_local_to_scene = true
+albedo_color = Color(0.997842, 0.722576, 0.676571, 1)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e55dp"]
 resource_local_to_scene = true
 albedo_color = Color(0.5168, 0.605973, 0.76, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k5yqd"]
+resource_local_to_scene = true
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r1oqp"]
+resource_local_to_scene = true
+albedo_color = Color(0.588788, 1, 0.532376, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0digo"]
+resource_local_to_scene = true
+albedo_color = Color(0.996726, 0.789049, 0.876373, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_imgyp"]
 transparency = 1
@@ -31,6 +47,7 @@ script = ExtResource("1_583ps")
 visible = false
 upgrade_quota = 100.0
 degradation = 1.0
+depleted_material = SubResource("StandardMaterial3D_12ses")
 
 [node name="Index" parent="." instance=ExtResource("4_qlvm5")]
 visible = false
@@ -41,13 +58,16 @@ depleted_material = SubResource("StandardMaterial3D_e55dp")
 visible = false
 bullet_damage = 0.05
 is_hitscan = true
+depleted_material = SubResource("StandardMaterial3D_k5yqd")
 
 [node name="Ring" parent="." instance=ExtResource("7_k5yqd")]
 visible = false
+depleted_material = SubResource("StandardMaterial3D_r1oqp")
 
 [node name="Pinky" parent="." instance=ExtResource("8_r1oqp")]
 visible = false
 bullet_damage = 100.0
+depleted_material = SubResource("StandardMaterial3D_0digo")
 
 [node name="DashTimer" type="Timer" parent="."]
 wait_time = 0.5

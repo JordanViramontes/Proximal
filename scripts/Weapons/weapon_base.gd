@@ -49,7 +49,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	tick += 1
 	# Over time, XP degrades
-	if tick % 150 == 0:
+	if tick % 50 == 0:
 		decrease_xp()
 	pass
 
