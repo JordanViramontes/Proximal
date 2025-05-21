@@ -1,10 +1,10 @@
 [gd_scene load_steps=12 format=3 uid="uid://csvmm0fpkc6g3"]
 
-[ext_resource type="Script" uid="uid://cnqssw8swmrv5" path="res://scenes/Weapons/thumb.gd" id="1_b665p"]
-[ext_resource type="PackedScene" uid="uid://co580m3bpg52c" path="res://scenes/ability/thumb_ability.tscn" id="2_3tbkt"]
-[ext_resource type="PackedScene" uid="uid://dmmosaxs1o0am" path="res://scenes/bullets/thumb_bullet.tscn" id="2_4dj6u"]
+[ext_resource type="Script" uid="uid://cnqssw8swmrv5" path="res://Main/Weapons/Thumb/thumb.gd" id="1_b665p"]
+[ext_resource type="PackedScene" uid="uid://co580m3bpg52c" path="res://Main/Weapons/Thumb/thumb_ability.tscn" id="2_3tbkt"]
+[ext_resource type="PackedScene" uid="uid://dmmosaxs1o0am" path="res://Main/Weapons/Thumb/thumb_bullet.tscn" id="2_4dj6u"]
 [ext_resource type="Material" uid="uid://cx7vrvoh613mk" path="res://assets/materials/weapons/m_thumb_weapon.tres" id="3_sobuh"]
-[ext_resource type="PackedScene" uid="uid://kyg130pr8w03" path="res://scenes/Camera/trauma_causer.tscn" id="4_3tbkt"]
+[ext_resource type="PackedScene" uid="uid://kyg130pr8w03" path="res://Main/Camera/trauma_causer.tscn" id="4_3tbkt"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3tbkt"]
 resource_local_to_scene = true

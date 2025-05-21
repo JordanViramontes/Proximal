@@ -1,8 +1,8 @@
 [gd_scene load_steps=10 format=3 uid="uid://duneq26sd14wn"]
 
-[ext_resource type="Script" uid="uid://cc7ls8xbh0snk" path="res://scenes/Weapons/ring.gd" id="1_oaqjv"]
-[ext_resource type="PackedScene" uid="uid://drw72tdjmshya" path="res://scenes/ability/ring_ability.tscn" id="2_7g3be"]
-[ext_resource type="PackedScene" uid="uid://cn2c867ej4ifx" path="res://scenes/bullets/ring_bullet.tscn" id="2_vum0y"]
+[ext_resource type="Script" uid="uid://cc7ls8xbh0snk" path="res://Main/Weapons/Ring/ring.gd" id="1_oaqjv"]
+[ext_resource type="PackedScene" uid="uid://drw72tdjmshya" path="res://Main/Weapons/Ring/ring_ability.tscn" id="2_7g3be"]
+[ext_resource type="PackedScene" uid="uid://cn2c867ej4ifx" path="res://Main/Weapons/Ring/ring_bullet.tscn" id="2_vum0y"]
 [ext_resource type="Material" uid="uid://pdp13fj43mhq" path="res://assets/materials/weapons/m_ring_weapon.tres" id="3_cdqlc"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7g3be"]

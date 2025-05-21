@@ -1,25 +1,25 @@
 [gd_scene load_steps=37 format=3 uid="uid://5ygls03nw76d"]
 
 [ext_resource type="Texture2D" uid="uid://cqur83lk7fjfl" path="res://assets/hdris/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="1_8wojv"]
-[ext_resource type="Script" uid="uid://bpvwqw4pbfs3m" path="res://scripts/Areas/world.gd" id="1_dctr2"]
+[ext_resource type="Script" uid="uid://bpvwqw4pbfs3m" path="res://Main/Areas/world.gd" id="1_dctr2"]
 [ext_resource type="Texture2D" uid="uid://c7ao2jw0rnah0" path="res://assets/textures/dev/grids/Dark/texture_07.png" id="2_4n1ka"]
-[ext_resource type="Script" uid="uid://drj4up00u5x88" path="res://scripts/Characters/enemy_spawn_path.gd" id="6_o6xl0"]
-[ext_resource type="PackedScene" uid="uid://d0u5bw4owtrev" path="res://scenes/Characters/player.tscn" id="6_tefeu"]
-[ext_resource type="Script" uid="uid://c0md12nt0jei1" path="res://scripts/fps_counter.gd" id="8_85g3d"]
+[ext_resource type="Script" uid="uid://drj4up00u5x88" path="res://Main/Characters/Enemies/enemy_spawn_path.gd" id="6_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://d0u5bw4owtrev" path="res://Main/Characters/Player/player.tscn" id="6_tefeu"]
+[ext_resource type="Script" uid="uid://c0md12nt0jei1" path="res://Main/UI/InGame/fps_counter.gd" id="8_85g3d"]
 [ext_resource type="PackedScene" uid="uid://dbn175mecst55" path="res://assets/models/map/map_draft.blend" id="8_tipki"]
 [ext_resource type="Shader" uid="uid://drfc1fob3nean" path="res://assets/shaders/water.gdshader" id="9_85g3d"]
-[ext_resource type="Script" uid="uid://bv6srvbqyys10" path="res://scenes/UI/ui_manager.gd" id="9_jbj1t"]
+[ext_resource type="Script" uid="uid://bv6srvbqyys10" path="res://Main/UI/InGame/ui_manager.gd" id="9_jbj1t"]
 [ext_resource type="Theme" uid="uid://rsglqw8mc02x" path="res://assets/themes/default.tres" id="9_ya4ey"]
-[ext_resource type="Script" uid="uid://cqq4wmrgc8xv7" path="res://scripts/death_interface.gd" id="10_choun"]
-[ext_resource type="Script" uid="uid://vc054ubkxfcw" path="res://scenes/wave_info.gd" id="10_ya4ey"]
-[ext_resource type="Script" uid="uid://bsg3bg0jpnpjr" path="res://scripts/next_wave_starting_in.gd" id="11_eb6dy"]
+[ext_resource type="Script" uid="uid://cqq4wmrgc8xv7" path="res://Main/UI/InGame/death_interface.gd" id="10_choun"]
+[ext_resource type="Script" uid="uid://vc054ubkxfcw" path="res://Main/UI/InGame/wave_info.gd" id="10_ya4ey"]
+[ext_resource type="Script" uid="uid://bsg3bg0jpnpjr" path="res://Main/UI/InGame/next_wave_starting_in.gd" id="11_eb6dy"]
 [ext_resource type="Texture2D" uid="uid://52vn44k3ngct" path="res://assets/textures/crosshair_dev.png" id="12_eb6dy"]
-[ext_resource type="Script" uid="uid://b886ylfmdgmqa" path="res://scenes/weapon_xp_gui.gd" id="13_a8y0u"]
-[ext_resource type="PackedScene" uid="uid://byrblrkj4ab5k" path="res://scenes/UI/baseXpUI.tscn" id="13_trceg"]
+[ext_resource type="Script" uid="uid://b886ylfmdgmqa" path="res://Main/UI/InGame/XpUI/weapon_xp_gui.gd" id="13_a8y0u"]
+[ext_resource type="PackedScene" uid="uid://byrblrkj4ab5k" path="res://Main/UI/InGame/XpUI/baseXpUI.tscn" id="13_trceg"]
 [ext_resource type="Texture2D" uid="uid://c78ktusgpfobs" path="res://assets/textures/HealthBarProgress.png" id="14_muem4"]
-[ext_resource type="Script" uid="uid://3a112of4lpr" path="res://scenes/Characters/health_bar.gd" id="15_dp3eg"]
+[ext_resource type="Script" uid="uid://3a112of4lpr" path="res://Main/UI/InGame/health_bar.gd" id="15_dp3eg"]
 [ext_resource type="Texture2D" uid="uid://bsh36ub1lj4vr" path="res://assets/textures/HealthBar.png" id="16_0ld40"]
-[ext_resource type="Script" uid="uid://dlwjc8lf77mqk" path="res://scenes/UI/shield_visual.gd" id="17_muem4"]
+[ext_resource type="Script" uid="uid://dlwjc8lf77mqk" path="res://Main/UI/InGame/shield_visual.gd" id="17_muem4"]
 
 [sub_resource type="Gradient" id="Gradient_ya4ey"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -184,16 +184,6 @@ one_shot = true
 [node name="Player" parent="SubViewportContainer/SubViewport" instance=ExtResource("6_tefeu")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -4.93703, 5.62312, 15)
 DASH_SPEED = 50
-
-[node name="NavigationRegion3D_EnemySpawnPath#WaveTimer" type="Timer" parent="."]
-one_shot = true
-
-[node name="NavigationRegion3D_EnemySpawnPath#UpdateTimer" type="Timer" parent="."]
-autostart = true
-
-[node name="NavigationRegion3D_EnemySpawnPath#NextWaveTimer" type="Timer" parent="."]
-wait_time = 2.0
-one_shot = true
 
 [node name="UI" type="Control" parent="."]
 layout_direction = 1

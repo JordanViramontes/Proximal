@@ -1,15 +1,13 @@
-[gd_scene load_steps=18 format=3 uid="uid://d0u5bw4owtrev"]
+[gd_scene load_steps=16 format=3 uid="uid://d0u5bw4owtrev"]
 
-[ext_resource type="Script" uid="uid://cpi5w5meyf7w1" path="res://scripts/Characters/player.gd" id="1_i3pqv"]
-[ext_resource type="PackedScene" uid="uid://pake15kqry6s" path="res://scenes/Camera/shakeable_camera.tscn" id="2_np5j3"]
-[ext_resource type="PackedScene" uid="uid://ck1km5ocdhq0i" path="res://scenes/Weapons/weapon_manager.tscn" id="4_dqkch"]
-[ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="4_jbyc3"]
-[ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://scripts/components/health_component.gd" id="4_np5j3"]
-[ext_resource type="Texture2D" uid="uid://bsh36ub1lj4vr" path="res://assets/textures/HealthBar.png" id="5_5vcpl"]
-[ext_resource type="Texture2D" uid="uid://c78ktusgpfobs" path="res://assets/textures/HealthBarProgress.png" id="6_8u6hb"]
-[ext_resource type="Script" uid="uid://c7hvy6apitrhj" path="res://scripts/utility/player_info_display.gd" id="10_myi3t"]
-[ext_resource type="Script" uid="uid://c4yr50gw43wyw" path="res://scripts/utility/ring_count.gd" id="11_vvg2b"]
-[ext_resource type="Script" uid="uid://bb0fsybe7scav" path="res://scenes/Characters/player_ui_manager.gd" id="12_r13nr"]
+[ext_resource type="Script" uid="uid://cpi5w5meyf7w1" path="res://Main/Characters/Player/player.gd" id="1_i3pqv"]
+[ext_resource type="PackedScene" uid="uid://pake15kqry6s" path="res://Main/Camera/shakeable_camera.tscn" id="2_np5j3"]
+[ext_resource type="PackedScene" uid="uid://ck1km5ocdhq0i" path="res://Main/Weapons/WeaponManager/weapon_manager.tscn" id="4_dqkch"]
+[ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://Main/Utility/Components/hitbox_component.gd" id="4_jbyc3"]
+[ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://Main/Utility/Components/health_component.gd" id="4_np5j3"]
+[ext_resource type="Script" uid="uid://c7hvy6apitrhj" path="res://Main/Utility/player_info_display.gd" id="10_myi3t"]
+[ext_resource type="Script" uid="uid://c4yr50gw43wyw" path="res://Main/Utility/ring_count.gd" id="11_vvg2b"]
+[ext_resource type="Script" uid="uid://bb0fsybe7scav" path="res://Main/Characters/Player/player_ui_manager.gd" id="12_r13nr"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_2hs0m"]
 
@@ -137,34 +135,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="Control" type="Control" parent="UI"]
-anchors_preset = 0
-offset_left = -1.0
-offset_top = 8.0
-offset_right = 39.0
-offset_bottom = 48.0
-rotation = -0.0238783
-
-[node name="TextureProgressBar" type="TextureProgressBar" parent="UI/Control"]
-texture_filter = 1
-layout_mode = 0
-offset_left = 60.0
-offset_top = 22.0
-offset_right = 992.0
-offset_bottom = 289.0
-scale = Vector2(0.102084, 0.0276196)
-value = 100.0
-nine_patch_stretch = true
-texture_progress = ExtResource("6_8u6hb")
-
-[node name="TextureRect" type="TextureRect" parent="UI/Control"]
-texture_filter = 1
-layout_mode = 0
-offset_right = 932.0
-offset_bottom = 267.0
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("5_5vcpl")
 
 [node name="PanelContainer" type="PanelContainer" parent="UI"]
 layout_mode = 1

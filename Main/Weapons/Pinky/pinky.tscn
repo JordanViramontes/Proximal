@@ -1,9 +1,9 @@
 [gd_scene load_steps=11 format=3 uid="uid://b0epnjdv5u53e"]
 
-[ext_resource type="Script" uid="uid://da0phsu0gckgf" path="res://scenes/Weapons/pinky.gd" id="1_exoxp"]
-[ext_resource type="PackedScene" uid="uid://djtp4uqwyjuk6" path="res://scenes/bullets/pinky_bullet.tscn" id="2_55j32"]
+[ext_resource type="Script" uid="uid://da0phsu0gckgf" path="res://Main/Weapons/Pinky/pinky.gd" id="1_exoxp"]
+[ext_resource type="PackedScene" uid="uid://djtp4uqwyjuk6" path="res://Main/Weapons/Pinky/pinky_bullet.tscn" id="2_55j32"]
 [ext_resource type="Material" uid="uid://d3pkbqg8petcg" path="res://assets/materials/weapons/m_pinky_weapon.tres" id="3_v84yc"]
-[ext_resource type="PackedScene" uid="uid://kyg130pr8w03" path="res://scenes/Camera/trauma_causer.tscn" id="4_bwrpf"]
+[ext_resource type="PackedScene" uid="uid://kyg130pr8w03" path="res://Main/Camera/trauma_causer.tscn" id="4_bwrpf"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v84yc"]
 resource_local_to_scene = true
@@ -40,6 +40,7 @@ radius = 1.435
 
 [node name="Pinky" type="Node3D"]
 script = ExtResource("1_exoxp")
+ability_bullet = ExtResource("2_55j32")
 upgrade_quota = 50.0
 degradation = 0.5
 fire_rate = 1.0

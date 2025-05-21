@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://drw72tdjmshya"]
 
-[ext_resource type="Script" uid="uid://c421nm6p2tq6s" path="res://scenes/ability/ring_ability.gd" id="1_3nsd0"]
-[ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="2_4crut"]
-[ext_resource type="PackedScene" uid="uid://sk020iobm3eo" path="res://scenes/ability/healing_dome.tscn" id="2_vnqxf"]
+[ext_resource type="Script" uid="uid://c421nm6p2tq6s" path="res://Main/Weapons/Ring/ring_ability.gd" id="1_3nsd0"]
+[ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://Main/Utility/Components/hitbox_component.gd" id="2_4crut"]
+[ext_resource type="PackedScene" uid="uid://sk020iobm3eo" path="res://Main/Weapons/Ring/healing_dome.tscn" id="2_vnqxf"]
 
 [sub_resource type="TorusMesh" id="TorusMesh_ihso4"]
 inner_radius = 0.12

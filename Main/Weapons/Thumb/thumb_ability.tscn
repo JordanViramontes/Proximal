@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://co580m3bpg52c"]
 
-[ext_resource type="Script" uid="uid://ca7hpw3jt32xg" path="res://scenes/ability/thumb_ability.gd" id="1_bqesf"]
+[ext_resource type="Script" uid="uid://ca7hpw3jt32xg" path="res://Main/Weapons/Thumb/thumb_ability.gd" id="1_bqesf"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5sagf"]
 resource_local_to_scene = true

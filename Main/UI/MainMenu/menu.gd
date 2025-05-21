@@ -1,7 +1,7 @@
 extends Control
 
 # preload action input button and grab action list
-@onready var input_button_scene = preload("res://input_button.tscn")
+@onready var input_button_scene = preload("res://Main/UI/MainMenu/input_button.tscn")
 @onready var action_list = $"Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/VBoxContainer"
 @onready var volume = $"Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Volume"
 @onready var fullscreen_checkbox = $"Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainer2/Fullscreen_Checkbox"
@@ -43,7 +43,7 @@ func _ready():
 func _on_play_pressed():
 	FadeToBlack.transition()
 	await FadeToBlack.on_transition_finished
-	get_tree().change_scene_to_file("res://scenes/main.tscn")
+	get_tree().change_scene_to_file("res://Main/UI/MainMenu/menu.tscn")
 
 # options button should allow to change ui elements, key binds, etc.
 func _on_options_pressed():

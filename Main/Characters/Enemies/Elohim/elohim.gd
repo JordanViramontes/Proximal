@@ -16,7 +16,7 @@ var distance_towards_player: float = 0
 # components
 @onready var summon_cooldown = $SummonCooldown
 @onready var summoning_timer = $SummoningTimer
-@onready var be_elohim_ranger_path = "res://scenes/Enemies/be_elohim_ranger.tscn"
+@onready var be_elohim_ranger_path = "res://Main/Characters/Enemies/ElohimBeneRanger/be_elohim_ranger.tscn"
 @onready var enemy_spawn_parent = get_tree().get_first_node_in_group("EnemySpawnParent")
 
 # signal

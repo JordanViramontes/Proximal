@@ -26,13 +26,13 @@ var wave = waveDictionary[starting_wave]
 
 # DEBUG components
 var DEBUG_enemy_list = [
-	"res://scenes/Enemies/enemy_base.tscn", # BASE 0
-	"res://scenes/Enemies/ishim_crawler.tscn", # CRAWLER 1
-	"res://scenes/Enemies/ishim_ranger.tscn", # RANGER 2
-	"res://scenes/Enemies/cherubim.tscn", # CHERUBIM WORM 3
-	"res://scenes/Enemies/elohim.tscn", # ELOHIM 4
-	"res://scenes/Enemies/be_elohim_crawler.tscn", # BENE ELOHIM CRAWLER 5
-	"res://scenes/Enemies/be_elohim_ranger.tscn", # BENE ELOHIM RANGER 6
+	"res://Main/Characters/Enemies/EnemyBase/enemy_base.tscn", # BASE 0
+	"res://Main/Characters/Enemies/IshimCrawler/ishim_crawler.tscn", # CRAWLER 1
+	"res://Main/Characters/Enemies/IshimRanger/ishim_ranger.tscn", # RANGER 2
+	"res://Main/Characters/Enemies/Cherubim/cherubim.tscn", # CHERUBIM WORM 3
+	"res://Main/Characters/Enemies/Elohim/elohim.tscn", # ELOHIM 4
+	"res://Main/Characters/Enemies/ElohimBeneCrawler/be_elohim_crawler.tscn", # BENE ELOHIM CRAWLER 5
+	"res://Main/Characters/Enemies/ElohimBeneRanger/be_elohim_ranger.tscn", # BENE ELOHIM RANGER 6
 ]
 var DEBUG_enemy_ptr = 3
 var DEBUG_wave: bool = true
@@ -55,10 +55,10 @@ signal updateNextWaveTimer(time: int)
 # wave struct holds all information about each wave
 class Wave:
 	var enemy_count = { 
-		"res://scenes/Enemies/ishim_crawler.tscn":-1, #ISHIM_CRAWLER
-		"res://scenes/Enemies/ishim_ranger.tscn":-1, #ISHIM_RANGER
-		"res://scenes/Enemies/cherubim.tscn":-1, # CHERUBIM WORM
-		"res://scenes/Enemies/elohim.tscn":-1, # ELOHIM 
+		"res://Main/Characters/Enemies/IshimCrawler/ishim_crawler.tscn":-1, #ISHIM_CRAWLER
+		"res://Main/Characters/Enemies/IshimRanger/ishim_ranger.tscn":-1, #ISHIM_RANGER
+		"res://Main/Characters/Enemies/Cherubim/cherubim.tscn":-1, # CHERUBIM WORM
+		"res://Main/Characters/Enemies/Elohim/elohim.tscn":-1, # ELOHIM 
 	}
 	var total_enemies: int = 0
 	var enemy_health_multiplier: float = -1 
@@ -160,9 +160,6 @@ func TESTspawnWave():
 		spawnEnemy(DEBUG_enemy_list[DEBUG_enemy_ptr], 1)
 
 func spawnEnemy(mob_path, debug_flag):
-	#if mob_path == "res://scenes/Enemies/cherubim.tscn":
-		#return
-	
 	var mob = load(mob_path).instantiate()
 	
 	# Choose a random location on the SpawnPath, We store the reference to the SpawnLocation node.

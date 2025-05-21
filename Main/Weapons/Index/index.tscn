@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://d07kbrumu4gbf"]
 
-[ext_resource type="Script" uid="uid://cljgu2clkn4w8" path="res://scenes/Weapons/index.gd" id="1_d8pwy"]
-[ext_resource type="PackedScene" uid="uid://b2nwv2k6ni68c" path="res://scenes/bullets/index_bullet.tscn" id="2_l5o4i"]
+[ext_resource type="Script" uid="uid://cljgu2clkn4w8" path="res://Main/Weapons/Index/index.gd" id="1_d8pwy"]
+[ext_resource type="PackedScene" uid="uid://b2nwv2k6ni68c" path="res://Main/Weapons/Index/index_bullet.tscn" id="2_l5o4i"]
 [ext_resource type="Material" uid="uid://gse6mhar2dkn" path="res://assets/materials/weapons/m_index_weapon.tres" id="3_d8pwy"]
-[ext_resource type="PackedScene" uid="uid://kyg130pr8w03" path="res://scenes/Camera/trauma_causer.tscn" id="4_pkhb3"]
+[ext_resource type="PackedScene" uid="uid://kyg130pr8w03" path="res://Main/Camera/trauma_causer.tscn" id="4_pkhb3"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_2gn6w"]
 material = ExtResource("3_d8pwy")
