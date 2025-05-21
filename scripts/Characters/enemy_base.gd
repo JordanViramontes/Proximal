@@ -12,6 +12,7 @@ class_name EnemyBase
 @onready var pathfindVel: Vector3
 var can_damage_player: bool = true
 var wave_category: int = 0
+var is_dead = false
 
 # visual vars
 @export var hitflash_material: Material
@@ -110,6 +111,9 @@ func _process(delta: float) -> void:
 	# kill self if we are out of bounds
 	if global_position.y < -20:
 		on_reach_zero_health()
+	if hitflash_tween and not hitflash_tween.is_valid():
+		hitflash_tween.kill()
+	pass
 
 func _physics_process(delta):
 	if current_state == ENEMY_STATE.stunned:
@@ -118,9 +122,9 @@ func _physics_process(delta):
 			if global_position.distance_to(vacuum_target_position) < 1.0:  # <-- Stop distance
 				vacuum_velocity = Vector3.ZERO
 				velocity = Vector3.ZERO
-				_on_recieve_stun()
-				await get_tree().create_timer(2).timeout # stun for 2 second after pull
-				_on_recieve_unstun() #stun process in the vacuum function
+				#_on_recieve_stun()
+				#await get_tree().create_timer(2).timeout # stun for 2 second after pull
+				#_on_recieve_unstun() #stun process in the vacuum function
 				return
 			vacuum_timer -= delta
 			velocity = vacuum_velocity
@@ -148,6 +152,12 @@ func _physics_process(delta):
 
 # When they dead as hell
 func on_reach_zero_health():
+	# we already died!
+	if is_dead:
+		return
+	
+	print("we are dying! emitting signals: " + str(self))
+	is_dead = true
 	emit_signal("die_from_wave", wave_category)
 	die.emit()
 	emit_signal("drop_xp", xp_on_death) # emit experience points
@@ -158,13 +168,36 @@ func on_damaged(di: DamageInstance):
 	if (hitflash_tween and hitflash_tween.is_running()):
 		hitflash_tween.stop()
 	hitflash_tween = get_tree().create_tween()
-	# check if our material is correct
-	if $MeshInstance3D.material_overlay == null:
-		var new_material := StandardMaterial3D.new()
-		$MeshInstance3D.material_overlay = new_material
-	$MeshInstance3D.material_overlay.albedo_color = Color(1.0, 1.0, 1.0, 1.0) # set alpha
-	hitflash_tween.tween_property($MeshInstance3D, "material_overlay:albedo_color", Color(1.0, 1.0, 1.0, 0.0), 0.1) # tween alpha
+	
+	var visual_element = get_node_or_null("MeshInstance3D")
+	if not visual_element or not visual_element.visible:
+		visual_element = get_node_or_null("Sprite3D")
+		if not visual_element:
+			print("%s does not have any visual represnetation to put a hitflash material on! resolve this immediately." % self)
+	
+	if visual_element:
+		if visual_element is Sprite3D:
+			# hope and pray that the sprite has the shader param we're looking for
+			if visual_element.material_override: # baby ass safeguard
+				hitflash_tween.tween_method(
+					awesome.bind(visual_element),
+					2.0, 
+					0.0, 
+					0.1
+				)
+
+		elif visual_element is MeshInstance3D:
+			if visual_element.material_overlay == null:
+				var new_material := StandardMaterial3D.new()
+				visual_element.material_overlay = new_material
+			visual_element.material_overlay.albedo_color = Color(1.0, 1.0, 1.0, 1.0) # set alpha
+			hitflash_tween.tween_property(visual_element, "material_overlay:albedo_color", Color(1.0, 1.0, 1.0, 0.0), 0.1) # tween alpha
+
 	emit_signal("drop_xp", xp_on_damaged) # emit experience points
+
+func awesome(value: float, visual_element: Sprite3D): 
+	if visual_element:
+		visual_element.material_override.set_shader_parameter("hitflash_amount", value)
 
 # update pathfind when the timer happens
 func _on_pathfind_timer_timeout() -> void:

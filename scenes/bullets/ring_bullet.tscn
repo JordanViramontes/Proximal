@@ -1,17 +1,49 @@
-[gd_scene load_steps=7 format=3 uid="uid://cn2c867ej4ifx"]
+[gd_scene load_steps=12 format=3 uid="uid://cn2c867ej4ifx"]
 
 [ext_resource type="Script" uid="uid://jn021wqkuoke" path="res://scripts/Weapons/ring_bullet.gd" id="1_ihso4"]
 [ext_resource type="PackedScene" uid="uid://b6ixebi3438gl" path="res://scenes/bullets/ring_terrain_explosion.tscn" id="2_83hhm"]
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="3_bhhqk"]
 [ext_resource type="PackedScene" uid="uid://d382718nkl44c" path="res://scenes/bullets/ring_shoot_explosion.tscn" id="3_tom41"]
+[ext_resource type="Texture2D" uid="uid://b3n3rx7pgoehq" path="res://assets/textures/sparkle.png" id="5_tom41"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tom41"]
+emission_enabled = true
+emission = Color(0.96, 0.96, 0.96, 1)
+emission_energy_multiplier = 4.16
 
 [sub_resource type="TorusMesh" id="TorusMesh_ihso4"]
-inner_radius = 0.26
-outer_radius = 0.2
+material = SubResource("StandardMaterial3D_tom41")
+inner_radius = 0.12
+outer_radius = 0.05
 rings = 12
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_otapr"]
 radius = 0.728872
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_k77gj"]
+particle_flag_rotate_y = true
+direction = Vector3(0, 1, 0)
+initial_velocity_min = 2.0
+initial_velocity_max = 2.0
+angular_velocity_min = 0.999984
+angular_velocity_max = 0.999984
+gravity = Vector3(0, -2, 0)
+damping_min = 1.0
+damping_max = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jgi5p"]
+transparency = 1
+albedo_color = Color(0.116667, 1, 0, 0.278431)
+albedo_texture = ExtResource("5_tom41")
+emission_enabled = true
+emission = Color(0, 0.72, 0.0599999, 1)
+emission_energy_multiplier = 2.69
+texture_filter = 0
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_8ii7r"]
+material = SubResource("StandardMaterial3D_jgi5p")
+size = Vector2(0.2, 0.2)
 
 [node name="RingProjectile" type="Node3D"]
 script = ExtResource("1_ihso4")
@@ -21,6 +53,7 @@ shoot_explosion = ExtResource("3_tom41")
 type = 4
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+sorting_offset = -2.0
 mesh = SubResource("TorusMesh_ihso4")
 
 [node name="Hitbox" type="Area3D" parent="."]
@@ -31,6 +64,18 @@ has_health = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
 shape = SubResource("SphereShape3D_otapr")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+process_material = SubResource("ParticleProcessMaterial_k77gj")
+draw_pass_1 = SubResource("QuadMesh_8ii7r")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.515, 0, 0, 0, 0.515, 0, 0, 0, 0.515, 0, 0, 0)
+modulate = Color(1, 1, 1, 0.188235)
+billboard = 1
+fixed_size = true
+texture_filter = 0
+texture = ExtResource("5_tom41")
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]

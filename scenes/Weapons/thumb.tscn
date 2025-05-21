@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://dxdtidj4hp83f"]
+[gd_scene load_steps=12 format=3 uid="uid://csvmm0fpkc6g3"]
 
 [ext_resource type="Script" uid="uid://cnqssw8swmrv5" path="res://scenes/Weapons/thumb.gd" id="1_b665p"]
 [ext_resource type="PackedScene" uid="uid://co580m3bpg52c" path="res://scenes/ability/thumb_ability.tscn" id="2_3tbkt"]
 [ext_resource type="PackedScene" uid="uid://dmmosaxs1o0am" path="res://scenes/bullets/thumb_bullet.tscn" id="2_4dj6u"]
-[ext_resource type="Material" uid="uid://cx7vrvoh613mk" path="res://assets/materials/m_thumb_weapon.tres" id="3_sobuh"]
+[ext_resource type="Material" uid="uid://cx7vrvoh613mk" path="res://assets/materials/weapons/m_thumb_weapon.tres" id="3_sobuh"]
+[ext_resource type="PackedScene" uid="uid://kyg130pr8w03" path="res://scenes/Camera/trauma_causer.tscn" id="4_3tbkt"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3tbkt"]
 resource_local_to_scene = true
@@ -35,6 +36,9 @@ billboard_mode = 1
 material = SubResource("StandardMaterial3D_17ykf")
 size = Vector2(0.1, 0.1)
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_17ykf"]
+radius = 1.435
+
 [node name="Thumb" type="Node3D"]
 script = ExtResource("1_b665p")
 pellet_count = 10
@@ -48,10 +52,8 @@ bullet_speed = 80.0
 depleted_material = SubResource("StandardMaterial3D_3tbkt")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
 mesh = SubResource("BoxMesh_2gn6w")
-
-[node name="BulletEmergePoint" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
 
 [node name="ShootCooldown" type="Timer" parent="."]
 
@@ -63,3 +65,11 @@ one_shot = true
 explosiveness = 0.41
 process_material = SubResource("ParticleProcessMaterial_3tbkt")
 draw_pass_1 = SubResource("QuadMesh_fmxtx")
+
+[node name="TraumaCauser" parent="." instance=ExtResource("4_3tbkt")]
+collision_layer = 0
+collision_mask = 128
+trauma_amount = 0.5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TraumaCauser"]
+shape = SubResource("SphereShape3D_17ykf")

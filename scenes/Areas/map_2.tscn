@@ -79,7 +79,7 @@ material = SubResource("ShaderMaterial_choun")
 script = ExtResource("1_32q2g")
 
 [node name="MapSimplified1" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0, 0)
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.96984, 0)
 mesh = ExtResource("1_q2wnk")
 surface_material_override/0 = ExtResource("2_fkq05")
 

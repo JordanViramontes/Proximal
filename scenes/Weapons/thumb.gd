@@ -21,7 +21,7 @@ func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 			print("thumb.gd - bullet did not instantiate")
 			return
 		
-		b.position = $BulletEmergePoint.global_position # is one meter ahead of the player, which lines up with the barrel of the weapon
+		b.position = self.global_position # is one meter ahead of the player, which lines up with the barrel of the weapon
 		b.bullet_speed = bullet_speed
 		b.bullet_damage = bullet_damage
 		
@@ -45,7 +45,7 @@ func on_on_ability_shoot(from_pos: Vector3, look_direction: Vector3, velocity: V
 		print("thumb.gd - ability bullet did not instantiate")
 		return
 	
-	b.position = $BulletEmergePoint.global_position
+	b.position = self.global_position
 	b.face_dir = look_direction
 	World.world.add_child(b)
 

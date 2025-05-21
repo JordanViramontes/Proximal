@@ -40,10 +40,12 @@ grow_vertical = 2
 
 [node name="Node2D" type="Node2D" parent="Parallax"]
 position = Vector2(20, 20)
+scale = Vector2(1.74, 1.74)
 
 [node name="Background" type="Sprite2D" parent="Parallax/Node2D"]
 texture_filter = 1
-scale = Vector2(5, 4)
+position = Vector2(5.1724, -1.14944)
+scale = Vector2(4.13793, 3.10345)
 texture = ExtResource("2_2tfbb")
 
 [node name="Midground2" type="Sprite2D" parent="Parallax/Node2D"]
@@ -83,41 +85,30 @@ z_index = -1
 position = Vector2(0, 3)
 texture = ExtResource("3_iysyy")
 
-[node name="Play" type="Button" parent="."]
-texture_filter = 1
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 37.0
+offset_top = 255.0
+offset_right = 119.0
+offset_bottom = 389.0
+
+[node name="Play" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-offset_left = 10.0
-offset_top = 168.0
-offset_right = 66.0
-offset_bottom = 209.0
 theme_override_fonts/font = ExtResource("8_ofy2k")
-theme_override_font_sizes/font_size = 36
 theme_override_styles/normal = SubResource("StyleBoxEmpty_ypw4e")
 text = "PLAY"
 alignment = 0
 
-[node name="Options" type="Button" parent="."]
-texture_filter = 1
+[node name="Options" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-offset_left = 10.0
-offset_top = 209.0
-offset_right = 98.0
-offset_bottom = 250.0
 theme_override_fonts/font = ExtResource("8_ofy2k")
-theme_override_font_sizes/font_size = 36
 theme_override_styles/normal = SubResource("StyleBoxEmpty_aklih")
 text = "OPTIONS"
 alignment = 0
 
-[node name="Quit" type="Button" parent="."]
-texture_filter = 1
+[node name="Quit" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-offset_left = 10.0
-offset_top = 274.0
-offset_right = 65.0
-offset_bottom = 315.0
 theme_override_fonts/font = ExtResource("8_ofy2k")
-theme_override_font_sizes/font_size = 36
 theme_override_styles/normal = SubResource("StyleBoxEmpty_wav1i")
 text = "QUIT"
 alignment = 0
@@ -246,9 +237,9 @@ focus_mode = 0
 theme_override_font_sizes/font_size = 18
 text = "Reset To Default"
 
-[connection signal="pressed" from="Play" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="Options" to="." method="_on_options_pressed"]
-[connection signal="pressed" from="Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainer/Options_Exit" to="." method="_on_options_exit_pressed"]
 [connection signal="drag_ended" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Volume" to="." method="_on_volume_drag_ended"]
 [connection signal="value_changed" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Volume" to="." method="_on_volume_value_changed"]

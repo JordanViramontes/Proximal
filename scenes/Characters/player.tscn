@@ -1,25 +1,36 @@
-[gd_scene load_steps=16 format=3 uid="uid://bfdo44kle73uq"]
+[gd_scene load_steps=18 format=3 uid="uid://d0u5bw4owtrev"]
 
 [ext_resource type="Script" uid="uid://cpi5w5meyf7w1" path="res://scripts/Characters/player.gd" id="1_i3pqv"]
 [ext_resource type="PackedScene" uid="uid://pake15kqry6s" path="res://scenes/Camera/shakeable_camera.tscn" id="2_np5j3"]
-[ext_resource type="Texture2D" uid="uid://52vn44k3ngct" path="res://assets/textures/crosshair_dev.png" id="3_8iw34"]
-[ext_resource type="Script" uid="uid://3a112of4lpr" path="res://scenes/Characters/health_bar.gd" id="4_7xbc7"]
-[ext_resource type="PackedScene" uid="uid://klyx4oq82x8k" path="res://scenes/Weapons/weapon_manager.tscn" id="4_dqkch"]
+[ext_resource type="PackedScene" uid="uid://ck1km5ocdhq0i" path="res://scenes/Weapons/weapon_manager.tscn" id="4_dqkch"]
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="4_jbyc3"]
 [ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://scripts/components/health_component.gd" id="4_np5j3"]
 [ext_resource type="Texture2D" uid="uid://bsh36ub1lj4vr" path="res://assets/textures/HealthBar.png" id="5_5vcpl"]
 [ext_resource type="Texture2D" uid="uid://c78ktusgpfobs" path="res://assets/textures/HealthBarProgress.png" id="6_8u6hb"]
 [ext_resource type="Script" uid="uid://c7hvy6apitrhj" path="res://scripts/utility/player_info_display.gd" id="10_myi3t"]
 [ext_resource type="Script" uid="uid://c4yr50gw43wyw" path="res://scripts/utility/ring_count.gd" id="11_vvg2b"]
+[ext_resource type="Script" uid="uid://bb0fsybe7scav" path="res://scenes/Characters/player_ui_manager.gd" id="12_r13nr"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_2hs0m"]
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_1jxqw"]
 points = PackedVector3Array(-0.125207, -0.532801, -0.480507, 0.0227831, 0.47607, 0.498884, 0.169713, 0.559144, 0.464172, 0.231051, -0.803591, 0.320455, 0.40741, 0.651043, -0.243523, -0.482789, 0.594843, 0.0822132, -0.362868, -0.682312, 0.289697, 0.469044, -0.654529, -0.0662713, -0.127444, 0.842701, -0.338103, -0.393435, -0.683942, -0.244717, 0.438255, 0.623309, 0.200849, 0.0841477, 0.977454, 0.114795, -0.0682023, -0.976458, -0.12927, 0.20055, -0.563129, -0.451454, -0.185527, 0.595453, -0.453475, -0.273363, 0.592268, 0.407754, -0.00693649, -0.476823, 0.49966, 0.375821, -0.588614, 0.316955, 0.111579, 0.563059, -0.481177, -0.41725, 0.527866, -0.270497, -0.484546, -0.596972, -0.0665097, -0.279747, 0.908561, 0.0533361, -0.250197, -0.880712, 0.205319, 0.263647, -0.902771, -0.127394, 0.293368, 0.871526, -0.157196, 0.373412, -0.526319, -0.328246, 0.499663, 0.476641, -0.00688856, 0.0531056, 0.875001, 0.324703, -0.154543, -0.590854, 0.465879, -0.0972799, -0.782358, -0.398188, -0.387649, -0.498171, 0.31565, -0.30068, -0.587995, -0.388901)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e55dp"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vowkc"]
 resource_local_to_scene = true
-albedo_color = Color(0.5168, 0.605973, 0.76, 1)
+albedo_color = Color(0.997842, 0.722576, 0.676571, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fmnkm"]
+resource_local_to_scene = true
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lrvjc"]
+resource_local_to_scene = true
+albedo_color = Color(0.588788, 1, 0.532376, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vv2nl"]
+resource_local_to_scene = true
+albedo_color = Color(0.996726, 0.789049, 0.876373, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_y7cse"]
 radius = 0.1
@@ -30,8 +41,11 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 
 collision_layer = 8
 script = ExtResource("1_i3pqv")
 ground_friction = 150.0
+air_cap = 5.0
 air_accel = 25.0
 air_speed_limit = 40.0
+air_deccel = 10.0
+air_friction = 150.0
 jump_velocity = 5.0
 slide_height = 1.0
 DASH_SPEED = 80
@@ -62,10 +76,19 @@ max_y = 5.0
 max_z = 2.5
 
 [node name="Weapon_Manager" parent="LeanPivot/Head" instance=ExtResource("4_dqkch")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.291509, -0.296324, -0.453602)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.291509, -0.296324, -0.979354)
 
-[node name="Index" parent="LeanPivot/Head/Weapon_Manager" index="1"]
-depleted_material = SubResource("StandardMaterial3D_e55dp")
+[node name="Thumb" parent="LeanPivot/Head/Weapon_Manager" index="1"]
+depleted_material = SubResource("StandardMaterial3D_vowkc")
+
+[node name="Middle" parent="LeanPivot/Head/Weapon_Manager" index="3"]
+depleted_material = SubResource("StandardMaterial3D_fmnkm")
+
+[node name="Ring" parent="LeanPivot/Head/Weapon_Manager" index="4"]
+depleted_material = SubResource("StandardMaterial3D_lrvjc")
+
+[node name="Pinky" parent="LeanPivot/Head/Weapon_Manager" index="5"]
+depleted_material = SubResource("StandardMaterial3D_vv2nl")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="LeanPivot/Head"]
 visible = false
@@ -115,11 +138,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Crosshair" type="TextureRect" parent="UI/CenterContainer"]
-texture_filter = 1
-layout_mode = 2
-texture = ExtResource("3_8iw34")
-
 [node name="Control" type="Control" parent="UI"]
 anchors_preset = 0
 offset_left = -1.0
@@ -128,7 +146,7 @@ offset_right = 39.0
 offset_bottom = 48.0
 rotation = -0.0238783
 
-[node name="TextureProgressBar" type="TextureProgressBar" parent="UI/Control" node_paths=PackedStringArray("health_component")]
+[node name="TextureProgressBar" type="TextureProgressBar" parent="UI/Control"]
 texture_filter = 1
 layout_mode = 0
 offset_left = 60.0
@@ -139,8 +157,6 @@ scale = Vector2(0.102084, 0.0276196)
 value = 100.0
 nine_patch_stretch = true
 texture_progress = ExtResource("6_8u6hb")
-script = ExtResource("4_7xbc7")
-health_component = NodePath("../../../HealthComponent")
 
 [node name="TextureRect" type="TextureRect" parent="UI/Control"]
 texture_filter = 1
@@ -174,6 +190,11 @@ player = NodePath("../../..")
 layout_mode = 2
 script = ExtResource("11_vvg2b")
 ring = NodePath("../../../LeanPivot/Head/Weapon_Manager/Ring")
+
+[node name="PlayerUIManager" type="Node" parent="." node_paths=PackedStringArray("health_component", "weapon_manager")]
+script = ExtResource("12_r13nr")
+health_component = NodePath("../HealthComponent")
+weapon_manager = NodePath("../LeanPivot/Head/Weapon_Manager")
 
 [connection signal="dashInput" from="LeanPivot/Head/Weapon_Manager" to="." method="_on_weapon_manager_dash_input"]
 

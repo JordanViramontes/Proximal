@@ -1,19 +1,25 @@
-[gd_scene load_steps=31 format=3 uid="uid://dwckn628u33ab"]
+[gd_scene load_steps=37 format=3 uid="uid://5ygls03nw76d"]
 
 [ext_resource type="Texture2D" uid="uid://cqur83lk7fjfl" path="res://assets/hdris/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="1_8wojv"]
 [ext_resource type="Script" uid="uid://bpvwqw4pbfs3m" path="res://scripts/Areas/world.gd" id="1_dctr2"]
 [ext_resource type="Texture2D" uid="uid://c7ao2jw0rnah0" path="res://assets/textures/dev/grids/Dark/texture_07.png" id="2_4n1ka"]
 [ext_resource type="Script" uid="uid://drj4up00u5x88" path="res://scripts/Characters/enemy_spawn_path.gd" id="6_o6xl0"]
-[ext_resource type="PackedScene" uid="uid://bfdo44kle73uq" path="res://scenes/Characters/player.tscn" id="6_tefeu"]
+[ext_resource type="PackedScene" uid="uid://d0u5bw4owtrev" path="res://scenes/Characters/player.tscn" id="6_tefeu"]
 [ext_resource type="Script" uid="uid://c0md12nt0jei1" path="res://scripts/fps_counter.gd" id="8_85g3d"]
 [ext_resource type="PackedScene" uid="uid://dbn175mecst55" path="res://assets/models/map/map_draft.blend" id="8_tipki"]
 [ext_resource type="Shader" uid="uid://drfc1fob3nean" path="res://assets/shaders/water.gdshader" id="9_85g3d"]
+[ext_resource type="Script" uid="uid://bv6srvbqyys10" path="res://scenes/UI/ui_manager.gd" id="9_jbj1t"]
 [ext_resource type="Theme" uid="uid://rsglqw8mc02x" path="res://assets/themes/default.tres" id="9_ya4ey"]
 [ext_resource type="Script" uid="uid://cqq4wmrgc8xv7" path="res://scripts/death_interface.gd" id="10_choun"]
 [ext_resource type="Script" uid="uid://vc054ubkxfcw" path="res://scenes/wave_info.gd" id="10_ya4ey"]
 [ext_resource type="Script" uid="uid://bsg3bg0jpnpjr" path="res://scripts/next_wave_starting_in.gd" id="11_eb6dy"]
+[ext_resource type="Texture2D" uid="uid://52vn44k3ngct" path="res://assets/textures/crosshair_dev.png" id="12_eb6dy"]
 [ext_resource type="Script" uid="uid://b886ylfmdgmqa" path="res://scenes/weapon_xp_gui.gd" id="13_a8y0u"]
 [ext_resource type="PackedScene" uid="uid://byrblrkj4ab5k" path="res://scenes/UI/baseXpUI.tscn" id="13_trceg"]
+[ext_resource type="Texture2D" uid="uid://c78ktusgpfobs" path="res://assets/textures/HealthBarProgress.png" id="14_muem4"]
+[ext_resource type="Script" uid="uid://3a112of4lpr" path="res://scenes/Characters/health_bar.gd" id="15_dp3eg"]
+[ext_resource type="Texture2D" uid="uid://bsh36ub1lj4vr" path="res://assets/textures/HealthBar.png" id="16_0ld40"]
+[ext_resource type="Script" uid="uid://dlwjc8lf77mqk" path="res://scenes/UI/shield_visual.gd" id="17_muem4"]
 
 [sub_resource type="Gradient" id="Gradient_ya4ey"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -103,16 +109,33 @@ font_size = 27
 [node name="World" type="Node3D"]
 script = ExtResource("1_dctr2")
 
-[node name="Water" type="MeshInstance3D" parent="."]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+stretch_shrink = 2
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(576, 324)
+render_target_update_mode = 4
+
+[node name="Water" type="MeshInstance3D" parent="SubViewportContainer/SubViewport"]
 transform = Transform3D(139.761, 0, 0, 0, 1.00205, 0, 0, 0, 152.767, 0, 0, 0)
 mesh = SubResource("PlaneMesh_tipki")
+skeleton = NodePath("../../..")
 
-[node name="Env" type="Node3D" parent="."]
+[node name="Env" type="Node3D" parent="SubViewportContainer/SubViewport"]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="Env"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer/SubViewport/Env"]
 environment = SubResource("Environment_5o0bn")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="Env"]
+[node name="OmniLight3D" type="OmniLight3D" parent="SubViewportContainer/SubViewport/Env"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.2101, 0)
 light_energy = 16.0
 light_indirect_energy = 0.0
@@ -120,12 +143,12 @@ light_specular = 0.0
 shadow_enabled = true
 omni_range = 699.931
 
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." groups=["Navigator"]]
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="SubViewportContainer/SubViewport" groups=["Navigator"]]
 navigation_mesh = SubResource("NavigationMesh_tipki")
 
-[node name="Stage" type="Node3D" parent="NavigationRegion3D"]
+[node name="Stage" type="Node3D" parent="SubViewportContainer/SubViewport/NavigationRegion3D"]
 
-[node name="CSGBox3D" type="CSGBox3D" parent="NavigationRegion3D/Stage"]
+[node name="CSGBox3D" type="CSGBox3D" parent="SubViewportContainer/SubViewport/NavigationRegion3D/Stage"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, -0.5, 0)
 visible = false
 use_collision = true
@@ -134,50 +157,66 @@ collision_mask = 0
 size = Vector3(50, 1, 50)
 material = SubResource("StandardMaterial3D_pqxd8")
 
-[node name="map_draft" parent="NavigationRegion3D/Stage" instance=ExtResource("8_tipki")]
+[node name="map_draft" parent="SubViewportContainer/SubViewport/NavigationRegion3D/Stage" instance=ExtResource("8_tipki")]
 transform = Transform3D(3.84, 0, 0, 0, 3.84, 0, 0, 0, 3.84, 0, 0, 0)
 
-[node name="EnemySpawnPath" type="Path3D" parent="NavigationRegion3D" groups=["EnemySpawnParent"]]
+[node name="EnemySpawnPath" type="Path3D" parent="SubViewportContainer/SubViewport/NavigationRegion3D" groups=["EnemySpawnParent"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0320868, 0)
 curve = SubResource("Curve3D_tefeu")
 script = ExtResource("6_o6xl0")
 
-[node name="EnemySpawner" type="PathFollow3D" parent="NavigationRegion3D/EnemySpawnPath"]
+[node name="EnemySpawner" type="PathFollow3D" parent="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath"]
 transform = Transform3D(-0.994941, 0, -0.100405, 0, 1, 0, 0.100405, 0, -0.994941, -55.1679, 0, -3.37566)
 
-[node name="TestSpawnPoint" type="Node3D" parent="NavigationRegion3D/EnemySpawnPath"]
+[node name="TestSpawnPoint" type="Node3D" parent="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.111441, 2.34501, 35.0068)
 
-[node name="WaveTimer" type="Timer" parent="NavigationRegion3D/EnemySpawnPath"]
+[node name="WaveTimer" type="Timer" parent="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath"]
 one_shot = true
 
-[node name="UpdateTimer" type="Timer" parent="NavigationRegion3D/EnemySpawnPath"]
+[node name="UpdateTimer" type="Timer" parent="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath"]
 autostart = true
 
-[node name="NextWaveTimer" type="Timer" parent="NavigationRegion3D/EnemySpawnPath"]
+[node name="NextWaveTimer" type="Timer" parent="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath"]
 wait_time = 2.0
 one_shot = true
 
-[node name="Player" parent="." instance=ExtResource("6_tefeu")]
+[node name="Player" parent="SubViewportContainer/SubViewport" instance=ExtResource("6_tefeu")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -4.93703, 5.62312, 15)
 DASH_SPEED = 50
+
+[node name="NavigationRegion3D_EnemySpawnPath#WaveTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="NavigationRegion3D_EnemySpawnPath#UpdateTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="NavigationRegion3D_EnemySpawnPath#NextWaveTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
 
 [node name="UI" type="Control" parent="."]
 layout_direction = 1
 layout_mode = 3
-anchors_preset = 0
-offset_right = 640.0
-offset_bottom = 360.0
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1152.0
+offset_top = 1.0
+offset_bottom = 648.0
+grow_horizontal = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
+script = ExtResource("9_jbj1t")
 
 [node name="FPS Counter" type="Label" parent="UI"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -40.0
-offset_bottom = 23.0
+offset_left = -44.0
+offset_bottom = 42.0
 grow_horizontal = 0
 theme = ExtResource("9_ya4ey")
 text = "fps:"
@@ -228,6 +267,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(1, 1, 1, 0)
 
 [node name="Label" type="Label" parent="UI/DeathInterface"]
@@ -280,6 +320,82 @@ layout_mode = 2
 [node name="Pinky" parent="UI/WeaponXpGUI" instance=ExtResource("13_trceg")]
 layout_mode = 2
 
-[connection signal="timeout" from="NavigationRegion3D/EnemySpawnPath/WaveTimer" to="NavigationRegion3D/EnemySpawnPath" method="_on_wave_timer_timeout"]
-[connection signal="timeout" from="NavigationRegion3D/EnemySpawnPath/UpdateTimer" to="NavigationRegion3D/EnemySpawnPath" method="_on_update_timer_timeout"]
-[connection signal="timeout" from="NavigationRegion3D/EnemySpawnPath/NextWaveTimer" to="NavigationRegion3D/EnemySpawnPath" method="_on_next_wave_timer_timeout"]
+[node name="Crosshair" type="TextureRect" parent="UI"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -7.5
+offset_top = -7.5
+offset_right = 7.5
+offset_bottom = 7.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+pivot_offset = Vector2(7.83334, 7.33333)
+mouse_filter = 2
+texture = ExtResource("12_eb6dy")
+
+[node name="CenterContainer" type="CenterContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -556.992
+offset_top = -306.531
+offset_right = 556.992
+offset_bottom = 306.531
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Control" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -2.0
+offset_right = 38.0
+offset_bottom = 40.0
+rotation = -0.0238783
+scale = Vector2(2.045, 2.045)
+
+[node name="HealthBar" type="TextureProgressBar" parent="UI/Control" node_paths=PackedStringArray("ui_manager")]
+texture_filter = 1
+layout_mode = 0
+offset_left = 60.0
+offset_top = 22.0
+offset_right = 992.0
+offset_bottom = 289.0
+scale = Vector2(0.102084, 0.0276196)
+value = 100.0
+nine_patch_stretch = true
+texture_progress = ExtResource("14_muem4")
+script = ExtResource("15_dp3eg")
+ui_manager = NodePath("../..")
+
+[node name="HealthBarBackground" type="TextureRect" parent="UI/Control"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 0.44504
+offset_top = -0.424278
+offset_right = 932.445
+offset_bottom = 266.576
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("16_0ld40")
+
+[node name="ShieldVisual" type="ColorRect" parent="UI"]
+visible = false
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 647.0
+mouse_filter = 2
+color = Color(1, 1, 0, 0.254902)
+script = ExtResource("17_muem4")
+
+[connection signal="timeout" from="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath/WaveTimer" to="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath" method="_on_wave_timer_timeout"]
+[connection signal="timeout" from="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath/UpdateTimer" to="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath" method="_on_update_timer_timeout"]
+[connection signal="timeout" from="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath/NextWaveTimer" to="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath" method="_on_next_wave_timer_timeout"]
