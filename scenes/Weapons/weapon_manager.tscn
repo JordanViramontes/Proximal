@@ -4,13 +4,13 @@
 [ext_resource type="PackedScene" uid="uid://ct507jmi31qnp" path="res://scenes/particles/recharge_particles.tscn" id="4_dg7pw"]
 [ext_resource type="PackedScene" uid="uid://csvmm0fpkc6g3" path="res://scenes/Weapons/thumb.tscn" id="4_e55dp"]
 [ext_resource type="PackedScene" uid="uid://d07kbrumu4gbf" path="res://scenes/Weapons/index.tscn" id="4_qlvm5"]
-[ext_resource type="PackedScene" path="res://scenes/Weapons/middle.tscn" id="6_12ses"]
+[ext_resource type="PackedScene" uid="uid://bm6i7l7q7whsf" path="res://scenes/Weapons/middle.tscn" id="6_12ses"]
 [ext_resource type="ArrayMesh" uid="uid://b5mw6ajijkm3t" path="res://assets/meshes/hand_base.obj" id="7_0digo"]
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="7_imgyp"]
 [ext_resource type="PackedScene" uid="uid://duneq26sd14wn" path="res://scenes/Weapons/ring.tscn" id="7_k5yqd"]
 [ext_resource type="Material" uid="uid://bcdjmhea27vdq" path="res://assets/materials/weapons/weap_transparent_fresnel.tres" id="8_17xcm"]
 [ext_resource type="Script" uid="uid://d17gyl0lwxqg" path="res://scenes/Weapons/indicators/hand_visual_base.gd" id="8_q123h"]
-[ext_resource type="PackedScene" path="res://scenes/Weapons/pinky.tscn" id="8_r1oqp"]
+[ext_resource type="PackedScene" uid="uid://b0epnjdv5u53e" path="res://scenes/Weapons/pinky.tscn" id="8_r1oqp"]
 [ext_resource type="ArrayMesh" uid="uid://bjbj80xkk5vv3" path="res://assets/meshes/middle.obj" id="8_rbcgb"]
 [ext_resource type="ArrayMesh" uid="uid://byjngos1bb4n0" path="res://assets/meshes/index.obj" id="9_k5l7f"]
 [ext_resource type="Material" uid="uid://cx7vrvoh613mk" path="res://assets/materials/weapons/m_thumb_weapon.tres" id="9_oqedj"]
@@ -74,8 +74,8 @@ recoil_amount = 0.25
 
 [node name="Middle" parent="." instance=ExtResource("6_12ses")]
 bullet_damage = 0.05
-depleted_material = SubResource("StandardMaterial3D_fmnkm")
 is_hitscan = true
+depleted_material = SubResource("StandardMaterial3D_fmnkm")
 ability_recharge_particle_color = Color(1, 1, 0, 0.501961)
 ability_recharge_particles = ExtResource("4_dg7pw")
 trauma_amount = 0.2
@@ -88,8 +88,8 @@ ability_cooldown = 0.0
 ability_recharge_particle_color = Color(0, 1, 0, 0.509804)
 
 [node name="Pinky" parent="." instance=ExtResource("8_r1oqp")]
-depleted_material = SubResource("StandardMaterial3D_vv2nl")
 bullet_damage = 100.0
+depleted_material = SubResource("StandardMaterial3D_vv2nl")
 ability_recharge_particle_color = Color(0.972549, 0.356863, 0.945098, 0.486275)
 trauma_amount = 0.75
 recoil_limit = 2.0

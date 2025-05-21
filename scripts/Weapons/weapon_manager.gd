@@ -229,12 +229,12 @@ func _on_earn_experience(xp: float):
 
 func _on_enemy_die():
 	#ammo
-	var dice = randi_range(0, 10)
-	if weapon_dictionary[3].ammo_count < weapon_dictionary[3].max_ammo and dice < 2:
-		weapon_dictionary[3].ammo_count += 1
+	var dice = randi_range(0, 10) # omg d10
+	if dice < 2:
+		weapon_dictionary[3].add_ring()
+		hand_visual_base.gain_ring()
 		
 	print("ring count: " + str(weapon_dictionary[3].ammo_count))
-	#print("earned: " + str(xp) + "xp")
 
 
 
