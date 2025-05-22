@@ -35,6 +35,7 @@ func on_on_ability_shoot(from_pos: Vector3, look_direction: Vector3, velocity: V
 	# Start slow motion
 	Util.zoom_in.emit()
 	Util.sniper_visual.emit(true)
+	print(Util.sniper_visual.get_connections())
 	Engine.time_scale = 0.3  # 30% of normal speed
 	bullet_damage = bullet_damage*(1 + level*0.5) + amp_damage
 	can_shoot = true

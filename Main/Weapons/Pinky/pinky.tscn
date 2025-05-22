@@ -10,7 +10,6 @@ resource_local_to_scene = true
 albedo_color = Color(0.996726, 0.789049, 0.876373, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_2gn6w"]
-resource_local_to_scene = true
 material = ExtResource("3_v84yc")
 size = Vector3(0.1, 0.1, 1)
 

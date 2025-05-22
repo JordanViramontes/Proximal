@@ -286,14 +286,14 @@ layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.011
 anchor_top = 0.981
-anchor_right = 0.137
+anchor_right = 0.011
 anchor_bottom = 0.981
-offset_left = -4.672
-offset_top = -155.707
-offset_right = 221.328
-offset_bottom = -15.707
+offset_left = -0.0400004
+offset_top = -103.16
+offset_right = 225.96
+offset_bottom = -0.160034
 grow_vertical = 0
-theme_override_constants/separation = 32
+theme_override_constants/separation = 21
 script = ExtResource("13_a8y0u")
 
 [node name="Thumb" parent="UI/WeaponXpGUI" instance=ExtResource("13_trceg")]
@@ -390,10 +390,8 @@ script = ExtResource("17_muem4")
 [node name="PinkyVisual" type="ColorRect" parent="UI"]
 visible = false
 layout_mode = 0
-offset_right = 1152.0
-offset_bottom = 647.0
-mouse_filter = 2
-color = Color(1, 0.44, 1, 0.27451)
+offset_right = 40.0
+offset_bottom = 40.0
 script = ExtResource("21_2qk5c")
 
 [connection signal="timeout" from="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath/WaveTimer" to="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath" method="_on_wave_timer_timeout"]
