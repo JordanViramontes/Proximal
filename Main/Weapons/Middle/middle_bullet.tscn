@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://2cxmf5x5hcgw"]
+
+[ext_resource type="Script" uid="uid://ql7ov8dnxt0p" path="res://Main/Weapons/Middle/middle_bullet.gd" id="1_q2rbd"]
+[ext_resource type="Material" uid="uid://cy302f8sk1gmf" path="res://assets/textures/middle_bullet.tres" id="2_q2rbd"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_afyxq"]
+resource_local_to_scene = true
+material = ExtResource("2_q2rbd")
+top_radius = 0.05
+bottom_radius = 0.05
+height = 1.0
+
+[node name="MiddleBullet" type="Node3D"]
+script = ExtResource("1_q2rbd")
+mesh_material = ExtResource("2_q2rbd")
+if_laser = true
+type = 3
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+process_physics_priority = 10
+target_position = Vector3(0, 0, 1)
+collision_mask = 21
+collide_with_areas = true
+
+[node name="TracerTransformOrigin" type="Node3D" parent="."]
+
+[node name="Tracer" type="MeshInstance3D" parent="TracerTransformOrigin"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.5)
+mesh = SubResource("CylinderMesh_afyxq")
+skeleton = NodePath("../..")
