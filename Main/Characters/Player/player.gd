@@ -107,7 +107,7 @@ func _ready() -> void:
 	#healing
 	Util.healing.connect(on_heal)
 	#damage amp visual on sniper ability
-	Util.sniper_visual.connect(on_sniper_visual)
+	#Util.sniper_visual.connect(on_sniper_visual)
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
@@ -331,8 +331,8 @@ func on_ability_shoot():
 func on_heal(state: bool) -> void:
 	is_healing = state
 		
-func on_sniper_visual(state:bool):
-	if state == true:
-		$UI/sniper_visual.show()
-	else:
-		$UI/sniper_visual.hide()
+#func on_sniper_visual(state:bool):
+	#if state == true:
+		#$UI/sniper_visual.show()
+	#else:
+		#$UI/sniper_visual.hide()

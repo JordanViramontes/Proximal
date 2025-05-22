@@ -60,16 +60,16 @@ recoil_reduction_rate = 1.7
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.232565)
 
 [node name="Thumb" parent="." instance=ExtResource("4_e55dp")]
+visible = false
 upgrade_quota = 100.0
 degradation = 1.0
 depleted_material = SubResource("StandardMaterial3D_vowkc")
-ability_recharge_particle_color = Color(1, 0, 0.0166664, 0.462745)
-ability_recharge_particles = ExtResource("4_dg7pw")
 trauma_amount = 0.5
 recoil_limit = 0.75
 recoil_amount = 0.75
 
 [node name="Index" parent="." instance=ExtResource("4_qlvm5")]
+visible = false
 ability_recharge_particle_color = Color(0, 0, 1, 0.533333)
 ability_recharge_particles = ExtResource("4_dg7pw")
 trauma_amount = 0.4
@@ -77,6 +77,7 @@ recoil_limit = 0.5
 recoil_amount = 0.6
 
 [node name="Middle" parent="." instance=ExtResource("6_12ses")]
+visible = false
 bullet_damage = 0.05
 is_hitscan = true
 depleted_material = SubResource("StandardMaterial3D_fmnkm")
@@ -87,15 +88,16 @@ recoil_limit = 0.1
 recoil_amount = 0.01
 
 [node name="Ring" parent="." instance=ExtResource("7_k5yqd")]
+visible = false
 depleted_material = SubResource("StandardMaterial3D_lrvjc")
 ability_cooldown = 0.0
 ability_recharge_particle_color = Color(0, 1, 0, 0.509804)
 
 [node name="Pinky" parent="." instance=ExtResource("8_r1oqp")]
+visible = false
 bullet_damage = 100.0
 depleted_material = SubResource("StandardMaterial3D_vv2nl")
 ability_recharge_particle_color = Color(0.972549, 0.356863, 0.945098, 0.486275)
-ability_recharge_particles = ExtResource("4_dg7pw")
 trauma_amount = 0.75
 recoil_limit = 2.0
 recoil_amount = 2.0
