@@ -114,7 +114,7 @@ func set_new_xp_ui(xp: float):
 	while initial_value > weapon_node.upgrade_quota:
 		initial_value -= weapon_node.upgrade_quota
 	xp_progress_bar.value = initial_value
-	print("setting value to: " + str(initial_value) +  " for " + str(weapon_node))
+	#print("setting value to: " + str(initial_value) +  " for " + str(weapon_node))
 
 # weapon level changes
 func set_new_xp_level_ui(level_direction: float):

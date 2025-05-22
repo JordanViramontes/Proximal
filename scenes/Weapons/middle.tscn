@@ -36,8 +36,10 @@ size = Vector2(0.1, 0.1)
 
 [node name="Middle" type="Node3D"]
 script = ExtResource("1_l4hd8")
-upgrade_quota = 1000.0
+upgrade_quota = 300.0
 degradation = 7.1
+expected_usage = 120
+expected_usage_rate = 50
 fire_rate = 100.0
 bullet = ExtResource("2_72tuf")
 bullet_damage = 1.0
