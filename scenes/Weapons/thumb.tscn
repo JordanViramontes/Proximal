@@ -37,11 +37,10 @@ size = Vector2(0.1, 0.1)
 
 [node name="Thumb" type="Node3D"]
 script = ExtResource("1_b665p")
-pellet_count = 10
+pellet_count = 4
 ability_bullet = ExtResource("2_3tbkt")
 upgrade_quota = 150.0
 degradation = 2.4
-expected_usage = 5
 expected_usage_rate = 2
 fire_rate = 1.5
 bullet = ExtResource("2_4dj6u")

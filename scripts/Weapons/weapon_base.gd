@@ -55,8 +55,8 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	tick += 1
 	# Over time, XP degrades
-	if tick % 50 == 0:
-		decrease_xp()
+	#if tick % 50 == 0:
+		#decrease_xp()
 	if tick % 100 == 0 and weapon_usage - expected_usage_rate > 0:
 		weapon_usage -= expected_usage_rate
 	if current_ability_cooldown > 0.0:
@@ -92,7 +92,8 @@ func shoot(from_pos: Vector3, direction: Vector3, velocity: Vector3 = Vector3.ZE
 		return
 	
 	shoot_timer.start()
-	weapon_usage += 1
+	if weapon_usage < expected_usage*1.5:
+		weapon_usage += 1
 	#print(name + ": " + str(weapon_usage))
 	can_shoot = false
 	#var look_direction = ($BulletEmergePoint.global_position - global_position).normalized()# there's zefinitely a better way to get the look direction
@@ -115,12 +116,14 @@ func cease_fire():
 	else: print("hello from weapon_base! you probably forgot to set the on_ceasefire signal on the inheritor of this script :3")
 
 func add_xp(xp: float):
-	var experience_rate
+	var experience_rate: float
 	experience_change.emit()
 	# XP gets harder to increase as level increases (XP cap at level 4)
-	experience_rate = xp*(0.3 + expected_usage/(1+weapon_usage))
+	experience_rate = xp*(expected_usage/(1+weapon_usage))
 	experience += experience_rate
 	print(name + ": " + str(experience_rate))
+	if experience_rate < 0.5:
+		print(name + ": " + str(weapon_usage))
 	# If XP is high enough, weapon gets upgraded
 	if experience > level*upgrade_quota:
 		level += 1
