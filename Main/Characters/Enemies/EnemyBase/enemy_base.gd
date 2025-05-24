@@ -13,6 +13,8 @@ class_name EnemyBase
 var can_damage_player: bool = true
 var wave_category: int = 0
 var is_dead = false
+var experience_multiplier = 1
+var damage_multiplier = 1
 
 # visual vars
 @export var hitflash_material: Material
@@ -61,14 +63,17 @@ signal drop_xp(xp: float)
 signal deal_damage(damage: float)
 
 # Constructor called by spawner
-func initialize(starting_position, init_player_position, wave):
+func initialize(starting_position, init_player_position, wave, init_health_multiplier, init_damage_multiplier, init_xp_multiplier):
 	# spawning
 	current_state = ENEMY_STATE.spawn_edge
 	position = starting_position
 	player_position = init_player_position
 	
-	# the wave of the enemy
+	# vars
 	wave_category = wave
+	max_health = max_health * init_health_multiplier
+	experience_multiplier = init_xp_multiplier
+	damage_multiplier = init_damage_multiplier
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:	
@@ -160,7 +165,7 @@ func on_reach_zero_health():
 	is_dead = true
 	emit_signal("die_from_wave", wave_category)
 	die.emit()
-	emit_signal("drop_xp", xp_on_death) # emit experience points
+	emit_signal("drop_xp", xp_on_death * experience_multiplier) # emit experience points
 	self.queue_free()
 
 # when you get damaged
@@ -193,7 +198,7 @@ func on_damaged(di: DamageInstance):
 			visual_element.material_overlay.albedo_color = Color(1.0, 1.0, 1.0, 1.0) # set alpha
 			hitflash_tween.tween_property(visual_element, "material_overlay:albedo_color", Color(1.0, 1.0, 1.0, 0.0), 0.1) # tween alpha
 
-	emit_signal("drop_xp", xp_on_damaged) # emit experience points
+	emit_signal("drop_xp", xp_on_damaged * experience_multiplier) # emit experience points 
 
 func awesome(value: float, visual_element: Sprite3D): 
 	if visual_element:
@@ -226,6 +231,7 @@ func set_movement_target(movement_target: Vector3):
 	pathfindVel = global_position.direction_to(next_path_position) * movement_speed
 
 func deal_damage_to_player(di: DamageInstance):
+	di.damage *=  damage_multiplier
 	# check if the player can take damage
 	if player.can_take_damage:
 		player.get_node("HitboxComponent").damage(di)

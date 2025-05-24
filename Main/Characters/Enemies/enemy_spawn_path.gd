@@ -1,22 +1,22 @@
 extends Path3D
 
-# variables
+# variables - enemies, health mul, experience mul, damage mul, time
 var waveDictionary = [
-	Wave.new([5, 0, 0, 0], 1, 1, 10), # 0
-	Wave.new([3, 3, 0, 0], 1, 1, 20),
-	Wave.new([5, 5, 0, 0], 1, 1, 20),
-	Wave.new([0, 10, 0, 0], 1, 1, 20),
-	Wave.new([0, 6, 2, 0], 1, 1, 20), # 4
-	Wave.new([3, 5, 1, 0], 1, 1, 20),
-	Wave.new([6, 6, 2, 0], 1, 1, 20),
-	Wave.new([10, 2, 0, 0], 1, 1, 20),
-	Wave.new([6, 8, 1, 0], 1, 1, 20),
-	Wave.new([3, 0, 0, 1], 1, 1, 20), # 9
-	Wave.new([2, 3, 0, 3], 1, 1, 20),
-	Wave.new([3, 6, 2, 3], 1, 1, 20),
-	Wave.new([3, 10, 5, 1], 1, 1, 20),
-	Wave.new([7, 4, 2, 2], 1, 1, 20),
-	Wave.new([10, 10, 5, 5], 1, 1, 20), #14
+	Wave.new([5, 0, 0, 0], 1, 1, 1, 20), # 0
+	Wave.new([3, 3, 0, 0], 1, 1, 1, 20),
+	Wave.new([5, 5, 0, 0], 1, 1, 1, 20),
+	Wave.new([0, 10, 0, 0], 1, 1, 1, 20),
+	Wave.new([0, 6, 2, 0], 1, 1, 1, 20), # 4
+	Wave.new([3, 5, 1, 0], 1, 1, 1, 20),
+	Wave.new([6, 6, 2, 0], 1, 1, 1, 20),
+	Wave.new([10, 2, 0, 0], 1, 1, 1, 20),
+	Wave.new([6, 8, 1, 0], 1, 1, 1, 20),
+	Wave.new([3, 0, 0, 1], 1, 1, 1, 20), # 9
+	Wave.new([2, 3, 0, 3], 1, 1, 1, 20),
+	Wave.new([3, 6, 2, 3], 1, 1, 1, 20),
+	Wave.new([3, 10, 5, 1], 1, 1, 1, 20),
+	Wave.new([7, 4, 2, 2], 1, 1, 1, 20),
+	Wave.new([10, 10, 5, 5], 1, 1, 1, 20), #14
 ]
 @export var starting_wave: int = 0
 var current_wave = starting_wave
@@ -61,11 +61,12 @@ class Wave:
 		"res://Main/Characters/Enemies/Elohim/elohim.tscn":-1, # ELOHIM 
 	}
 	var total_enemies: int = 0
-	var enemy_health_multiplier: float = -1 
-	var enemy_damage_multiplier: float = -1
+	var enemy_health_multiplier: float = 1
+	var enemy_damage_multiplier: float = 1
+	var enemy_experience_multiplier: float = 1
 	var wave_time_count: float = 20
 	
-	func _init(in_enemy_count: Array, in_enemy_health_multiplier: float, in_enemy_damage_multiplier: float, in_wave_timer: float):
+	func _init(in_enemy_count: Array, in_enemy_health_multiplier: float, in_enemy_experience_multiplier: float, in_enemy_damage_multiplier: float, in_wave_timer: float):
 		# get enemy counts
 		var keys = enemy_count.keys()
 		for i in range(in_enemy_count.size()):
@@ -77,6 +78,7 @@ class Wave:
 		# the rest
 		enemy_health_multiplier = in_enemy_health_multiplier
 		enemy_damage_multiplier = in_enemy_damage_multiplier
+		enemy_experience_multiplier = in_enemy_experience_multiplier
 		wave_time_count = in_wave_timer
 		
 
@@ -139,7 +141,7 @@ func spawnWave(wave_index):
 	for mob_path in enemy_count.keys():  
 		# spawn the amount of times specified in the dictionary
 		for i in range(enemy_count[mob_path]):
-			spawnEnemy(mob_path, 0)
+			spawnEnemy(mob_path, 0, wave.enemy_health_multiplier, wave.enemy_damage_multiplier, wave.enemy_experience_multiplier)
 	
 	# set the timer
 	wave_timer.stop()
@@ -157,9 +159,9 @@ func TESTspawnWave():
 	# for debugging enemies
 	var test_amount = 1
 	for i in range(test_amount):
-		spawnEnemy(DEBUG_enemy_list[DEBUG_enemy_ptr], 1)
+		spawnEnemy(DEBUG_enemy_list[DEBUG_enemy_ptr], 1, 1, 1, 1)
 
-func spawnEnemy(mob_path, debug_flag):
+func spawnEnemy(mob_path, debug_flag, health_multiplier, damage_multiplier, experience_multiplier):
 	var mob = load(mob_path).instantiate()
 	
 	# Choose a random location on the SpawnPath, We store the reference to the SpawnLocation node.
@@ -169,17 +171,18 @@ func spawnEnemy(mob_path, debug_flag):
 	mob_spawn_location.progress_ratio = randf()
 	var player_position = player.global_position
 	if not debug_flag:
-		mob.initialize(mob_spawn_location.position, player_position, current_wave)
+		mob.initialize(mob_spawn_location.position, player_position, current_wave, health_multiplier, damage_multiplier, experience_multiplier)
 	else:
 		var spawn_point = test_spawn_point.global_position
-		mob.initialize(spawn_point, player_position, current_wave)
+		mob.initialize(spawn_point, player_position, current_wave, health_multiplier, damage_multiplier, experience_multiplier)
 	
 	# Spawn the mob by adding it to the Main scene.
 	add_child(mob)
 	
-	# set the signal for mob
+	# set the signal for mob death
 	mob.die_from_wave.connect(self.enemy_dies)
 	
+	# set signal for elohim spawning new guys
 	if mob is Elohim:
 		mob.add_new_enemies.connect(self.increase_enemy_count)
 
