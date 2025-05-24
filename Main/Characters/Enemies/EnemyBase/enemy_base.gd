@@ -13,6 +13,7 @@ class_name EnemyBase
 var can_damage_player: bool = true
 var wave_category: int = 0
 var is_dead = false
+var health_multiplier = 1
 var experience_multiplier = 1
 var damage_multiplier = 1
 
@@ -71,12 +72,16 @@ func initialize(starting_position, init_player_position, wave, init_health_multi
 	
 	# vars
 	wave_category = wave
-	max_health = max_health * init_health_multiplier
+	health_multiplier = init_health_multiplier
+	max_health = max_health * health_multiplier
 	experience_multiplier = init_xp_multiplier
 	damage_multiplier = init_damage_multiplier
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:	
+	# print:
+	print("SPAWNING SELF: " + str(self))
+	
 	# connect signal to weaponmanager
 	drop_xp.connect(weapon_manager._on_earn_experience)
 	die.connect(weapon_manager._on_enemy_die)
