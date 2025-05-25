@@ -37,6 +37,15 @@ var DEBUG_enemy_list = [
 var DEBUG_enemy_ptr = 3
 var DEBUG_wave: bool = true
 
+# enemy definitions
+var enemy_dictionary = [
+	"IshimCrawler",
+	"IshimRanger",
+	"Cherubim",
+	"Elohim",
+	"BeneElohimRanger"
+]
+
 # components
 @onready var player = get_tree().get_first_node_in_group("Player")
 @onready var test_spawn_point = $TestSpawnPoint
@@ -44,6 +53,7 @@ var DEBUG_wave: bool = true
 @onready var update_timer = $UpdateTimer
 @onready var next_wave_timer = $NextWaveTimer
 @onready var wave_info_label = get_tree().get_first_node_in_group("WaveInfoLabel")
+@onready var enemy_stats = $EnemyStats
 
 # signals
 signal updateWaveCount(wave: int)
@@ -83,7 +93,9 @@ class Wave:
  # modified from squash the creeps lol
 
 func _ready() -> void:
-	print("WARNING: USING DEBUG ENEMY SPAWNING")
+	# initialize enemy stat node
+	enemy_stats.initialize(enemy_dictionary.size(), enemy_dictionary)
+	
 
 func _process(delta):
 	if Input.is_action_just_pressed("debug_toggle_wave"):

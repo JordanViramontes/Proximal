@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=3 uid="uid://b3ghxetcov6va"]
 
-[ext_resource type="Script" uid="uid://1eg24s10xjnm" path="res://scripts/Characters/enemy_base.gd" id="1_vv3x1"]
+[ext_resource type="Script" uid="uid://1eg24s10xjnm" path="res://Main/Characters/Enemies/EnemyBase/enemy_base.gd" id="1_vv3x1"]
 [ext_resource type="Material" uid="uid://cv7l0r86mk435" path="res://assets/materials/hitflash_mat.tres" id="2_lxe82"]
-[ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://scripts/components/health_component.gd" id="3_xuskm"]
-[ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="4_3ysdf"]
+[ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://Main/Utility/Components/health_component.gd" id="3_xuskm"]
+[ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://Main/Utility/Components/hitbox_component.gd" id="4_3ysdf"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_4me14"]
 
