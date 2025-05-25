@@ -16,7 +16,7 @@ var waveDictionary = [
 	Wave.new([3, 6, 2, 3], 1, 1, 1, 20),
 	Wave.new([3, 10, 5, 1], 1, 1, 1, 20),
 	Wave.new([7, 4, 2, 2], 1, 1, 1, 20),
-	Wave.new([10, 10, 5, 5], 1, 1, 1, 20), #14
+	Wave.new([10, 10, 5, 5], 0.1, 1, 100, 20), #14
 ]
 @export var starting_wave: int = 0
 var current_wave = starting_wave
@@ -66,7 +66,7 @@ class Wave:
 	var enemy_experience_multiplier: float = 1
 	var wave_time_count: float = 20
 	
-	func _init(in_enemy_count: Array, in_enemy_health_multiplier: float, in_enemy_experience_multiplier: float, in_enemy_damage_multiplier: float, in_wave_timer: float):
+	func _init(in_enemy_count: Array, in_enemy_health_multiplier: float, in_enemy_damage_multiplier: float, in_enemy_experience_multiplier: float, in_wave_timer: float):
 		# get enemy counts
 		var keys = enemy_count.keys()
 		for i in range(in_enemy_count.size()):
