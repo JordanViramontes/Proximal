@@ -1,6 +1,7 @@
 extends EnemyBase
 
 class_name BeneElohimRanger
+func get_custom_class(): return "BeneElohimRanger"
 
 # variables
 @export var player_run_radius = 8

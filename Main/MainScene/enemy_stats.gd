@@ -60,9 +60,10 @@ class Stats:
 		return total
 
 var stats: Stats = null
+var debug: bool = false
 
 # enemy dictionary:
-var enemy_dictionary: Array = []
+var enemy_dictionary: Array[String] = []
 
 func initialize(enemy_total: int, dictionary: Array):
 	stats = Stats.new(enemy_total)
@@ -70,52 +71,68 @@ func initialize(enemy_total: int, dictionary: Array):
 	#print(str(enemy_dictionary))
 
 # update kill array
-func on_recieve_enemy_kill(enemy):
+func on_recieve_enemy_kill(enemy: String):
+	#print("stat enemy kill: " + str(enemy))
+	#return
+	
 	# check if the recieved enemy is inside of the dictionary
 	var count: int = 0
 	for i in enemy_dictionary:
 		if enemy == i:
 			stats.enemy_kills[count] += 1
-			#print("kill check: " + str(enemy) + ", " + str(stats.enemy_kills))
+			if debug:
+				print("kill check: " + str(enemy) + ", " + str(stats.enemy_kills))
 			return
 		count += 1
 	
 	print("enemy_stats.gd: recieved killed enemy not in dictionary! " + str(enemy))
 
 # update enemy damage dealt array
-func on_recieve_enemy_damage_dealt(enemy, damage: float):
+func on_recieve_enemy_damage_dealt(enemy: String, damage: float):
+	#print("stat enemy damage dealt: " + str(enemy) + ", " + str(damage))
+	#return
+	
 	# check if the recieved enemy is inside of the dictionary
 	var count: int = 0
 	for i in enemy_dictionary:
 		if enemy == i:
 			stats.enemy_damage_dealt[count] += damage
-			#print("enemy damage dealt check: " + str(enemy) + ", " + str(stats.enemy_damage_dealt))
+			if debug:
+				print("enemy damage dealt check: " + str(enemy) + ", " + str(stats.enemy_damage_dealt))
 			return
 		count += 1
 	
 	print("enemy_stats.gd: recieved damage dealt enemy not in dictionary! " + str(enemy))
 
 # update enemy damage taken array
-func on_recieve_enemy_damage_taken(enemy, damage: float):
+func on_recieve_enemy_damage_taken(enemy: String, damage: float):
+	#print("stat enemy damage taken: " + str(enemy) + ", " + str(damage))
+	#return
+	
 	# check if the recieved enemy is inside of the dictionary
 	var count: int = 0
 	for i in enemy_dictionary:
 		if enemy == i:
 			stats.enemy_damage_taken[count] += damage
-			#print("enemy recieved damage check: " + str(enemy) + ", " + str(stats.enemy_damage_taken))
+			if debug:
+				print("enemy recieved damage check: " + str(enemy) + ", " + str(stats.enemy_damage_taken))
 			return
 		count += 1
 	
 	print("enemy_stats.gd: recieved damage taken enemy not in dictionary! " + str(enemy))
 
 # update enemy xp array
-func on_recieve_enemy_xp(enemy, xp: float):
+func on_recieve_enemy_xp(enemy: String, xp: float):
+	#print("stat enemy xp earned: " + str(enemy) + ", " + str(xp))
+	#return
+	
 	# check if the recieved enemy is inside of the dictionary
 	var count: int = 0
 	for i in enemy_dictionary:
 		if enemy == i:
 			stats.enemy_xp_gain[count] += xp
-			#print("enemy xp check: " + str(enemy) + ", " + str(stats.enemy_xp_gain))
+			if debug:
+				print("enemy xp check: " + str(enemy) + ", " + str(stats.enemy_xp_gain))
 			return
 		count += 1
 	

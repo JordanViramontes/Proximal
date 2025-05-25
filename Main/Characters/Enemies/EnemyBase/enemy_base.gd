@@ -1,5 +1,6 @@
 extends CharacterBody3D
 class_name EnemyBase
+func get_custom_class(): return "EnemyBase"
 
 # vars
 @export var max_health: float = 10
@@ -51,6 +52,8 @@ var total_states = 3
 @onready var pathfind_timer: Timer = $PathfindTimer
 @onready var weapon_manager = get_tree().get_first_node_in_group("WeaponManager")
 @onready var player = get_tree().get_first_node_in_group("Player")
+@onready var enemy_spawn_parent = get_tree().get_first_node_in_group("EnemySpawnParent")
+@onready var stat_tracker = get_tree().get_first_node_in_group("StatTracker")
 @onready var player_position
 
 # signals
@@ -59,6 +62,12 @@ signal die_from_wave(wave: int)
 signal take_damage
 signal drop_xp(xp: float)
 signal deal_damage(damage: float)
+
+# stat signals
+signal stat_enemy_die(enemy: String)
+signal stat_enemy_damage_dealt(enemy: String, damage: float)
+signal stat_enemy_damage_taken(enemy: String, damage: float)
+signal stat_enemy_xp_gain(enemy: String, damage: float)
 
 # Constructor called by spawner
 func initialize(starting_position, init_player_position, wave):
@@ -156,11 +165,19 @@ func on_reach_zero_health():
 	if is_dead:
 		return
 	
-	print("we are dying! emitting signals: " + str(self))
+	#print("we are dying! emitting signals: " + str(self))
 	is_dead = true
-	emit_signal("die_from_wave", wave_category)
+	
+	# death signals
 	die.emit()
+	emit_signal("die_from_wave", wave_category)
+	emit_signal("stat_enemy_die", self.get_custom_class())
+	
+	# xp signals
 	emit_signal("drop_xp", xp_on_death) # emit experience points
+	emit_signal("stat_enemy_xp_gain", self.get_custom_class(), xp_on_death)
+	
+	
 	self.queue_free()
 
 # when you get damaged
@@ -192,8 +209,10 @@ func on_damaged(di: DamageInstance):
 				visual_element.material_overlay = new_material
 			visual_element.material_overlay.albedo_color = Color(1.0, 1.0, 1.0, 1.0) # set alpha
 			hitflash_tween.tween_property(visual_element, "material_overlay:albedo_color", Color(1.0, 1.0, 1.0, 0.0), 0.1) # tween alpha
-
+	
 	emit_signal("drop_xp", xp_on_damaged) # emit experience points
+	emit_signal("stat_enemy_xp_gain", self.get_custom_class(), xp_on_damaged)
+	emit_signal("stat_enemy_damage_dealt", self.get_custom_class(), di.damage)
 
 func awesome(value: float, visual_element: Sprite3D): 
 	if visual_element:
@@ -229,6 +248,8 @@ func deal_damage_to_player(di: DamageInstance):
 	# check if the player can take damage
 	if player.can_take_damage:
 		player.get_node("HitboxComponent").damage(di)
+	
+	emit_signal("stat_enemy_damage_taken", self.get_custom_class(), di.damage)
 
 func _on_recieve_stun() -> void:
 	print("enemy_base.gd stunned: " + str(self))

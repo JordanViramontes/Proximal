@@ -1,6 +1,7 @@
 extends EnemyBase
 
 class_name IshimRanger
+func get_custom_class(): return "IshimRanger"
 
 # variables
 @export var player_run_radius = 10

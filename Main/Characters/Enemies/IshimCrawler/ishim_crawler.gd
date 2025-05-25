@@ -1,6 +1,7 @@
 extends EnemyBase
 
 class_name IshimCrawler
+func get_custom_class(): return "IshimCrawler"
 
 # var
 @export var friction = 12
@@ -15,6 +16,7 @@ class_name IshimCrawler
 # colors
 @onready var mat_roam = StandardMaterial3D.new()
 @onready var mat_lunge = StandardMaterial3D.new()
+
 
 func _ready():
 	# update states

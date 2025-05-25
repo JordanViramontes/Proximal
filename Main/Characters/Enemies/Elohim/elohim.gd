@@ -1,6 +1,7 @@
 extends EnemyBase
 
 class_name Elohim
+func get_custom_class(): return "Elohim"
 
 # variables
 @export var player_run_radius = 45
@@ -17,7 +18,6 @@ var distance_towards_player: float = 0
 @onready var summon_cooldown = $SummonCooldown
 @onready var summoning_timer = $SummoningTimer
 @onready var be_elohim_ranger_path = "res://Main/Characters/Enemies/ElohimBeneRanger/be_elohim_ranger.tscn"
-@onready var enemy_spawn_parent = get_tree().get_first_node_in_group("EnemySpawnParent")
 
 # signal
 signal add_new_enemies(enemies: int)
@@ -147,12 +147,6 @@ func summon_guys() -> void:
 	
 	# Spawn the mob by adding it to the Main scene.
 	#print("SPAWN PARENT: " + str(enemy_spawn_parent))
-	enemy_spawn_parent.add_child(mob1)
-	enemy_spawn_parent.add_child(mob2)
 	
-	mob1.die_from_wave.connect(enemy_spawn_parent.enemy_dies)
-	mob2.die_from_wave.connect(enemy_spawn_parent.enemy_dies)
-	
-	
-	
-	emit_signal("add_new_enemies", 2)
+	emit_signal("add_new_enemies", mob1)
+	emit_signal("add_new_enemies", mob2)

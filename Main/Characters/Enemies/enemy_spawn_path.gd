@@ -38,7 +38,7 @@ var DEBUG_enemy_ptr = 3
 var DEBUG_wave: bool = true
 
 # enemy definitions
-var enemy_dictionary = [
+var enemy_dictionary: Array[String] = [
 	"IshimCrawler",
 	"IshimRanger",
 	"Cherubim",
@@ -95,7 +95,6 @@ class Wave:
 func _ready() -> void:
 	# initialize enemy stat node
 	enemy_stats.initialize(enemy_dictionary.size(), enemy_dictionary)
-	
 
 func _process(delta):
 	if Input.is_action_just_pressed("debug_toggle_wave"):
@@ -190,10 +189,24 @@ func spawnEnemy(mob_path, debug_flag):
 	add_child(mob)
 	
 	# set the signal for mob
+	set_up_enemy_signals(mob)
+
+func set_up_enemy_signals(mob):
 	mob.die_from_wave.connect(self.enemy_dies)
+	mob.stat_enemy_die.connect(enemy_stats.on_recieve_enemy_kill)
+	mob.stat_enemy_damage_dealt.connect(enemy_stats.on_recieve_enemy_damage_dealt)
+	mob.stat_enemy_damage_taken.connect(enemy_stats.on_recieve_enemy_damage_taken)
+	mob.stat_enemy_xp_gain.connect(enemy_stats.on_recieve_enemy_xp)
 	
+	# for spawning bene
 	if mob is Elohim:
-		mob.add_new_enemies.connect(self.increase_enemy_count)
+		mob.add_new_enemies.connect(self.add_new_enemies)
+
+func add_new_enemies(mob):
+	set_up_enemy_signals(mob)
+	increase_enemy_count(1)
+	
+	add_child(mob)
 
 func nextWave():
 	if current_wave >= waveDictionary.size() - 1:

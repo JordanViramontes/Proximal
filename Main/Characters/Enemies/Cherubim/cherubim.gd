@@ -1,6 +1,7 @@
 extends EnemyBase
 
 class_name Cherubim
+func get_custom_class(): return "Cherubim"
 
 # variables
 @export var player_run_radius = 30

@@ -36,6 +36,7 @@ Enemies=""
 WeaponManager=""
 EnemyBase=""
 EnemySpawnParent=""
+StatTracker=""
 
 [gui]
 
