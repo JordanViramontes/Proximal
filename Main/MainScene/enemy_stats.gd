@@ -60,6 +60,7 @@ class Stats:
 		return total
 
 var stats: Stats = null
+var is_timer_counting: bool = false
 var debug: bool = false
 
 # enemy dictionary:
@@ -69,6 +70,22 @@ func initialize(enemy_total: int, dictionary: Array):
 	stats = Stats.new(enemy_total)
 	enemy_dictionary = dictionary
 	#print(str(enemy_dictionary))
+
+func _process(delta):
+	if is_timer_counting:
+		stats.time_elapsed += delta
+		#print("time: " + str(stats.time_elapsed))
+
+# set the timer
+func on_start_timer() -> void:
+	is_timer_counting = true
+
+func on_stop_timer() -> void:
+	is_timer_counting = false
+
+func on_restart_timer() -> void:
+	is_timer_counting = false
+	stats.time_elapsed = 0
 
 # update kill array
 func on_recieve_enemy_kill(enemy: String):

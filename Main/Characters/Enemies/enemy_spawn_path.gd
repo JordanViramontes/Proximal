@@ -23,6 +23,7 @@ var current_wave = starting_wave
 var current_wave_enemy_count: int = 0
 var can_change_wave: bool = true
 var wave = waveDictionary[starting_wave]
+var is_game_started = false
 
 # DEBUG components
 var DEBUG_enemy_list = [
@@ -95,6 +96,7 @@ class Wave:
 func _ready() -> void:
 	# initialize enemy stat node
 	enemy_stats.initialize(enemy_dictionary.size(), enemy_dictionary)
+	player.die.connect(enemy_stats.on_stop_timer)
 
 func _process(delta):
 	if Input.is_action_just_pressed("debug_toggle_wave"):
@@ -135,7 +137,12 @@ func spawnWave(wave_index):
 	# make sure we're valid
 	if wave_index < 0:
 		return
-		
+	
+	# indicate that the game has started
+	if not is_game_started:
+		is_game_started = true
+		enemy_stats.on_start_timer()
+	
 	# variables
 	if current_wave >= waveDictionary.size():
 		print("current wave is max! " + str(current_wave))
