@@ -14,6 +14,8 @@ func get_custom_class(): return "EnemyBase"
 var can_damage_player: bool = true
 var wave_category: int = 0
 var is_dead = false
+var y_die_threshold = -20
+var die_from_falling = false
 
 # visual vars
 @export var hitflash_material: Material
@@ -118,7 +120,8 @@ func calculateSpwaningVelocity() -> Vector3:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	# kill self if we are out of bounds
-	if global_position.y < -20:
+	if global_position.y < y_die_threshold:
+		die_from_falling = true
 		on_reach_zero_health()
 	if hitflash_tween and not hitflash_tween.is_valid():
 		hitflash_tween.kill()
@@ -171,7 +174,8 @@ func on_reach_zero_health():
 	# death signals
 	die.emit()
 	emit_signal("die_from_wave", wave_category)
-	emit_signal("stat_enemy_die", self.get_custom_class())
+	if not die_from_falling: # make sure this kill doesnt count towards stat
+		emit_signal("stat_enemy_die", self.get_custom_class())
 	
 	# xp signals
 	emit_signal("drop_xp", xp_on_death) # emit experience points

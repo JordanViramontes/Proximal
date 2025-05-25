@@ -61,7 +61,7 @@ class Stats:
 
 var stats: Stats = null
 var is_timer_counting: bool = false
-var debug: bool = false
+var debug: bool = true
 
 # enemy dictionary:
 var enemy_dictionary: Array[String] = []
