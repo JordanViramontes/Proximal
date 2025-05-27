@@ -90,6 +90,13 @@ var can_take_damage: bool = true
 var is_healing: bool = false
 var healing_timer: float = 0.5
 
+#sliding
+var slide_velocity: Vector3 = Vector3.ZERO
+@export var slide_duration := 0.75
+var current_slide_time := 0.0
+@export var slide_cooldown := 1.5 # cooldown in seconds
+var last_slide_time := -1.5 # start it negative so you can slide immediately
+
 func is_dashing() -> bool:
 	return current_dash_time > 0
 
@@ -147,11 +154,8 @@ func _process(delta: float):
 			healing_timer = 0.5
 
 	
-	if Input.is_action_just_pressed("slide"):
+	if Input.is_action_just_pressed("slide") and is_on_floor():
 		buffered_slide = true
-	if Input.is_action_just_released("slide"):
-		buffered_slide = false
-		if is_sliding: exit_slide()
 
 
 func _handle_air_physics(delta: float) -> void:
@@ -171,21 +175,24 @@ func _handle_air_physics(delta: float) -> void:
 
 func _handle_ground_physics(delta: float) -> void:
 	if is_dashing(): return
-	
+
+	# Remove this block entirely:
 	if is_sliding:
-		# keep the same velocity that they entered with
 		var cur_speed_in_wish_dir = self.velocity.dot(wish_dir)
 		var vel_change_dir = (self.velocity.normalized() + wish_dir).normalized() * cur_speed_in_wish_dir * delta
-		
 		self.velocity += vel_change_dir
-		
-		
-		# just add some friction
+
+		# and this friction
 		var drop = slide_deccel * delta * 0.01
 		var new_speed = max(self.velocity.length() - drop, 0.0)
 		if self.velocity.length() > 0:
 			new_speed /= self.velocity.length()
 		self.velocity *= new_speed
+
+		
+	if is_sliding and velocity.length() < 2.0:
+		exit_slide()
+
 	
 	var cur_speed_in_wish_dir = self.velocity.dot(wish_dir)
 	var add_speed_til_cap = walk_speed - cur_speed_in_wish_dir
@@ -208,57 +215,61 @@ func _handle_ground_physics(delta: float) -> void:
 
 # frame by frame physics
 func _physics_process(delta: float) -> void:
-		
-		## transition to sliding state
-		#if is_sliding: 
-			#current_state = INPUT_STATE.sliding
-			#head.position.y = slide_height
-			## give initial boost of speed if we're grounded
-			#if is_on_floor():
-				#var add_amount = velocity.normalized() * slide_speed_boost
-				#velocity += add_amount
-		#
-		## shooting
-		#handle_shooting()
-		#
-		#
-	
 	var input_dir = Input.get_vector("left", "right", "forward", "back").normalized()
-	
+
 	current_strafe_dir = input_dir.x
 	current_forward_dir = input_dir.y
-	
-	wish_dir = self.global_transform.basis * Vector3(input_dir.x, 0.0, input_dir.y)
-	
+	wish_dir = global_transform.basis * Vector3(input_dir.x, 0.0, input_dir.y)
+
 	handle_jumping()
 	handle_shooting()
+
+	if is_on_floor():
+		if buffered_slide and not is_sliding:
+			enter_slide()
+			buffered_slide = false  # reset to avoid repeated sliding
+
+		if is_sliding:
+			current_slide_time -= delta
+			
+			# decelerate slide velocity
+			var friction := 10.0
+			slide_velocity = slide_velocity.move_toward(Vector3.ZERO, friction * delta)
+			velocity = slide_velocity
+			
+			# exit slide when time runs out or speed too low
+			if current_slide_time <= 0.0 or slide_velocity.length() < 1.0:
+				exit_slide()
+		else:
+			_handle_ground_physics(delta)
+
+		double_jumpable = true
+	else:
+		_handle_air_physics(delta)
+
 	if is_dashing():
 		current_dash_time -= delta
 		if current_dash_time <= 0.0:
 			handle_finish_dash()
-	
-	if is_on_floor():
-		if buffered_slide: enter_slide()
-		_handle_ground_physics(delta)
-		double_jumpable = true
-	else:
-		_handle_air_physics(delta)
-	
-	if self.position.y < DEATH_HEIGHT:
+
+	if position.y < DEATH_HEIGHT:
 		kill_player()
-	
+
 	move_and_slide()
 
+
 func handle_jumping():
+	if is_sliding:
+		return  # prevent jumping during slide
 	if Input.is_action_just_pressed("jump") and is_on_floor():
-		if is_dashing:
-			current_dash_time = 0.0 # stop dash
-		self.velocity.y = jump_velocity
+		if is_dashing():
+			current_dash_time = 0.0  # stop dash
+		velocity.y = jump_velocity
 		is_sliding = false
 	elif Input.is_action_just_pressed("jump") and not is_on_floor() and double_jumpable:
 		# double jumping
 		double_jumpable = false
-		self.velocity.y = jump_velocity
+		velocity.y = jump_velocity
 		is_sliding = false
 
 func handle_shooting():
@@ -271,36 +282,57 @@ func handle_finish_dash() -> void:
 	self.velocity /= 5
 
 func enter_slide() -> void:
+
+	var current_time = Time.get_ticks_msec() / 1000.0
+
+	if not is_on_floor() or is_sliding:
+		return
+	
+	if current_time - last_slide_time < slide_cooldown:
+		return  # still in cooldown
+
+	last_slide_time = current_time  # set new cooldown timer
+	print("sliding")
 	is_sliding = true
+	current_state = INPUT_STATE.sliding
+	current_slide_time = slide_duration
+
 	head.position.y = slide_height
-	#if is_on_floor():
-		## add slide boost velocity
-		#var add_amount = self.velocity.normalized() * slide_speed_boost
-		#self.velocity += add_amount
+
+	if velocity.length() > 0.5:
+		slide_velocity = velocity.normalized() * (walk_speed + slide_speed_boost)
+	else:
+		slide_velocity = look_direction.normalized() * (walk_speed + slide_speed_boost)
 
 func exit_slide() -> void:
 	is_sliding = false
+	current_state = INPUT_STATE.normal
 	head.position.y = normal_height
+	slide_velocity = Vector3.ZERO
+	velocity = Vector3.ZERO  # reset player velocity when slide ends
+
 
 # recieve dash input from WeaponManager
 func _on_weapon_manager_dash_input() -> void:
-	if current_state != INPUT_STATE.normal or is_dashing():
+	if is_dashing():
 		return
 	
-	var current_time := Time.get_ticks_msec() / 1000.0 # get time in seconds
+	var current_time := Time.get_ticks_msec() / 1000.0
 	if current_time - last_dash_time < dash_cooldown:
-		return # skip dash
-	
-	last_dash_time = current_time # timer reset
+		return
+
+	# Cancel slide if dashing during slide
+	if is_sliding:
+		exit_slide()
+
+	last_dash_time = current_time
+	current_dash_time = dash_timer
+
 	var dash_vel: Vector3 = wish_dir.normalized()
 	if dash_vel.is_zero_approx():
 		dash_vel = Vector3(look_direction.x, 0.0, look_direction.z)
-	#var dash_vel: Vector3 = look_direction.normalized()
-	print("dashing! input: " + str(dash_vel))
-	
-	current_dash_time = dash_timer
-	
-	velocity += dash_vel * DASH_SPEED * Vector3(1, 0.2, 1)
+
+	velocity = dash_vel * DASH_SPEED * Vector3(1, 0.2, 1)
 	#velocity.y = 0
 	#print("velocity: " + str(velocity))
 
