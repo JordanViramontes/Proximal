@@ -10,13 +10,13 @@ signal health_change
 # states
 enum INPUT_STATE {normal, sliding, dead}
 var current_state = INPUT_STATE.normal
-@export_category("Input Settings")
+@export_group("Input Settings")
 @export var MOUSE_SENS = 0.3
 
 # speed and walking
 # OVERHAUL CONTROLLER
 var wish_dir := Vector3.ZERO
-@export_category("Movement")
+@export_group("Movement")
 # ground movement settings
 @export var walk_speed := 20.0
 @export var ground_accel := 14.0
@@ -31,6 +31,7 @@ var wish_dir := Vector3.ZERO
 @export var air_deccel := 0.5
 @export var air_friction := 1.0
 @export var jump_velocity = 4.5
+@export var terminal_velocity := 30.0
 
 var look_direction = Vector3.ZERO
 
@@ -43,7 +44,7 @@ var headbob_time := 0.0
 var double_jumpable := false
 
 # sliding
-@export_category("Sliding")
+@export_group("Sliding")
 @export var slide_height: float = 0.5
 @export var slide_deccel: float = 0.80
 @export var slide_speed_boost: float = 10.0
@@ -52,7 +53,7 @@ var buffered_slide: bool = false
 var is_sliding: bool = false
 
 # Abilities
-@export_category("Abilities")
+@export_group("Abilities")
 # dashing
 @export var DASH_SPEED = 20
 @export var dash_accel = 5
@@ -66,7 +67,7 @@ var last_dash_time := -dash_cooldown
 const height = 1.8
 
 # leaning
-@export_category("Camera Properties")
+@export_group("Camera Properties")
 @export var LEAN_MULT = 0.01
 @export var LEAN_SMOOTH = 10.0
 @export var LEAN_AMOUNT = 0.0005
@@ -82,7 +83,7 @@ var current_forward_dir = 0
 @onready var hitbox_component := $HitboxComponent
 
 # health variables
-@export_category("Misc Health and Damage")
+@export_group("Misc Health and Damage")
 @export var DEATH_HEIGHT = -200.0
 @export var max_health: float = 100
 var current_health: int = max_health
@@ -162,6 +163,8 @@ func _handle_air_physics(delta: float) -> void:
 	if is_dashing(): return
 	
 	self.velocity.y -= ProjectSettings.get_setting("physics/3d/default_gravity") * delta
+	if self.velocity.y < -terminal_velocity:
+		self.velocity.y = -terminal_velocity
 	
 	var cur_speed_in_wish_dir = self.velocity.dot(wish_dir)
 	var capped_speed = min((air_move_speed * wish_dir).length(), air_cap)
@@ -253,7 +256,9 @@ func _physics_process(delta: float) -> void:
 
 	if position.y < DEATH_HEIGHT:
 		kill_player()
-
+	
+	handle_wrapping()
+	
 	move_and_slide()
 
 
@@ -279,6 +284,22 @@ func handle_shooting():
 
 func handle_finish_dash() -> void:
 	self.velocity /= 5
+
+func handle_wrapping() -> void:
+	var bounds = $"../WorldWrapBoundaries"
+	
+	# efficient checks incoming! :3
+	if self.position.x < bounds.neg_x_bound:
+		self.position.x = bounds.pos_x_bound - 3.0
+	if self.position.x > bounds.pos_x_bound:
+		self.position.x = bounds.neg_x_bound + 3.0
+	if self.position.z < bounds.neg_z_bound:
+		self.position.z = bounds.pos_z_bound - 3.0
+	if self.position.z > bounds.pos_z_bound:
+		self.position.z = bounds.neg_z_bound + 3.0
+	
+	if self.position.y < bounds.bottom_bound:
+		self.position.y = bounds.top_spawn_pos
 
 func enter_slide() -> void:
 
