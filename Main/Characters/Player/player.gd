@@ -175,8 +175,7 @@ func _handle_air_physics(delta: float) -> void:
 
 func _handle_ground_physics(delta: float) -> void:
 	if is_dashing(): return
-
-	# Remove this block entirely:
+	
 	if is_sliding:
 		var cur_speed_in_wish_dir = self.velocity.dot(wish_dir)
 		var vel_change_dir = (self.velocity.normalized() + wish_dir).normalized() * cur_speed_in_wish_dir * delta
