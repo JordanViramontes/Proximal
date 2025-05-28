@@ -125,7 +125,7 @@ func add_xp(xp: float):
 	if experience_rate < 0.5:
 		print(name + ": " + str(weapon_usage))
 	# If XP is high enough, weapon gets upgraded
-	if experience > level*upgrade_quota:
+	if experience > level*upgrade_quota and level < 10:
 		level += 1
 		#print("LEVEL UP to " + str(level))
 		emit_signal("send_ui_xp_level_updated", level)
