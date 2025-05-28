@@ -120,10 +120,8 @@ func add_xp(xp: float):
 	experience_change.emit()
 	# XP gets harder to increase as level increases (XP cap at level 4)
 	experience_rate = xp*(expected_usage/(1+weapon_usage))
-	experience += experience_rate
-	print(name + ": " + str(experience_rate))
-	if experience_rate < 0.5:
-		print(name + ": " + str(weapon_usage))
+	if level < 10:
+		experience += experience_rate
 	# If XP is high enough, weapon gets upgraded
 	if experience > level*upgrade_quota and level < 10:
 		level += 1

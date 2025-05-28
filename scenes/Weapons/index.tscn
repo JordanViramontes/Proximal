@@ -37,7 +37,6 @@ size = Vector2(0.1, 0.1)
 
 [node name="Index" type="Node3D"]
 script = ExtResource("1_d8pwy")
-upgrade_quota = 50.0
 degradation = 1.2
 expected_usage = 50
 fire_rate = 1.0
