@@ -34,6 +34,8 @@ var recoil_direction: Vector3 = Vector3.BACK # recoil should be in positive z di
 @export var recoil_recovery_rate: float # amount per frame we recover from recoil
 @export var recoil_reduction_rate: float
 
+
+
 func _ready():
 	weapon_dictionary = [
 		$Thumb,
