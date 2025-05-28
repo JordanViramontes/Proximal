@@ -20,6 +20,7 @@ var damage_multiplier = 1
 # visual vars
 @export var hitflash_material: Material
 @export var hitflash_duration: float = 0.1
+@export var twoD_hitflash_amount: float = 2.0
 var hitflash_tween: Tween
 
 # spawning variables
@@ -181,17 +182,17 @@ func on_damaged(di: DamageInstance):
 	
 	var visual_element = get_node_or_null("MeshInstance3D")
 	if not visual_element or not visual_element.visible:
-		visual_element = get_node_or_null("Sprite3D")
+		visual_element = get_node_or_null("AnimatedSprite3D")
 		if not visual_element:
 			print("%s does not have any visual represnetation to put a hitflash material on! resolve this immediately." % self)
 	
 	if visual_element:
-		if visual_element is Sprite3D:
+		if visual_element is AnimatedSprite3D:
 			# hope and pray that the sprite has the shader param we're looking for
 			if visual_element.material_override: # baby ass safeguard
 				hitflash_tween.tween_method(
 					awesome.bind(visual_element),
-					2.0, 
+					twoD_hitflash_amount, 
 					0.0, 
 					0.1
 				)
@@ -205,7 +206,8 @@ func on_damaged(di: DamageInstance):
 
 	emit_signal("drop_xp", xp_on_damaged * experience_multiplier) # emit experience points 
 
-func awesome(value: float, visual_element: Sprite3D): 
+# function for tweening the hitflash amount of the attached sprite LOL
+func awesome(value: float, visual_element: AnimatedSprite3D): 
 	if visual_element:
 		visual_element.material_override.set_shader_parameter("hitflash_amount", value)
 

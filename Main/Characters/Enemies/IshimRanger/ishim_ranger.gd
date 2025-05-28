@@ -20,6 +20,7 @@ var distance_towards_player: float = 0
 # components
 @onready var shoot_timer = $ShootCooldown
 @onready var mesh = $MeshInstance3D
+@onready var sprite: AnimatedSprite3D = $AnimatedSprite3D
 
 # signals
 signal reached_cherubim_friend(ishim: IshimRanger)
@@ -31,6 +32,8 @@ signal tell_cherubim_we_died(ishim: IshimRanger, index: int)
 @onready var mat_comfy = StandardMaterial3D.new()
 
 func _ready() -> void:
+	sprite.play()
+	
 	# when in the comfy radius, the enemy will stand still
 	# when the player gets too close itll run away
 	ENEMY_STATE["comfy"] = total_states+1
@@ -110,6 +113,9 @@ func _on_pathfind_timer_timeout() -> void:
 	super._on_pathfind_timer_timeout()
 	velocity.x = pathfindVel.x
 	velocity.z = pathfindVel.z
+	
+	sprite.animation = "walk"
+	sprite.play()
 
 func get_mesh_mat_from_state(state):
 	if state == ENEMY_STATE.roam:
@@ -173,6 +179,9 @@ func _on_bullet_timer_timeout() -> void:
 		b.position = global_position
 		
 		World.world.add_child(b)
+		
+		sprite.animation = "shoot"
+		sprite.play()
 
 # called by the cherubim and alerts the ishim
 func goto_cherubim(cherubim: Cherubim) -> void:

@@ -1,18 +1,29 @@
-[gd_scene load_steps=4 format=3 uid="uid://djtp4uqwyjuk6"]
+[gd_scene load_steps=6 format=3 uid="uid://djtp4uqwyjuk6"]
 
-[ext_resource type="Script" uid="uid://4efo1m580vvk" path="res://scripts/Weapons/hitscan.gd" id="1_kjuvj"]
-[ext_resource type="Material" uid="uid://ccklk1lmlen4j" path="res://assets/textures/pinky_bullet.tres" id="2_pdrtw"]
+[ext_resource type="Script" uid="uid://4efo1m580vvk" path="res://Main/Weapons/WeaponComponents/hitscan.gd" id="1_kjuvj"]
+[ext_resource type="Shader" uid="uid://de8bfpomf0dab" path="res://assets/shaders/bullet_fresnel.gdshader" id="3_tng8g"]
+[ext_resource type="Texture2D" uid="uid://b7fw7tcjti5kw" path="res://assets/UI/Background.png" id="4_u750q"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rggwj"]
+render_priority = 0
+shader = ExtResource("3_tng8g")
+shader_parameter/base_color = Color(0.5, 0.2, 0.9, 1)
+shader_parameter/base_tex = ExtResource("4_u750q")
+shader_parameter/fresnel_color = Color(0.855, 0, 0.9, 1)
+shader_parameter/fresnel_intensity = 4.5
+shader_parameter/fresnel_amount = 4.0
+shader_parameter/transparency = 1.0
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_afyxq"]
 resource_local_to_scene = true
-material = ExtResource("2_pdrtw")
+material = SubResource("ShaderMaterial_rggwj")
 top_radius = 0.05
 bottom_radius = 0.05
 height = 1.0
 
 [node name="PinkyBullet" type="Node3D"]
 script = ExtResource("1_kjuvj")
-mesh_material = ExtResource("2_pdrtw")
+mesh_material = SubResource("ShaderMaterial_rggwj")
 type = 5
 
 [node name="RayCast3D" type="RayCast3D" parent="."]

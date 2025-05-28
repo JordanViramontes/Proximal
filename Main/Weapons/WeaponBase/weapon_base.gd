@@ -13,7 +13,10 @@ signal experience_change
 # Quota and degradation rate is different for every weapon
 @export var upgrade_quota: float = 100.0
 @export var degradation: float = 1.0
+@export var expected_usage: int = 10
+@export var expected_usage_rate: int = 10
 var tick: int = 0
+var weapon_usage: int = 0
 
 @export_group("Shooting & Bullets")
 var shoot_cooldown: float = 0.05 # seconds
@@ -65,13 +68,15 @@ func _ready() -> void:
 		recharge_particles.draw_pass_1.surface_get_material(0).albedo_color = ability_recharge_particle_color
 
 func _process(delta: float) -> void:
-	tick += 1
-	# Over time, XP degrades
-	if tick % 150 == 0:
-		decrease_xp()
 	pass
 
 func _physics_process(delta: float) -> void:
+	tick += 1
+	# Over time, XP degrades
+	#if tick % 50 == 0:
+		#decrease_xp()
+	if tick % 100 == 0 and weapon_usage - expected_usage_rate > 0:
+		weapon_usage -= expected_usage_rate
 	if current_ability_cooldown > 0.0:
 		current_ability_cooldown -= delta
 
@@ -114,6 +119,9 @@ func shoot(from_pos: Vector3, direction: Vector3, velocity: Vector3 = Vector3.ZE
 		return
 	
 	shoot_timer.start()
+	if weapon_usage < expected_usage*1.5:
+		weapon_usage += 1
+	#print(name + ": " + str(weapon_usage))
 	can_shoot = false
 	#var look_direction = ($BulletEmergePoint.global_position - global_position).normalized()# there's zefinitely a better way to get the look direction
 	if on_shoot != null: on_shoot.emit(from_pos, direction, velocity) 
@@ -140,11 +148,14 @@ func cease_fire():
 	else: print("hello from weapon_base! you probably forgot to set the on_ceasefire signal on the inheritor of this script :3")
 
 func add_xp(xp: float):
+	var experience_rate: float
 	experience_change.emit()
 	# XP gets harder to increase as level increases (XP cap at level 4)
-	experience += xp*(4-level)
+	experience_rate = xp*(expected_usage/(1+weapon_usage))
+	if level < 10:
+		experience += experience_rate
 	# If XP is high enough, weapon gets upgraded
-	if experience > level*upgrade_quota:
+	if experience > level*upgrade_quota and level < 10:
 		level += 1
 		#print("LEVEL UP to " + str(level))
 		emit_signal("send_ui_xp_level_updated", level)

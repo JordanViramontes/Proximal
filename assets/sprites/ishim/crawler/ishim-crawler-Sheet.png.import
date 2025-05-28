@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b7fw7tcjti5kw"
-path.s3tc="res://.godot/imported/Background.png-661b1bb9badc20bd83089675242b8559.s3tc.ctex"
+uid="uid://cvhnevicnsrn3"
+path.s3tc="res://.godot/imported/ishim-crawler-Sheet.png-897e6f4216cf5a40208ccec043cd4705.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/UI/Background.png"
-dest_files=["res://.godot/imported/Background.png-661b1bb9badc20bd83089675242b8559.s3tc.ctex"]
+source_file="res://assets/sprites/ishim/crawler/ishim-crawler-Sheet.png"
+dest_files=["res://.godot/imported/ishim-crawler-Sheet.png-897e6f4216cf5a40208ccec043cd4705.s3tc.ctex"]
 
 [params]
 
