@@ -9,14 +9,17 @@ class_name IshimCrawler
 @export var touch_damage = 5
 
 # components
-@onready var lunge_timer = $LungeTimer
-@onready var mesh = $MeshInstance3D
+@onready var lunge_timer := $LungeTimer
+@onready var mesh := $MeshInstance3D
+@onready var sprite := $AnimatedSprite3D
 
 # colors
 @onready var mat_roam = StandardMaterial3D.new()
 @onready var mat_lunge = StandardMaterial3D.new()
 
 func _ready():
+	sprite.play()
+	
 	# update states
 	ENEMY_STATE["lunge"] = total_states+1
 	total_states += 1
@@ -83,10 +86,14 @@ func _on_pathfind_timer_timeout() -> void:
 
 # timer for the lunge in lunge state
 func _on_lunge_timer_timeout() -> void:
+	sprite.animation = "walk"
+	sprite.play()
+	
 	# check if we're done with lunging
 	if not global_position.distance_to(player.global_position) <= lunge_range:
 		current_state = ENEMY_STATE.roam
 		mesh.set_surface_override_material(0, mat_roam)
+		
 		return
 	
 	# to avoid wonky movement
@@ -110,6 +117,9 @@ func lunge():
 	
 	# velocity for this cycle
 	velocity = direction * init_v
+	
+	sprite.animation = "attack"
+	sprite.play()
 
 # when it physically touches the player
 func _on_hitbox_component_body_entered(body: Node3D) -> void:
