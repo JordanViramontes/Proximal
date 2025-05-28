@@ -24,12 +24,16 @@ var decrease_level_up_alpha: bool = false
 @onready var weapon_manager = get_tree().get_first_node_in_group("WeaponManager")
 @onready var level_up = $LevelUp
 @onready var level_up_timer = $LevelUpTimer
-
+@onready var weapon_type: int
+@onready var weapon_node: Node
 
 func initialize(weapon: int):
 	var image
 	var color
 	var component
+	
+	weapon_type = weapon
+	weapon_node = weapon_manager.weapon_dictionary[weapon_type]
 	
 	match weapon:
 		0:
@@ -69,6 +73,7 @@ func initialize(weapon: int):
 	
 	# reset values
 	xp_progress_bar.value = 0
+	xp_progress_bar.max_value = weapon_node.upgrade_quota
 	ability_progress_bar.value = 100
 	
 	# set signals
@@ -106,10 +111,10 @@ func set_ability_cooldown_ui(time: float):
 # weapon xp changes
 func set_new_xp_ui(xp: float):
 	var initial_value: float = xp
-	while initial_value > 100:
-		initial_value -= 100
+	while initial_value > weapon_node.upgrade_quota:
+		initial_value -= weapon_node.upgrade_quota
 	xp_progress_bar.value = initial_value
-	#print("setting value to: " + str(initial_value))
+	#print("setting value to: " + str(initial_value) +  " for " + str(weapon_node))
 
 # weapon level changes
 func set_new_xp_level_ui(level_direction: float):
@@ -134,7 +139,7 @@ func _process(delta: float) -> void:
 		if ability_progress_bar.value == 100:
 			is_ability_cooldown = false
 	
-	# level up and downt
+	# level up and down
 	if decrease_level_up_alpha:
 		level_up.self_modulate.a -= 0.5 * delta
 		level_up.queue_redraw()
