@@ -6,7 +6,7 @@ var distance: float
 var bullet_damage: float
 
 signal damaged_enemy
-@export var mesh_material: StandardMaterial3D
+@export var mesh_material: ShaderMaterial
 @export var tracer_fade_time: float = 0.2
 @export var if_laser: bool = false
 
@@ -35,10 +35,20 @@ func on_finish_tweening():
 func fade():
 	mesh_fade_tween = get_tree().create_tween()
 	mesh_fade_tween.set_parallel()
-	mesh_fade_tween.tween_property(tracer.mesh.material, "albedo_color:a", 0.0, tracer_fade_time)
+	#mesh_fade_tween.tween_property(tracer.mesh.material, "albedo_color:a", 0.0, tracer_fade_time)
+	# gotta tween it like this bc we have a shadermaterial instead of a standardmaterial
+	mesh_fade_tween.tween_method(
+		set_tracer_transparency,
+		1.0, 
+		0.0,
+		tracer_fade_time
+	)
 	mesh_fade_tween.tween_property(tracer.mesh, "top_radius", 0.0, tracer_fade_time)
 	mesh_fade_tween.tween_property(tracer.mesh, "bottom_radius", 0.0, tracer_fade_time)
 	mesh_fade_tween.finished.connect(on_finish_tweening)
+
+func set_tracer_transparency(value: float): 
+	tracer.mesh.surface_get_material(0).set_shader_parameter("transparency", value)
 
 func tracer_func():
 	# mesh (tracer) should come out of "gun barrel", while raycast should come out of player's "eyes"
