@@ -57,6 +57,6 @@ void fragment() {
 	float roughness_tex = dot(texture(texture_roughness, base_uv), roughness_texture_channel);
 	ROUGHNESS = roughness_tex * roughness;
 	ALPHA *= albedo.a * albedo_tex.a;
-	
+
 	ALBEDO = vec3(albedo.r + hitflash_amount, albedo.g + hitflash_amount, albedo.b + hitflash_amount) * albedo_tex.rgb;
 }

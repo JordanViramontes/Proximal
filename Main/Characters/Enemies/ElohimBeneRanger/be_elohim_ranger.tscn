@@ -1,9 +1,9 @@
 [gd_scene load_steps=9 format=3 uid="uid://cbhs6isi7tp"]
 
-[ext_resource type="Script" uid="uid://ctrdff26xvpi8" path="res://scripts/Enemies/be_elohim_ranger.gd" id="1_feee0"]
-[ext_resource type="PackedScene" uid="uid://dfqpjffr77ts" path="res://scenes/bullets/bene_bullet.tscn" id="2_771yh"]
-[ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://scripts/components/health_component.gd" id="2_slhci"]
-[ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="3_771yh"]
+[ext_resource type="Script" uid="uid://ctrdff26xvpi8" path="res://Main/Characters/Enemies/ElohimBeneRanger/be_elohim_ranger.gd" id="1_feee0"]
+[ext_resource type="PackedScene" uid="uid://dfqpjffr77ts" path="res://Main/Characters/Enemies/ElohimBeneRanger/bene_bullet.tscn" id="2_771yh"]
+[ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://Main/Utility/Components/health_component.gd" id="2_slhci"]
+[ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://Main/Utility/Components/hitbox_component.gd" id="3_771yh"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_771yh"]
 albedo_color = Color(0.521358, 0.723719, 0.279387, 1)
