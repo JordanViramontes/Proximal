@@ -48,9 +48,9 @@ var bob_distance: float = 0
 @onready var mat_comfy = StandardMaterial3D.new()
 
 # Constructor called by spawner
-func bene_initialize(starting_position, init_player_position, init_spawn_direction, init_wave):
+func bene_initialize(starting_position, init_player_position, init_spawn_direction, init_wave, init_health_multiplier, init_damage_multiplier, init_xp_multiplier):
 	# spawning
-	super.initialize(starting_position, init_player_position, init_wave)
+	super.initialize(starting_position, init_player_position, init_wave, init_health_multiplier, init_damage_multiplier, init_xp_multiplier)
 	spawn_direction = init_spawn_direction
 
 
