@@ -79,7 +79,7 @@ func initialize(starting_position, init_player_position, wave, init_health_multi
 	damage_multiplier = init_damage_multiplier
 
 # Called when the node enters the scene tree for the first time.
-func _ready() -> void:	
+func _ready() -> void:
 	# print:
 	print("SPAWNING SELF: " + str(self))
 	

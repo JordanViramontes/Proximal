@@ -1,20 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://bmc77hxkk2at1"]
+[gd_scene load_steps=9 format=3 uid="uid://bmc77hxkk2at1"]
 
 [ext_resource type="Script" uid="uid://b4fokfiw017fj" path="res://Main/Characters/Enemies/Elohim/elohim.gd" id="1_3vyl4"]
 [ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://Main/Utility/Components/health_component.gd" id="2_kemqb"]
+[ext_resource type="Material" uid="uid://cv7l0r86mk435" path="res://assets/materials/hitflash_mat.tres" id="2_ldq7c"]
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://Main/Utility/Components/hitbox_component.gd" id="3_2so3s"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kemqb"]
-albedo_color = Color(0.262783, 0.522983, 0, 1)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_8wiwn"]
-material = SubResource("StandardMaterial3D_kemqb")
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2so3s"]
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kemqb"]
-radius = 0.822083
-height = 6.40834
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2so3s"]
 albedo_color = Color(0.172549, 0.356863, 0, 1)
@@ -23,6 +12,12 @@ albedo_color = Color(0.172549, 0.356863, 0, 1)
 material = SubResource("StandardMaterial3D_2so3s")
 height = 6.0
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2so3s"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kemqb"]
+radius = 0.822083
+height = 6.40834
+
 [node name="Elohim" type="CharacterBody3D" groups=["Enemies"]]
 collision_layer = 4
 script = ExtResource("1_3vyl4")
@@ -30,7 +25,9 @@ max_health = 1.0
 movement_speed = 2
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("CapsuleMesh_8wiwn")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+material_overlay = ExtResource("2_ldq7c")
+mesh = SubResource("CapsuleMesh_nlikr")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_2so3s")
@@ -45,9 +42,6 @@ script = ExtResource("3_2so3s")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent"]
 shape = SubResource("CapsuleShape3D_kemqb")
-
-[node name="CollisionMesh" type="MeshInstance3D" parent="HitboxComponent"]
-mesh = SubResource("CapsuleMesh_nlikr")
 
 [node name="PathfindTimer" type="Timer" parent="."]
 wait_time = 1.5
