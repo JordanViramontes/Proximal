@@ -92,6 +92,7 @@ ability_cooldown = 0.0
 ability_recharge_particle_color = Color(0, 1, 0, 0.509804)
 
 [node name="Pinky" parent="." instance=ExtResource("8_r1oqp")]
+expected_usage = 6
 bullet_damage = 100.0
 depleted_material = SubResource("StandardMaterial3D_vv2nl")
 ability_cooldown = 1.0
