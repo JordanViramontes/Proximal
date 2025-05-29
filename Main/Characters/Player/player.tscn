@@ -34,7 +34,6 @@ LEAN_AMOUNT = 1.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.18267, 0)
-visible = false
 mesh = SubResource("CapsuleMesh_2hs0m")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -59,7 +58,6 @@ max_z = 2.5
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.291509, -0.296324, -0.979354)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="LeanPivot/Head"]
-visible = false
 mesh = SubResource("SphereMesh_y7cse")
 
 [node name="HealthComponent" type="Node" parent="."]

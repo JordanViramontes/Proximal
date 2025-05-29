@@ -92,8 +92,10 @@ ability_cooldown = 0.0
 ability_recharge_particle_color = Color(0, 1, 0, 0.509804)
 
 [node name="Pinky" parent="." instance=ExtResource("8_r1oqp")]
+expected_usage = 6
 bullet_damage = 100.0
 depleted_material = SubResource("StandardMaterial3D_vv2nl")
+ability_cooldown = 1.0
 ability_recharge_particle_color = Color(0.972549, 0.356863, 0.945098, 0.486275)
 ability_recharge_particles = ExtResource("4_dg7pw")
 trauma_amount = 0.75
@@ -118,6 +120,7 @@ mesh = SubResource("BoxMesh_vowkc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StunHitbox"]
 transform = Transform3D(1, 0, 0, 0, -7.45058e-08, -1, 0, 1, -7.45058e-08, 0, 0, -10)
+visible = false
 shape = SubResource("BoxShape3D_fmnkm")
 
 [node name="StunHitboxTimer" type="Timer" parent="."]
