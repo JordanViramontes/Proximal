@@ -5,6 +5,14 @@ var is_counting: bool = false
 var time_left: float = 0.0
 @onready var enemy_spawn_path = get_tree().get_first_node_in_group("EnemySpawnParent")
 
+# VISIBLE STATES
+var VIS_STATES = {
+	"on":0,
+	"stay":1,
+	"off":2
+}
+var current_vis_state = VIS_STATES.on
+
 func _ready() -> void:
 	self.visible = true
 	label_settings.font_color.a = 0
@@ -14,26 +22,33 @@ func _ready() -> void:
 	enemy_spawn_path.updateNextWaveVisibility.connect(update_visibility)
 
 func _process(delta: float):
-	# timer finishes
-	if time_left <= 0 && is_counting:
-		# update first wave flag
-		if first_wave:
-			first_wave = false
-		update_visibility(false)
-		is_counting = false
-	
-	if is_counting:
+	if time_left > 0:
 		time_left -= delta
-		#print("time: " + str(time_left))
 	
 	if first_wave:
-		self.visible = true
-		if label_settings.font_color.a < 1:
-			label_settings.font_color.a += 0.01
 		text = "GET READY...\n" + str(int(floor(time_left)))
-		return
-		
-	text = "NEXT WAVE SPAWNING IN:\n" + str(int(floor(time_left)))
+	else:
+		text = "NEXT WAVE SPAWNING IN:\n" + str(int(floor(time_left)))
+	
+	# visuals
+	#print("state: " + str(current_vis_state))
+	if current_vis_state == VIS_STATES.on:
+		self.visible = true
+		label_settings.font_color.a += 0.01
+		if label_settings.font_color.a >= 1.0:
+			label_settings.font_color.a = 1
+			current_vis_state = VIS_STATES.stay
+	
+	if current_vis_state == VIS_STATES.off:
+		self.visible = true
+		label_settings.font_color.a -= 0.01
+		if label_settings.font_color.a <= 0:
+			label_settings.font_color.a = 0
+			current_vis_state = VIS_STATES.stay
+			
+			# end first wave if its the first
+			if first_wave:
+				first_wave = false
 
 func update_time(time: float):
 	#print("recieved: " + str(time))
@@ -43,4 +58,9 @@ func update_time(time: float):
 	is_counting = true
 
 func update_visibility(visiblity: bool):
-	self.visible = visiblity
+	print("has: " + str(visiblity))
+	
+	if visiblity:
+		current_vis_state = VIS_STATES.on 
+	else:
+		current_vis_state = VIS_STATES.off
