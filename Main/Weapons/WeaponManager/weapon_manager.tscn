@@ -118,6 +118,7 @@ mesh = SubResource("BoxMesh_vowkc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StunHitbox"]
 transform = Transform3D(1, 0, 0, 0, -7.45058e-08, -1, 0, 1, -7.45058e-08, 0, 0, -10)
+visible = false
 shape = SubResource("BoxShape3D_fmnkm")
 
 [node name="StunHitboxTimer" type="Timer" parent="."]

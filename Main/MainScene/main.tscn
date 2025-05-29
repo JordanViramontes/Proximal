@@ -151,7 +151,6 @@ navigation_mesh = SubResource("NavigationMesh_tipki")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="SubViewportContainer/SubViewport/NavigationRegion3D/Stage"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, -0.5, 0)
-visible = false
 use_collision = true
 collision_layer = 0
 collision_mask = 0

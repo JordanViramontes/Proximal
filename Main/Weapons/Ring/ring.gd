@@ -76,14 +76,5 @@ func on_on_ability_shoot(from_pos: Vector3, look_direction: Vector3, velocity: V
 
 	used_ring.emit() # emitted so that the weapon_manager can detect and update the hand_visual for the ring count
 
-func on_bullet_hit(damage: float):
-	experience += 1.0*(4-level)
-	print("my bullet hit an enemy >:)")
-	print(experience)
-	if experience >= 10.0*(level):
-		level += 1
-		print("LEVEL UP! ", level)
-
-
 func add_ring():
 	ammo_count = clamp(ammo_count + 1, 0, max_ammo)
