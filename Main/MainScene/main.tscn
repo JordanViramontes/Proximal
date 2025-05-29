@@ -465,7 +465,6 @@ label_settings = SubResource("LabelSettings_ya4ey")
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("11_eb6dy")
-metadata/_edit_lock_ = true
 
 [node name="Visuals" type="Control" parent="UI"]
 anchors_preset = 0

@@ -31,7 +31,7 @@ class Wave:
 
 # variables - enemies, health mul, experience mul, damage mul, time
 var waveDictionary = [
-	Wave.new([5, 0, 0, 0], 1, 1, 1, 5), # 0
+	Wave.new([5, 0, 0, 0], 1, 1, 1, 20), # 0
 	Wave.new([3, 3, 0, 0], 1, 1, 1, 20),
 	Wave.new([5, 5, 0, 0], 1, 1, 1, 20),
 	Wave.new([0, 10, 0, 0], 1, 1, 1, 20),
@@ -83,6 +83,7 @@ signal updateWaveTimer(time: float)
 signal updateEnemyCount(enemies: int)
 signal updateNextWaveVisibility(visible: bool)
 signal updateNextWaveTimer(time: float)
+signal stopWaveTimer()
 
 func _ready() -> void:
 	next_wave_timer.start(start_wave_time)
@@ -151,13 +152,8 @@ func spawnWave(wave_index):
 			spawnEnemy(mob_path, 0, wave.enemy_health_multiplier, wave.enemy_damage_multiplier, wave.enemy_experience_multiplier)
 	
 	# set the timer
-	wave_timer.stop()
-	wave_timer.wait_time = wave.wave_time_count
-	wave_timer.start()
+	wave_timer.start(wave.wave_time_count)
 	
-	#update_timer.stop()
-	#update_timer.wait_time = 1
-	#update_timer.start()
 	emit_signal("updateWaveTimer", wave_timer.time_left + 1)
 	emit_signal("updateEnemyCount", current_wave_enemy_count)
 	emit_signal("updateWaveCount", current_wave + 1)
@@ -254,8 +250,10 @@ func enemy_dies(from_wave: int) -> void:
 # end the current wave and start the next wave
 func end_wave() -> void:
 	print("ending wave: " + str(current_wave))
+	
 	# stop timers
 	wave_timer.stop()
+	stopWaveTimer.emit()
 	
 	next_wave_timer.start(ending_wave_time)
 	emit_signal("updateNextWaveTimer", ending_wave_time + 1)
