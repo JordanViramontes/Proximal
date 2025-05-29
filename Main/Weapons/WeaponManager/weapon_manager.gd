@@ -34,7 +34,8 @@ var recoil_direction: Vector3 = Vector3.BACK # recoil should be in positive z di
 @export var recoil_recovery_rate: float # amount per frame we recover from recoil
 @export var recoil_reduction_rate: float
 
-
+# signals
+signal update_ring(ring_count: int)
 
 func _ready():
 	weapon_dictionary = [
@@ -115,7 +116,7 @@ func change_weapon_to(weapon_index):
 	# change weapon variables
 	set_current_weapon(weapon_index)
 	
-	print("Changed weapon to: " + str(curr_weapon))
+	#print("Changed weapon to: " + str(curr_weapon))
 
 # when shoot, use the weapon currently used
 func shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
@@ -126,7 +127,7 @@ func shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	#print("weapon_manager - not shooting atm")
 
 func ability_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
-	print("calling ability shoot with params: %s, %s, %s" % [from_pos, look_direction, velocity])
+	#print("calling ability shoot with params: %s, %s, %s" % [from_pos, look_direction, velocity])
 	if curr_weapon.is_hitscan:
 		curr_weapon.ability_shoot(from_pos, look_direction, velocity)
 	else:
@@ -165,11 +166,11 @@ func use_ability(finger):
 		3:
 			if weapon_dictionary[finger].use_ability():
 				abilityInput.emit()
-				print("healing deploying")
+				#print("healing deploying")
 		4:
 			if weapon_dictionary[finger].use_ability():
 				abilityInput.emit()
-				print("sniping")
+				#print("sniping")
 		_:
 			print("weapon_manager - WARNING: no finger to use for ability")
 			return
@@ -180,11 +181,11 @@ func disableWeapons(time: float = 0.0):
 		if not t.is_stopped(): t.stop()
 		t.wait_time = time
 		t.start()
-	print("disable weapons")
+	#print("disable weapons")
 	canUseWeapon = false
 
 func enableWeapons():
-	print("enable weapons")
+	#print("enable weapons")
 	canUseWeapon = true
 
 func isCanUseWeapon() -> bool:
@@ -194,7 +195,7 @@ func _on_dash_timer_timeout() -> void:
 	enableWeapons()
 
 func stun_enemies() -> void:
-	print("weapon_manager.gd: stunning")
+	#print("weapon_manager.gd: stunning")
 	hitboxColl.disabled = false
 	can_stun = false
 	hitboxTimer.start()
@@ -202,16 +203,16 @@ func stun_enemies() -> void:
 
 func _on_stun_hitbox_timer_timeout() -> void:
 	# diabled stun hitbox coll and unstun enemies
-	print("weapon_manager.gd: stun hitbox disabled")
+	#print("weapon_manager.gd: stun hitbox disabled")
 	hitboxColl.disabled = true
 
 func _on_stun_hitbox_body_entered(body: EnemyBase) -> void:
-	print("weapon_manager.gd: stun hitbox found: " + str(body))
+	#print("weapon_manager.gd: stun hitbox found: " + str(body))
 	currently_stunned_enemies.push_back(body)
 	body._on_recieve_stun()
 
 func _on_stun_enemy_timer_timeout() -> void:
-	print ("weapon_manager.gd: unstunning")
+	#print ("weapon_manager.gd: unstunning")
 	
 	# flush stunned array
 	for i in currently_stunned_enemies:
@@ -236,7 +237,8 @@ func _on_enemy_die():
 		if weapon_dictionary[3].ammo_count < weapon_dictionary[3].max_ammo:
 			weapon_dictionary[3].add_ring()
 			hand_visual_base.gain_ring()
-		print("woah a ring! ring count: " + str(weapon_dictionary[3].ammo_count))
+			update_ring.emit(weapon_dictionary[3].ammo_count)
+		#print("woah a ring! ring count: " + str(weapon_dictionary[3].ammo_count))
 
 
 
@@ -261,3 +263,4 @@ func update_recoil(delta: float):
 # provide connection to the hand visual to update the ring visual when the ring uses ammunition
 func on_used_ring():
 	hand_visual_base.lose_ring()
+	update_ring.emit(weapon_dictionary[3].ammo_count)

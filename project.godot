@@ -24,6 +24,7 @@ ConfigFileHandler="*res://Main/Utility/ConfigFileHandler.gd"
 [display]
 
 window/stretch/mode="viewport"
+window/quality/msaa_2d=0
 
 [dotnet]
 
@@ -179,3 +180,7 @@ hotkey_dash={
 3d_physics/layer_4="player"
 3d_physics/layer_5="shootables"
 3d_physics/layer_8="shakeable_camera"
+
+[rendering]
+
+anti_aliasing/quality/msaa_2d=1

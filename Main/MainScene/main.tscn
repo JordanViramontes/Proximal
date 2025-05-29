@@ -1,9 +1,9 @@
-[gd_scene load_steps=38 format=3 uid="uid://5ygls03nw76d"]
+[gd_scene load_steps=46 format=3 uid="uid://5ygls03nw76d"]
 
 [ext_resource type="Texture2D" uid="uid://cqur83lk7fjfl" path="res://assets/hdris/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="1_8wojv"]
 [ext_resource type="Script" uid="uid://bpvwqw4pbfs3m" path="res://Main/Areas/world.gd" id="1_dctr2"]
 [ext_resource type="Texture2D" uid="uid://c7ao2jw0rnah0" path="res://assets/textures/dev/grids/Dark/texture_07.png" id="2_4n1ka"]
-[ext_resource type="PackedScene" path="res://Main/Areas/map_draft_cool_and_real.tscn" id="5_2qk5c"]
+[ext_resource type="PackedScene" uid="uid://ce2114jcqnero" path="res://Main/Areas/map_draft_cool_and_real.tscn" id="5_2qk5c"]
 [ext_resource type="Script" uid="uid://drj4up00u5x88" path="res://Main/Characters/Enemies/enemy_spawn_path.gd" id="6_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://d0u5bw4owtrev" path="res://Main/Characters/Player/player.tscn" id="6_tefeu"]
 [ext_resource type="Script" uid="uid://c0md12nt0jei1" path="res://Main/UI/InGame/fps_counter.gd" id="8_85g3d"]
@@ -14,9 +14,12 @@
 [ext_resource type="Script" uid="uid://vc054ubkxfcw" path="res://Main/UI/InGame/wave_info.gd" id="10_ya4ey"]
 [ext_resource type="Script" uid="uid://bsg3bg0jpnpjr" path="res://Main/UI/InGame/next_wave_starting_in.gd" id="11_eb6dy"]
 [ext_resource type="Texture2D" uid="uid://52vn44k3ngct" path="res://assets/textures/crosshair_dev.png" id="12_eb6dy"]
+[ext_resource type="LabelSettings" uid="uid://bvw7830xabeh5" path="res://assets/Labels/wave_info.tres" id="12_l0jrr"]
 [ext_resource type="Script" uid="uid://b886ylfmdgmqa" path="res://Main/UI/InGame/XpUI/weapon_xp_gui.gd" id="13_a8y0u"]
 [ext_resource type="PackedScene" uid="uid://byrblrkj4ab5k" path="res://Main/UI/InGame/XpUI/baseXpUI.tscn" id="13_trceg"]
 [ext_resource type="Texture2D" uid="uid://c78ktusgpfobs" path="res://assets/textures/HealthBarProgress.png" id="14_muem4"]
+[ext_resource type="LabelSettings" uid="uid://bkvgmwx7m548f" path="res://assets/Labels/xp_ui_text.tres" id="14_pen4i"]
+[ext_resource type="Script" uid="uid://fwe63d05i60h" path="res://Main/UI/InGame/XpUI/ring_gui.gd" id="14_y3gqr"]
 [ext_resource type="Script" uid="uid://3a112of4lpr" path="res://Main/UI/InGame/health_bar.gd" id="15_dp3eg"]
 [ext_resource type="Texture2D" uid="uid://bsh36ub1lj4vr" path="res://assets/textures/HealthBar.png" id="16_0ld40"]
 [ext_resource type="Script" uid="uid://dlwjc8lf77mqk" path="res://Main/UI/InGame/shield_visual.gd" id="17_muem4"]
@@ -103,9 +106,26 @@ _data = {
 }
 point_count = 17
 
+[sub_resource type="Gradient" id="Gradient_l0jrr"]
+offsets = PackedFloat32Array(0, 0.285714, 1)
+colors = PackedColorArray(1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0.890196)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_pen4i"]
+gradient = SubResource("Gradient_l0jrr")
+
+[sub_resource type="LabelSettings" id="LabelSettings_y3gqr"]
+font_size = 90
+
+[sub_resource type="LabelSettings" id="LabelSettings_0fa6y"]
+font_size = 54
+
 [sub_resource type="LabelSettings" id="LabelSettings_ya4ey"]
-line_spacing = -5.0
-font_size = 27
+line_spacing = -20.0
+font_size = 54
+
+[sub_resource type="LabelSettings" id="LabelSettings_2qk5c"]
+line_spacing = -20.0
+font_size = 54
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_dctr2")
@@ -119,6 +139,7 @@ grow_horizontal = 2
 grow_vertical = 2
 stretch = true
 stretch_shrink = 2
+metadata/_edit_lock_ = true
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
 handle_input_locally = false
@@ -198,6 +219,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
 script = ExtResource("9_jbj1t")
+metadata/_edit_lock_ = true
 
 [node name="FPS Counter" type="Label" parent="UI"]
 layout_mode = 1
@@ -210,34 +232,254 @@ grow_horizontal = 0
 theme = ExtResource("9_ya4ey")
 text = "fps:"
 script = ExtResource("8_85g3d")
+metadata/_edit_lock_ = true
 
-[node name="WaveInfo" type="Label" parent="UI" groups=["WaveInfoLabel"]]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -102.0
-offset_top = 25.0
-offset_bottom = 94.0
-grow_horizontal = 0
-theme = ExtResource("9_ya4ey")
-text = "Wave: 
-Time Left: 
-Enemies Left:"
+[node name="WaveInfo" type="Control" parent="UI"]
+anchors_preset = 0
+offset_left = 868.0
+offset_top = 280.0
+offset_right = 1137.0
+offset_bottom = 471.0
+rotation = 0.0244346
 script = ExtResource("10_ya4ey")
 
-[node name="NextWaveStartingIn" type="Label" parent="UI"]
+[node name="Gradient" type="TextureRect" parent="UI/WaveInfo"]
 layout_mode = 0
-offset_left = 202.0
-offset_top = 96.0
-offset_right = 440.0
-offset_bottom = 181.0
+offset_left = -10.0
+offset_top = -41.0
+offset_right = 288.0
+offset_bottom = 109.0
+texture = SubResource("GradientTexture2D_pen4i")
+metadata/_edit_lock_ = true
+
+[node name="Wave2" type="HBoxContainer" parent="UI/WaveInfo"]
+layout_mode = 0
+offset_left = 71.2671
+offset_top = -38.8003
+offset_right = 273.267
+offset_bottom = 61.1997
+theme_override_constants/separation = 18
+metadata/_edit_lock_ = true
+
+[node name="Wave" type="Label" parent="UI/WaveInfo/Wave2" groups=["WaveInfoLabel"]]
+layout_mode = 2
+theme = ExtResource("9_ya4ey")
+text = "Wave:"
+label_settings = SubResource("LabelSettings_y3gqr")
+horizontal_alignment = 2
+metadata/_edit_lock_ = true
+
+[node name="WaveCount" type="Label" parent="UI/WaveInfo/Wave2"]
+layout_mode = 2
+text = "000"
+label_settings = SubResource("LabelSettings_0fa6y")
+metadata/_edit_lock_ = true
+
+[node name="WaveInfo" type="HBoxContainer" parent="UI/WaveInfo"]
+layout_mode = 0
+offset_left = 109.0
+offset_top = 33.0
+offset_right = 386.0
+offset_bottom = 159.0
+theme_override_constants/separation = 18
+metadata/_edit_lock_ = true
+
+[node name="Labels" type="VBoxContainer" parent="UI/WaveInfo/WaveInfo"]
+layout_mode = 2
+theme_override_constants/separation = -5
+metadata/_edit_lock_ = true
+
+[node name="WaveTime" type="Label" parent="UI/WaveInfo/WaveInfo/Labels"]
+layout_mode = 2
+text = "Time:"
+label_settings = ExtResource("12_l0jrr")
+horizontal_alignment = 2
+metadata/_edit_lock_ = true
+
+[node name="WaveEnemies" type="Label" parent="UI/WaveInfo/WaveInfo/Labels"]
+layout_mode = 2
+text = "Enemies:"
+label_settings = ExtResource("12_l0jrr")
+metadata/_edit_lock_ = true
+
+[node name="Numbers" type="VBoxContainer" parent="UI/WaveInfo/WaveInfo"]
+layout_mode = 2
+theme_override_constants/separation = -5
+metadata/_edit_lock_ = true
+
+[node name="WaveTimeNum" type="Label" parent="UI/WaveInfo/WaveInfo/Numbers"]
+layout_mode = 2
+text = "000"
+label_settings = ExtResource("12_l0jrr")
+metadata/_edit_lock_ = true
+
+[node name="WaveEnemiesNum" type="Label" parent="UI/WaveInfo/WaveInfo/Numbers"]
+layout_mode = 2
+text = "000"
+label_settings = ExtResource("12_l0jrr")
+metadata/_edit_lock_ = true
+
+[node name="NextWaveStartingIn" type="Label" parent="UI"]
+visible = false
+layout_mode = 0
+offset_left = 401.0
+offset_top = 208.0
+offset_right = 756.0
+offset_bottom = 325.0
 text = "NEXT WAVE SPAWNING IN:
 3"
 label_settings = SubResource("LabelSettings_ya4ey")
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("11_eb6dy")
+metadata/_edit_lock_ = true
+
+[node name="WeaponGUI" type="VBoxContainer" parent="UI"]
+layout_mode = 2
+offset_left = 16.0
+offset_top = 454.0
+offset_right = 265.0
+offset_bottom = 666.0
+rotation = -0.0244346
+scale = Vector2(1.25, 1.25)
+pivot_offset = Vector2(0, 182)
+theme_override_constants/separation = 0
+
+[node name="RingGUI" type="HBoxContainer" parent="UI/WeaponGUI"]
+layout_direction = 3
+layout_mode = 2
+theme_override_constants/separation = 2
+script = ExtResource("14_y3gqr")
+
+[node name="Spacer" type="Control" parent="UI/WeaponGUI/RingGUI"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="RingCount" type="Label" parent="UI/WeaponGUI/RingGUI"]
+layout_mode = 2
+text = "000"
+label_settings = ExtResource("14_pen4i")
+vertical_alignment = 2
+
+[node name="Rings" type="Label" parent="UI/WeaponGUI/RingGUI"]
+layout_mode = 2
+text = "Rings: "
+label_settings = ExtResource("14_pen4i")
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="WeaponXpGUI" type="VBoxContainer" parent="UI/WeaponGUI"]
+layout_mode = 2
+theme_override_constants/separation = 32
+script = ExtResource("13_a8y0u")
+
+[node name="Thumb" parent="UI/WeaponGUI/WeaponXpGUI" instance=ExtResource("13_trceg")]
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="Index" parent="UI/WeaponGUI/WeaponXpGUI" instance=ExtResource("13_trceg")]
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="Middle" parent="UI/WeaponGUI/WeaponXpGUI" instance=ExtResource("13_trceg")]
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="Ring" parent="UI/WeaponGUI/WeaponXpGUI" instance=ExtResource("13_trceg")]
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="Pinky" parent="UI/WeaponGUI/WeaponXpGUI" instance=ExtResource("13_trceg")]
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="Crosshair" type="TextureRect" parent="UI"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -7.5
+offset_top = -7.5
+offset_right = 7.5
+offset_bottom = 7.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+pivot_offset = Vector2(7.83334, 7.33333)
+mouse_filter = 2
+texture = ExtResource("12_eb6dy")
+metadata/_edit_lock_ = true
+
+[node name="CenterContainer" type="CenterContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -556.992
+offset_top = -306.531
+offset_right = 556.992
+offset_bottom = 306.531
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+metadata/_edit_lock_ = true
+
+[node name="HealthGUI" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -15.0
+offset_top = 2.0
+offset_right = 28.0
+offset_bottom = 45.0
+rotation = -0.0314159
+scale = Vector2(2.045, 2.045)
+
+[node name="HealthBar" type="TextureProgressBar" parent="UI/HealthGUI" node_paths=PackedStringArray("ui_manager")]
+texture_filter = 1
+layout_mode = 0
+offset_left = 59.4985
+offset_top = 23.9123
+offset_right = 1247.5
+offset_bottom = 363.912
+scale = Vector2(0.102084, 0.0276196)
+value = 100.0
+nine_patch_stretch = true
+texture_progress = ExtResource("14_muem4")
+script = ExtResource("15_dp3eg")
+ui_manager = NodePath("../..")
+metadata/_edit_lock_ = true
+
+[node name="HealthBarBackground" type="TextureRect" parent="UI/HealthGUI"]
+texture_filter = 1
+layout_mode = 0
+offset_right = 1065.0
+offset_bottom = 305.0
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("16_0ld40")
+metadata/_edit_lock_ = true
+
+[node name="ShieldVisual" type="ColorRect" parent="UI"]
+visible = false
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 647.0
+mouse_filter = 2
+color = Color(1, 1, 0, 0.254902)
+script = ExtResource("17_muem4")
+
+[node name="PinkyVisual" type="ColorRect" parent="UI"]
+visible = false
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 647.0
+mouse_filter = 2
+color = Color(1, 0.44, 1, 0.27451)
+script = ExtResource("21_2qk5c")
 
 [node name="DeathInterface" type="Control" parent="UI"]
 visible = false
@@ -266,133 +508,20 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -78.0
-offset_top = -24.5
-offset_right = 78.0
-offset_bottom = 24.5
+offset_left = -188.0
+offset_top = -109.5
+offset_right = 193.0
+offset_bottom = 15.5
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("9_ya4ey")
-text = "you died!
-resetting in [BLANK]"
+text = "YOU DIED! RESPAWNING IN:
+[BLANK]"
+label_settings = SubResource("LabelSettings_2qk5c")
 horizontal_alignment = 1
 
 [node name="Timer" type="Timer" parent="UI/DeathInterface"]
-
-[node name="WeaponXpGUI" type="VBoxContainer" parent="UI"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.011
-anchor_top = 0.981
-anchor_right = 0.137
-anchor_bottom = 0.981
-offset_left = -4.672
-offset_top = -155.707
-offset_right = 221.328
-offset_bottom = -15.707
-grow_vertical = 0
-theme_override_constants/separation = 32
-script = ExtResource("13_a8y0u")
-
-[node name="Thumb" parent="UI/WeaponXpGUI" instance=ExtResource("13_trceg")]
-layout_mode = 2
-
-[node name="Index" parent="UI/WeaponXpGUI" instance=ExtResource("13_trceg")]
-layout_mode = 2
-
-[node name="Middle" parent="UI/WeaponXpGUI" instance=ExtResource("13_trceg")]
-layout_mode = 2
-
-[node name="Ring" parent="UI/WeaponXpGUI" instance=ExtResource("13_trceg")]
-layout_mode = 2
-
-[node name="Pinky" parent="UI/WeaponXpGUI" instance=ExtResource("13_trceg")]
-layout_mode = 2
-
-[node name="Crosshair" type="TextureRect" parent="UI"]
-texture_filter = 1
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -7.5
-offset_top = -7.5
-offset_right = 7.5
-offset_bottom = 7.5
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(2, 2)
-pivot_offset = Vector2(7.83334, 7.33333)
-mouse_filter = 2
-texture = ExtResource("12_eb6dy")
-
-[node name="CenterContainer" type="CenterContainer" parent="UI"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -556.992
-offset_top = -306.531
-offset_right = 556.992
-offset_bottom = 306.531
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="Control" type="Control" parent="UI"]
-layout_mode = 3
-anchors_preset = 0
-offset_left = -2.0
-offset_right = 38.0
-offset_bottom = 40.0
-rotation = -0.0238783
-scale = Vector2(2.045, 2.045)
-
-[node name="HealthBar" type="TextureProgressBar" parent="UI/Control" node_paths=PackedStringArray("ui_manager")]
-texture_filter = 1
-layout_mode = 0
-offset_left = 60.0
-offset_top = 22.0
-offset_right = 992.0
-offset_bottom = 289.0
-scale = Vector2(0.102084, 0.0276196)
-value = 100.0
-nine_patch_stretch = true
-texture_progress = ExtResource("14_muem4")
-script = ExtResource("15_dp3eg")
-ui_manager = NodePath("../..")
-
-[node name="HealthBarBackground" type="TextureRect" parent="UI/Control"]
-texture_filter = 1
-layout_mode = 0
-offset_left = 0.44504
-offset_top = -0.424278
-offset_right = 932.445
-offset_bottom = 266.576
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("16_0ld40")
-
-[node name="ShieldVisual" type="ColorRect" parent="UI"]
-visible = false
-layout_mode = 0
-offset_right = 1152.0
-offset_bottom = 647.0
-mouse_filter = 2
-color = Color(1, 1, 0, 0.254902)
-script = ExtResource("17_muem4")
-
-[node name="PinkyVisual" type="ColorRect" parent="UI"]
-visible = false
-layout_mode = 0
-offset_right = 1152.0
-offset_bottom = 647.0
-mouse_filter = 2
-color = Color(1, 0.44, 1, 0.27451)
-script = ExtResource("21_2qk5c")
+autostart = true
 
 [connection signal="timeout" from="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath/WaveTimer" to="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath" method="_on_wave_timer_timeout"]
 [connection signal="timeout" from="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath/UpdateTimer" to="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath" method="_on_update_timer_timeout"]
