@@ -50,7 +50,7 @@ signal updateWaveCount(wave: int)
 signal updateWaveTimer(time: int)
 signal updateEnemyCount(enemies: int)
 signal updateNextWaveVisibility(visible: bool)
-signal updateNextWaveTimer(time: int)
+signal updateNextWaveTimer(time: float)
 
 # wave struct holds all information about each wave
 class Wave:
@@ -85,7 +85,13 @@ class Wave:
  # modified from squash the creeps lol
 
 func _ready() -> void:
-	print("WARNING: USING DEBUG ENEMY SPAWNING")
+	# wait a couple frames
+	await get_tree().process_frame
+	await get_tree().process_frame  # Two frames for safety
+	
+	# emit GUI signals
+	emit_signal("updateNextWaveTimer", 10.0)
+	emit_signal("updateNextWaveVisibility", true)
 
 func _process(delta):
 	if Input.is_action_just_pressed("debug_toggle_wave"):
@@ -259,7 +265,7 @@ func end_wave() -> void:
 # timer for UI
 func _on_update_timer_timeout() -> void:
 	if not can_change_wave:
-		emit_signal("updateNextWaveTimer", next_wave_timer.time_left)
+		#emit_signal("updateNextWaveTimer", next_wave_timer.time_left)
 		return
 	
 	if wave_timer.time_left >= 1:
