@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dadb66jjnpji0" path="res://assets/textures/hand_xp_ui/thumb.png" id="1_6ec0q"]
 [ext_resource type="Theme" uid="uid://rsglqw8mc02x" path="res://assets/themes/default.tres" id="3_luo3j"]
 [ext_resource type="Texture2D" uid="uid://cmskmstru5y4v" path="res://assets/textures/hand_xp_ui/level_up.png" id="4_o4ggq"]
+[ext_resource type="LabelSettings" uid="uid://bkvgmwx7m548f" path="res://assets/Labels/xp_ui_text.tres" id="4_y7pyv"]
 
 [sub_resource type="Gradient" id="Gradient_6ec0q"]
 offsets = PackedFloat32Array(0, 0.883117, 1)
@@ -66,19 +67,17 @@ colors = PackedColorArray(0.560601, 0.188851, 0.52211, 1, 0.851309, 0.460016, 0.
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_vx3hn"]
 gradient = SubResource("Gradient_nfryv")
 
-[sub_resource type="LabelSettings" id="LabelSettings_o3vk8"]
-paragraph_spacing = -10.0
-font_size = 18
-
 [node name="BaseXpUI" type="Control"]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -442.0
-offset_bottom = -341.0
+anchor_right = 0.227
+anchor_bottom = 0.045
+offset_right = 0.495972
+offset_bottom = -0.160002
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(0, 29)
+size_flags_horizontal = 0
+size_flags_vertical = 8
 script = ExtResource("1_3dysb")
 
 [node name="BackGradient" type="TextureRect" parent="."]
@@ -140,19 +139,19 @@ layout_mode = 2
 [node name="WeaponLevel" type="Label" parent="."]
 layout_mode = 2
 offset_left = 190.0
-offset_top = 6.0
-offset_right = 218.0
-offset_bottom = 27.0
+offset_top = 3.0
+offset_right = 231.0
+offset_bottom = 34.0
 theme = ExtResource("3_luo3j")
 text = "Lvl: 1"
-label_settings = SubResource("LabelSettings_o3vk8")
+label_settings = ExtResource("4_y7pyv")
 vertical_alignment = 1
 
 [node name="LevelUp" type="TextureRect" parent="."]
 layout_mode = 0
-offset_left = 225.0
+offset_left = 231.0
 offset_top = 3.0
-offset_right = 325.0
+offset_right = 331.0
 offset_bottom = 103.0
 scale = Vector2(0.225, 0.225)
 texture = ExtResource("4_o4ggq")

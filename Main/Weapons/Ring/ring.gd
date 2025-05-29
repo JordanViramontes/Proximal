@@ -20,11 +20,12 @@ func _ready() -> void:
 
 func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	if ammo_count <= 0:
-		print("carrying no rings. no firing will be occuring.")
+		#print("ring.gd - carrying no rings. no firing will be occuring.")
 		return
 	
 	if bullet == null:
 		print("ring.gd - set my bullet property bro! i dont have it!")
+		return
 
 	var b = bullet.instantiate()
 	if b == null: # just in case
@@ -48,12 +49,13 @@ func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 #shooting healing bullet
 func on_on_ability_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	if ammo_count <= 0:
-		print("carrying no rings. healing will not be occuring.")
+		#print("carrying no rings. healing will not be occuring.")
 		return
 	
-	print("on-on-onability shoot called with %s, %s, %s" % [from_pos, look_direction, velocity])
+	#print("on-on-onability shoot called with %s, %s, %s" % [from_pos, look_direction, velocity])
 	if ability_bullet == null:
 		print("ring.gd - set my bullet property bro! i dont have it!")
+		return
 	
 	
 	var b = ability_bullet.instantiate()

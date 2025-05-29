@@ -4,9 +4,19 @@ extends BulletBase
 @export var terrain_explosion: PackedScene
 
 var facing_axis: Vector3
+var max_distance: float = 20
+var starting_pos: Vector3 = Vector3.ZERO
+
+func _ready() -> void:
+	starting_pos = global_position
 
 func _physics_process(delta: float):
-	print(direction)
+	# if we hit max distance
+	if starting_pos.distance_to(global_position) > max_distance:
+		_on_hitbox_body_entered(null)
+		return
+	
+	#print(direction)
 	super(delta)
 	
 	# TODO: inherit player's velocity when using rings

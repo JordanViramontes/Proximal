@@ -1,23 +1,27 @@
-extends Label
+extends Control
 
-var time_left: int = 0
-var enemies_left: int = 0
-var wave: int = 0
+# components
 @onready var enemy_spawn_path = get_tree().get_first_node_in_group("EnemySpawnParent")
+@onready var wave_count = $Wave2/WaveCount
+@onready var wave_time_count = $WaveInfo/Numbers/WaveTimeNum
+@onready var wave_enemies_count = $WaveInfo/Numbers/WaveEnemiesNum
 
 func _ready() -> void:
+	# set components
+	wave_count.text = str(0)
+	wave_time_count.text = str(0)
+	wave_enemies_count.text = str(0)
+	
+	# set signals
 	enemy_spawn_path.updateWaveTimer.connect(update_time)
 	enemy_spawn_path.updateEnemyCount.connect(update_enemies)
 	enemy_spawn_path.updateWaveCount.connect(update_wave)
 
-func _process(delta: float):
-	text = "Wave: " + str(wave) + "\nTime Left: " + str(time_left) + "\nEnemies Left: " + str(enemies_left) 
+func update_wave(new_wave: int):
+	wave_count.text = str(new_wave)
 
 func update_time(time: int):
-	time_left = time
+	wave_time_count.text = str(time)
 
 func update_enemies(enemies: int):
-	enemies_left = enemies
-
-func update_wave(new_wave: int):
-	wave = new_wave
+	wave_enemies_count.text = str(enemies)
