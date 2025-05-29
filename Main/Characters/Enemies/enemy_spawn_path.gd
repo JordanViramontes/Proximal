@@ -190,8 +190,9 @@ func generateNewWave(wave_count) -> Wave:
 	health_mult = rng.randf_range(1, max_mult)
 	damage_mult = rng.randf_range(1, max_mult)
 	xp_mult = (health_mult + damage_mult) / (max_mult / multiply_scaler) # (h+d) / (max/scale)
-	wave_time = default_wave_time * ((health_mult + damage_mult) / max_mult) # default_time * [(h+d) / max]
-	
+	wave_time = default_wave_time * ( (health_mult + damage_mult + (wave_count / last_static_wave)) / (max_mult) ) # default_time * [(h+d + wave_count/last_static) / max]
+	if wave_time < default_wave_time:
+		wave_time = default_wave_time
 	#print(" max mult: " + str(max_mult) + "\n health_mult: " + str(health_mult) + "\n damage_mult: " + str(damage_mult) + "\n xp_mult: " + str(xp_mult) + "\n wave_time: " + str(wave_time))
 	
 	
