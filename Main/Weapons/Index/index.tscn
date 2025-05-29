@@ -14,7 +14,7 @@ radius = 1.435
 
 [node name="Index" type="Node3D"]
 script = ExtResource("1_d8pwy")
-upgrade_quota = 50.0
+upgrade_quota = 75.0
 degradation = 1.2
 expected_usage = 20
 expected_usage_rate = 5
