@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://5ygls03nw76d"]
+[gd_scene load_steps=47 format=3 uid="uid://5ygls03nw76d"]
 
 [ext_resource type="Texture2D" uid="uid://cqur83lk7fjfl" path="res://assets/hdris/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="1_8wojv"]
 [ext_resource type="Script" uid="uid://bpvwqw4pbfs3m" path="res://Main/Areas/world.gd" id="1_dctr2"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://cqq4wmrgc8xv7" path="res://Main/UI/InGame/death_interface.gd" id="10_choun"]
 [ext_resource type="Script" uid="uid://vc054ubkxfcw" path="res://Main/UI/InGame/wave_info.gd" id="10_ya4ey"]
 [ext_resource type="Script" uid="uid://bsg3bg0jpnpjr" path="res://Main/UI/InGame/next_wave_starting_in.gd" id="11_eb6dy"]
+[ext_resource type="Script" uid="uid://cymprt8ifjy8j" path="res://Main/UI/InGame/wave_time.gd" id="12_0fa6y"]
 [ext_resource type="Texture2D" uid="uid://52vn44k3ngct" path="res://assets/textures/crosshair_dev.png" id="12_eb6dy"]
 [ext_resource type="LabelSettings" uid="uid://bvw7830xabeh5" path="res://assets/Labels/wave_info.tres" id="12_l0jrr"]
 [ext_resource type="Script" uid="uid://b886ylfmdgmqa" path="res://Main/UI/InGame/XpUI/weapon_xp_gui.gd" id="13_a8y0u"]
@@ -194,9 +195,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.111441, 2.34501, 35.0068)
 [node name="WaveTimer" type="Timer" parent="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath"]
 one_shot = true
 
-[node name="UpdateTimer" type="Timer" parent="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath"]
-autostart = true
-
 [node name="NextWaveTimer" type="Timer" parent="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath"]
 wait_time = 2.0
 one_shot = true
@@ -298,6 +296,7 @@ metadata/_edit_lock_ = true
 layout_mode = 2
 text = "000"
 label_settings = ExtResource("12_l0jrr")
+script = ExtResource("12_0fa6y")
 metadata/_edit_lock_ = true
 
 [node name="WaveEnemiesNum" type="Label" parent="UI/WaveInfo/WaveInfo/Numbers"]
@@ -534,5 +533,4 @@ horizontal_alignment = 1
 autostart = true
 
 [connection signal="timeout" from="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath/WaveTimer" to="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath" method="_on_wave_timer_timeout"]
-[connection signal="timeout" from="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath/UpdateTimer" to="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath" method="_on_update_timer_timeout"]
 [connection signal="timeout" from="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath/NextWaveTimer" to="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath" method="_on_next_wave_timer_timeout"]

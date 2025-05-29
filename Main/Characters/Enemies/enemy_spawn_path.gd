@@ -1,57 +1,5 @@
 extends Path3D
 
-# variables - enemies, health mul, experience mul, damage mul, time
-var waveDictionary = [
-	Wave.new([5, 0, 0, 0], 1, 1, 1, 20), # 0
-	Wave.new([3, 3, 0, 0], 1, 1, 1, 20),
-	Wave.new([5, 5, 0, 0], 1, 1, 1, 20),
-	Wave.new([0, 10, 0, 0], 1, 1, 1, 20),
-	Wave.new([0, 6, 2, 0], 1, 1, 1, 20), # 4
-	Wave.new([3, 5, 1, 0], 1, 1, 1, 20),
-	Wave.new([6, 6, 2, 0], 1, 1, 1, 20),
-	Wave.new([10, 2, 0, 0], 1, 1, 1, 20),
-	Wave.new([6, 8, 1, 0], 1, 1, 1, 20),
-	Wave.new([3, 0, 0, 1], 1, 1, 1, 20), # 9
-	Wave.new([2, 3, 0, 3], 1, 1, 1, 20),
-	Wave.new([3, 6, 2, 3], 1, 1, 1, 20),
-	Wave.new([3, 10, 5, 1], 1, 1, 1, 20),
-	Wave.new([7, 4, 2, 2], 1, 1, 1, 20),
-	Wave.new([10, 10, 5, 5], 0.1, 1, 100, 20), #14
-]
-@export var starting_wave: int = 0
-var current_wave = starting_wave
-var current_wave_enemy_count: int = 0
-var can_change_wave: bool = true
-var wave = waveDictionary[starting_wave]
-
-# DEBUG components
-var DEBUG_enemy_list = [
-	"res://Main/Characters/Enemies/EnemyBase/enemy_base.tscn", # BASE 0
-	"res://Main/Characters/Enemies/IshimCrawler/ishim_crawler.tscn", # CRAWLER 1
-	"res://Main/Characters/Enemies/IshimRanger/ishim_ranger.tscn", # RANGER 2
-	"res://Main/Characters/Enemies/Cherubim/cherubim.tscn", # CHERUBIM WORM 3
-	"res://Main/Characters/Enemies/Elohim/elohim.tscn", # ELOHIM 4
-	"res://Main/Characters/Enemies/ElohimBeneCrawler/be_elohim_crawler.tscn", # BENE ELOHIM CRAWLER 5
-	"res://Main/Characters/Enemies/ElohimBeneRanger/be_elohim_ranger.tscn", # BENE ELOHIM RANGER 6
-]
-var DEBUG_enemy_ptr = 3
-var DEBUG_wave: bool = true
-
-# components
-@onready var player = get_tree().get_first_node_in_group("Player")
-@onready var test_spawn_point = $TestSpawnPoint
-@onready var wave_timer = $WaveTimer
-@onready var update_timer = $UpdateTimer
-@onready var next_wave_timer = $NextWaveTimer
-@onready var wave_info_label = get_tree().get_first_node_in_group("WaveInfoLabel")
-
-# signals
-signal updateWaveCount(wave: int)
-signal updateWaveTimer(time: int)
-signal updateEnemyCount(enemies: int)
-signal updateNextWaveVisibility(visible: bool)
-signal updateNextWaveTimer(time: float)
-
 # wave struct holds all information about each wave
 class Wave:
 	var enemy_count = { 
@@ -80,17 +28,71 @@ class Wave:
 		enemy_damage_multiplier = in_enemy_damage_multiplier
 		enemy_experience_multiplier = in_enemy_experience_multiplier
 		wave_time_count = in_wave_timer
-		
 
- # modified from squash the creeps lol
+# variables - enemies, health mul, experience mul, damage mul, time
+var waveDictionary = [
+	Wave.new([5, 0, 0, 0], 1, 1, 1, 5), # 0
+	Wave.new([3, 3, 0, 0], 1, 1, 1, 20),
+	Wave.new([5, 5, 0, 0], 1, 1, 1, 20),
+	Wave.new([0, 10, 0, 0], 1, 1, 1, 20),
+	Wave.new([0, 6, 2, 0], 1, 1, 1, 20), # 4
+	Wave.new([3, 5, 1, 0], 1, 1, 1, 20),
+	Wave.new([6, 6, 2, 0], 1, 1, 1, 20),
+	Wave.new([10, 2, 0, 0], 1, 1, 1, 20),
+	Wave.new([6, 8, 1, 0], 1, 1, 1, 20),
+	Wave.new([3, 0, 0, 1], 1, 1, 1, 20), # 9
+	Wave.new([2, 3, 0, 3], 1, 1, 1, 20),
+	Wave.new([3, 6, 2, 3], 1, 1, 1, 20),
+	Wave.new([3, 10, 5, 1], 1, 1, 1, 20),
+	Wave.new([7, 4, 2, 2], 1, 1, 1, 20),
+	Wave.new([10, 10, 5, 5], 0.1, 1, 100, 20), #14
+]
+@export var starting_wave: int = 0
+var current_wave = starting_wave
+var current_wave_enemy_count: int = 0
+var can_change_wave: bool = true
+var wave = waveDictionary[starting_wave]
+var ending_wave_time: float = 3.0
+var start_wave_time: float = 5.0
+var first_wave: bool = true
+
+# DEBUG components
+var DEBUG_enemy_list = [
+	"res://Main/Characters/Enemies/EnemyBase/enemy_base.tscn", # BASE 0
+	"res://Main/Characters/Enemies/IshimCrawler/ishim_crawler.tscn", # CRAWLER 1
+	"res://Main/Characters/Enemies/IshimRanger/ishim_ranger.tscn", # RANGER 2
+	"res://Main/Characters/Enemies/Cherubim/cherubim.tscn", # CHERUBIM WORM 3
+	"res://Main/Characters/Enemies/Elohim/elohim.tscn", # ELOHIM 4
+	"res://Main/Characters/Enemies/ElohimBeneCrawler/be_elohim_crawler.tscn", # BENE ELOHIM CRAWLER 5
+	"res://Main/Characters/Enemies/ElohimBeneRanger/be_elohim_ranger.tscn", # BENE ELOHIM RANGER 6
+]
+var DEBUG_enemy_ptr = 3
+var DEBUG_wave: bool = true
+
+# components
+@onready var player = get_tree().get_first_node_in_group("Player")
+@onready var test_spawn_point = $TestSpawnPoint
+@onready var wave_timer = $WaveTimer
+#@onready var update_timer = $UpdateTimer
+@onready var next_wave_timer = $NextWaveTimer
+@onready var wave_info_label = get_tree().get_first_node_in_group("WaveInfoLabel")
+
+# signals
+signal updateWaveCount(wave: int)
+signal updateWaveTimer(time: float)
+signal updateEnemyCount(enemies: int)
+signal updateNextWaveVisibility(visible: bool)
+signal updateNextWaveTimer(time: float)
 
 func _ready() -> void:
+	next_wave_timer.start(start_wave_time)
+	
 	# wait a couple frames
 	await get_tree().process_frame
 	await get_tree().process_frame  # Two frames for safety
 	
-	# emit GUI signals
-	emit_signal("updateNextWaveTimer", 10.0)
+	# emit GUI signals and start clock
+	emit_signal("updateNextWaveTimer", next_wave_timer.time_left + 1)
 	emit_signal("updateNextWaveVisibility", true)
 
 func _process(delta):
@@ -153,10 +155,10 @@ func spawnWave(wave_index):
 	wave_timer.wait_time = wave.wave_time_count
 	wave_timer.start()
 	
-	update_timer.stop()
-	update_timer.wait_time = 1
-	update_timer.start()
-	emit_signal("updateWaveTimer", wave_timer.time_left)
+	#update_timer.stop()
+	#update_timer.wait_time = 1
+	#update_timer.start()
+	emit_signal("updateWaveTimer", wave_timer.time_left + 1)
 	emit_signal("updateEnemyCount", current_wave_enemy_count)
 	emit_signal("updateWaveCount", current_wave + 1)
 
@@ -255,24 +257,17 @@ func end_wave() -> void:
 	# stop timers
 	wave_timer.stop()
 	
-	next_wave_timer.start()
-	update_timer.stop()
-	update_timer.wait_time = 1
-	update_timer.start()
-	emit_signal("updateNextWaveTimer", next_wave_timer.time_left)
+	next_wave_timer.start(ending_wave_time)
+	emit_signal("updateNextWaveTimer", ending_wave_time + 1)
 	emit_signal("updateNextWaveVisibility", true)
-
-# timer for UI
-func _on_update_timer_timeout() -> void:
-	if not can_change_wave:
-		#emit_signal("updateNextWaveTimer", next_wave_timer.time_left)
-		return
-	
-	if wave_timer.time_left >= 1:
-		emit_signal("updateWaveTimer", wave_timer.time_left)
 
 # starts a new wave
 func _on_next_wave_timer_timeout() -> void:
+	# just spawn immediately (the game starting timer)
+	if first_wave:
+		first_wave = false
+		current_wave -= 1
+	
 	# change wave and start a new one
 	emit_signal("updateNextWaveVisibility", false)
 	current_wave += 1
