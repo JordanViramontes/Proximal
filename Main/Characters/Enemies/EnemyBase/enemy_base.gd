@@ -81,7 +81,7 @@ func initialize(starting_position, init_player_position, wave, init_health_multi
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:	
 	# print:
-	print("SPAWNING SELF: " + str(self))
+	#print("SPAWNING SELF: " + str(self))
 	
 	# connect signal to weaponmanager
 	drop_xp.connect(weapon_manager._on_earn_experience)
@@ -127,6 +127,7 @@ func _process(delta: float) -> void:
 	pass
 
 func _physics_process(delta):
+	#stunned
 	if current_state == ENEMY_STATE.stunned:
 		if vacuum_timer > 0.0:
 			# If close enough to front of player, stop pulling
@@ -136,7 +137,7 @@ func _physics_process(delta):
 				#_on_recieve_stun()
 				#await get_tree().create_timer(2).timeout # stun for 2 second after pull
 				#_on_recieve_unstun() #stun process in the vacuum function
-				return
+				#return
 			vacuum_timer -= delta
 			velocity = vacuum_velocity
 			move_and_slide()
@@ -149,6 +150,7 @@ func _physics_process(delta):
 			_on_recieve_unstun()  #stun process in the vacuum function
 			move_and_slide()
 			return
+	
 	# Spawning logic
 	if current_state == ENEMY_STATE.spawn_edge:
 		if global_position.distance_to(spawn_distance_vector) < 0.1:
