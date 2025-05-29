@@ -7,7 +7,7 @@ var waveDictionary = [
 	Wave.new([5, 0, 0, 0], 1, 1, 1, default_wave_time), # 0
 	Wave.new([3, 3, 0, 0], 1, 1, 1, default_wave_time),
 	Wave.new([5, 5, 0, 0], 1, 1, 1, default_wave_time),
-	Wave.new([0, 10, 0, 0], 1, 1, 1, default_wave_time),
+	Wave.new([0, 8, 0, 0], 1, 1, 1, default_wave_time),
 	Wave.new([0, 6, 2, 0], 1, 1, 1, default_wave_time), # 4
 	Wave.new([3, 5, 1, 0], 1, 1, 1, default_wave_time),
 	Wave.new([6, 6, 2, 0], 1, 1, 1, default_wave_time),
@@ -16,9 +16,9 @@ var waveDictionary = [
 	Wave.new([3, 0, 0, 1], 1, 1, 1, default_wave_time), # 9
 	Wave.new([2, 3, 0, 3], 1, 1, 1, default_wave_time),
 	Wave.new([3, 6, 2, 3], 1, 1, 1, default_wave_time),
-	Wave.new([3, 10, 5, 1], 1, 1, 1, default_wave_time),
+	Wave.new([0, 10, 5, 1], 1, 1, 1, default_wave_time),
 	Wave.new([7, 4, 2, 2], 1, 1, 1, default_wave_time),
-	Wave.new([5, 5, 2, 5], 0.1, 1, 100, default_wave_time), #14
+	Wave.new([5, 5, 2, 5], 1, 1, 1, default_wave_time), #14
 ]
 @export var starting_wave: int = 14
 var last_static_wave = waveDictionary.size() - 1
@@ -189,7 +189,7 @@ func generateNewWave(wave_count) -> Wave:
 	var max_mult:float = wave_count * (1 / (last_static_wave / multiply_scaler))
 	health_mult = rng.randf_range(1, max_mult)
 	damage_mult = rng.randf_range(1, max_mult)
-	xp_mult = (health_mult + damage_mult) / (max_mult / multiply_scaler) # (h+d) / (max/scale)
+	xp_mult = (health_mult + damage_mult * 2) / (max_mult / multiply_scaler) # (h+2d) / (max/scale)
 	wave_time = default_wave_time * ( (health_mult + damage_mult + (wave_count / last_static_wave)) / (max_mult) ) # default_time * [(h+d + wave_count/last_static) / max]
 	if wave_time < default_wave_time:
 		wave_time = default_wave_time
