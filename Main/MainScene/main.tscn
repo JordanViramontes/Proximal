@@ -200,7 +200,7 @@ wait_time = 2.0
 one_shot = true
 
 [node name="Player" parent="SubViewportContainer/SubViewport" instance=ExtResource("6_tefeu")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -4.93703, 5.62312, 15)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -4.93703, 0.975243, 15)
 DASH_SPEED = 50
 
 [node name="UI" type="Control" parent="."]

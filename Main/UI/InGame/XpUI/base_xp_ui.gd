@@ -88,7 +88,7 @@ func create_new_gradient_texture(color) -> GradientTexture2D:
 
 	# Set the color points (offsets must be between 0.0 and 1.0)
 	gradient.add_point(0.0, color[0])  # Start color (red)
-	gradient.add_point(0.999999, color[1])  # End color (blue)
+	gradient.add_point(0.9999999, color[1])  # End color (blue)
 
 	# Create the GradientTexture2D and assign the gradient
 	var grad_texture := GradientTexture2D.new()
