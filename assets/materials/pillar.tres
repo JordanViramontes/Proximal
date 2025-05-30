@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cq0lxb6qkynil"]
+
+[ext_resource type="Texture2D" uid="uid://ckj06ymhn8pog" path="res://assets/textures/pillar.png" id="1_l4r1n"]
+
+[resource]
+albedo_texture = ExtResource("1_l4r1n")
+uv1_scale = Vector3(5, 5, 5)
+texture_filter = 2
