@@ -1,15 +1,14 @@
-[gd_scene load_steps=40 format=3 uid="uid://5ygls03nw76d"]
+[gd_scene load_steps=38 format=3 uid="uid://5ygls03nw76d"]
 
 [ext_resource type="Texture2D" uid="uid://cqur83lk7fjfl" path="res://assets/hdris/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="1_8wojv"]
 [ext_resource type="Script" uid="uid://bpvwqw4pbfs3m" path="res://Main/Areas/world.gd" id="1_dctr2"]
 [ext_resource type="Texture2D" uid="uid://c7ao2jw0rnah0" path="res://assets/textures/dev/grids/Dark/texture_07.png" id="2_4n1ka"]
-[ext_resource type="PackedScene" uid="uid://ce2114jcqnero" path="res://Main/Areas/map_draft_cool_and_real.tscn" id="5_2qk5c"]
+[ext_resource type="PackedScene" uid="uid://d2k3cfga0jn37" path="res://Main/Areas/map_draft_cool_and_real.tscn" id="5_2qk5c"]
 [ext_resource type="Script" uid="uid://drj4up00u5x88" path="res://Main/Characters/Enemies/enemy_spawn_path.gd" id="6_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://d0u5bw4owtrev" path="res://Main/Characters/Player/player.tscn" id="6_tefeu"]
 [ext_resource type="Script" uid="uid://c0md12nt0jei1" path="res://Main/UI/InGame/fps_counter.gd" id="8_85g3d"]
 [ext_resource type="Shader" uid="uid://drfc1fob3nean" path="res://assets/shaders/water.gdshader" id="9_85g3d"]
 [ext_resource type="Script" uid="uid://bv6srvbqyys10" path="res://Main/UI/InGame/ui_manager.gd" id="9_jbj1t"]
-[ext_resource type="PackedScene" uid="uid://bmc77hxkk2at1" path="res://Main/Characters/Enemies/Elohim/elohim.tscn" id="9_pen4i"]
 [ext_resource type="Theme" uid="uid://rsglqw8mc02x" path="res://assets/themes/default.tres" id="9_ya4ey"]
 [ext_resource type="Script" uid="uid://cqq4wmrgc8xv7" path="res://Main/UI/InGame/death_interface.gd" id="10_choun"]
 [ext_resource type="Script" uid="uid://vc054ubkxfcw" path="res://Main/UI/InGame/wave_info.gd" id="10_ya4ey"]
@@ -184,12 +183,6 @@ one_shot = true
 [node name="Player" parent="SubViewportContainer/SubViewport" instance=ExtResource("6_tefeu")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -4.93703, 5.62312, 15)
 DASH_SPEED = 50
-
-[node name="Cherubim" parent="SubViewportContainer/SubViewport" instance=ExtResource("8_l0jrr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.31417, 3.8705, 17.6904)
-
-[node name="Elohim" parent="SubViewportContainer/SubViewport" instance=ExtResource("9_pen4i")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.3382, 3.30285, -2.77683)
 
 [node name="UI" type="Control" parent="."]
 layout_direction = 1
