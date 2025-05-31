@@ -1,28 +1,32 @@
 extends Path3D
 
 # variables - enemies, health mul, experience mul, damage mul, time
+@export var multiply_scaler = 1.5 # as this increases, the game scales faster
+@export var default_wave_time = 20
 var waveDictionary = [
-	Wave.new([5, 0, 0, 0], 1, 1, 1, 20), # 0
-	Wave.new([3, 3, 0, 0], 1, 1, 1, 20),
-	Wave.new([5, 5, 0, 0], 1, 1, 1, 20),
-	Wave.new([0, 10, 0, 0], 1, 1, 1, 20),
-	Wave.new([0, 6, 2, 0], 1, 1, 1, 20), # 4
-	Wave.new([3, 5, 1, 0], 1, 1, 1, 20),
-	Wave.new([6, 6, 2, 0], 1, 1, 1, 20),
-	Wave.new([10, 2, 0, 0], 1, 1, 1, 20),
-	Wave.new([6, 8, 1, 0], 1, 1, 1, 20),
-	Wave.new([3, 0, 0, 1], 1, 1, 1, 20), # 9
-	Wave.new([2, 3, 0, 3], 1, 1, 1, 20),
-	Wave.new([3, 6, 2, 3], 1, 1, 1, 20),
-	Wave.new([3, 10, 5, 1], 1, 1, 1, 20),
-	Wave.new([7, 4, 2, 2], 1, 1, 1, 20),
-	Wave.new([10, 10, 5, 5], 0.1, 1, 100, 20), #14
+	Wave.new([5, 0, 0, 0], 1, 1, 1, default_wave_time), # 0
+	Wave.new([3, 3, 0, 0], 1, 1, 1, default_wave_time),
+	Wave.new([5, 5, 0, 0], 1, 1, 1, default_wave_time),
+	Wave.new([0, 8, 0, 0], 1, 1, 1, default_wave_time),
+	Wave.new([0, 6, 2, 0], 1, 1, 1, default_wave_time), # 4
+	Wave.new([3, 5, 1, 0], 1, 1, 1, default_wave_time),
+	Wave.new([6, 6, 2, 0], 1, 1, 1, default_wave_time),
+	Wave.new([10, 2, 0, 0], 1, 1, 1, default_wave_time),
+	Wave.new([6, 8, 1, 0], 1, 1, 1, default_wave_time),
+	Wave.new([3, 0, 0, 1], 1, 1, 1, default_wave_time), # 9
+	Wave.new([2, 3, 0, 3], 1, 1, 1, default_wave_time),
+	Wave.new([3, 6, 2, 3], 1, 1, 1, default_wave_time),
+	Wave.new([0, 10, 5, 1], 1, 1, 1, default_wave_time),
+	Wave.new([7, 4, 2, 2], 1, 1, 1, default_wave_time),
+	Wave.new([5, 5, 2, 5], 1, 1, 1, default_wave_time), #14
 ]
-@export var starting_wave: int = 0
+@export var starting_wave: int = 14
+var last_static_wave = waveDictionary.size() - 1
 var current_wave = starting_wave
 var current_wave_enemy_count: int = 0
 var can_change_wave: bool = true
 var wave = waveDictionary[starting_wave]
+var total_enemy_dictionary = waveDictionary[0].enemy_count.size()
 
 # DEBUG components
 var DEBUG_enemy_list = [
@@ -105,7 +109,7 @@ func _process(delta):
 			prevWave()
 	else:
 		if Input.is_action_just_pressed("debug_spawn_enemy"):
-			TESTspawnWave()
+			DEBUGspawnSingleEnemy()
 		if Input.is_action_just_pressed("debug_next_enemy"):
 			if not DEBUG_enemy_ptr + 1 >= DEBUG_enemy_list.size():
 				DEBUG_enemy_ptr = DEBUG_enemy_ptr + 1
@@ -155,12 +159,49 @@ func spawnWave(wave_index):
 	emit_signal("updateWaveCount", current_wave + 1)
 
 func generateNewWave(wave_count) -> Wave:
+	# vars
+	var rng = RandomNumberGenerator.new()
+	var enemies: Array[int] = []
+	var health_mult: float = 1
+	var damage_mult: float = 1
+	var xp_mult: float = 1
+	var wave_time: float = 20
+	
+	# make a random amount of enemies, total enemy per wave cap calculated by wave number
+	enemies.resize(total_enemy_dictionary)
+	
+	# get random partitions (from 0-100)
+	var enemiesRNG: Array[float] = []
+	enemiesRNG.resize(total_enemy_dictionary)
+	for i in range(total_enemy_dictionary - 1):
+		enemiesRNG[i] = rng.randf_range(0, 100)
+	enemiesRNG.push_back(100)
+	enemiesRNG.sort() # theres an extra 0 from resizing the array which is good!
+	
+	# now set the amount of enemies based on rng partition; max enemies * partition size 
+	for i in range(total_enemy_dictionary):
+		enemies[i] = int(ceil(wave_count * ((enemiesRNG[i+1] - enemiesRNG[i]) / 100)))
+	
+	#print("partitions: " + str(enemiesRNG))
+	#print("enemies: " + str(enemies))
+	
+	# set health and damage multipliers, xp and timer scales as either of these increase
+	var max_mult:float = wave_count * (1 / (last_static_wave / multiply_scaler))
+	health_mult = rng.randf_range(1, max_mult)
+	damage_mult = rng.randf_range(1, max_mult)
+	xp_mult = (health_mult + damage_mult * 2) / (max_mult / multiply_scaler) # (h+2d) / (max/scale)
+	wave_time = default_wave_time * ( (health_mult + damage_mult + (wave_count / last_static_wave)) / (max_mult) ) # default_time * [(h+d + wave_count/last_static) / max]
+	if wave_time < default_wave_time:
+		wave_time = default_wave_time
+	#print(" max mult: " + str(max_mult) + "\n health_mult: " + str(health_mult) + "\n damage_mult: " + str(damage_mult) + "\n xp_mult: " + str(xp_mult) + "\n wave_time: " + str(wave_time))
+	
+	
 	print("generating new wave!")
-	var new_wave = Wave.new([10, 10, 10, 10], 1, 1, 1, 20)
+	var new_wave = Wave.new(enemies, health_mult, damage_mult, xp_mult, wave_time)
 	
 	return new_wave
 
-func TESTspawnWave():
+func DEBUGspawnSingleEnemy():
 	# for debugging enemies
 	var test_amount = 1
 	for i in range(test_amount):
@@ -192,24 +233,27 @@ func spawnEnemy(mob_path, debug_flag, health_multiplier, damage_multiplier, expe
 		mob.add_new_enemies.connect(self.increase_enemy_count)
 
 func nextWave():
-	if current_wave >= waveDictionary.size() - 1:
-		return
 	current_wave += 1
-	print("Wave: " + str(current_wave))
+	
+	# generate new wave if we're past the dictionary
+	if current_wave >= waveDictionary.size() - 1:
+		waveDictionary.push_back(generateNewWave(current_wave))
 	printWave(current_wave)
 
 func prevWave():
 	if current_wave == 0:
 		return
 	current_wave -= 1
-	print("wave: " + str(current_wave))
 	printWave(current_wave)
 
 func printWave(wave_index):
 	var wave = waveDictionary[wave_index]
+	
+	print("Wave: " + str(current_wave))
 	for i in wave.enemy_count.keys():
-		print("Enemy: " + str(i) + ", cnt: " + str(wave.enemy_count[i]))
-	print("healthMult: " + str(wave.enemy_health_multiplier) + ", damageMult: " + str(wave.enemy_damage_multiplier))
+		print(str(wave.enemy_count[i]) + "; " + str(i))
+	print("healthMult: " + str(wave.enemy_health_multiplier) + ", damageMult: " + str(wave.enemy_damage_multiplier) + ", xpMult: " + str(wave.enemy_experience_multiplier))
+	print("time: " + str(wave.wave_time_count))
 	print()
 
 # one of the ways waves end
