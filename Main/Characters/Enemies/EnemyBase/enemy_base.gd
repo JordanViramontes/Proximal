@@ -104,6 +104,13 @@ func _ready() -> void:
 	
 	# set the target
 	set_movement_target(get_target_from_state(current_state))
+	
+	# stunparticles
+	var s_part: GPUParticles3D = get_node_or_null("StunParticles")
+	if s_part:
+		s_part.emitting = false
+	else:
+		print_rich("[color=yellow]WARNING:[/color]: you might want to give %s stun particles" % self)
 
 func calculateSpwaningVelocity() -> Vector3:
 	# use trig to find the distances for x and z
@@ -249,6 +256,13 @@ func _on_recieve_stun() -> void:
 	pathfind_timer.stop() # disable pathfinding
 	pathfind_timer.autostart = false
 	can_damage_player = false
+	
+	# stunned particles
+	var part: GPUParticles3D = get_node_or_null("StunParticles")
+	if part:
+		part.emitting = true
+	else:
+		print_rich("[color=yellow]WARNING[/color]: node %s should have stun particles!" % self)
 
 func _on_recieve_unstun() -> void:
 	print("enemy_base.gd un-stunned: " + str(self))
@@ -256,6 +270,10 @@ func _on_recieve_unstun() -> void:
 	pathfind_timer.start() # disable pathfinding
 	pathfind_timer.autostart = true
 	can_damage_player = true
+	
+	var part: GPUParticles3D = get_node_or_null("StunParticles")
+	if part:
+		part.emitting = false
 	
 func apply_vacuum_force(direction: Vector3, strength: float, target_pos: Vector3):
 	vacuum_target_position = target_pos

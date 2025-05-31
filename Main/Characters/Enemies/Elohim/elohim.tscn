@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bmc77hxkk2at1"]
+[gd_scene load_steps=21 format=3 uid="uid://bmc77hxkk2at1"]
 
 [ext_resource type="Script" uid="uid://b4fokfiw017fj" path="res://Main/Characters/Enemies/Elohim/elohim.gd" id="1_3vyl4"]
 [ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://Main/Utility/Components/health_component.gd" id="2_kemqb"]
@@ -7,6 +7,7 @@
 [ext_resource type="Shader" uid="uid://cxpcdyu7soiyp" path="res://assets/shaders/thank_you_uslash_theduriel.gdshader" id="5_4a2vk"]
 [ext_resource type="Texture2D" uid="uid://cksj1qlb381mn" path="res://assets/sprites/elohim/elohim-Sheet.png" id="6_6fjeu"]
 [ext_resource type="Texture2D" uid="uid://druw8o2qfg52y" path="res://assets/sprites/elohim/particle-Sheet.png" id="7_6fjeu"]
+[ext_resource type="PackedScene" uid="uid://d183l837ka6ro" path="res://Main/Utility/Particles/stun_particles.tscn" id="8_m47kb"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2so3s"]
 albedo_color = Color(0.172549, 0.356863, 0, 1)
@@ -150,6 +151,9 @@ emitting = false
 one_shot = true
 process_material = SubResource("ParticleProcessMaterial_m47kb")
 draw_pass_1 = SubResource("QuadMesh_i0d4b")
+
+[node name="StunParticles" parent="." instance=ExtResource("8_m47kb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.28983, 0)
 
 [connection signal="timeout" from="PathfindTimer" to="." method="_on_pathfind_timer_timeout"]
 [connection signal="timeout" from="SummonCooldown" to="." method="_on_summon_cooldown_timeout"]

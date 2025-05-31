@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cbhs6isi7tp"]
+[gd_scene load_steps=18 format=3 uid="uid://cbhs6isi7tp"]
 
 [ext_resource type="Script" uid="uid://ctrdff26xvpi8" path="res://Main/Characters/Enemies/ElohimBeneRanger/be_elohim_ranger.gd" id="1_feee0"]
 [ext_resource type="PackedScene" uid="uid://dfqpjffr77ts" path="res://Main/Characters/Enemies/ElohimBeneRanger/bene_bullet.tscn" id="2_771yh"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://Main/Utility/Components/hitbox_component.gd" id="3_771yh"]
 [ext_resource type="Shader" uid="uid://cxpcdyu7soiyp" path="res://assets/shaders/thank_you_uslash_theduriel.gdshader" id="6_ih2pf"]
 [ext_resource type="Texture2D" uid="uid://boqk7rl7gwf4l" path="res://assets/sprites/elohim/bene-Sheet.png" id="7_wi0tj"]
+[ext_resource type="PackedScene" uid="uid://d183l837ka6ro" path="res://Main/Utility/Particles/stun_particles.tscn" id="8_wi0tj"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_771yh"]
 albedo_color = Color(0.521358, 0.723719, 0.279387, 1)
@@ -129,6 +130,9 @@ pixel_size = 0.02
 sprite_frames = SubResource("SpriteFrames_4ox1g")
 autoplay = "default"
 frame_progress = 0.770024
+
+[node name="StunParticles" parent="." instance=ExtResource("8_wi0tj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.602993, 0)
 
 [connection signal="timeout" from="PathfindTimer" to="." method="_on_pathfind_timer_timeout"]
 [connection signal="timeout" from="ShootCooldown" to="." method="_on_shoot_cooldown_timeout"]
