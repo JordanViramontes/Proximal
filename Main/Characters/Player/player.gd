@@ -85,6 +85,7 @@ var current_forward_dir = 0
 @export_category("Misc Health and Damage")
 @export var DEATH_HEIGHT = -40.0
 @export var max_health: float = 100
+@export var damage_visual_per_hit: float = 0.1
 var current_health: int = max_health
 var can_take_damage: bool = true
 var is_healing: bool = false
@@ -352,6 +353,7 @@ func on_reach_zero_health():
 # when you get damaged
 func on_damaged(di: DamageInstance):
 	print("damage deal to me!: " + str(di.damage) + ",\ttotal health: " + str(health_component.current_health))
+	Util.damage_taken.emit(damage_visual_per_hit)
 	
 func on_toggle_shield(state:bool):
 	if state == true:

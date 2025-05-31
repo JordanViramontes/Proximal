@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://csm4pxrfit34f" path="res://Main/Characters/Enemies/IshimRanger/ranger_bullet.tscn" id="5_8pu60"]
 [ext_resource type="Shader" uid="uid://cxpcdyu7soiyp" path="res://assets/shaders/thank_you_uslash_theduriel.gdshader" id="6_774nx"]
 [ext_resource type="Texture2D" uid="uid://biipfwjx2mb0k" path="res://assets/sprites/ishim/ranger/ishim-ranger-Sheet.png" id="7_lcywr"]
-[ext_resource type="PackedScene" path="res://Main/Utility/Particles/stun_particles.tscn" id="8_lcywr"]
+[ext_resource type="PackedScene" uid="uid://d183l837ka6ro" path="res://Main/Utility/Particles/stun_particles.tscn" id="8_lcywr"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8pu60"]
 albedo_color = Color(1, 0.47451, 1, 1)
