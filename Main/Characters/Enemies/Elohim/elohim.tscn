@@ -1,20 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://bmc77hxkk2at1"]
+[gd_scene load_steps=21 format=3 uid="uid://bmc77hxkk2at1"]
 
 [ext_resource type="Script" uid="uid://b4fokfiw017fj" path="res://Main/Characters/Enemies/Elohim/elohim.gd" id="1_3vyl4"]
 [ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://Main/Utility/Components/health_component.gd" id="2_kemqb"]
+[ext_resource type="Material" uid="uid://cv7l0r86mk435" path="res://assets/materials/hitflash_mat.tres" id="2_ldq7c"]
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://Main/Utility/Components/hitbox_component.gd" id="3_2so3s"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kemqb"]
-albedo_color = Color(0.262783, 0.522983, 0, 1)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_8wiwn"]
-material = SubResource("StandardMaterial3D_kemqb")
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2so3s"]
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kemqb"]
-radius = 0.822083
-height = 6.40834
+[ext_resource type="Shader" uid="uid://cxpcdyu7soiyp" path="res://assets/shaders/thank_you_uslash_theduriel.gdshader" id="5_4a2vk"]
+[ext_resource type="Texture2D" uid="uid://cksj1qlb381mn" path="res://assets/sprites/elohim/elohim-Sheet.png" id="6_6fjeu"]
+[ext_resource type="Texture2D" uid="uid://druw8o2qfg52y" path="res://assets/sprites/elohim/particle-Sheet.png" id="7_6fjeu"]
+[ext_resource type="PackedScene" uid="uid://d183l837ka6ro" path="res://Main/Utility/Particles/stun_particles.tscn" id="8_m47kb"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2so3s"]
 albedo_color = Color(0.172549, 0.356863, 0, 1)
@@ -23,6 +16,87 @@ albedo_color = Color(0.172549, 0.356863, 0, 1)
 material = SubResource("StandardMaterial3D_2so3s")
 height = 6.0
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2so3s"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kemqb"]
+radius = 0.822083
+height = 6.40834
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m47kb"]
+render_priority = 0
+shader = ExtResource("5_4a2vk")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/texture_albedo = ExtResource("6_6fjeu")
+shader_parameter/albedo_texture_size = Vector2i(129, 300)
+shader_parameter/point_size = 2.0
+shader_parameter/roughness = 0.0
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
+shader_parameter/specular = 0.0
+shader_parameter/metallic = 0.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/hitflash_amount = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kwihl"]
+atlas = ExtResource("6_6fjeu")
+region = Rect2(258, 0, 129, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i0d4b"]
+atlas = ExtResource("6_6fjeu")
+region = Rect2(0, 0, 129, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kspkm"]
+atlas = ExtResource("6_6fjeu")
+region = Rect2(129, 0, 129, 300)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uum60"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kwihl")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i0d4b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kspkm")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_m47kb"]
+emission_shape_scale = Vector3(0.1, 0.1, 0.1)
+direction = Vector3(0, 1, 0)
+initial_velocity_min = 2.0
+initial_velocity_max = 4.0
+gravity = Vector3(0, -2, 0)
+anim_speed_min = 3.0
+anim_speed_max = 3.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kwihl"]
+transparency = 1
+albedo_texture = ExtResource("7_6fjeu")
+emission_enabled = true
+emission = Color(0.27, 0.27, 0.27, 1)
+emission_energy_multiplier = 2.22
+texture_filter = 0
+billboard_mode = 3
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_i0d4b"]
+material = SubResource("StandardMaterial3D_kwihl")
+
 [node name="Elohim" type="CharacterBody3D" groups=["Enemies"]]
 collision_layer = 4
 script = ExtResource("1_3vyl4")
@@ -30,7 +104,10 @@ max_health = 1.0
 movement_speed = 2
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("CapsuleMesh_8wiwn")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+visible = false
+material_overlay = ExtResource("2_ldq7c")
+mesh = SubResource("CapsuleMesh_nlikr")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_2so3s")
@@ -46,9 +123,6 @@ script = ExtResource("3_2so3s")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent"]
 shape = SubResource("CapsuleShape3D_kemqb")
 
-[node name="CollisionMesh" type="MeshInstance3D" parent="HitboxComponent"]
-mesh = SubResource("CapsuleMesh_nlikr")
-
 [node name="PathfindTimer" type="Timer" parent="."]
 wait_time = 1.5
 autostart = true
@@ -62,6 +136,24 @@ one_shot = true
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 avoidance_enabled = true
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.52835, 0)
+material_override = SubResource("ShaderMaterial_m47kb")
+pixel_size = 0.02
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_uum60")
+autoplay = "default"
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0537915, 4.06274, -0.0330119)
+emitting = false
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_m47kb")
+draw_pass_1 = SubResource("QuadMesh_i0d4b")
+
+[node name="StunParticles" parent="." instance=ExtResource("8_m47kb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.28983, 0)
 
 [connection signal="timeout" from="PathfindTimer" to="." method="_on_pathfind_timer_timeout"]
 [connection signal="timeout" from="SummonCooldown" to="." method="_on_summon_cooldown_timeout"]

@@ -221,6 +221,8 @@ func _on_pathfind_timer_timeout() -> void:
 	
 	velocity.x = pathfindVel.x
 	velocity.z = pathfindVel.z
+	
+	play_animation("default")
 
 func get_mesh_mat_from_state(state):
 	if state == ENEMY_STATE.roam:
@@ -274,3 +276,5 @@ func _on_shoot_cooldown_timeout() -> void:
 		World.world.add_child(b)
 		
 		#print("bene shot: " + str(b))
+		
+		play_animation("attack")

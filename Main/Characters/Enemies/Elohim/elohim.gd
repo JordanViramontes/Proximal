@@ -90,6 +90,8 @@ func _on_pathfind_timer_timeout() -> void:
 	velocity.z = pathfindVel.z
 	
 	#print("vel: " + str(pathfindVel) + ", state: " + str(current_state))
+	
+	play_animation("default")
 
 func get_target_from_state(state):
 	if state == ENEMY_STATE.roam:
@@ -116,6 +118,10 @@ func _on_summon_cooldown_timeout() -> void:
 	velocity.z = 0
 	current_state = ENEMY_STATE.summoning
 	summoning_timer.start()
+	
+	
+	$GPUParticles3D.restart()
+	play_animation("attack")
 
 # finished summoning, go back to normal
 func _on_summoning_timer_timeout() -> void:
@@ -128,6 +134,8 @@ func _on_summoning_timer_timeout() -> void:
 	
 	current_state = ENEMY_STATE.roam
 	_on_pathfind_timer_timeout()
+	
+	$GPUParticles3D.restart()
 
 # summon small guys
 func summon_guys() -> void:

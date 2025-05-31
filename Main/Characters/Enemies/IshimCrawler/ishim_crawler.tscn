@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bjteq07i0vf8m"]
+[gd_scene load_steps=18 format=3 uid="uid://bjteq07i0vf8m"]
 
 [ext_resource type="Script" uid="uid://cbg7uu84mlv15" path="res://Main/Characters/Enemies/IshimCrawler/ishim_crawler.gd" id="1_lgyoi"]
 [ext_resource type="Material" uid="uid://cv7l0r86mk435" path="res://assets/materials/hitflash_mat.tres" id="1_ovggl"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://Main/Utility/Components/hitbox_component.gd" id="4_kebby"]
 [ext_resource type="Shader" uid="uid://cxpcdyu7soiyp" path="res://assets/shaders/thank_you_uslash_theduriel.gdshader" id="5_ocuuy"]
 [ext_resource type="Texture2D" uid="uid://cvhnevicnsrn3" path="res://assets/sprites/ishim/crawler/ishim-crawler-Sheet.png" id="6_jxkrc"]
+[ext_resource type="PackedScene" uid="uid://d183l837ka6ro" path="res://Main/Utility/Particles/stun_particles.tscn" id="7_pi4tm"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vrbru"]
 albedo_color = Color(0.254902, 0.521569, 1, 1)
@@ -144,6 +145,9 @@ texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_t28ud")
 animation = &"walk"
 frame_progress = 0.489645
+
+[node name="StunParticles" parent="." instance=ExtResource("7_pi4tm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.19142, 0)
 
 [connection signal="body_entered" from="HitboxComponent" to="." method="_on_hitbox_component_body_entered"]
 [connection signal="timeout" from="PathfindTimer" to="." method="_on_pathfind_timer_timeout"]
