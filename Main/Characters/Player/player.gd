@@ -361,7 +361,10 @@ func on_toggle_shield(state:bool):
 
 # for shooting/projectile abilities
 func on_ability_shoot():
-	weapon.ability_shoot(head.global_position, -head.global_basis.z, velocity)
+	if is_dashing():
+		return
+	else:
+		weapon.ability_shoot(head.global_position, -head.global_basis.z, velocity)
 	
 func on_heal(state: bool) -> void:
 	is_healing = state
