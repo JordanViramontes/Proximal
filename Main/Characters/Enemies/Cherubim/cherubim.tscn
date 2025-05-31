@@ -1,11 +1,11 @@
 [gd_scene load_steps=13 format=3 uid="uid://bkhyaocomqp2q"]
 
-[ext_resource type="Script" uid="uid://iud8b5qauag5" path="res://scripts/Enemies/cherubim.gd" id="1_vrbru"]
-[ext_resource type="PackedScene" uid="uid://br0pvgk7t0dyh" path="res://scenes/Enemies/cherubim_bullet.tscn" id="2_yfmxc"]
+[ext_resource type="Script" uid="uid://iud8b5qauag5" path="res://Main/Characters/Enemies/Cherubim/cherubim.gd" id="1_vrbru"]
+[ext_resource type="PackedScene" uid="uid://br0pvgk7t0dyh" path="res://Main/Characters/Enemies/Cherubim/cherubim_bullet.tscn" id="2_yfmxc"]
 [ext_resource type="ArrayMesh" uid="uid://fbn75aqihcfw" path="res://assets/models/enemies/cherub.obj" id="3_yfmxc"]
-[ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://scripts/components/health_component.gd" id="3_yq8ut"]
+[ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://Main/Utility/Components/health_component.gd" id="3_yq8ut"]
 [ext_resource type="Material" uid="uid://cv7l0r86mk435" path="res://assets/materials/hitflash_mat.tres" id="3_yvj4b"]
-[ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="4_yvj4b"]
+[ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://Main/Utility/Components/hitbox_component.gd" id="4_yvj4b"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vrbru"]
 albedo_color = Color(0.831366, 0.191113, 0.0643092, 1)

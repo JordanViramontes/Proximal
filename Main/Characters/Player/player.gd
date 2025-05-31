@@ -83,7 +83,7 @@ var current_forward_dir = 0
 
 # health variables
 @export_category("Misc Health and Damage")
-@export var DEATH_HEIGHT = -200.0
+@export var DEATH_HEIGHT = -40.0
 @export var max_health: float = 100
 var current_health: int = max_health
 var can_take_damage: bool = true
@@ -250,8 +250,8 @@ func _physics_process(delta: float) -> void:
 		current_dash_time -= delta
 		if current_dash_time <= 0.0:
 			handle_finish_dash()
-
-	if position.y < DEATH_HEIGHT:
+	
+	if position.y < DEATH_HEIGHT && current_state != INPUT_STATE.dead:
 		kill_player()
 
 	move_and_slide()
@@ -336,6 +336,10 @@ func _on_weapon_manager_dash_input() -> void:
 	#print("velocity: " + str(velocity))
 
 func kill_player():
+	# dont call signals a bunch
+	if current_state == INPUT_STATE.dead:
+		return
+	
 	die.emit()
 	current_state = INPUT_STATE.dead
 	print("player dead!")
