@@ -53,6 +53,7 @@ visible = false
 mesh = SubResource("BoxMesh_2gn6w")
 
 [node name="ShootCooldown" type="Timer" parent="."]
+wait_time = 2.0
 
 [node name="RechargeParticles" type="GPUParticles3D" parent="."]
 emitting = false

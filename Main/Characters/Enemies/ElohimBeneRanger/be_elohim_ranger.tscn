@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://Main/Utility/Components/hitbox_component.gd" id="3_771yh"]
 [ext_resource type="Shader" uid="uid://cxpcdyu7soiyp" path="res://assets/shaders/thank_you_uslash_theduriel.gdshader" id="6_ih2pf"]
 [ext_resource type="Texture2D" uid="uid://boqk7rl7gwf4l" path="res://assets/sprites/elohim/bene-Sheet.png" id="7_wi0tj"]
-[ext_resource type="PackedScene" uid="uid://d183l837ka6ro" path="res://Main/Utility/Particles/stun_particles.tscn" id="8_wi0tj"]
+[ext_resource type="PackedScene" path="res://Main/Utility/Particles/stun_particles.tscn" id="8_wi0tj"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_771yh"]
 albedo_color = Color(0.521358, 0.723719, 0.279387, 1)
