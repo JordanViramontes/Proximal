@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=3 uid="uid://5ygls03nw76d"]
+[gd_scene load_steps=50 format=3 uid="uid://5ygls03nw76d"]
 
 [ext_resource type="Texture2D" uid="uid://cqur83lk7fjfl" path="res://assets/hdris/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="1_8wojv"]
 [ext_resource type="Script" uid="uid://bpvwqw4pbfs3m" path="res://Main/Areas/world.gd" id="1_dctr2"]
@@ -15,12 +15,11 @@
 [ext_resource type="Script" uid="uid://bsg3bg0jpnpjr" path="res://Main/UI/InGame/next_wave_starting_in.gd" id="11_eb6dy"]
 [ext_resource type="Script" uid="uid://cymprt8ifjy8j" path="res://Main/UI/InGame/wave_time.gd" id="12_0fa6y"]
 [ext_resource type="Texture2D" uid="uid://52vn44k3ngct" path="res://assets/textures/crosshair_dev.png" id="12_eb6dy"]
-[ext_resource type="LabelSettings" uid="uid://bvw7830xabeh5" path="res://assets/Labels/wave_info.tres" id="12_l0jrr"]
 [ext_resource type="Script" uid="uid://b886ylfmdgmqa" path="res://Main/UI/InGame/XpUI/weapon_xp_gui.gd" id="13_a8y0u"]
 [ext_resource type="PackedScene" uid="uid://byrblrkj4ab5k" path="res://Main/UI/InGame/XpUI/baseXpUI.tscn" id="13_trceg"]
 [ext_resource type="Texture2D" uid="uid://c78ktusgpfobs" path="res://assets/textures/HealthBarProgress.png" id="14_muem4"]
 [ext_resource type="LabelSettings" uid="uid://bkvgmwx7m548f" path="res://assets/Labels/xp_ui_text.tres" id="14_pen4i"]
-[ext_resource type="Script" uid="uid://fwe63d05i60h" path="res://Main/UI/InGame/XpUI/ring_gui.gd" id="14_y3gqr"]
+[ext_resource type="Script" path="res://Main/UI/InGame/XpUI/ring_gui.gd" id="14_y3gqr"]
 [ext_resource type="Script" uid="uid://3a112of4lpr" path="res://Main/UI/InGame/health_bar.gd" id="15_dp3eg"]
 [ext_resource type="Texture2D" uid="uid://bsh36ub1lj4vr" path="res://assets/textures/HealthBar.png" id="16_0ld40"]
 [ext_resource type="Script" uid="uid://dlwjc8lf77mqk" path="res://Main/UI/InGame/shield_visual.gd" id="17_muem4"]
@@ -114,11 +113,23 @@ colors = PackedColorArray(1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0.890196)
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_pen4i"]
 gradient = SubResource("Gradient_l0jrr")
 
-[sub_resource type="LabelSettings" id="LabelSettings_y3gqr"]
-font_size = 90
+[sub_resource type="Theme" id="Theme_0fa6y"]
+default_font_size = 90
 
-[sub_resource type="LabelSettings" id="LabelSettings_0fa6y"]
-font_size = 54
+[sub_resource type="Theme" id="Theme_th46f"]
+default_font_size = 54
+
+[sub_resource type="Theme" id="Theme_xhbv5"]
+default_font_size = 36
+
+[sub_resource type="Theme" id="Theme_4r3xj"]
+default_font_size = 36
+
+[sub_resource type="Theme" id="Theme_y3gqr"]
+default_font_size = 36
+
+[sub_resource type="Theme" id="Theme_8rn6f"]
+default_font_size = 36
 
 [sub_resource type="LabelSettings" id="LabelSettings_ya4ey"]
 line_spacing = -20.0
@@ -220,6 +231,7 @@ script = ExtResource("9_jbj1t")
 metadata/_edit_lock_ = true
 
 [node name="WaveInfo" type="Control" parent="UI"]
+layout_mode = 3
 anchors_preset = 0
 offset_left = 868.0
 offset_top = 280.0
@@ -227,6 +239,7 @@ offset_right = 1137.0
 offset_bottom = 471.0
 rotation = 0.0244346
 script = ExtResource("10_ya4ey")
+metadata/_edit_lock_ = true
 
 [node name="Gradient" type="TextureRect" parent="UI/WaveInfo"]
 layout_mode = 0
@@ -239,70 +252,84 @@ metadata/_edit_lock_ = true
 
 [node name="Wave2" type="HBoxContainer" parent="UI/WaveInfo"]
 layout_mode = 0
-offset_left = 71.2671
-offset_top = -38.8003
-offset_right = 273.267
-offset_bottom = 61.1997
+offset_left = 69.9282
+offset_top = -44.7219
+offset_right = 369.928
+offset_bottom = 55.2781
 theme_override_constants/separation = 18
-metadata/_edit_lock_ = true
 
-[node name="Wave" type="Label" parent="UI/WaveInfo/Wave2" groups=["WaveInfoLabel"]]
+[node name="Wave" type="RichTextLabel" parent="UI/WaveInfo/Wave2"]
 layout_mode = 2
-theme = ExtResource("9_ya4ey")
+size_flags_horizontal = 3
+theme = SubResource("Theme_0fa6y")
 text = "Wave:"
-label_settings = SubResource("LabelSettings_y3gqr")
 horizontal_alignment = 2
+vertical_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="WaveCount" type="Label" parent="UI/WaveInfo/Wave2"]
+[node name="WaveCount" type="RichTextLabel" parent="UI/WaveInfo/Wave2"]
 layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_th46f")
 text = "000"
-label_settings = SubResource("LabelSettings_0fa6y")
+vertical_alignment = 1
 metadata/_edit_lock_ = true
 
 [node name="WaveInfo" type="HBoxContainer" parent="UI/WaveInfo"]
 layout_mode = 0
-offset_left = 109.0
-offset_top = 33.0
-offset_right = 386.0
-offset_bottom = 159.0
+offset_left = 101.092
+offset_top = 2.53086
+offset_right = 320.092
+offset_bottom = 123.531
 theme_override_constants/separation = 18
-metadata/_edit_lock_ = true
 
 [node name="Labels" type="VBoxContainer" parent="UI/WaveInfo/WaveInfo"]
 layout_mode = 2
-theme_override_constants/separation = -5
+size_flags_horizontal = 3
+theme_override_constants/separation = -54
 metadata/_edit_lock_ = true
 
-[node name="WaveTime" type="Label" parent="UI/WaveInfo/WaveInfo/Labels"]
+[node name="WaveTime" type="RichTextLabel" parent="UI/WaveInfo/WaveInfo/Labels"]
 layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_xhbv5")
 text = "Time:"
-label_settings = ExtResource("12_l0jrr")
 horizontal_alignment = 2
+vertical_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="WaveEnemies" type="Label" parent="UI/WaveInfo/WaveInfo/Labels"]
+[node name="WaveEnemies" type="RichTextLabel" parent="UI/WaveInfo/WaveInfo/Labels"]
 layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_4r3xj")
 text = "Enemies:"
-label_settings = ExtResource("12_l0jrr")
+horizontal_alignment = 2
+vertical_alignment = 1
 metadata/_edit_lock_ = true
 
 [node name="Numbers" type="VBoxContainer" parent="UI/WaveInfo/WaveInfo"]
 layout_mode = 2
-theme_override_constants/separation = -5
+size_flags_horizontal = 3
+theme_override_constants/separation = -54
 metadata/_edit_lock_ = true
 
-[node name="WaveTimeNum" type="Label" parent="UI/WaveInfo/WaveInfo/Numbers"]
+[node name="WaveTimeNum" type="RichTextLabel" parent="UI/WaveInfo/WaveInfo/Numbers"]
+clip_contents = false
 layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_y3gqr")
 text = "000"
-label_settings = ExtResource("12_l0jrr")
+vertical_alignment = 1
 script = ExtResource("12_0fa6y")
 metadata/_edit_lock_ = true
 
-[node name="WaveEnemiesNum" type="Label" parent="UI/WaveInfo/WaveInfo/Numbers"]
+[node name="WaveEnemiesNum" type="RichTextLabel" parent="UI/WaveInfo/WaveInfo/Numbers"]
+clip_contents = false
 layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_8rn6f")
 text = "000"
-label_settings = ExtResource("12_l0jrr")
+vertical_alignment = 1
 metadata/_edit_lock_ = true
 
 [node name="WeaponGUI" type="VBoxContainer" parent="UI"]
