@@ -6,6 +6,7 @@ var bullet_emerge_point: Node3D # should be set in the parent WeaponManager
 
 # Experience Points
 @export_group("Experience & Levels")
+@export var xp_gain_multiplier: float = 1 # for each weapon
 @export var experience: float = 0
 @export var level: int = 1
 signal experience_change
@@ -73,8 +74,8 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	tick += 1
 	# Over time, XP degrades
-	#if tick % 50 == 0:
-		#decrease_xp()
+	if tick % 150 == 0:
+		decrease_xp()
 	if tick % 100 == 0 and weapon_usage - expected_usage_rate > 0:
 		weapon_usage -= expected_usage_rate
 	if current_ability_cooldown > 0.0:
@@ -151,7 +152,7 @@ func add_xp(xp: float):
 	var experience_rate: float
 	experience_change.emit()
 	# XP gets harder to increase as level increases (XP cap at level 4)
-	experience_rate = xp*(expected_usage/(1+weapon_usage))
+	experience_rate = xp* xp_gain_multiplier *(expected_usage/(1+weapon_usage))
 	if level < 10:
 		experience += experience_rate
 	# If XP is high enough, weapon gets upgraded

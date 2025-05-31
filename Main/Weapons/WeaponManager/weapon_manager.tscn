@@ -60,6 +60,7 @@ recoil_reduction_rate = 1.7
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.232565)
 
 [node name="Thumb" parent="." instance=ExtResource("4_e55dp")]
+xp_gain_multiplier = 0.65
 upgrade_quota = 100.0
 degradation = 1.0
 depleted_material = SubResource("StandardMaterial3D_vowkc")
@@ -92,6 +93,7 @@ ability_cooldown = 0.0
 ability_recharge_particle_color = Color(0, 1, 0, 0.509804)
 
 [node name="Pinky" parent="." instance=ExtResource("8_r1oqp")]
+xp_gain_multiplier = 1.75
 expected_usage = 6
 bullet_damage = 100.0
 depleted_material = SubResource("StandardMaterial3D_vv2nl")
