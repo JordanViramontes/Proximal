@@ -262,4 +262,10 @@ func apply_vacuum_force(direction: Vector3, strength: float, target_pos: Vector3
 	vacuum_velocity = direction.normalized() * (strength / weight)
 	vacuum_timer = vacuum_duration
 	_on_recieve_stun()
-	
+
+
+func play_animation(anim: String):
+	var s: AnimatedSprite3D = get_node_or_null("AnimatedSprite3D")
+	if s:
+		s.animation = anim
+		s.play()

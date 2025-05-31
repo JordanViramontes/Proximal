@@ -114,8 +114,7 @@ func _on_pathfind_timer_timeout() -> void:
 	velocity.x = pathfindVel.x
 	velocity.z = pathfindVel.z
 	
-	sprite.animation = "walk"
-	sprite.play()
+	play_animation("walk")
 
 func get_mesh_mat_from_state(state):
 	if state == ENEMY_STATE.roam:
@@ -180,8 +179,7 @@ func _on_bullet_timer_timeout() -> void:
 		
 		World.world.add_child(b)
 		
-		sprite.animation = "shoot"
-		sprite.play()
+		play_animation("shoot")
 
 # called by the cherubim and alerts the ishim
 func goto_cherubim(cherubim: Cherubim) -> void:

@@ -86,8 +86,7 @@ func _on_pathfind_timer_timeout() -> void:
 
 # timer for the lunge in lunge state
 func _on_lunge_timer_timeout() -> void:
-	sprite.animation = "walk"
-	sprite.play()
+	play_animation("walk")
 	
 	# check if we're done with lunging
 	if not global_position.distance_to(player.global_position) <= lunge_range:
@@ -118,8 +117,7 @@ func lunge():
 	# velocity for this cycle
 	velocity = direction * init_v
 	
-	sprite.animation = "attack"
-	sprite.play()
+	play_animation("attack")
 
 # when it physically touches the player
 func _on_hitbox_component_body_entered(body: Node3D) -> void:

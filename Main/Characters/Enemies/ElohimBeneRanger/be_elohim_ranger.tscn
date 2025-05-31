@@ -1,10 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://cbhs6isi7tp"]
+[gd_scene load_steps=17 format=3 uid="uid://cbhs6isi7tp"]
 
 [ext_resource type="Script" uid="uid://ctrdff26xvpi8" path="res://Main/Characters/Enemies/ElohimBeneRanger/be_elohim_ranger.gd" id="1_feee0"]
 [ext_resource type="PackedScene" uid="uid://dfqpjffr77ts" path="res://Main/Characters/Enemies/ElohimBeneRanger/bene_bullet.tscn" id="2_771yh"]
 [ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://Main/Utility/Components/health_component.gd" id="2_slhci"]
 [ext_resource type="Material" uid="uid://cv7l0r86mk435" path="res://assets/materials/hitflash_mat.tres" id="3_16q68"]
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://Main/Utility/Components/hitbox_component.gd" id="3_771yh"]
+[ext_resource type="Shader" uid="uid://cxpcdyu7soiyp" path="res://assets/shaders/thank_you_uslash_theduriel.gdshader" id="6_ih2pf"]
+[ext_resource type="Texture2D" uid="uid://boqk7rl7gwf4l" path="res://assets/sprites/elohim/bene-Sheet.png" id="7_wi0tj"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_771yh"]
 albedo_color = Color(0.521358, 0.723719, 0.279387, 1)
@@ -16,6 +18,57 @@ material = SubResource("StandardMaterial3D_771yh")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_i8yyd"]
 radius = 0.970053
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pxp0q"]
+render_priority = 0
+shader = ExtResource("6_ih2pf")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/texture_albedo = ExtResource("7_wi0tj")
+shader_parameter/albedo_texture_size = Vector2i(158, 69)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 0.0
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
+shader_parameter/specular = 0.0
+shader_parameter/metallic = 0.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/hitflash_amount = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_651wd"]
+atlas = ExtResource("7_wi0tj")
+region = Rect2(312, 0, 156, 69)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e21fd"]
+atlas = ExtResource("7_wi0tj")
+region = Rect2(0, 0, 156, 69)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oj76p"]
+atlas = ExtResource("7_wi0tj")
+region = Rect2(156, 0, 156, 69)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4ox1g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_651wd")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e21fd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oj76p")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="BeElohimRanger" type="CharacterBody3D"]
 collision_layer = 4
@@ -33,6 +86,7 @@ spawn_distance_length = 2
 spawn_distance_height = 10
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
 material_overlay = ExtResource("3_16q68")
 mesh = SubResource("SphereMesh_65pw1")
 
@@ -68,6 +122,13 @@ radius = 10.0
 [node name="Bob" type="Timer" parent="."]
 wait_time = 0.5
 autostart = true
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+material_override = SubResource("ShaderMaterial_pxp0q")
+pixel_size = 0.02
+sprite_frames = SubResource("SpriteFrames_4ox1g")
+autoplay = "default"
+frame_progress = 0.770024
 
 [connection signal="timeout" from="PathfindTimer" to="." method="_on_pathfind_timer_timeout"]
 [connection signal="timeout" from="ShootCooldown" to="." method="_on_shoot_cooldown_timeout"]
