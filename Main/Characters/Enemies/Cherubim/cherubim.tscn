@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bkhyaocomqp2q"]
+[gd_scene load_steps=14 format=3 uid="uid://bkhyaocomqp2q"]
 
 [ext_resource type="Script" uid="uid://iud8b5qauag5" path="res://Main/Characters/Enemies/Cherubim/cherubim.gd" id="1_vrbru"]
 [ext_resource type="PackedScene" uid="uid://br0pvgk7t0dyh" path="res://Main/Characters/Enemies/Cherubim/cherubim_bullet.tscn" id="2_yfmxc"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://Main/Utility/Components/health_component.gd" id="3_yq8ut"]
 [ext_resource type="Material" uid="uid://cv7l0r86mk435" path="res://assets/materials/hitflash_mat.tres" id="3_yvj4b"]
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://Main/Utility/Components/hitbox_component.gd" id="4_yvj4b"]
+[ext_resource type="PackedScene" uid="uid://d183l837ka6ro" path="res://Main/Utility/Particles/stun_particles.tscn" id="7_wxbld"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vrbru"]
 albedo_color = Color(0.831366, 0.191113, 0.0643092, 1)
@@ -91,6 +92,9 @@ collision_mask = 5
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="IshimArea"]
 shape = SubResource("SphereShape3D_yfmxc")
+
+[node name="StunParticles" parent="." instance=ExtResource("7_wxbld")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.34961, -3.7762)
 
 [connection signal="body_entered" from="HitboxComponent" to="." method="_on_hitbox_component_body_entered"]
 [connection signal="timeout" from="PathfindTimer" to="." method="_on_pathfind_timer_timeout"]

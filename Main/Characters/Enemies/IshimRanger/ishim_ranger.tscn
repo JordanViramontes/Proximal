@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bgcggd80gs6sh"]
+[gd_scene load_steps=18 format=3 uid="uid://bgcggd80gs6sh"]
 
 [ext_resource type="Script" uid="uid://bltecim4slosc" path="res://Main/Characters/Enemies/IshimRanger/ishim_ranger.gd" id="1_cw4bv"]
 [ext_resource type="Material" uid="uid://cv7l0r86mk435" path="res://assets/materials/hitflash_mat.tres" id="2_4eule"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://csm4pxrfit34f" path="res://Main/Characters/Enemies/IshimRanger/ranger_bullet.tscn" id="5_8pu60"]
 [ext_resource type="Shader" uid="uid://cxpcdyu7soiyp" path="res://assets/shaders/thank_you_uslash_theduriel.gdshader" id="6_774nx"]
 [ext_resource type="Texture2D" uid="uid://biipfwjx2mb0k" path="res://assets/sprites/ishim/ranger/ishim-ranger-Sheet.png" id="7_lcywr"]
+[ext_resource type="PackedScene" uid="uid://d183l837ka6ro" path="res://Main/Utility/Particles/stun_particles.tscn" id="8_lcywr"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8pu60"]
 albedo_color = Color(1, 0.47451, 1, 1)
@@ -119,6 +120,9 @@ sprite_frames = SubResource("SpriteFrames_6obq8")
 animation = &"walk"
 autoplay = "walk"
 frame_progress = 0.0881093
+
+[node name="StunParticles" parent="." instance=ExtResource("8_lcywr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1511, 0)
 
 [connection signal="body_entered" from="HitboxComponent" to="." method="_on_hitbox_component_body_entered"]
 [connection signal="timeout" from="PathfindTimer" to="." method="_on_pathfind_timer_timeout"]
