@@ -149,12 +149,15 @@ func set_weapon_unactive(weapon):
 	weapon.active = false
 
 func use_ability(finger):
+	if not canUseWeapon:
+		print("WeaponManager: Can't use ability right now (weapons disabled).")
+		return
+		
 	match finger:
 		0:
 			if curr_weapon.use_ability():
 				abilityInput.emit()
 				print(abilityInput.get_connections())
-			
 			
 		1:
 			if weapon_dictionary[finger].use_ability():

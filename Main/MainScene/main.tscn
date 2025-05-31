@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://bpvwqw4pbfs3m" path="res://Main/Areas/world.gd" id="1_dctr2"]
 [ext_resource type="Texture2D" uid="uid://c7ao2jw0rnah0" path="res://assets/textures/dev/grids/Dark/texture_07.png" id="2_4n1ka"]
 [ext_resource type="PackedScene" path="res://Main/Areas/map_draft_cool_and_real.tscn" id="5_2qk5c"]
-[ext_resource type="PackedScene" uid="uid://d2k3cfga0jn37" path="res://Main/Areas/map_draft_cool_and_real.tscn" id="5_2qk5c"]
 [ext_resource type="Script" uid="uid://drj4up00u5x88" path="res://Main/Characters/Enemies/enemy_spawn_path.gd" id="6_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://d0u5bw4owtrev" path="res://Main/Characters/Player/player.tscn" id="6_tefeu"]
 [ext_resource type="Script" uid="uid://c0md12nt0jei1" path="res://Main/UI/InGame/fps_counter.gd" id="8_85g3d"]
