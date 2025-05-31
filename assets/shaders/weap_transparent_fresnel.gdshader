@@ -19,4 +19,3 @@ void fragment()
 	ALPHA = 0.5;
 	EMISSION = fresnel;
 }
-
