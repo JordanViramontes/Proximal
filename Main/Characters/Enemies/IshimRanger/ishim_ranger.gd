@@ -53,7 +53,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
 	
-	print("state: " + str(current_state))
+	#print("state: " + str(current_state))
 	
 	# state logic for shooting
 	if current_state == ENEMY_STATE.run_away: # running away state
