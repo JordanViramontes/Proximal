@@ -3,8 +3,8 @@ extends Control
 # components
 @onready var enemy_spawn_path = get_tree().get_first_node_in_group("EnemySpawnParent")
 @onready var wave_count = $Wave2/WaveCount
-@onready var wave_time_count = $WaveInfo/Numbers/WaveTimeNum
-@onready var wave_enemies_count = $WaveInfo/Numbers/WaveEnemiesNum
+@onready var wave_time_count = $WaveInfo/Time/WaveTimeNum
+@onready var wave_enemies_count = $WaveInfo/Enemies/WaveEnemiesNum
 
 func _ready() -> void:
 	# set components

@@ -122,10 +122,10 @@ default_font_size = 54
 [sub_resource type="Theme" id="Theme_xhbv5"]
 default_font_size = 36
 
-[sub_resource type="Theme" id="Theme_4r3xj"]
+[sub_resource type="Theme" id="Theme_y3gqr"]
 default_font_size = 36
 
-[sub_resource type="Theme" id="Theme_y3gqr"]
+[sub_resource type="Theme" id="Theme_4r3xj"]
 default_font_size = 36
 
 [sub_resource type="Theme" id="Theme_8rn6f"]
@@ -257,6 +257,7 @@ offset_top = -44.7219
 offset_right = 369.928
 offset_bottom = 55.2781
 theme_override_constants/separation = 18
+metadata/_edit_lock_ = true
 
 [node name="Wave" type="RichTextLabel" parent="UI/WaveInfo/Wave2"]
 layout_mode = 2
@@ -275,22 +276,24 @@ text = "000"
 vertical_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="WaveInfo" type="HBoxContainer" parent="UI/WaveInfo"]
+[node name="WaveInfo" type="VBoxContainer" parent="UI/WaveInfo"]
 layout_mode = 0
-offset_left = 101.092
-offset_top = 2.53086
-offset_right = 320.092
-offset_bottom = 123.531
-theme_override_constants/separation = 18
-
-[node name="Labels" type="VBoxContainer" parent="UI/WaveInfo/WaveInfo"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = -54
+offset_left = 86.4874
+offset_top = 18.8926
+offset_right = 326.487
+offset_bottom = 108.893
+theme_override_constants/separation = -20
 metadata/_edit_lock_ = true
 
-[node name="WaveTime" type="RichTextLabel" parent="UI/WaveInfo/WaveInfo/Labels"]
+[node name="Time" type="HBoxContainer" parent="UI/WaveInfo/WaveInfo"]
 layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 20
+metadata/_edit_lock_ = true
+
+[node name="WaveTime" type="RichTextLabel" parent="UI/WaveInfo/WaveInfo/Time"]
+layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = SubResource("Theme_xhbv5")
 text = "Time:"
@@ -298,24 +301,10 @@ horizontal_alignment = 2
 vertical_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="WaveEnemies" type="RichTextLabel" parent="UI/WaveInfo/WaveInfo/Labels"]
-layout_mode = 2
-size_flags_vertical = 3
-theme = SubResource("Theme_4r3xj")
-text = "Enemies:"
-horizontal_alignment = 2
-vertical_alignment = 1
-metadata/_edit_lock_ = true
-
-[node name="Numbers" type="VBoxContainer" parent="UI/WaveInfo/WaveInfo"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = -54
-metadata/_edit_lock_ = true
-
-[node name="WaveTimeNum" type="RichTextLabel" parent="UI/WaveInfo/WaveInfo/Numbers"]
+[node name="WaveTimeNum" type="RichTextLabel" parent="UI/WaveInfo/WaveInfo/Time"]
 clip_contents = false
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = SubResource("Theme_y3gqr")
 text = "000"
@@ -323,9 +312,26 @@ vertical_alignment = 1
 script = ExtResource("12_0fa6y")
 metadata/_edit_lock_ = true
 
-[node name="WaveEnemiesNum" type="RichTextLabel" parent="UI/WaveInfo/WaveInfo/Numbers"]
+[node name="Enemies" type="HBoxContainer" parent="UI/WaveInfo/WaveInfo"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 20
+metadata/_edit_lock_ = true
+
+[node name="WaveEnemies" type="RichTextLabel" parent="UI/WaveInfo/WaveInfo/Enemies"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource("Theme_4r3xj")
+text = "Enemies:"
+horizontal_alignment = 2
+vertical_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="WaveEnemiesNum" type="RichTextLabel" parent="UI/WaveInfo/WaveInfo/Enemies"]
 clip_contents = false
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = SubResource("Theme_8rn6f")
 text = "000"
@@ -342,6 +348,7 @@ rotation = -0.0244346
 scale = Vector2(1.25, 1.25)
 pivot_offset = Vector2(0, 182)
 theme_override_constants/separation = 0
+metadata/_edit_lock_ = true
 
 [node name="RingGUI" type="HBoxContainer" parent="UI/WeaponGUI"]
 layout_direction = 3
@@ -352,12 +359,14 @@ script = ExtResource("14_y3gqr")
 [node name="Spacer" type="Control" parent="UI/WeaponGUI/RingGUI"]
 custom_minimum_size = Vector2(15, 0)
 layout_mode = 2
+metadata/_edit_lock_ = true
 
 [node name="RingCount" type="Label" parent="UI/WeaponGUI/RingGUI"]
 layout_mode = 2
 text = "000"
 label_settings = ExtResource("14_pen4i")
 vertical_alignment = 2
+metadata/_edit_lock_ = true
 
 [node name="Rings" type="Label" parent="UI/WeaponGUI/RingGUI"]
 layout_mode = 2
@@ -365,11 +374,13 @@ text = "Rings: "
 label_settings = ExtResource("14_pen4i")
 horizontal_alignment = 2
 vertical_alignment = 2
+metadata/_edit_lock_ = true
 
 [node name="WeaponXpGUI" type="VBoxContainer" parent="UI/WeaponGUI"]
 layout_mode = 2
 theme_override_constants/separation = 32
 script = ExtResource("13_a8y0u")
+metadata/_edit_lock_ = true
 
 [node name="Thumb" parent="UI/WeaponGUI/WeaponXpGUI" instance=ExtResource("13_trceg")]
 layout_mode = 2
