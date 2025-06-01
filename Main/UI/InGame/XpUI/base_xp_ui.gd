@@ -132,8 +132,8 @@ func set_ability_cooldown_ui(time: float):
 # weapon xp changes
 func set_new_xp_ui(xp: float):
 	var initial_value: float = xp
-	while initial_value > weapon_node.upgrade_quota:
-		initial_value -= weapon_node.upgrade_quota
+	active_xp_progress_bar.max_value = weapon_node.upgrade_quota
+	minimized_xp_progress_bar.max_value = weapon_node.upgrade_quota
 	active_xp_progress_bar.value = initial_value
 	minimized_xp_progress_bar.value = initial_value
 	#print("setting value to: " + str(initial_value) +  " for " + str(weapon_node))

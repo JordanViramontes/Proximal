@@ -8,6 +8,7 @@ var bullet_emerge_point: Node3D # should be set in the parent WeaponManager
 @export_group("Experience & Levels")
 @export var xp_gain_multiplier: float = 1 # for each weapon
 @export var experience: float = 0
+var level_experience: float
 @export var level: int = 1
 signal experience_change
 
@@ -151,36 +152,41 @@ func cease_fire():
 func add_xp(xp: float):
 	var experience_rate: float
 	experience_change.emit()
-	# XP gets harder to increase as level increases (XP cap at level 4)
-	experience_rate = xp* xp_gain_multiplier *(expected_usage/(1+weapon_usage))
+	# XP gets harder to increase as level increases (XP cap at level 10)
+	experience_rate = xp* xp_gain_multiplier *(float(expected_usage)/(expected_usage_rate+weapon_usage))
 	if level < 10:
 		experience += experience_rate
+		level_experience += experience_rate
 	# If XP is high enough, weapon gets upgraded
-	if experience > level*upgrade_quota and level < 10:
+	if level_experience > upgrade_quota and level < 10:
 		level += 1
+		level_experience = 0
+		upgrade_quota *= 1.5
 		#print("LEVEL UP to " + str(level))
 		emit_signal("send_ui_xp_level_updated", level)
 		
 	
 	# send xp to ui
-	emit_signal("send_ui_xp_updated", experience)
+	emit_signal("send_ui_xp_updated", level_experience)
 
 func decrease_xp():
-	if experience > 0.0:
+	if level_experience > 0.0:
 		experience_change.emit()
-		experience -= degradation
+		level_experience -= degradation
 	else:
 		experience_change.emit()
-		experience = 0.0
+		level_experience = 0.0
 
 	# If XP degrades enough, weapon gets downgraded
-	if experience < (level-1)*upgrade_quota:
+	if level_experience < 0 and level > 0:
 		level -= 1
+		upgrade_quota /= 1.5
+		level_experience = upgrade_quota*0.99
 		#print("LEVEL DOWN to " + str(level))
 		emit_signal("send_ui_xp_level_updated", level)
 	
 	# send xp to ui
-	emit_signal("send_ui_xp_updated", experience)
+	emit_signal("send_ui_xp_updated", level_experience)
 	
 func print_xp(name: String):
 	return
