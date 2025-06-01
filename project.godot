@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 Util="*res://Main/Utility/util.gd"
 FadeToBlack="*res://Main/UI/Transitions/fade_to_black.tscn"
 ConfigFileHandler="*res://Main/Utility/ConfigFileHandler.gd"
+OptionsRuntime="*res://Main/Utility/options_runtime.gd"
 
 [display]
 

@@ -10,6 +10,7 @@ var curr_weapon # defined in ready
 var xp_dictionary = [0.0, 0.0, 0.0, 0.0, 0.0]
 var xp_scale = [100.0, 100.0, 500.0, 50.0, 20.0]
 var weapon_level = [1, 1, 1, 1, 1]
+@onready var inverted_scroll: bool = OptionsRuntime.inverted_scroll
 
 # hitbox
 @onready var hitboxColl: CollisionShape3D = $StunHitbox/CollisionShape3D
@@ -63,10 +64,17 @@ func _ready():
 # code for polling inputs
 func _process(delta: float):
 	# change weapon
-	if Input.is_action_just_pressed("change_weapon_up"):
-		change_weapon_to(curr_weapon_index + 1)
-	if Input.is_action_just_pressed("change_weapon_down"):
-		change_weapon_to(curr_weapon_index - 1)
+	if not inverted_scroll:
+		if Input.is_action_just_pressed("change_weapon_up"):
+			change_weapon_to(curr_weapon_index - 1)
+		if Input.is_action_just_pressed("change_weapon_down"):
+			change_weapon_to(curr_weapon_index + 1)
+	else:
+		if Input.is_action_just_pressed("change_weapon_up"):
+			change_weapon_to(curr_weapon_index + 1)
+		if Input.is_action_just_pressed("change_weapon_down"):
+			change_weapon_to(curr_weapon_index - 1)
+	
 	if Input.is_action_just_pressed("hotkey_thumb"):
 		change_weapon_to(0)
 	if Input.is_action_just_pressed("hotkey_index"):

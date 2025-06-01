@@ -218,6 +218,20 @@ text = "Fullscreen:"
 layout_mode = 2
 focus_mode = 0
 
+[node name="ScrollWheel" type="HBoxContainer" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Scroll_Label" type="Label" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollWheel"]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_ofy2k")
+theme_override_font_sizes/font_size = 18
+text = "Inverted Scroll Direction:"
+
+[node name="Scroll_Checkbox" type="CheckBox" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollWheel"]
+layout_mode = 2
+focus_mode = 0
+
 [node name="Res_Label2" type="Label" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
 texture_filter = 1
 layout_mode = 2
@@ -245,4 +259,5 @@ text = "Reset To Default"
 [connection signal="value_changed" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Volume" to="." method="_on_volume_value_changed"]
 [connection signal="item_selected" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Resolutions" to="." method="_on_resolutions_item_selected"]
 [connection signal="toggled" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainer2/Fullscreen_Checkbox" to="." method="_on_fullscreen_checkbox_toggled"]
+[connection signal="toggled" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollWheel/Scroll_Checkbox" to="." method="_on_scroll_checkbox_toggled"]
 [connection signal="pressed" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/Reset_Button" to="." method="_on_reset_button_pressed"]

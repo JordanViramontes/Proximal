@@ -5,6 +5,7 @@ extends Control
 @onready var action_list = $"Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/VBoxContainer"
 @onready var volume = $"Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Volume"
 @onready var fullscreen_checkbox = $"Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainer2/Fullscreen_Checkbox"
+@onready var scroll_checkbox = $"Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollWheel/Scroll_Checkbox"
 
 var is_remapping = false
 var action_to_remap = null
@@ -154,3 +155,10 @@ func _on_reset_button_pressed() -> void:
 		if events.size() > 0:
 			ConfigFileHandler.save_keybinding(action, events[0])
 	_create_action_list()
+
+# invert the scroll wheel lmfao
+func _on_scroll_checkbox_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		OptionsRuntime.inverted_scroll = true
+	else:
+		OptionsRuntime.inverted_scroll = false
