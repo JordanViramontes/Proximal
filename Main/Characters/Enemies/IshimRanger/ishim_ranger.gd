@@ -40,7 +40,8 @@ func _ready() -> void:
 	ENEMY_STATE["run_away"] = total_states+2
 	ENEMY_STATE["cherubim_alert"] = total_states+3
 	ENEMY_STATE["cherubim_sit"] = total_states+4
-	total_states += 4
+	ENEMY_STATE["cherubim_sit_and_stunned"] = total_states+5
+	total_states += 5
 	
 	# colors
 	mat_roam.albedo_color = Color("ff79ff")
@@ -51,6 +52,8 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
+	
+	#print("state: " + str(current_state))
 	
 	# state logic for shooting
 	if current_state == ENEMY_STATE.run_away: # running away state
@@ -63,7 +66,7 @@ func _physics_process(delta: float) -> void:
 			shoot_timer.start()
 	
 	# keep sitting on cherubim
-	if current_state == ENEMY_STATE.cherubim_sit:
+	if current_state in [ENEMY_STATE.cherubim_sit, ENEMY_STATE.cherubim_sit_and_stunned]:
 		if cherubim_node:
 			global_position = cherubim_node.global_position
 	
@@ -239,3 +242,26 @@ func on_alerted_cherubim_died():
 	cherubim_friend = null
 	cherubim_alerted = false
 	cherubim_node_index = -1
+
+# override in case we're sitting
+func _on_recieve_stun() -> void:
+	if current_state == ENEMY_STATE.cherubim_sit:
+		can_damage_player = false
+		var part: GPUParticles3D = get_node_or_null("StunParticles")
+		if part:
+			part.emitting = false
+		return
+	
+	super._on_recieve_stun()
+
+func _on_recieve_unstun() -> void:
+	if current_state == ENEMY_STATE.cherubim_sit:
+		can_damage_player = true
+		var part: GPUParticles3D = get_node_or_null("StunParticles")
+		if part:
+			part.emitting = false
+		return
+	
+	super._on_recieve_unstun()
+	
+	
