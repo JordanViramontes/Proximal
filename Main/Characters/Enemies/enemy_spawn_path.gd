@@ -33,7 +33,7 @@ class Wave:
 @export var multiply_scaler = 1.5 # as this increases, the game scales faster
 @export var default_wave_time = 20
 var waveDictionary = [
-	Wave.new([5, 0, 0, 0], 1, 1, 1, default_wave_time), # 0
+	Wave.new([5, 0, 0, 0], 1, 1, 1, 10), # 0
 	Wave.new([3, 3, 0, 0], 1, 1, 1, default_wave_time),
 	Wave.new([5, 5, 0, 0], 1, 1, 1, default_wave_time),
 	Wave.new([0, 8, 0, 0], 1, 1, 1, default_wave_time),
@@ -49,7 +49,7 @@ var waveDictionary = [
 	Wave.new([7, 4, 2, 2], 1, 1, 1, default_wave_time),
 	Wave.new([5, 5, 2, 5], 1, 1, 1, default_wave_time), #14
 ]
-@export var starting_wave: int = 14
+@export var starting_wave: int = 0
 var last_static_wave = waveDictionary.size() - 1
 var current_wave = starting_wave
 var current_wave_enemy_count: int = 0

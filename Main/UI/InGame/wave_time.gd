@@ -5,6 +5,10 @@ extends RichTextLabel
 var time_left: float = 0.0
 var is_counting = false
 
+# signals
+signal start_shaking
+signal stop_shaking
+
 func _ready() -> void:
 	enemy_spawn_path.updateWaveTimer.connect(self._on_get_new_timer)
 	enemy_spawn_path.stopWaveTimer.connect(self._on_stop_timer)
