@@ -182,12 +182,19 @@ metadata/_edit_lock_ = true
 
 [node name="BackGradient" type="TextureRect" parent="Minimized"]
 layout_direction = 1
-offset_left = 30.0
-offset_right = 144.0
+offset_right = 129.0
 offset_bottom = 172.0
 scale = Vector2(2, 0.1)
 texture = SubResource("GradientTexture2D_3dysb")
 expand_mode = 4
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="Minimized"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 3.0
+offset_right = 29.0
+offset_bottom = 14.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Minimized"]
 custom_minimum_size = Vector2(100, 0)
@@ -196,18 +203,22 @@ offset_right = 157.0
 offset_bottom = 15.0
 scale = Vector2(1.5, 1.5)
 theme_override_constants/separation = 3
+metadata/_edit_lock_ = true
 
 [node name="Spacer" type="Control" parent="Minimized/HBoxContainer"]
 custom_minimum_size = Vector2(19, 5)
 layout_mode = 2
+metadata/_edit_lock_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Minimized/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_constants/separation = 1
+metadata/_edit_lock_ = true
 
 [node name="Control" type="Control" parent="Minimized/HBoxContainer/VBoxContainer"]
 layout_mode = 2
+metadata/_edit_lock_ = true
 
 [node name="XpProgressBar" type="TextureProgressBar" parent="Minimized/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(100, 3)
@@ -219,6 +230,7 @@ nine_patch_stretch = true
 texture_under = SubResource("GradientTexture2D_igr1w")
 texture_progress = SubResource("GradientTexture2D_lrq8j")
 script = SubResource("GDScript_3dysb")
+metadata/_edit_lock_ = true
 
 [node name="AbilityProgressBar" type="TextureProgressBar" parent="Minimized/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(100, 3)
@@ -230,9 +242,11 @@ nine_patch_stretch = true
 texture_under = SubResource("GradientTexture2D_vt2vd")
 texture_progress = SubResource("GradientTexture2D_vx3hn")
 script = SubResource("GDScript_3dysb")
+metadata/_edit_lock_ = true
 
 [node name="Control2" type="Control" parent="Minimized/HBoxContainer/VBoxContainer"]
 layout_mode = 2
+metadata/_edit_lock_ = true
 
 [node name="WeaponLevel" type="Label" parent="Minimized"]
 offset_left = 197.0
@@ -243,6 +257,7 @@ theme = ExtResource("3_luo3j")
 text = "Lvl: 1"
 label_settings = ExtResource("6_8r8hs")
 vertical_alignment = 1
+metadata/_edit_lock_ = true
 
 [node name="LevelUp" type="TextureRect" parent="Minimized"]
 offset_left = 235.0
@@ -251,6 +266,7 @@ offset_right = 335.0
 offset_bottom = 101.0
 scale = Vector2(0.15, 0.15)
 texture = ExtResource("4_o4ggq")
+metadata/_edit_lock_ = true
 
 [node name="LevelUpTimer" type="Timer" parent="."]
 wait_time = 0.5

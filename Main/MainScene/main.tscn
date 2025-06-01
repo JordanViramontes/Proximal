@@ -108,6 +108,19 @@ _data = {
 }
 point_count = 17
 
+[sub_resource type="Gradient" id="Gradient_th46f"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_xhbv5"]
+gradient = SubResource("Gradient_th46f")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8rn6f"]
+shader = ExtResource("25_th46f")
+shader_parameter/overlay = SubResource("GradientTexture2D_xhbv5")
+shader_parameter/color = Color(1, 0, 0, 0)
+
 [sub_resource type="Gradient" id="Gradient_l0jrr"]
 offsets = PackedFloat32Array(0, 0.285714, 1)
 colors = PackedColorArray(1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0.890196)
@@ -136,19 +149,6 @@ default_font_size = 36
 [sub_resource type="LabelSettings" id="LabelSettings_ya4ey"]
 line_spacing = -20.0
 font_size = 54
-
-[sub_resource type="Gradient" id="Gradient_th46f"]
-colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_xhbv5"]
-gradient = SubResource("Gradient_th46f")
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_8rn6f"]
-shader = ExtResource("25_th46f")
-shader_parameter/overlay = SubResource("GradientTexture2D_xhbv5")
-shader_parameter/color = Color(1, 0, 0, 0)
 
 [sub_resource type="LabelSettings" id="LabelSettings_2qk5c"]
 line_spacing = -20.0
@@ -243,6 +243,48 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
 script = ExtResource("9_jbj1t")
+metadata/_edit_lock_ = true
+
+[node name="Overlays" type="Control" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+metadata/_edit_lock_ = true
+
+[node name="ShieldOverlay" type="ColorRect" parent="UI/Overlays"]
+visible = false
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 647.0
+mouse_filter = 2
+color = Color(1, 1, 0, 0.254902)
+script = ExtResource("17_muem4")
+metadata/_edit_lock_ = true
+
+[node name="PinkyOverlay" type="ColorRect" parent="UI/Overlays"]
+visible = false
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 647.0
+mouse_filter = 2
+color = Color(1, 0.44, 1, 0.27451)
+script = ExtResource("21_2qk5c")
+metadata/_edit_lock_ = true
+
+[node name="DamageOverlay" type="ColorRect" parent="UI/Overlays"]
+material = SubResource("ShaderMaterial_8rn6f")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("26_xhbv5")
 metadata/_edit_lock_ = true
 
 [node name="WaveInfo" type="Control" parent="UI"]
@@ -533,48 +575,6 @@ label_settings = SubResource("LabelSettings_ya4ey")
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("11_eb6dy")
-metadata/_edit_lock_ = true
-
-[node name="Overlays" type="Control" parent="UI"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-metadata/_edit_lock_ = true
-
-[node name="ShieldOverlay" type="ColorRect" parent="UI/Overlays"]
-visible = false
-layout_mode = 0
-offset_right = 1152.0
-offset_bottom = 647.0
-mouse_filter = 2
-color = Color(1, 1, 0, 0.254902)
-script = ExtResource("17_muem4")
-metadata/_edit_lock_ = true
-
-[node name="PinkyOverlay" type="ColorRect" parent="UI/Overlays"]
-visible = false
-layout_mode = 0
-offset_right = 1152.0
-offset_bottom = 647.0
-mouse_filter = 2
-color = Color(1, 0.44, 1, 0.27451)
-script = ExtResource("21_2qk5c")
-metadata/_edit_lock_ = true
-
-[node name="DamageOverlay" type="ColorRect" parent="UI/Overlays"]
-material = SubResource("ShaderMaterial_8rn6f")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("26_xhbv5")
 metadata/_edit_lock_ = true
 
 [node name="DeathInterface" type="Control" parent="UI"]

@@ -32,7 +32,7 @@ var decrease_level_up_alpha: bool = false
 @onready var active_level_up = $Active/LevelUp
 
 # minimized nodes
-#@onready var minimized_hand_texture_node = $Active/HBoxContainer/TextureRect
+@onready var minimized_hand_texture_node = $Minimized/ColorRect
 @onready var minimized_xp_progress_bar = $Minimized/HBoxContainer/VBoxContainer/XpProgressBar
 @onready var minimized_ability_progress_bar = $Minimized/HBoxContainer/VBoxContainer/AbilityProgressBar
 @onready var minimized_weapon_level_label = $Minimized/WeaponLevel
@@ -75,6 +75,7 @@ func initialize(weapon: int):
 	
 	# set hand ui
 	active_hand_texture_node.texture = image
+	minimized_hand_texture_node.color = color[1]
 	
 	# set ability progress bar texture
 	var gradient = create_new_gradient_texture(color)

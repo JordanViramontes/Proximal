@@ -4,9 +4,12 @@ var countdown: float
 var activated: bool = false
 @onready var death_timer = $Timer
 
+signal death_ui_active
+
 func activate(dur: float):
 	if activated:
 		return
+	death_ui_active.emit()
 	self.visible = true
 	countdown = dur
 	activated = true
