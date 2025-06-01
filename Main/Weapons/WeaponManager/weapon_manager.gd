@@ -36,6 +36,7 @@ var recoil_direction: Vector3 = Vector3.BACK # recoil should be in positive z di
 
 # signals
 signal update_ring(ring_count: int)
+signal update_weapon_gui(weapon: int)
 
 func _ready():
 	weapon_dictionary = [
@@ -143,6 +144,7 @@ func set_current_weapon(index: int):
 	curr_weapon_index = index
 	#curr_weapon.visible = true
 	curr_weapon.active = true
+	update_weapon_gui.emit(index)
 
 func set_weapon_unactive(weapon):
 	#weapon.visible = false

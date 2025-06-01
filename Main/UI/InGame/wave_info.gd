@@ -33,14 +33,6 @@ func _ready() -> void:
 	enemy_spawn_path.updateWaveTimer.connect(update_time)
 	enemy_spawn_path.updateEnemyCount.connect(update_enemies)
 	enemy_spawn_path.updateWaveCount.connect(update_wave)
-	
-	# set signals
-	wave_time_count.start_shaking.connect(self._on_shake_time_ui)
-
-func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("debug_shake_ui"):
-		_on_shake_wave_ui()
-		_on_shake_enemy_ui()
 
 func update_wave(new_wave: int):
 	wave_count.text = str(new_wave)

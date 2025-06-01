@@ -15,17 +15,29 @@ var ability_time_current = 0
 # xp
 var weapon_level: int = 1
 var decrease_level_up_alpha: bool = false
-
-# components
-@onready var hand_texture_node = $HBoxContainer/TextureRect
-@onready var xp_progress_bar = $HBoxContainer/VBoxContainer/XpProgressBar
-@onready var weapon_level_label = $WeaponLevel
-@onready var ability_progress_bar = $HBoxContainer/VBoxContainer/AbilityProgressBar
-@onready var weapon_manager = get_tree().get_first_node_in_group("WeaponManager")
-@onready var level_up = $LevelUp
-@onready var level_up_timer = $LevelUpTimer
 @onready var weapon_type: int
 @onready var weapon_node: Node
+
+# components
+@onready var weapon_manager = get_tree().get_first_node_in_group("WeaponManager")
+@onready var active = $Active
+@onready var minimized = $Minimized
+@onready var level_up_timer = $LevelUpTimer
+
+# active nodes
+@onready var active_hand_texture_node = $Active/HBoxContainer/TextureRect
+@onready var active_xp_progress_bar = $Active/HBoxContainer/VBoxContainer/XpProgressBar
+@onready var active_ability_progress_bar = $Active/HBoxContainer/VBoxContainer/AbilityProgressBar
+@onready var active_weapon_level_label = $Active/WeaponLevel
+@onready var active_level_up = $Active/LevelUp
+
+# minimized nodes
+#@onready var minimized_hand_texture_node = $Active/HBoxContainer/TextureRect
+@onready var minimized_xp_progress_bar = $Minimized/HBoxContainer/VBoxContainer/XpProgressBar
+@onready var minimized_ability_progress_bar = $Minimized/HBoxContainer/VBoxContainer/AbilityProgressBar
+@onready var minimized_weapon_level_label = $Minimized/WeaponLevel
+@onready var minimized_level_up = $Minimized/LevelUp
+
 
 func initialize(weapon: int):
 	var image
@@ -62,19 +74,26 @@ func initialize(weapon: int):
 			component = weapon_manager.weapon_dictionary[0]
 	
 	# set hand ui
-	hand_texture_node.texture = image
+	active_hand_texture_node.texture = image
 	
 	# set ability progress bar texture
-	ability_progress_bar.texture_progress = create_new_gradient_texture(color)
+	var gradient = create_new_gradient_texture(color)
+	active_ability_progress_bar.texture_progress = gradient
+	minimized_ability_progress_bar.texture_progress = gradient
 	
 	# set visibilities
-	level_up.visible = false
-	#level_up.modulate.a = 1
+	active_level_up.visible = false
+	minimized_level_up.visible = false
+	#active_level_up.modulate.a = 1
 	
 	# reset values
-	xp_progress_bar.value = 0
-	xp_progress_bar.max_value = weapon_node.upgrade_quota
-	ability_progress_bar.value = 100
+	active_xp_progress_bar.value = 0
+	active_xp_progress_bar.max_value = weapon_node.upgrade_quota
+	active_ability_progress_bar.value = 100
+	
+	minimized_xp_progress_bar.value = 0
+	minimized_xp_progress_bar.max_value = weapon_node.upgrade_quota
+	minimized_ability_progress_bar.value = 100
 	
 	# set signals
 	#print("finger: " + str(component))
@@ -105,7 +124,8 @@ func create_new_gradient_texture(color) -> GradientTexture2D:
 func set_ability_cooldown_ui(time: float):
 	ability_time_current = 0
 	ability_time_max = time
-	ability_progress_bar.value = 0
+	active_ability_progress_bar.value = 0
+	minimized_ability_progress_bar.value = 0
 	is_ability_cooldown = true
 
 # weapon xp changes
@@ -113,40 +133,59 @@ func set_new_xp_ui(xp: float):
 	var initial_value: float = xp
 	while initial_value > weapon_node.upgrade_quota:
 		initial_value -= weapon_node.upgrade_quota
-	xp_progress_bar.value = initial_value
+	active_xp_progress_bar.value = initial_value
+	minimized_xp_progress_bar.value = initial_value
 	#print("setting value to: " + str(initial_value) +  " for " + str(weapon_node))
 
 # weapon level changes
 func set_new_xp_level_ui(level_direction: float):
 	var initial_level = weapon_level
 	weapon_level = level_direction
-	weapon_level_label.text = "Lvl: " + str(weapon_level)
+	active_weapon_level_label.text = "Lvl: " + str(weapon_level)
+	minimized_weapon_level_label.text = "Lvl: " + str(weapon_level)
 	
 	# level up
 	if weapon_level > initial_level:
 		#print("setting visible: yes")
-		level_up.self_modulate.a = 1
-		level_up.visible = true
+		active_level_up.self_modulate.a = 1
+		active_level_up.visible = true
+		minimized_level_up.self_modulate.a = 1
+		minimized_level_up.visible = true
 		level_up_timer.start()
 
 func _process(delta: float) -> void:
 	if is_ability_cooldown:
 		# increase the current time and then use that to calculate the current value
 		ability_time_current += delta 
-		ability_progress_bar.value = (ability_time_current / ability_time_max) * 100
+		active_ability_progress_bar.value = (ability_time_current / ability_time_max) * 100
+		minimized_ability_progress_bar.value = (ability_time_current / ability_time_max) * 100
 		
 		# check that we're done
-		if ability_progress_bar.value == 100:
+		if active_ability_progress_bar.value == 100:
 			is_ability_cooldown = false
 	
 	# level up and down
 	if decrease_level_up_alpha:
-		level_up.self_modulate.a -= 0.5 * delta
-		level_up.queue_redraw()
-		if level_up.self_modulate.a <= 0:
-			level_up.visible = false
+		active_level_up.self_modulate.a -= 0.5 * delta
+		active_level_up.queue_redraw()
+		minimized_level_up.self_modulate.a -= 0.5 * delta
+		minimized_level_up.queue_redraw()
+		if active_level_up.self_modulate.a <= 0:
+			active_level_up.visible = false
+			minimized_level_up.visible = false
 			#print("setting visible: no")
-
 
 func _on_level_up_timer_timeout() -> void:
 	decrease_level_up_alpha = true
+
+func _on_set_active(weapon: int) -> void:
+	# active
+	if weapon_type == weapon:
+		active.visible = true
+		minimized.visible = false
+		self.size.y = 29
+	
+	else:
+		active.visible = false
+		minimized.visible = true
+		self.size.y = 17

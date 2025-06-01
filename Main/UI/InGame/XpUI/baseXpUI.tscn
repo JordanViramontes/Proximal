@@ -1,10 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://byrblrkj4ab5k"]
+[gd_scene load_steps=18 format=3 uid="uid://byrblrkj4ab5k"]
 
 [ext_resource type="Script" uid="uid://cp5i3d4ehsbob" path="res://Main/UI/InGame/XpUI/base_xp_ui.gd" id="1_3dysb"]
 [ext_resource type="Texture2D" uid="uid://dadb66jjnpji0" path="res://assets/textures/hand_xp_ui/thumb.png" id="1_6ec0q"]
 [ext_resource type="Theme" uid="uid://rsglqw8mc02x" path="res://assets/themes/default.tres" id="3_luo3j"]
 [ext_resource type="Texture2D" uid="uid://cmskmstru5y4v" path="res://assets/textures/hand_xp_ui/level_up.png" id="4_o4ggq"]
 [ext_resource type="LabelSettings" uid="uid://bkvgmwx7m548f" path="res://assets/Labels/xp_ui_text.tres" id="4_y7pyv"]
+[ext_resource type="LabelSettings" uid="uid://c8spb6oy55ysy" path="res://assets/Labels/xp_minimized_ui_text.tres" id="6_8r8hs"]
 
 [sub_resource type="Gradient" id="Gradient_6ec0q"]
 offsets = PackedFloat32Array(0, 0.883117, 1)
@@ -13,7 +14,7 @@ colors = PackedColorArray(0, 0, 0, 0.890196, 0, 0, 0, 0.300586, 0, 0, 0, 0)
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_3dysb"]
 gradient = SubResource("Gradient_6ec0q")
 width = 150
-height = 20
+height = 1
 
 [sub_resource type="Gradient" id="Gradient_3dysb"]
 offsets = PackedFloat32Array(0)
@@ -71,7 +72,7 @@ gradient = SubResource("Gradient_nfryv")
 layout_mode = 3
 anchor_right = 0.227
 anchor_bottom = 0.045
-offset_right = 0.495972
+offset_right = 0.496002
 offset_bottom = -0.160002
 grow_horizontal = 2
 grow_vertical = 2
@@ -80,7 +81,14 @@ size_flags_horizontal = 0
 size_flags_vertical = 8
 script = ExtResource("1_3dysb")
 
-[node name="BackGradient" type="TextureRect" parent="."]
+[node name="Active" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+metadata/_edit_lock_ = true
+
+[node name="BackGradient" type="TextureRect" parent="Active"]
 layout_direction = 1
 layout_mode = 0
 offset_right = 172.0
@@ -88,30 +96,35 @@ offset_bottom = 190.0
 scale = Vector2(1.5, 0.15)
 texture = SubResource("GradientTexture2D_3dysb")
 expand_mode = 4
+metadata/_edit_lock_ = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="Active"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 1
 offset_right = 152.0
 offset_bottom = 19.0
 scale = Vector2(1.5, 1.5)
 theme_override_constants/separation = 3
+metadata/_edit_lock_ = true
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="Active/HBoxContainer"]
 custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
 texture = ExtResource("1_6ec0q")
 expand_mode = 2
+metadata/_edit_lock_ = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Active/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_constants/separation = 1
+metadata/_edit_lock_ = true
 
-[node name="Control" type="Control" parent="HBoxContainer/VBoxContainer"]
+[node name="Control" type="Control" parent="Active/HBoxContainer/VBoxContainer"]
 layout_mode = 2
+metadata/_edit_lock_ = true
 
-[node name="XpProgressBar" type="TextureProgressBar" parent="HBoxContainer/VBoxContainer"]
+[node name="XpProgressBar" type="TextureProgressBar" parent="Active/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(100, 9)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -121,8 +134,93 @@ nine_patch_stretch = true
 texture_under = SubResource("GradientTexture2D_igr1w")
 texture_progress = SubResource("GradientTexture2D_lrq8j")
 script = SubResource("GDScript_3dysb")
+metadata/_edit_lock_ = true
 
-[node name="AbilityProgressBar" type="TextureProgressBar" parent="HBoxContainer/VBoxContainer"]
+[node name="AbilityProgressBar" type="TextureProgressBar" parent="Active/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(100, 3)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 2
+value = 100.0
+nine_patch_stretch = true
+texture_under = SubResource("GradientTexture2D_vt2vd")
+texture_progress = SubResource("GradientTexture2D_vx3hn")
+script = SubResource("GDScript_3dysb")
+metadata/_edit_lock_ = true
+
+[node name="Control2" type="Control" parent="Active/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="WeaponLevel" type="Label" parent="Active"]
+layout_mode = 2
+offset_left = 190.0
+offset_top = 3.0
+offset_right = 231.0
+offset_bottom = 34.0
+theme = ExtResource("3_luo3j")
+text = "Lvl: 1"
+label_settings = ExtResource("4_y7pyv")
+vertical_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="LevelUp" type="TextureRect" parent="Active"]
+layout_mode = 0
+offset_left = 231.0
+offset_top = 3.0
+offset_right = 331.0
+offset_bottom = 103.0
+scale = Vector2(0.225, 0.225)
+texture = ExtResource("4_o4ggq")
+metadata/_edit_lock_ = true
+
+[node name="Minimized" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+metadata/_edit_lock_ = true
+
+[node name="BackGradient" type="TextureRect" parent="Minimized"]
+layout_direction = 1
+offset_left = 30.0
+offset_right = 144.0
+offset_bottom = 172.0
+scale = Vector2(2, 0.1)
+texture = SubResource("GradientTexture2D_3dysb")
+expand_mode = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Minimized"]
+custom_minimum_size = Vector2(100, 0)
+offset_top = -7.0
+offset_right = 157.0
+offset_bottom = 15.0
+scale = Vector2(1.5, 1.5)
+theme_override_constants/separation = 3
+
+[node name="Spacer" type="Control" parent="Minimized/HBoxContainer"]
+custom_minimum_size = Vector2(19, 5)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Minimized/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 1
+
+[node name="Control" type="Control" parent="Minimized/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="XpProgressBar" type="TextureProgressBar" parent="Minimized/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(100, 3)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 2
+value = 100.0
+nine_patch_stretch = true
+texture_under = SubResource("GradientTexture2D_igr1w")
+texture_progress = SubResource("GradientTexture2D_lrq8j")
+script = SubResource("GDScript_3dysb")
+
+[node name="AbilityProgressBar" type="TextureProgressBar" parent="Minimized/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(100, 3)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -133,27 +231,25 @@ texture_under = SubResource("GradientTexture2D_vt2vd")
 texture_progress = SubResource("GradientTexture2D_vx3hn")
 script = SubResource("GDScript_3dysb")
 
-[node name="Control2" type="Control" parent="HBoxContainer/VBoxContainer"]
+[node name="Control2" type="Control" parent="Minimized/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="WeaponLevel" type="Label" parent="."]
-layout_mode = 2
-offset_left = 190.0
-offset_top = 3.0
-offset_right = 231.0
-offset_bottom = 34.0
+[node name="WeaponLevel" type="Label" parent="Minimized"]
+offset_left = 197.0
+offset_top = -4.0
+offset_right = 238.0
+offset_bottom = 27.0
 theme = ExtResource("3_luo3j")
 text = "Lvl: 1"
-label_settings = ExtResource("4_y7pyv")
+label_settings = ExtResource("6_8r8hs")
 vertical_alignment = 1
 
-[node name="LevelUp" type="TextureRect" parent="."]
-layout_mode = 0
-offset_left = 231.0
-offset_top = 3.0
-offset_right = 331.0
-offset_bottom = 103.0
-scale = Vector2(0.225, 0.225)
+[node name="LevelUp" type="TextureRect" parent="Minimized"]
+offset_left = 235.0
+offset_top = 1.0
+offset_right = 335.0
+offset_bottom = 101.0
+scale = Vector2(0.15, 0.15)
 texture = ExtResource("4_o4ggq")
 
 [node name="LevelUpTimer" type="Timer" parent="."]

@@ -365,15 +365,14 @@ metadata/_edit_lock_ = true
 
 [node name="WeaponGUI" type="VBoxContainer" parent="UI"]
 layout_mode = 2
-offset_left = 16.0
-offset_top = 454.0
-offset_right = 265.0
-offset_bottom = 666.0
+offset_left = 20.0
+offset_top = 492.0
+offset_right = 270.0
+offset_bottom = 704.0
 rotation = -0.0244346
 scale = Vector2(1.25, 1.25)
 pivot_offset = Vector2(0, 182)
 theme_override_constants/separation = 0
-metadata/_edit_lock_ = true
 
 [node name="RingGUI" type="HBoxContainer" parent="UI/WeaponGUI"]
 layout_direction = 3
@@ -403,27 +402,33 @@ metadata/_edit_lock_ = true
 
 [node name="WeaponXpGUI" type="VBoxContainer" parent="UI/WeaponGUI"]
 layout_mode = 2
-theme_override_constants/separation = 32
+size_flags_vertical = 3
+theme_override_constants/separation = 5
 script = ExtResource("13_a8y0u")
 metadata/_edit_lock_ = true
 
 [node name="Thumb" parent="UI/WeaponGUI/WeaponXpGUI" instance=ExtResource("13_trceg")]
+custom_minimum_size = Vector2(250, 17)
 layout_mode = 2
 metadata/_edit_lock_ = true
 
 [node name="Index" parent="UI/WeaponGUI/WeaponXpGUI" instance=ExtResource("13_trceg")]
+custom_minimum_size = Vector2(250, 17)
 layout_mode = 2
 metadata/_edit_lock_ = true
 
 [node name="Middle" parent="UI/WeaponGUI/WeaponXpGUI" instance=ExtResource("13_trceg")]
+custom_minimum_size = Vector2(250, 17)
 layout_mode = 2
 metadata/_edit_lock_ = true
 
 [node name="Ring" parent="UI/WeaponGUI/WeaponXpGUI" instance=ExtResource("13_trceg")]
+custom_minimum_size = Vector2(250, 17)
 layout_mode = 2
 metadata/_edit_lock_ = true
 
 [node name="Pinky" parent="UI/WeaponGUI/WeaponXpGUI" instance=ExtResource("13_trceg")]
+custom_minimum_size = Vector2(250, 17)
 layout_mode = 2
 metadata/_edit_lock_ = true
 
@@ -528,6 +533,7 @@ label_settings = SubResource("LabelSettings_ya4ey")
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("11_eb6dy")
+metadata/_edit_lock_ = true
 
 [node name="Overlays" type="Control" parent="UI"]
 layout_mode = 1
@@ -537,6 +543,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+metadata/_edit_lock_ = true
 
 [node name="ShieldOverlay" type="ColorRect" parent="UI/Overlays"]
 visible = false
@@ -546,6 +553,7 @@ offset_bottom = 647.0
 mouse_filter = 2
 color = Color(1, 1, 0, 0.254902)
 script = ExtResource("17_muem4")
+metadata/_edit_lock_ = true
 
 [node name="PinkyOverlay" type="ColorRect" parent="UI/Overlays"]
 visible = false
@@ -555,6 +563,7 @@ offset_bottom = 647.0
 mouse_filter = 2
 color = Color(1, 0.44, 1, 0.27451)
 script = ExtResource("21_2qk5c")
+metadata/_edit_lock_ = true
 
 [node name="DamageOverlay" type="ColorRect" parent="UI/Overlays"]
 material = SubResource("ShaderMaterial_8rn6f")
@@ -566,6 +575,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("26_xhbv5")
+metadata/_edit_lock_ = true
 
 [node name="DeathInterface" type="Control" parent="UI"]
 visible = false
@@ -576,6 +586,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("10_choun")
+metadata/_edit_lock_ = true
 
 [node name="ColorRect" type="ColorRect" parent="UI/DeathInterface"]
 layout_mode = 1
@@ -586,6 +597,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(1, 1, 1, 0)
+metadata/_edit_lock_ = true
 
 [node name="Label" type="Label" parent="UI/DeathInterface"]
 layout_mode = 1
@@ -605,6 +617,7 @@ text = "YOU DIED! RESPAWNING IN:
 [BLANK]"
 label_settings = SubResource("LabelSettings_2qk5c")
 horizontal_alignment = 1
+metadata/_edit_lock_ = true
 
 [node name="Timer" type="Timer" parent="UI/DeathInterface"]
 autostart = true
