@@ -241,6 +241,7 @@ layout_mode = 2
 text = "Spawn Waves"
 
 [node name="WaveStuff" type="VBoxContainer" parent="MainContainer/SpawnUI"]
+visible = false
 layout_mode = 2
 
 [node name="SetWave" type="HBoxContainer" parent="MainContainer/SpawnUI/WaveStuff"]
@@ -355,22 +356,40 @@ theme_override_constants/separation = 20
 layout_mode = 2
 text = "Enemy To Spawn:"
 
-[node name="MenuButton" type="OptionButton" parent="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/Enemy"]
+[node name="EnemySelection" type="OptionButton" parent="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/Enemy"]
 layout_mode = 2
-selected = 0
-item_count = 5
-popup/item_0/text = "IshimCrawler"
-popup/item_0/id = 0
-popup/item_1/text = "IshimRanger"
-popup/item_1/id = 1
-popup/item_2/text = "Cherubim"
-popup/item_2/id = 2
-popup/item_3/text = "Elohim"
-popup/item_3/id = 3
-popup/item_4/text = "BeneElohimRanger"
-popup/item_4/id = 4
+selected = 1
+item_count = 7
+popup/item_0/text = "EnemyBase"
+popup/item_0/id = 5
+popup/item_1/text = "IshimCrawler"
+popup/item_1/id = 0
+popup/item_2/text = "IshimRanger"
+popup/item_2/id = 1
+popup/item_3/text = "Cherubim"
+popup/item_3/id = 2
+popup/item_4/text = "Elohim"
+popup/item_4/id = 3
+popup/item_5/text = "BeneElohimCrawler"
+popup/item_5/id = 6
+popup/item_5/disabled = true
+popup/item_6/text = "BeneElohimRanger"
+popup/item_6/id = 4
 
-[node name="Button" type="Button" parent="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="AmountToSpawn" type="Label" parent="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Amount To Spawn:"
+
+[node name="AmountToSpawnCount" type="TextEdit" parent="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+scroll_past_end_of_file = true
+
+[node name="SpawnSingle" type="Button" parent="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer"]
 layout_mode = 2
 text = "Spawn Enemy"
 
@@ -387,6 +406,7 @@ label_settings = ExtResource("3_q2rn8")
 horizontal_alignment = 2
 
 [node name="MultCounts" type="Label" parent="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/EnemyInfo"]
+custom_minimum_size = Vector2(35, 0)
 layout_mode = 2
 text = "000
 000
@@ -411,6 +431,14 @@ custom_minimum_size = Vector2(275, 0)
 layout_mode = 2
 size_flags_vertical = 2
 
+[node name="KillAllEnemies" type="Button" parent="."]
+layout_mode = 2
+offset_left = 943.0
+offset_top = 561.0
+offset_right = 1115.0
+offset_bottom = 611.0
+text = "Kill All Enemies"
+
 [connection signal="item_selected" from="MainContainer/WeaponUI/Weapons/Levels/LevelSelections/ThumbLvl" to="." method="_on_thumb_lvl_item_selected"]
 [connection signal="item_selected" from="MainContainer/WeaponUI/Weapons/Levels/LevelSelections/IndexLvl" to="." method="_on_index_lvl_item_selected"]
 [connection signal="item_selected" from="MainContainer/WeaponUI/Weapons/Levels/LevelSelections/MiddleLvl" to="." method="_on_middle_lvl_item_selected"]
@@ -421,3 +449,9 @@ size_flags_vertical = 2
 [connection signal="pressed" from="MainContainer/SpawnUI/WaveStuff/SetWave/WaveIncrease" to="." method="_on_wave_increase_pressed"]
 [connection signal="pressed" from="MainContainer/SpawnUI/WaveStuff/SetWave/WaveDecrease" to="." method="_on_wave_decrease_pressed"]
 [connection signal="pressed" from="MainContainer/SpawnUI/WaveStuff/SpawnWave" to="." method="_on_spawn_wave_pressed"]
+[connection signal="text_changed" from="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/HBoxContainer/AmountToSpawnCount" to="." method="_on_amount_to_spawn_count_text_changed"]
+[connection signal="pressed" from="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/SpawnSingle" to="." method="_on_spawn_single_pressed"]
+[connection signal="value_changed" from="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/EnemyInfo/Sliders/HpMultSlider" to="." method="_on_hp_mult_slider_value_changed"]
+[connection signal="value_changed" from="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/EnemyInfo/Sliders/DamageMultSlider" to="." method="_on_damage_mult_slider_value_changed"]
+[connection signal="value_changed" from="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/EnemyInfo/Sliders/XPMultSlider" to="." method="_on_xp_mult_slider_value_changed"]
+[connection signal="pressed" from="KillAllEnemies" to="." method="_on_button_pressed"]

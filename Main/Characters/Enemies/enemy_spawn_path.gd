@@ -49,7 +49,7 @@ var waveDictionary: Dictionary[int, Wave] = {
 	13:Wave.new([7, 4, 2, 2], 1, 1, 1, default_wave_time),
 	14:Wave.new([5, 5, 2, 5], 1, 1, 1, default_wave_time), #14
 }
-@export var starting_wave: int = 4
+@export var starting_wave: int = 0
 var last_static_wave = waveDictionary.size() - 1
 var current_wave = starting_wave
 var current_wave_enemy_count: int = 0
@@ -71,7 +71,8 @@ var DEBUG_enemy_list = [
 	"res://Main/Characters/Enemies/ElohimBeneRanger/be_elohim_ranger.tscn", # BENE ELOHIM RANGER 6
 ]
 var DEBUG_enemy_ptr = 3
-var DEBUG_wave: bool = true
+var debug_turn_off_auto_wave: bool = false
+var debug_total_enemy_array: Array = []
 
 # components
 @onready var player = get_tree().get_first_node_in_group("Player")
@@ -100,41 +101,6 @@ func _ready() -> void:
 	emit_signal("updateNextWaveTimer", next_wave_timer.time_left + 1)
 	emit_signal("updateNextWaveVisibility", true)
 
-func _process(delta):
-	if Input.is_action_just_pressed("debug_toggle_wave"):
-		DEBUG_wave = not DEBUG_wave
-		if DEBUG_wave:
-			print("CHANGED SPAWN TO: WAVES")
-		else:
-			print("CHANGED SPAWN TO: SINGLE ENEMY")
-	
-	# changes what we spawn based on debug
-	if DEBUG_wave:
-		if Input.is_action_just_pressed("debug_spawn_enemy"):
-			spawnWave(current_wave)
-		#if Input.is_action_just_pressed("debug_next_enemy"):
-			#nextWave()
-		#if Input.is_action_just_pressed("debug_prev_enemy"):
-			#prevWave()
-	else:
-		if Input.is_action_just_pressed("debug_spawn_enemy"):
-			DEBUGspawnSingleEnemy()
-		if Input.is_action_just_pressed("debug_next_enemy"):
-			if not DEBUG_enemy_ptr + 1 >= DEBUG_enemy_list.size():
-				DEBUG_enemy_ptr = DEBUG_enemy_ptr + 1
-				print("DEBUG enemy now at: " + DEBUG_enemy_list[DEBUG_enemy_ptr])
-			else:
-				print("CANT! At the end of enemy list")
-		if Input.is_action_just_pressed("debug_prev_enemy"):
-			if not DEBUG_enemy_ptr - 1 < 0:
-				DEBUG_enemy_ptr = DEBUG_enemy_ptr - 1
-				print("DEBUG enemy now at: " + DEBUG_enemy_list[DEBUG_enemy_ptr])
-			else:
-				print("CANT! At the end of enemy list")
-	
-	# timer
-	#print(wave_timer.time_left)
-
 func spawnWave(wave_index):
 	# make sure we're valid
 	if wave_index < 0:
@@ -147,7 +113,7 @@ func spawnWave(wave_index):
 		wave = waveDictionary[current_wave]
 	print("TOTAL IN THIS WAVE: " + str(wave.total_enemies))
 	var enemy_count = wave.enemy_count
-	current_wave_enemy_count += wave.total_enemies
+	#current_wave_enemy_count += wave.total_enemies
 	
 	# parse enemy_count, mob_path has the file path to the enemy scene
 	for mob_path in enemy_count.keys():  
@@ -210,12 +176,6 @@ func generateNewWave(wave_count) -> Wave:
 	
 	return new_wave
 
-func DEBUGspawnSingleEnemy():
-	# for debugging enemies
-	var test_amount = 1
-	for i in range(test_amount):
-		spawnEnemy(DEBUG_enemy_list[DEBUG_enemy_ptr], 1, 1, 1, 1)
-
 func spawnEnemy(mob_path, debug_flag, health_multiplier, damage_multiplier, experience_multiplier):
 	var mob = load(mob_path).instantiate()
 	
@@ -233,6 +193,9 @@ func spawnEnemy(mob_path, debug_flag, health_multiplier, damage_multiplier, expe
 	
 	# Spawn the mob by adding it to the Main scene.
 	add_child(mob)
+	current_wave_enemy_count += 1
+	emit_signal("updateEnemyCount", current_wave_enemy_count)
+	debug_total_enemy_array.push_back(mob)
 	
 	# set the signal for mob death
 	mob.die_from_wave.connect(self.enemy_dies)
@@ -282,8 +245,6 @@ func _on_wave_timer_timeout() -> void:
 
 # every time an enemy dies, update the enemy counter, if we have 0 enemies left start next wave
 func enemy_dies(from_wave: int) -> void:
-	if not DEBUG_wave:
-		return
 	#print("DIEDIEDIED: " + str(from_wave))
 	# only lower count for enemies in the current wave
 	#if from_wave != current_wave:
@@ -294,10 +255,14 @@ func enemy_dies(from_wave: int) -> void:
 	emit_signal("updateEnemyCount", current_wave_enemy_count)
 	
 	if current_wave_enemy_count <= 0:
+		if debug_turn_off_auto_wave:
+			return
+		
 		if can_change_wave == false:
 			return
 		
 		can_change_wave = false
+		
 		end_wave()
 
 # end the current wave and start the next wave
@@ -326,11 +291,9 @@ func _on_next_wave_timer_timeout() -> void:
 	can_change_wave = true
 
 # increases enemy count if something other than me spawns enemies
-func increase_enemy_count(amount: int):
-	if not DEBUG_wave:
-		return
-	
+func increase_enemy_count(amount: int, enemy):
 	current_wave_enemy_count += amount
+	debug_total_enemy_array.push_back(enemy)
 	emit_signal("updateEnemyCount", current_wave_enemy_count)
 
 func get_wave_from_index(index: int):
@@ -343,4 +306,33 @@ func get_wave_from_index(index: int):
 func debug_stop_countdown() -> void:
 	next_wave_timer.stop()
 	emit_signal("updateNextWaveVisibility", false)
+
+func debug_spawn_single_enemy(index: int, amount:int, hp_mult: float, damage_mult: float, xp_mult: float) -> void:
+	debug_stop_countdown()
+	debug_turn_off_auto_wave = true
+	
+	#print("enemy: " + str(index) + DEBUG_enemy_list[index] + ", h: " + str(hp_mult) + ", d: " + str(damage_mult) + ", x: " + str(xp_mult))
+	#print("amont: " + str(amount))
+	
+	# if we spawn a bunch, make it random!
+	if amount > 1:
+		for i in range(amount):
+			spawnEnemy(DEBUG_enemy_list[index], 0, hp_mult, damage_mult, xp_mult)
+	
+	else:
+		spawnEnemy(DEBUG_enemy_list[index], 1, hp_mult, damage_mult, xp_mult)
+
+func debug_spawn_wave(wave_count: int) -> void:
+	debug_stop_countdown()
+	debug_turn_off_auto_wave = false
+	can_change_wave = true
+	current_wave = wave_count 
+	spawnWave(wave_count)
+
+func debug_kill_all_enemies() -> void:
+	print("killing all enemies!")
+	for i in debug_total_enemy_array:
+		if i:
+			i.on_reach_zero_health()
+
 #endregion

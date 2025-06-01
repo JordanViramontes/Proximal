@@ -9,6 +9,7 @@ var pinky_vars: Array = [1, 0.0]
 
 # spawn variables
 var wave_count: int = 0
+var single_values: Array[float] = [1.0, 1.0, 1.0] # health, damage, xp
 
 # components
 @onready var weapon_manager = get_tree().get_first_node_in_group("WeaponManager")
@@ -24,6 +25,10 @@ var wave_count: int = 0
 @onready var wave_info = $MainContainer/SpawnUI/WaveStuff/AllWaveInfo/WaveInformation/WaveInfo/Wave/WaveCount
 @onready var wave_enemy_info = $MainContainer/SpawnUI/WaveStuff/AllWaveInfo/WaveInformation/EnemyInfo/Enemies/EnemyCount
 
+@onready var single_menu_button = $MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/Enemy/EnemySelection
+@onready var single_spawn = $MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/SpawnSingle
+@onready var single_mult_label = $MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/EnemyInfo/MultCounts
+@onready var single_amount_to_spawn = $MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/HBoxContainer/AmountToSpawnCount
 
 func _ready() -> void:
 	self.visible = false
@@ -32,6 +37,9 @@ func _ready() -> void:
 	# set defaults
 	single_stuff.visible = false
 	wave_stuff.visible = true
+	spawn_type_button.button_pressed = false
+	single_amount_to_spawn.text = "1"
+	update_single_UI()
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("debug_pause_menu"):
@@ -91,6 +99,7 @@ func _on_pinky_lvl_item_selected(index: int) -> void:
 
 #region SPAWNING
 
+#region wave spawning
 # update wave UI
 func update_wave_UI(wave_count: int):
 	var wave
@@ -174,6 +183,55 @@ func _on_set_wave_text_changed() -> void:
 
 # spawn wave!
 func _on_spawn_wave_pressed() -> void:
-	enemy_spawner.current_wave = wave_count 
-	enemy_spawner.spawnWave(wave_count)
-	enemy_spawner.debug_stop_countdown()
+	enemy_spawner.debug_spawn_wave(wave_count)
+
+#endregion
+
+#region single spawning
+func update_single_UI() -> void:
+	single_mult_label.text = str(single_values[0]) + "\n" + str(single_values[1]) + "\n" + str(single_values[2])
+
+func _on_hp_mult_slider_value_changed(value: float) -> void:
+	single_values[0] = snapped(remap(value, 0.0, 100.0, 1.0, 10.0), 0.01)
+	update_single_UI()
+
+func _on_damage_mult_slider_value_changed(value: float) -> void:
+	single_values[1] = snapped(remap(value, 0.0, 100.0, 1.0, 10.0), 0.01)
+	update_single_UI()
+
+func _on_xp_mult_slider_value_changed(value: float) -> void:
+	single_values[2] = snapped(remap(value, 0.0, 100.0, 1.0, 10.0), 0.01)
+	update_single_UI()
+
+func _on_amount_to_spawn_count_text_changed() -> void:
+	var real_text = ""
+	for i in single_amount_to_spawn.text:
+		if i.is_valid_int():
+			real_text += i
+	
+	# check we're not empty
+	if real_text.length() == 0:
+		return
+	
+	# if zero
+	if real_text == "0":
+		real_text = "1"
+	
+	# if float limit
+	if real_text.to_int() > 4000000000:
+		real_text = "4000000000"
+	
+	single_amount_to_spawn.text = real_text
+	single_amount_to_spawn.set_caret_column(single_amount_to_spawn.text.length())
+
+func _on_spawn_single_pressed() -> void:
+	enemy_spawner.debug_spawn_single_enemy(single_menu_button.selected, single_amount_to_spawn.text.to_int(), single_values[0], single_values[1], single_values[2])
+
+
+#endregion
+
+#endregion
+
+# kill all enemies
+func _on_button_pressed() -> void:
+	enemy_spawner.debug_kill_all_enemies()
