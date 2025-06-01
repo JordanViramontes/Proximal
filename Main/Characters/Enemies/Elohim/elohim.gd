@@ -26,6 +26,8 @@ signal add_new_enemies(enemies: int)
 @onready var mat_roam = StandardMaterial3D.new()
 @onready var mat_summoning = StandardMaterial3D.new()
 
+@onready var summon_particles := $SummonParticles
+
 func _ready() -> void:
 	# when in the comfy radius, the enemy will stand still
 	# when the player gets too close itll run away
@@ -120,7 +122,7 @@ func _on_summon_cooldown_timeout() -> void:
 	summoning_timer.start()
 	
 	
-	$GPUParticles3D.restart()
+	summon_particles.restart()
 	play_animation("attack")
 
 # finished summoning, go back to normal
@@ -135,7 +137,7 @@ func _on_summoning_timer_timeout() -> void:
 	current_state = ENEMY_STATE.roam
 	_on_pathfind_timer_timeout()
 	
-	$GPUParticles3D.restart()
+	summon_particles.restart()
 
 # summon small guys
 func summon_guys() -> void:

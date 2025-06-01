@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bmc77hxkk2at1"]
+[gd_scene load_steps=18 format=3 uid="uid://bmc77hxkk2at1"]
 
 [ext_resource type="Script" uid="uid://b4fokfiw017fj" path="res://Main/Characters/Enemies/Elohim/elohim.gd" id="1_3vyl4"]
 [ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://Main/Utility/Components/health_component.gd" id="2_kemqb"]
@@ -6,6 +6,8 @@
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://Main/Utility/Components/hitbox_component.gd" id="3_2so3s"]
 [ext_resource type="Shader" uid="uid://cxpcdyu7soiyp" path="res://assets/shaders/thank_you_uslash_theduriel.gdshader" id="5_4a2vk"]
 [ext_resource type="Texture2D" uid="uid://cksj1qlb381mn" path="res://assets/sprites/elohim/elohim-Sheet.png" id="6_6fjeu"]
+[ext_resource type="PackedScene" uid="uid://d1agem2dav3kg" path="res://Main/Utility/Particles/summon_particles.tscn" id="7_m47kb"]
+[ext_resource type="PackedScene" uid="uid://d183l837ka6ro" path="res://Main/Utility/Particles/stun_particles.tscn" id="8_m47kb"]
 [ext_resource type="Texture2D" uid="uid://druw8o2qfg52y" path="res://assets/sprites/elohim/particle-Sheet.png" id="7_6fjeu"]
 [ext_resource type="PackedScene" path="res://Main/Utility/Particles/stun_particles.tscn" id="8_m47kb"]
 
@@ -73,35 +75,12 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_m47kb"]
-emission_shape_scale = Vector3(0.1, 0.1, 0.1)
-direction = Vector3(0, 1, 0)
-initial_velocity_min = 2.0
-initial_velocity_max = 4.0
-gravity = Vector3(0, -2, 0)
-anim_speed_min = 3.0
-anim_speed_max = 3.0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kwihl"]
-transparency = 1
-albedo_texture = ExtResource("7_6fjeu")
-emission_enabled = true
-emission = Color(0.27, 0.27, 0.27, 1)
-emission_energy_multiplier = 2.22
-texture_filter = 0
-billboard_mode = 3
-particles_anim_h_frames = 4
-particles_anim_v_frames = 1
-particles_anim_loop = true
-
-[sub_resource type="QuadMesh" id="QuadMesh_i0d4b"]
-material = SubResource("StandardMaterial3D_kwihl")
-
 [node name="Elohim" type="CharacterBody3D" groups=["Enemies"]]
 collision_layer = 4
 script = ExtResource("1_3vyl4")
 max_health = 1.0
 movement_speed = 2
+death_particle_color = Color(0.48, 1, 0.48, 1)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
@@ -145,12 +124,8 @@ texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_uum60")
 autoplay = "default"
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+[node name="SummonParticles" parent="." instance=ExtResource("7_m47kb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0537915, 4.06274, -0.0330119)
-emitting = false
-one_shot = true
-process_material = SubResource("ParticleProcessMaterial_m47kb")
-draw_pass_1 = SubResource("QuadMesh_i0d4b")
 
 [node name="StunParticles" parent="." instance=ExtResource("8_m47kb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.28983, 0)

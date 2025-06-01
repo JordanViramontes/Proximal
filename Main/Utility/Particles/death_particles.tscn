@@ -1,0 +1,89 @@
+[gd_scene load_steps=16 format=3 uid="uid://dbuhkb8w68vxe"]
+
+[ext_resource type="Texture2D" uid="uid://bckscsuhohlt7" path="res://assets/sprites/test_man.png" id="1_bkffl"]
+[ext_resource type="Script" uid="uid://ctgqdmco3vd2s" path="res://Main/Utility/Particles/death_particles.gd" id="2_nw4bl"]
+[ext_resource type="Texture2D" uid="uid://b3n3rx7pgoehq" path="res://assets/textures/sparkle.png" id="2_smbd8"]
+
+[sub_resource type="Curve" id="Curve_smbd8"]
+_data = [Vector2(0, 1), 0.0, -1.0, 0, 1, Vector2(1, 0), -1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_nw4bl"]
+curve = SubResource("Curve_smbd8")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lk6g6"]
+direction = Vector3(0, 1, 0)
+spread = 40.0
+initial_velocity_max = 10.0
+angular_velocity_min = -200.0
+angular_velocity_max = 200.0
+scale_min = 48.87
+scale_max = 96.74
+scale_curve = SubResource("CurveTexture_nw4bl")
+sub_emitter_mode = 2
+sub_emitter_amount_at_end = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bkffl"]
+transparency = 1
+albedo_color = Color(1, 0, 0, 1)
+albedo_texture = ExtResource("1_bkffl")
+texture_filter = 0
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_smbd8"]
+material = SubResource("StandardMaterial3D_bkffl")
+size = Vector2(0.15, 0.15)
+
+[sub_resource type="Curve" id="Curve_xk61n"]
+_data = [Vector2(0, 1), 0.0, -1.0, 0, 1, Vector2(1, 0), -1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_xarxo"]
+curve = SubResource("Curve_xk61n")
+
+[sub_resource type="Curve" id="Curve_nw4bl"]
+_data = [Vector2(0, 1), 0.0, -1.0, 0, 1, Vector2(1, 0), -1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_xk61n"]
+curve = SubResource("Curve_nw4bl")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_nw4bl"]
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_xk61n")
+alpha_curve = SubResource("CurveTexture_xarxo")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xk61n"]
+transparency = 1
+albedo_texture = ExtResource("2_smbd8")
+texture_filter = 0
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_xarxo"]
+material = SubResource("StandardMaterial3D_xk61n")
+size = Vector2(0.15, 0.15)
+
+[node name="DeathParticles" type="GPUParticles3D"]
+emitting = false
+amount = 20
+sub_emitter = NodePath("GPUParticles3D")
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_lk6g6")
+draw_pass_1 = SubResource("QuadMesh_smbd8")
+script = ExtResource("2_nw4bl")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 20
+lifetime = 0.5
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_nw4bl")
+draw_pass_1 = SubResource("QuadMesh_xarxo")

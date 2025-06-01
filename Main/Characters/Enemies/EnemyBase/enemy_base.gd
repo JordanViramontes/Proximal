@@ -21,7 +21,10 @@ var damage_multiplier = 1
 @export var hitflash_material: Material
 @export var hitflash_duration: float = 0.1
 @export var twoD_hitflash_amount: float = 2.0
+@export var death_particle_color: Color = Color.RED
+@onready var scn_death_particles: PackedScene = preload("res://Main/Utility/Particles/death_particles.tscn")
 var hitflash_tween: Tween
+
 
 # spawning variables
 var spawn_distance_vector = Vector3(0, 0, 0)
@@ -181,6 +184,12 @@ func on_reach_zero_health():
 	emit_signal("die_from_wave", wave_category)
 	die.emit()
 	emit_signal("drop_xp", xp_on_death * experience_multiplier) # emit experience points
+	
+	var death_particles = scn_death_particles.instantiate()
+	death_particles.position = self.position
+	death_particles.color = death_particle_color
+	get_parent().add_child(death_particles)
+	
 	self.queue_free()
 
 # when you get damaged
