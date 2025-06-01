@@ -8,6 +8,7 @@ extends Control
 @onready var scroll_checkbox = $"Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollWheel/Scroll_Checkbox"
 @onready var mouse_sensitivity = $"Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Mouse_Sensitivity/Mouse_Slider"
 @onready var mouse_sensitivity_label = $"Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Mouse_Sensitivity/Mouse_Count_Label"
+@onready var resolutions = $"Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Resolution/Resolutions"
 
 var is_remapping = false
 var action_to_remap = null
@@ -43,8 +44,14 @@ func _ready():
 	var audio_settings = ConfigFileHandler.load_audio_settings()
 	volume.value = min(audio_settings.master_volume, 1.0) * 100
 	
-	mouse_sensitivity.value = default_mouse_sens
+	mouse_sensitivity.value = ConfigFileHandler.load_mouse_sens_settings()
 	mouse_sensitivity_label.text = str(int(mouse_sensitivity.value))
+	
+	scroll_checkbox.button_pressed = ConfigFileHandler.load_scroll_inverted_settings()
+	
+	var res_index = ConfigFileHandler.load_resolution_settings()
+	resolutions.select(res_index)
+	_on_resolutions_item_selected(res_index)
 
 # play button should send user to game scene
 func _on_play_pressed():
@@ -72,19 +79,30 @@ func _on_volume_drag_ended(value_changed: bool) -> void:
 
 # resolution setting
 func _on_resolutions_item_selected(index: int) -> void:
+	var res = Vector2i(1280, 720)
+	var i = 2
 	match index:
 		0:
-			DisplayServer.window_set_size(Vector2i(1920, 1080))
+			res = Vector2i(1920, 1080)
+			i = 0
 		1:
-			DisplayServer.window_set_size(Vector2i(1600, 900))
+			res = Vector2i(1600, 900)
+			i = 1
 		2:
-			DisplayServer.window_set_size(Vector2i(1280, 720))
+			res = Vector2i(1280, 720)
+			i = 2
 		3:
-			DisplayServer.window_set_size(Vector2i(1024, 576))
+			res = Vector2i(1024, 576)
+			i = 3
 		4:
-			DisplayServer.window_set_size(Vector2i(640, 360))
+			res = Vector2i(640, 360)
+			i = 4
 		5:
-			DisplayServer.window_set_size(Vector2i(256, 144))
+			res = Vector2i(256, 144)
+			i = 5
+	DisplayServer.window_set_size(res)
+	
+	ConfigFileHandler.save_resolution_settings("window_res", str(i))
 
 func _on_options_exit_pressed() -> void:
 	$"Options Menu".visible = false
@@ -165,9 +183,9 @@ func _on_reset_button_pressed() -> void:
 # invert the scroll wheel lmfao
 func _on_scroll_checkbox_toggled(toggled_on: bool) -> void:
 	if toggled_on:
-		ConfigFileHandler.save_mouse_inverted_setting("mouse_inverted", true)
+		ConfigFileHandler.save_scroll_inverted_setting("mouse_inverted", true)
 	else:
-		ConfigFileHandler.save_mouse_inverted_setting("mouse_inverted", false)
+		ConfigFileHandler.save_scroll_inverted_setting("mouse_inverted", false)
 
 
 func _on_mouse_slider_drag_ended(value_changed: bool) -> void:
