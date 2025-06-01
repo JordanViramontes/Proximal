@@ -92,11 +92,6 @@ func _process(delta: float):
 	if Input.is_action_just_pressed("hotkey_dash"): # Index = 1
 		use_ability(1)
 	
-	# debug
-	if Input.is_action_just_pressed("debug_enemy_stun"):
-		if can_stun == true:
-			stun_enemies()
-	
 	# recoil
 	update_recoil(delta)
 

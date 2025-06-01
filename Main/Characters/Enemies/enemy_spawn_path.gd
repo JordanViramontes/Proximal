@@ -49,7 +49,7 @@ var waveDictionary = [
 	Wave.new([7, 4, 2, 2], 1, 1, 1, default_wave_time),
 	Wave.new([5, 5, 2, 5], 1, 1, 1, default_wave_time), #14
 ]
-@export var starting_wave: int
+@export var starting_wave: int = 4
 var last_static_wave = waveDictionary.size() - 1
 var current_wave = starting_wave
 var current_wave_enemy_count: int = 0
@@ -200,7 +200,12 @@ func generateNewWave(wave_count) -> Wave:
 	#print(" max mult: " + str(max_mult) + "\n health_mult: " + str(health_mult) + "\n damage_mult: " + str(damage_mult) + "\n xp_mult: " + str(xp_mult) + "\n wave_time: " + str(wave_time))
 	
 	
-	print("generating new wave!")
+	#print("generating new wave!")
+	# truncate multipliers
+	health_mult = snapped(health_mult, 0.01)
+	damage_mult = snapped(damage_mult, 0.01)
+	xp_mult = snapped(xp_mult, 0.01)
+	wave_time = snapped(wave_time, 0.01)
 	var new_wave = Wave.new(enemies, health_mult, damage_mult, xp_mult, wave_time)
 	
 	return new_wave
@@ -242,7 +247,7 @@ func nextWave():
 	# generate new wave if we're past the dictionary
 	if current_wave >= waveDictionary.size() - 1:
 		waveDictionary.push_back(generateNewWave(current_wave))
-	printWave(current_wave)
+	#printWave(current_wave)
 
 func prevWave():
 	if current_wave == 0:
@@ -323,3 +328,10 @@ func increase_enemy_count(amount: int):
 	
 	current_wave_enemy_count += amount
 	emit_signal("updateEnemyCount", current_wave_enemy_count)
+
+#region DEBUG UI
+func get_wave_from_index(index: int):
+	#print("getting wave: " + str(index))
+	return waveDictionary[index]
+
+#endregion

@@ -62,7 +62,7 @@ func _on_play_pressed():
 # options button should allow to change ui elements, key binds, etc.
 func _on_options_pressed():
 	$"Options Menu".visible = true
-	
+
 func _on_quit_pressed():
 	get_tree().quit()
 
@@ -75,7 +75,6 @@ func _on_volume_value_changed(value: float) -> void:
 func _on_volume_drag_ended(value_changed: bool) -> void:
 	if value_changed:
 		ConfigFileHandler.save_audio_setting("master_volume", volume.value / 100)
-
 
 # resolution setting
 func _on_resolutions_item_selected(index: int) -> void:
