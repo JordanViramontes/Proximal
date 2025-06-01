@@ -51,7 +51,7 @@ func _ready():
 	
 	var res_index = ConfigFileHandler.load_resolution_settings()
 	resolutions.select(res_index)
-	_on_resolutions_item_selected(res_index)
+	_on_resolutions_item_selected(res_index) 
 
 # play button should send user to game scene
 func _on_play_pressed():
