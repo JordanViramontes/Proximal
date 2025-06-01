@@ -32,23 +32,23 @@ class Wave:
 # variables - enemies, health mul, experience mul, damage mul, time
 @export var multiply_scaler = 1.5 # as this increases, the game scales faster
 @export var default_wave_time = 20
-var waveDictionary = [
-	Wave.new([5, 0, 0, 0], 1, 1, 1, default_wave_time), # 0
-	Wave.new([3, 3, 0, 0], 1, 1, 1, default_wave_time),
-	Wave.new([5, 5, 0, 0], 1, 1, 1, default_wave_time),
-	Wave.new([0, 8, 0, 0], 1, 1, 1, default_wave_time),
-	Wave.new([0, 6, 2, 0], 1, 1, 1, default_wave_time), # 4
-	Wave.new([3, 5, 1, 0], 1, 1, 1, default_wave_time),
-	Wave.new([6, 6, 2, 0], 1, 1, 1, default_wave_time),
-	Wave.new([10, 2, 0, 0], 1, 1, 1, default_wave_time),
-	Wave.new([6, 8, 1, 0], 1, 1, 1, default_wave_time),
-	Wave.new([3, 0, 0, 1], 1, 1, 1, default_wave_time), # 9
-	Wave.new([2, 3, 0, 3], 1, 1, 1, default_wave_time),
-	Wave.new([3, 6, 2, 3], 1, 1, 1, default_wave_time),
-	Wave.new([0, 10, 5, 1], 1, 1, 1, default_wave_time),
-	Wave.new([7, 4, 2, 2], 1, 1, 1, default_wave_time),
-	Wave.new([5, 5, 2, 5], 1, 1, 1, default_wave_time), #14
-]
+var waveDictionary: Dictionary[int, Wave] = {
+	0:Wave.new([5, 0, 0, 0], 1, 1, 1, default_wave_time), # 0
+	1:Wave.new([3, 3, 0, 0], 1, 1, 1, default_wave_time),
+	2:Wave.new([5, 5, 0, 0], 1, 1, 1, default_wave_time),
+	3:Wave.new([0, 8, 0, 0], 1, 1, 1, default_wave_time),
+	4:Wave.new([0, 6, 2, 0], 1, 1, 1, default_wave_time), # 4
+	5:Wave.new([3, 5, 1, 0], 1, 1, 1, default_wave_time),
+	6:Wave.new([6, 6, 2, 0], 1, 1, 1, default_wave_time),
+	7:Wave.new([10, 2, 0, 0], 1, 1, 1, default_wave_time),
+	8:Wave.new([6, 8, 1, 0], 1, 1, 1, default_wave_time),
+	9:Wave.new([3, 0, 0, 1], 1, 1, 1, default_wave_time), # 9
+	10:Wave.new([2, 3, 0, 3], 1, 1, 1, default_wave_time),
+	11:Wave.new([3, 6, 2, 3], 1, 1, 1, default_wave_time),
+	12:Wave.new([0, 10, 5, 1], 1, 1, 1, default_wave_time),
+	13:Wave.new([7, 4, 2, 2], 1, 1, 1, default_wave_time),
+	14:Wave.new([5, 5, 2, 5], 1, 1, 1, default_wave_time), #14
+}
 @export var starting_wave: int = 4
 var last_static_wave = waveDictionary.size() - 1
 var current_wave = starting_wave
@@ -112,10 +112,10 @@ func _process(delta):
 	if DEBUG_wave:
 		if Input.is_action_just_pressed("debug_spawn_enemy"):
 			spawnWave(current_wave)
-		if Input.is_action_just_pressed("debug_next_enemy"):
-			nextWave()
-		if Input.is_action_just_pressed("debug_prev_enemy"):
-			prevWave()
+		#if Input.is_action_just_pressed("debug_next_enemy"):
+			#nextWave()
+		#if Input.is_action_just_pressed("debug_prev_enemy"):
+			#prevWave()
 	else:
 		if Input.is_action_just_pressed("debug_spawn_enemy"):
 			DEBUGspawnSingleEnemy()
@@ -243,17 +243,21 @@ func spawnEnemy(mob_path, debug_flag, health_multiplier, damage_multiplier, expe
 
 func nextWave():
 	current_wave += 1
+	print("current wave: " + str(current_wave))
 	
 	# generate new wave if we're past the dictionary
-	if current_wave >= waveDictionary.size() - 1:
-		waveDictionary.push_back(generateNewWave(current_wave))
+	if current_wave >= waveDictionary.size():
+		waveDictionary[current_wave] = generateNewWave(current_wave)
 	#printWave(current_wave)
 
 func prevWave():
 	if current_wave == 0:
 		return
 	current_wave -= 1
-	printWave(current_wave)
+	
+	if current_wave >= waveDictionary.size():
+		waveDictionary[current_wave] = generateNewWave(current_wave)
+	#printWave(current_wave)
 
 func printWave(wave_index):
 	var wave = waveDictionary[wave_index]
@@ -329,9 +333,14 @@ func increase_enemy_count(amount: int):
 	current_wave_enemy_count += amount
 	emit_signal("updateEnemyCount", current_wave_enemy_count)
 
-#region DEBUG UI
 func get_wave_from_index(index: int):
 	#print("getting wave: " + str(index))
+	if not waveDictionary.has(index):
+		waveDictionary[index] = generateNewWave(index)
 	return waveDictionary[index]
 
+#region DEBUG UI
+func debug_stop_countdown() -> void:
+	next_wave_timer.stop()
+	emit_signal("updateNextWaveVisibility", false)
 #endregion

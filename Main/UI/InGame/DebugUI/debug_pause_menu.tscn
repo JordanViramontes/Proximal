@@ -256,7 +256,6 @@ text = "Set Wave:"
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "000"
 scroll_past_end_of_file = true
 text_direction = 1
 
@@ -268,7 +267,7 @@ text = "+1"
 layout_mode = 2
 text = "-1"
 
-[node name="Button" type="Button" parent="MainContainer/SpawnUI/WaveStuff"]
+[node name="SpawnWave" type="Button" parent="MainContainer/SpawnUI/WaveStuff"]
 layout_mode = 2
 text = "Spawn Wave"
 
@@ -421,3 +420,4 @@ size_flags_vertical = 2
 [connection signal="text_changed" from="MainContainer/SpawnUI/WaveStuff/SetWave/SetWave" to="." method="_on_set_wave_text_changed"]
 [connection signal="pressed" from="MainContainer/SpawnUI/WaveStuff/SetWave/WaveIncrease" to="." method="_on_wave_increase_pressed"]
 [connection signal="pressed" from="MainContainer/SpawnUI/WaveStuff/SetWave/WaveDecrease" to="." method="_on_wave_decrease_pressed"]
+[connection signal="pressed" from="MainContainer/SpawnUI/WaveStuff/SpawnWave" to="." method="_on_spawn_wave_pressed"]
