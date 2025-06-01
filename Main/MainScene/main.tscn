@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=3 uid="uid://5ygls03nw76d"]
+[gd_scene load_steps=57 format=3 uid="uid://5ygls03nw76d"]
 
 [ext_resource type="Texture2D" uid="uid://cqur83lk7fjfl" path="res://assets/hdris/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="1_8wojv"]
 [ext_resource type="Script" uid="uid://bpvwqw4pbfs3m" path="res://Main/Areas/world.gd" id="1_dctr2"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://drj4up00u5x88" path="res://Main/Characters/Enemies/enemy_spawn_path.gd" id="6_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://d0u5bw4owtrev" path="res://Main/Characters/Player/player.tscn" id="6_tefeu"]
 [ext_resource type="Script" uid="uid://c0md12nt0jei1" path="res://Main/UI/InGame/fps_counter.gd" id="8_85g3d"]
+[ext_resource type="Shader" uid="uid://d0usc61xxcqu0" path="res://assets/shaders/pixelation.gdshader" id="8_xhbv5"]
 [ext_resource type="Shader" uid="uid://drfc1fob3nean" path="res://assets/shaders/water.gdshader" id="9_85g3d"]
 [ext_resource type="Script" uid="uid://bv6srvbqyys10" path="res://Main/UI/InGame/ui_manager.gd" id="9_jbj1t"]
 [ext_resource type="Theme" uid="uid://rsglqw8mc02x" path="res://assets/themes/default.tres" id="9_ya4ey"]
@@ -26,6 +27,10 @@
 [ext_resource type="Script" uid="uid://bef2ol0vweh75" path="res://Main/UI/InGame/pinky_visual.gd" id="21_2qk5c"]
 [ext_resource type="Shader" uid="uid://clllrqa4ls6mb" path="res://assets/shaders/damage_overlay.gdshader" id="25_th46f"]
 [ext_resource type="Script" uid="uid://da8c7sjwkoiap" path="res://Main/UI/InGame/visuals/damage_visual.gd" id="26_xhbv5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4r3xj"]
+shader = ExtResource("8_xhbv5")
+shader_parameter/resolution_downsampling = 2.0
 
 [sub_resource type="Gradient" id="Gradient_ya4ey"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -165,14 +170,22 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 stretch = true
-stretch_shrink = 2
 metadata/_edit_lock_ = true
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
 handle_input_locally = false
 canvas_item_default_texture_filter = 0
-size = Vector2i(576, 324)
+size = Vector2i(1152, 648)
 render_target_update_mode = 4
+
+[node name="ColorRect" type="ColorRect" parent="SubViewportContainer/SubViewport"]
+material = SubResource("ShaderMaterial_4r3xj")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
 [node name="Water" type="MeshInstance3D" parent="SubViewportContainer/SubViewport"]
 transform = Transform3D(139.761, 0, 0, 0, 1.00205, 0, 0, 0, 152.767, 0, 0, 0)
@@ -227,6 +240,7 @@ one_shot = true
 
 [node name="Player" parent="SubViewportContainer/SubViewport" instance=ExtResource("6_tefeu")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -4.93703, 0.975243, 15)
+MOUSE_SENS = 0.15
 DASH_SPEED = 50
 
 [node name="UI" type="Control" parent="."]
