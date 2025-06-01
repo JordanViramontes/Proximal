@@ -98,6 +98,7 @@ max_health = 5.0
 movement_speed = 6
 hitflash_material = ExtResource("1_ovggl")
 twoD_hitflash_amount = 5.0
+death_particle_color = Color(0.383709, 0.745565, 1, 1)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." groups=["Enemies"]]
 visible = false

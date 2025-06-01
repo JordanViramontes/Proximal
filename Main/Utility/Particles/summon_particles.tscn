@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://d1agem2dav3kg"]
+
+[ext_resource type="Texture2D" uid="uid://druw8o2qfg52y" path="res://assets/sprites/elohim/particle-Sheet.png" id="1_shs5s"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_m47kb"]
+emission_shape_scale = Vector3(0.1, 0.1, 0.1)
+direction = Vector3(0, 1, 0)
+initial_velocity_min = 2.0
+initial_velocity_max = 4.0
+gravity = Vector3(0, -2, 0)
+anim_speed_min = 3.0
+anim_speed_max = 3.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kwihl"]
+transparency = 1
+albedo_texture = ExtResource("1_shs5s")
+emission_enabled = true
+emission = Color(0.27, 0.27, 0.27, 1)
+emission_energy_multiplier = 2.22
+texture_filter = 0
+billboard_mode = 3
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_i0d4b"]
+material = SubResource("StandardMaterial3D_kwihl")
+
+[node name="SummonParticles" type="GPUParticles3D"]
+emitting = false
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_m47kb")
+draw_pass_1 = SubResource("QuadMesh_i0d4b")
