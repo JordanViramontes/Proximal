@@ -15,7 +15,7 @@ var y_active = 29
 @onready var weapons: Array[Control]
 
 func _ready() -> void:
-	if OptionsRuntime.inverted_scroll:
+	if ConfigFileHandler.load_mouse_inverted_settings():
 		weapons = [
 			pinky,
 			ring,

@@ -39,7 +39,32 @@ func load_video_settings():
 	for key in config.get_section_keys("video"):
 		video_settings[key] = config.get_value("video", key)
 	return video_settings
-	
+
+func save_mouse_sens_setting(key: String, value):
+	config.set_value("mouse_sens", key, value)
+	config.save(SETTINGS_FILE_PATH)
+
+func load_mouse_sens_settings():
+	var found_sens: float = 11.0
+	var video_settings = {}
+	for key in config.get_section_keys("mouse_sens"):
+		video_settings[key] = config.get_value("mouse_sens", key)
+		found_sens = float(video_settings[key])
+	return found_sens
+
+func save_mouse_inverted_setting(key: String, value):
+	config.set_value("mouse_inverted", key, value)
+	config.save(SETTINGS_FILE_PATH)
+
+func load_mouse_inverted_settings():
+	var found_inverted: bool = false
+	var video_settings = {}
+	for key in config.get_section_keys("mouse_inverted"):
+		video_settings[key] = config.get_value("mouse_inverted", key)
+		found_inverted = bool(video_settings[key])
+	return found_inverted
+
+
 func save_audio_setting(key: String, value):
 	config.set_value("audio", key, value)
 	config.save(SETTINGS_FILE_PATH)

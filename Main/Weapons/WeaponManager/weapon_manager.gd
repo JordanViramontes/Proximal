@@ -10,7 +10,7 @@ var curr_weapon # defined in ready
 var xp_dictionary = [0.0, 0.0, 0.0, 0.0, 0.0]
 var xp_scale = [100.0, 100.0, 500.0, 50.0, 20.0]
 var weapon_level = [1, 1, 1, 1, 1]
-@onready var inverted_scroll: bool = OptionsRuntime.inverted_scroll
+@onready var inverted_scroll: bool = ConfigFileHandler.load_mouse_sens_settings()
 
 # hitbox
 @onready var hitboxColl: CollisionShape3D = $StunHitbox/CollisionShape3D

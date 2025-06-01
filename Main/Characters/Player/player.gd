@@ -11,7 +11,7 @@ signal health_change
 enum INPUT_STATE {normal, sliding, dead}
 var current_state = INPUT_STATE.normal
 @export_category("Input Settings")
-@export var MOUSE_SENS = 0.3
+@export var MOUSE_SENS = remap(ConfigFileHandler.load_mouse_sens_settings(), 0.0, 100.0, 0.05, 1.0)
 
 # speed and walking
 # OVERHAUL CONTROLLER

@@ -3,13 +3,16 @@ extends Control
 # preload action input button and grab action list
 @onready var input_button_scene = preload("res://Main/UI/MainMenu/input_button.tscn")
 @onready var action_list = $"Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/VBoxContainer"
-@onready var volume = $"Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Volume"
+@onready var volume = $"Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainer/Volume"
 @onready var fullscreen_checkbox = $"Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainer2/Fullscreen_Checkbox"
 @onready var scroll_checkbox = $"Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollWheel/Scroll_Checkbox"
+@onready var mouse_sensitivity = $"Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Mouse_Sensitivity/Mouse_Slider"
+@onready var mouse_sensitivity_label = $"Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Mouse_Sensitivity/Mouse_Count_Label"
 
 var is_remapping = false
 var action_to_remap = null
 var remapping_button = null
+@export var default_mouse_sens = 18
 
 # input actions dictionary
 var input_actions = {
@@ -39,6 +42,9 @@ func _ready():
 	
 	var audio_settings = ConfigFileHandler.load_audio_settings()
 	volume.value = min(audio_settings.master_volume, 1.0) * 100
+	
+	mouse_sensitivity.value = default_mouse_sens
+	mouse_sensitivity_label.text = str(int(mouse_sensitivity.value))
 
 # play button should send user to game scene
 func _on_play_pressed():
@@ -56,7 +62,7 @@ func _on_quit_pressed():
 # audio slider function
 func _on_volume_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db(0, value)
-	print("volume set to: " + str(value))
+	#print("volume set to: " + str(value))
 
 
 func _on_volume_drag_ended(value_changed: bool) -> void:
@@ -159,6 +165,20 @@ func _on_reset_button_pressed() -> void:
 # invert the scroll wheel lmfao
 func _on_scroll_checkbox_toggled(toggled_on: bool) -> void:
 	if toggled_on:
-		OptionsRuntime.inverted_scroll = true
+		ConfigFileHandler.save_mouse_inverted_setting("mouse_inverted", true)
 	else:
-		OptionsRuntime.inverted_scroll = false
+		ConfigFileHandler.save_mouse_inverted_setting("mouse_inverted", false)
+
+
+func _on_mouse_slider_drag_ended(value_changed: bool) -> void:
+	if value_changed:
+		ConfigFileHandler.save_mouse_sens_setting("mouse_sens", mouse_sensitivity.value)
+		mouse_sensitivity_label.text = str(int(mouse_sensitivity.value))
+	#print("check sens: " + str(int(mouse_sensitivity.value)))
+	
+
+
+func _on_mouse_slider_value_changed(value: float) -> void:
+	ConfigFileHandler.save_mouse_sens_setting("mouse_sens", mouse_sensitivity.value)
+	mouse_sensitivity_label.text = str(int(mouse_sensitivity.value))
+	#print("check sens: " + str(int(mouse_sensitivity.value)))
