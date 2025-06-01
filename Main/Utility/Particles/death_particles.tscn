@@ -58,7 +58,6 @@ alpha_curve = SubResource("CurveTexture_xarxo")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xk61n"]
 transparency = 1
-albedo_color = Color(1, 1, 1, 0.172549)
 albedo_texture = ExtResource("2_smbd8")
 texture_filter = 0
 billboard_mode = 3

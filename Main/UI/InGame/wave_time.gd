@@ -1,4 +1,4 @@
-extends Label
+extends RichTextLabel
 
 # variables
 @onready var enemy_spawn_path = get_tree().get_first_node_in_group("EnemySpawnParent")

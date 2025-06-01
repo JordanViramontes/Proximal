@@ -2,6 +2,7 @@ extends Label
 
 var first_wave: bool = true
 var is_counting: bool = false
+var should_do_anything: bool = true
 var time_left: float = 0.0
 @onready var enemy_spawn_path = get_tree().get_first_node_in_group("EnemySpawnParent")
 
@@ -22,6 +23,9 @@ func _ready() -> void:
 	enemy_spawn_path.updateNextWaveVisibility.connect(update_visibility)
 
 func _process(delta: float):
+	if not should_do_anything:
+		return
+	
 	if time_left > 0:
 		time_left -= delta
 	
@@ -64,3 +68,7 @@ func update_visibility(visiblity: bool):
 		current_vis_state = VIS_STATES.on 
 	else:
 		current_vis_state = VIS_STATES.off
+
+func _on_dying_ui():
+	self.visible = false
+	should_do_anything = false
