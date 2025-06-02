@@ -71,7 +71,7 @@ func _physics_process(delta: float) -> void:
 			global_position = cherubim_node.global_position
 	
 	# state logic for gravity
-	if current_state not in [ENEMY_STATE.spawn_edge, ENEMY_STATE.cherubim_sit]:
+	if current_state not in [ENEMY_STATE.spawn_edge, ENEMY_STATE.cherubim_sit, ENEMY_STATE.stunned]:
 		# gravity
 		if not is_on_floor():
 			velocity += get_gravity() * delta

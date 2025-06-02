@@ -149,7 +149,7 @@ func _physics_process(delta):
 			#print("enemy_base.gd - third target: " + str(vacuum_target_position))
 			
 			#print("check: " + str(global_position.distance_to(vacuum_target_position)))
-			
+			#print("v: " + str(velocity) + ", vv: " + str(vacuum_velocity))
 			if global_position.distance_to(vacuum_target_position) < vacuum_distance_goal:  # <-- Stop distance
 				vacuum_velocity = Vector3.ZERO
 				velocity = Vector3.ZERO
@@ -281,7 +281,10 @@ func deal_damage_to_player(di: DamageInstance):
 		player.get_node("HitboxComponent").damage(di)
 
 func _on_recieve_stun() -> void:
-	#print("enemy_base.gd stunned: " + str(self))
+	# if we are spawning in, cancel spawn stuff
+	if current_state == ENEMY_STATE.spawn_edge:
+		collision.disabled = false
+	
 	current_state = ENEMY_STATE.stunned
 	pathfind_timer.stop() # disable pathfinding
 	pathfind_timer.autostart = false

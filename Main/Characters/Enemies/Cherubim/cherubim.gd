@@ -95,7 +95,7 @@ func _physics_process(delta: float) -> void:
 				rotate_y(deg_to_rad(turn_angle * turn_sign * -1))
 	
 	# gravity
-	if current_state != ENEMY_STATE.spawn_edge:
+	if current_state not in [ENEMY_STATE.spawn_edge, ENEMY_STATE.stunned]:
 		if not is_on_floor():
 			velocity += get_gravity() * delta
 	

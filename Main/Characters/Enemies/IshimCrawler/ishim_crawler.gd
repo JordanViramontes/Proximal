@@ -46,7 +46,7 @@ func _physics_process(delta: float) -> void:
 				velocity.x -= friction_force.x
 				velocity.z -= friction_force.z
 	
-	if current_state != ENEMY_STATE.spawn_edge:
+	if current_state not in [ENEMY_STATE.spawn_edge, ENEMY_STATE.stunned]:
 		# gravity
 		if not is_on_floor():
 			velocity += get_gravity() * delta
