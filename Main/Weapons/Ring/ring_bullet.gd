@@ -35,7 +35,7 @@ func _on_hitbox_damaged(di: DamageInstance):
 	e.type = di.type
 	
 	var de_connections = damaged_enemy.get_connections()
-	print(de_connections)
+	#print(de_connections)
 	for conn in de_connections:
 		e.damaged_enemy.connect(conn.callable)
 	
@@ -51,7 +51,7 @@ func _on_hitbox_area_entered(area: Area3D) -> void:
 	e.type = DamageInstance.DamageType.Ring
 	
 	var de_connections = damaged_enemy.get_connections()
-	print(de_connections)
+	#print(de_connections)
 	for conn in de_connections:
 		e.damaged_enemy.connect(conn.callable)
 	
@@ -68,7 +68,7 @@ func _on_hitbox_body_entered(body: Node3D) -> void:
 	e.type = DamageInstance.DamageType.Ring
 	
 	var de_connections = damaged_enemy.get_connections()
-	print(de_connections)
+	#print(de_connections)
 	for conn in de_connections:
 		e.damaged_enemy.connect(conn.callable)
 	

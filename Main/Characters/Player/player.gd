@@ -151,7 +151,7 @@ func _process(delta: float):
 		healing_timer -= delta
 		if healing_timer <= 0:
 			health_component.heal(ring_healing_amount);
-			print("healing! total health: " + str(health_component.current_health))
+			#print("healing! total health: " + str(health_component.current_health))
 			healing_timer = 0.5
 
 	
@@ -292,7 +292,7 @@ func enter_slide() -> void:
 		return  # still in cooldown
 
 	last_slide_time = current_time  # set new cooldown timer
-	print("sliding")
+	#print("sliding")
 	is_sliding = true
 	current_state = INPUT_STATE.sliding
 	current_slide_time = slide_duration
@@ -343,7 +343,7 @@ func kill_player():
 	
 	die.emit()
 	current_state = INPUT_STATE.dead
-	print("player dead!")
+	#print("player dead!")
 
 # When they dead as hell
 func on_reach_zero_health():
@@ -352,7 +352,7 @@ func on_reach_zero_health():
 
 # when you get damaged
 func on_damaged(di: DamageInstance):
-	print("damage deal to me!: " + str(di.damage) + ",\ttotal health: " + str(health_component.current_health))
+	#print("damage deal to me!: " + str(di.damage) + ",\ttotal health: " + str(health_component.current_health))
 	Util.damage_taken.emit(damage_visual_per_hit)
 	
 func on_toggle_shield(state:bool):

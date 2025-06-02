@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://d382718nkl44c"]
 
-[ext_resource type="Script" uid="uid://cjygxqecueabj" path="res://scripts/Weapons/ring_shoot_explosion.gd" id="1_ij41f"]
+[ext_resource type="Script" uid="uid://cjygxqecueabj" path="res://Main/Weapons/Ring/ring_shoot_explosion.gd" id="1_ij41f"]
 [ext_resource type="CylinderMesh" uid="uid://bitl06fqk43yc" path="res://assets/meshes/ring_shoot_explosion_cone.tres" id="2_qgyff"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qgyff"]
@@ -32,6 +32,7 @@ points = PackedVector3Array(4.58879, -14.8387, 24.481, -4.59034, -14.8385, -24.4
 
 [node name="RingShootExplosion" type="Node3D"]
 script = ExtResource("1_ij41f")
+type = 4
 thumb_dt_mat = SubResource("StandardMaterial3D_qgyff")
 index_dt_mat = SubResource("StandardMaterial3D_xeqj7")
 middle_dt_mat = SubResource("StandardMaterial3D_t0so6")

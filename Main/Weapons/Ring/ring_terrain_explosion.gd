@@ -5,7 +5,7 @@ extends Node3D
 @export var expand_max_radius: float = 6.0
 
 var explosion_damage: float
-var type: DamageInstance.DamageType
+@export var type: DamageInstance.DamageType
 
 signal damaged_enemy
 
@@ -27,6 +27,8 @@ func _on_hitbox_area_entered(area: Area3D):
 				"damage" : explosion_damage,
 				"type" : type
 			})
+			
+			#print("ring_terrain_explosion - WOW CHECK: " + str(di.type))
 			
 			if area.damage(di):
 				damaged_enemy.emit(di.damage)

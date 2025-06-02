@@ -11,12 +11,14 @@ var ammo_count: int = max_ammo
 
 
 signal used_ring
+signal update_ammo_count
 
 func _ready() -> void:
 	super._ready()
 	on_shoot.connect(on_on_shoot)
 	on_ability_shoot.connect(on_on_ability_shoot)
-
+	
+	#print("ring: " + str(ability_cooldown))
 
 func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	if ammo_count <= 0:
@@ -45,6 +47,15 @@ func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	
 	ammo_count -= 1
 	used_ring.emit() # emitted so that the weapon_manager can detect and update the hand_visual for the ring count
+	update_ammo_count.emit(ammo_count+1, ammo_count)
+
+# override to add check for ring
+func use_ability() -> bool:
+	if ammo_count <= 0:
+		return false
+	
+	# og!
+	return super.use_ability()
 
 #shooting healing bullet
 func on_on_ability_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
@@ -77,6 +88,8 @@ func on_on_ability_shoot(from_pos: Vector3, look_direction: Vector3, velocity: V
 	ammo_count -= 1
 
 	used_ring.emit() # emitted so that the weapon_manager can detect and update the hand_visual for the ring count
+	update_ammo_count.emit(ammo_count+1, ammo_count)
 
 func add_ring():
 	ammo_count = clamp(ammo_count + 1, 0, max_ammo)
+	update_ammo_count.emit(ammo_count-1, ammo_count)

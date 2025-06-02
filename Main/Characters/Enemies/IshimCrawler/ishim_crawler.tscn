@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://bjteq07i0vf8m"]
 
-[ext_resource type="Script" uid="uid://cbg7uu84mlv15" path="res://Main/Characters/Enemies/IshimCrawler/ishim_crawler.gd" id="1_lgyoi"]
+[ext_resource type="Script" uid="uid://cbg7uu84mlv15" path="res://Main/Characters/Enemies/ishim_crawler.gd" id="1_lgyoi"]
 [ext_resource type="Material" uid="uid://cv7l0r86mk435" path="res://assets/materials/hitflash_mat.tres" id="1_ovggl"]
 [ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://Main/Utility/Components/health_component.gd" id="3_oaf2w"]
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://Main/Utility/Components/hitbox_component.gd" id="4_kebby"]

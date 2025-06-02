@@ -187,6 +187,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+metadata/_edit_lock_ = true
 
 [node name="Water" type="MeshInstance3D" parent="SubViewportContainer/SubViewport"]
 transform = Transform3D(139.761, 0, 0, 0, 1.00205, 0, 0, 0, 152.767, 0, 0, 0)

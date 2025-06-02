@@ -12,6 +12,10 @@ func _ready() -> void:
 	
 	print("Thumb upgrade_quota: ", upgrade_quota)
 
+func _process(delta: float) -> void:
+	#print("ability cooldown: " + str(current_ability_cooldown))
+	pass
+
 func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	if bullet == null:
 		print("thumb.gd - set my bullet property bro! i dont have it!")

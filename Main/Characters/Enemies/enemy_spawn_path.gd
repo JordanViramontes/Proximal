@@ -111,7 +111,7 @@ func spawnWave(wave_index):
 		wave = generateNewWave(wave_index)
 	else:
 		wave = waveDictionary[current_wave]
-	print("TOTAL IN THIS WAVE: " + str(wave.total_enemies))
+	#print("TOTAL IN THIS WAVE: " + str(wave.total_enemies))
 	var enemy_count = wave.enemy_count
 	#current_wave_enemy_count += wave.total_enemies
 	
@@ -167,11 +167,6 @@ func generateNewWave(wave_count) -> Wave:
 	
 	
 	#print("generating new wave!")
-	# truncate multipliers
-	health_mult = snapped(health_mult, 0.01)
-	damage_mult = snapped(damage_mult, 0.01)
-	xp_mult = snapped(xp_mult, 0.01)
-	wave_time = snapped(wave_time, 0.01)
 	var new_wave = Wave.new(enemies, health_mult, damage_mult, xp_mult, wave_time)
 	
 	return new_wave
@@ -251,7 +246,7 @@ func enemy_dies(from_wave: int) -> void:
 		#return
 	
 	current_wave_enemy_count -= 1
-	print("new amount: " + str(current_wave_enemy_count))
+	#print("new amount: " + str(current_wave_enemy_count))
 	emit_signal("updateEnemyCount", current_wave_enemy_count)
 	
 	if current_wave_enemy_count <= 0:
@@ -267,7 +262,7 @@ func enemy_dies(from_wave: int) -> void:
 
 # end the current wave and start the next wave
 func end_wave() -> void:
-	print("ending wave: " + str(current_wave))
+	#print("ending wave: " + str(current_wave))
 	
 	# stop timers
 	wave_timer.stop()

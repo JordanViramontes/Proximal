@@ -20,5 +20,5 @@ func _on_get_new_timer(time: float):
 	is_counting = true
 
 func _on_stop_timer():
-	print("stopping!")
+	#print("stopping!")
 	is_counting = false

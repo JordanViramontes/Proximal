@@ -64,7 +64,7 @@ var total_states = 3
 signal die
 signal die_from_wave(wave: int)
 signal take_damage
-signal drop_xp(xp: float)
+signal drop_xp(xp: float, weapon: DamageInstance.DamageType)
 signal deal_damage(damage: float)
 
 # Constructor called by spawner
@@ -179,12 +179,12 @@ func on_reach_zero_health():
 	if is_dead:
 		return
 	
-	print("we are dying! emitting signals: " + str(self))
+	#print("we are dying! emitting signals: " + str(self))
 	is_dead = true
-	emit_signal("die_from_wave", wave_category)
 	die.emit()
-	emit_signal("drop_xp", xp_on_death * experience_multiplier) # emit experience points
+	emit_signal("die_from_wave", wave_category)
 	
+	# death particles
 	var death_particles = scn_death_particles.instantiate()
 	death_particles.position = self.position
 	death_particles.color = death_particle_color
@@ -194,6 +194,7 @@ func on_reach_zero_health():
 
 # when you get damaged
 func on_damaged(di: DamageInstance):
+	#print("damaged by: " + str(weapon_index))
 	if (hitflash_tween and hitflash_tween.is_running()):
 		hitflash_tween.stop()
 	hitflash_tween = get_tree().create_tween()
@@ -221,8 +222,16 @@ func on_damaged(di: DamageInstance):
 				visual_element.material_overlay = new_material
 			visual_element.material_overlay.albedo_color = Color(1.0, 1.0, 1.0, 1.0) # set alpha
 			hitflash_tween.tween_property(visual_element, "material_overlay:albedo_color", Color(1.0, 1.0, 1.0, 0.0), 0.1) # tween alpha
-
-	emit_signal("drop_xp", xp_on_damaged * experience_multiplier) # emit experience points 
+	
+	# Disperse xp to weaponmanager, pass in which weapon
+	if di.type != DamageInstance.DamageType.None:
+		#print("enemybase.gd - giving xp on damage to: " + str(di.type))
+		emit_signal("drop_xp", xp_on_damaged * experience_multiplier, di.type) # emit experience points 
+		
+		if health_component.current_health <= 0.0:
+			#print("enemybase.gd - giving xp on death to: " + str(di.type))
+			emit_signal("drop_xp", xp_on_death * experience_multiplier, di.type) # emit experience points
+		
 
 # function for tweening the hitflash amount of the attached sprite LOL
 func awesome(value: float, visual_element: AnimatedSprite3D): 
@@ -262,7 +271,7 @@ func deal_damage_to_player(di: DamageInstance):
 		player.get_node("HitboxComponent").damage(di)
 
 func _on_recieve_stun() -> void:
-	print("enemy_base.gd stunned: " + str(self))
+	#print("enemy_base.gd stunned: " + str(self))
 	current_state = ENEMY_STATE.stunned
 	pathfind_timer.stop() # disable pathfinding
 	pathfind_timer.autostart = false
@@ -276,7 +285,7 @@ func _on_recieve_stun() -> void:
 		print_rich("[color=yellow]WARNING[/color]: node %s should have stun particles!" % self)
 
 func _on_recieve_unstun() -> void:
-	print("enemy_base.gd un-stunned: " + str(self))
+	#print("enemy_base.gd un-stunned: " + str(self))
 	current_state = ENEMY_STATE.roam
 	pathfind_timer.start() # disable pathfinding
 	pathfind_timer.autostart = true
