@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=3 uid="uid://5ygls03nw76d"]
+[gd_scene load_steps=58 format=3 uid="uid://5ygls03nw76d"]
 
 [ext_resource type="Texture2D" uid="uid://cqur83lk7fjfl" path="res://assets/hdris/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="1_8wojv"]
 [ext_resource type="Script" uid="uid://bpvwqw4pbfs3m" path="res://Main/Areas/world.gd" id="1_dctr2"]
@@ -242,7 +242,6 @@ one_shot = true
 
 [node name="Player" parent="SubViewportContainer/SubViewport" instance=ExtResource("6_tefeu")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -4.93703, 0.975243, 15)
-MOUSE_SENS = 0.15
 DASH_SPEED = 50
 
 [node name="UI" type="Control" parent="."]
