@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://b6ixebi3438gl"]
 
-[ext_resource type="Script" uid="uid://bqgy0acrsm1f3" path="res://scripts/Weapons/ring_terrain_explosion.gd" id="1_5sagf"]
+[ext_resource type="Script" uid="uid://bqgy0acrsm1f3" path="res://Main/Weapons/Ring/ring_terrain_explosion.gd" id="1_5sagf"]
 [ext_resource type="SphereMesh" uid="uid://b7vt3s62uai2l" path="res://assets/meshes/ring_terrain_explosion_sphere.tres" id="2_smipx"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_80o6k"]
@@ -8,6 +8,7 @@ radius = 12.0
 
 [node name="RingTerrainExplosion" type="Node3D"]
 script = ExtResource("1_5sagf")
+type = 4
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = ExtResource("2_smipx")

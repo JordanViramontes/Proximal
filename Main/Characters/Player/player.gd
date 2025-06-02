@@ -352,7 +352,7 @@ func on_reach_zero_health():
 
 # when you get damaged
 func on_damaged(di: DamageInstance):
-	print("damage deal to me!: " + str(di.damage) + ",\ttotal health: " + str(health_component.current_health))
+	#print("damage deal to me!: " + str(di.damage) + ",\ttotal health: " + str(health_component.current_health))
 	Util.damage_taken.emit(damage_visual_per_hit)
 	
 func on_toggle_shield(state:bool):

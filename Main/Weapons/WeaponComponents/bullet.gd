@@ -18,7 +18,7 @@ var spawn_location: Vector3
 
 @export var spin: bool = false
 
-@export var type: DamageInstance.DamageType
+@export var type: DamageInstance.DamageType = DamageInstance.DamageType.None
 
 signal damaged_enemy
 
@@ -54,12 +54,14 @@ func _on_hitbox_area_entered(area: Area3D) -> void:
 				"damage" : bullet_damage,
 				"creator_position" : spawn_location,
 				"velocity" : to_global(direction) * bullet_speed,
-				"type" : type
+				"type" : type,
 			})
 			
-			print(di.damage)
-			print(bullet_damage)
+			#print(di.damage)
+			#print(bullet_damage)
 			if area.damage(di):
+				pass
+				#print(damaged_enemy.get_connections())
 				damaged_enemy.emit(di.damage)
 		self.queue_free()
 

@@ -237,10 +237,25 @@ func _on_stun_enemy_timer_timeout() -> void:
 	can_stun = true
 
 # recieve signal from earning xp
-func _on_earn_experience(xp: float):
-	curr_weapon.add_xp(xp)
-	#print("earned: " + str(xp) + "xp for " + str(curr_weapon))
-	curr_weapon.print_xp(str(weapon_dictionary[curr_weapon_index]))
+func _on_earn_experience(xp: float, weapon: DamageInstance.DamageType):
+	var real_weapon
+	match weapon:
+		DamageInstance.DamageType.Thumb:
+			real_weapon = $Thumb
+		DamageInstance.DamageType.Index:
+			real_weapon = $Index
+		DamageInstance.DamageType.Middle:
+			real_weapon = $Middle
+		DamageInstance.DamageType.Ring:
+			real_weapon = $Ring
+		DamageInstance.DamageType.Pinky:
+			real_weapon = $Pinky
+		_:
+			real_weapon = null
+			
+	print("weapon_manager.gd: giving xp to:"  + str(real_weapon) + ", xp: " + str(xp))
+	real_weapon.add_xp(xp)
+	#real_weapon.print_xp(str(weapon_dictionary[curr_weapon_index]))
 	
 
 func _on_enemy_die():
