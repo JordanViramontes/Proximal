@@ -16,7 +16,8 @@ func _ready() -> void:
 	super._ready()
 	on_shoot.connect(on_on_shoot)
 	on_ability_shoot.connect(on_on_ability_shoot)
-
+	
+	#print("ring: " + str(ability_cooldown))
 
 func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	if ammo_count <= 0:

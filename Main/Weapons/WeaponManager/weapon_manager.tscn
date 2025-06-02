@@ -89,7 +89,7 @@ recoil_amount = 0.01
 
 [node name="Ring" parent="." instance=ExtResource("7_k5yqd")]
 depleted_material = SubResource("StandardMaterial3D_lrvjc")
-ability_cooldown = 0.0
+ability_cooldown = 0.5
 ability_recharge_particle_color = Color(0, 1, 0, 0.509804)
 
 [node name="Pinky" parent="." instance=ExtResource("8_r1oqp")]

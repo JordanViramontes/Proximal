@@ -155,6 +155,7 @@ func set_new_xp_level_ui(level_direction: float):
 		level_up_timer.start()
 
 func _process(delta: float) -> void:
+	#print("check: " + str(is_ability_cooldown))
 	if is_ability_cooldown:
 		# increase the current time and then use that to calculate the current value
 		ability_time_current += delta 

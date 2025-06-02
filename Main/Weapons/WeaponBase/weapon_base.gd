@@ -100,6 +100,7 @@ func use_ability() -> bool:
 		#print("%s set my depleted material for visual indication of ability cooldown :)" % self)
 	
 	# send signal
+	#print("sending signal: " + str(ability_cooldown))
 	emit_signal("send_ui_ability_time", ability_cooldown)
 
 	var recharge_color = $MeshInstance3D.mesh.material.albedo_color
