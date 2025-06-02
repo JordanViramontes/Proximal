@@ -64,6 +64,7 @@ func initialize(weapon: int):
 			image = preload("res://assets/textures/hand_xp_ui/ring.png")
 			color = gradiant_colors[3]
 			component = weapon_manager.weapon_dictionary[3]
+			component.update_ammo_count.connect(self._on_ring_update_ammo)
 		4:
 			image = preload("res://assets/textures/hand_xp_ui/pinky.png")
 			color = gradiant_colors[4]
@@ -191,3 +192,20 @@ func _on_set_active(weapon: int) -> void:
 		active.visible = false
 		minimized.visible = true
 		self.size.y = 17
+
+# ring specific stuff
+func _on_ring_update_ammo(og_ammo:int, new_ammo: int) -> void:
+	return
+	# hello
+	print("ui: " + str(og_ammo) + ", " + str(new_ammo))
+	
+	# we used to have ammo but ran out!
+	if new_ammo == 0 && og_ammo > 0:
+		print("reduce ammo")
+		is_ability_cooldown = false
+		return
+	
+	if new_ammo > 0 && og_ammo == 0:
+		print("gain ammo")
+		is_ability_cooldown = true
+		return
