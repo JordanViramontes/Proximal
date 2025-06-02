@@ -10,10 +10,12 @@ var pinky_vars: Array = [1, 0.0]
 # spawn variables
 var wave_count: int = 0
 var single_values: Array[float] = [1.0, 1.0, 1.0] # health, damage, xp
+var wait_for_fade: bool = true
 
-# components
+#region components
 @onready var weapon_manager = get_tree().get_first_node_in_group("WeaponManager")
 @onready var enemy_spawner = get_tree().get_first_node_in_group("EnemySpawnParent")
+@onready var delay_access_timer = $DelayAccess
 
 # spawn components
 @onready var spawn_type_label = $"MainContainer/SpawnUI/Spawn Labels/SpawnTypeLabel"
@@ -29,10 +31,12 @@ var single_values: Array[float] = [1.0, 1.0, 1.0] # health, damage, xp
 @onready var single_spawn = $MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/SpawnSingle
 @onready var single_mult_label = $MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/EnemyInfo/MultCounts
 @onready var single_amount_to_spawn = $MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/HBoxContainer/AmountToSpawnCount
+#endregion
 
 func _ready() -> void:
 	self.visible = false
 	self.process_mode = Node.PROCESS_MODE_ALWAYS
+	delay_access_timer.start()
 	
 	# set defaults
 	single_stuff.visible = false
@@ -46,10 +50,14 @@ func _process(delta: float) -> void:
 		_on_change_visibility()
 
 func _on_change_visibility() -> void:
+	# wiat for the fade to finish
+	if wait_for_fade:
+		return
+	
 	# open the screen and parse
 	if not self.visible:
-		print("unpaused")
 		get_tree().paused = true
+		
 		self.visible = true
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		
@@ -60,10 +68,11 @@ func _on_change_visibility() -> void:
 		wave_count = enemy_spawner.current_wave
 		update_wave_UI(enemy_spawner.current_wave)
 		
+		
+		
 
 	# update game stuff and close
 	else:
-		print("paused")
 		self.visible = false
 		get_tree().paused = false
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
@@ -235,3 +244,7 @@ func _on_spawn_single_pressed() -> void:
 # kill all enemies
 func _on_button_pressed() -> void:
 	enemy_spawner.debug_kill_all_enemies()
+
+
+func _on_delay_access_timeout() -> void:
+	wait_for_fade = false

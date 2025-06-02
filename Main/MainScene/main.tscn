@@ -642,7 +642,12 @@ autostart = true
 visible = false
 layout_mode = 1
 
+[node name="DelayAccess" type="Timer" parent="UI/DebugPauseMenu"]
+wait_time = 0.51
+one_shot = true
+
 [connection signal="timeout" from="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath/WaveTimer" to="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath" method="_on_wave_timer_timeout"]
 [connection signal="timeout" from="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath/NextWaveTimer" to="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath" method="_on_next_wave_timer_timeout"]
 [connection signal="timeout" from="UI/WaveInfo/Wave2/WaveTimer" to="UI/WaveInfo" method="_on_wave_timer_timeout"]
 [connection signal="timeout" from="UI/WaveInfo/WaveInfo/Enemies/EnemiesTimer" to="UI/WaveInfo" method="_on_enemies_timer_timeout"]
+[connection signal="timeout" from="UI/DebugPauseMenu/DelayAccess" to="UI/DebugPauseMenu" method="_on_delay_access_timeout"]
