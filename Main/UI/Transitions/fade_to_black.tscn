@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://blhmxua7rg1r0"]
 
-[ext_resource type="Script" uid="uid://c68ifujmmm6vv" path="res://scenes/Transitions/fade_to_black.gd" id="1_3owyf"]
+[ext_resource type="Script" uid="uid://c68ifujmmm6vv" path="res://Main/UI/Transitions/fade_to_black.gd" id="1_3owyf"]
 
 [sub_resource type="Animation" id="Animation_lxrwb"]
 length = 0.001

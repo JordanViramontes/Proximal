@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://ctljaykswk8w"]
+
+[ext_resource type="Shader" uid="uid://bvhijilwll0nm" path="res://assets/shaders/enemy_fresnel.gdshader" id="1_hgq74"]
+[ext_resource type="Texture2D" uid="uid://dx2bxtan14nac" path="res://assets/textures/cherub_body.png" id="2_76gss"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_hgq74")
+shader_parameter/base_color = Color(0.7929, 0.711, 0.9, 1)
+shader_parameter/base_tex = ExtResource("2_76gss")
+shader_parameter/sample_rate = Vector2(10, 10)
+shader_parameter/fresnel_color = Color(0.9, 0, 0, 1)
+shader_parameter/fresnel_intensity = 0.53
+shader_parameter/fresnel_amount = 1.495
+shader_parameter/transparency = 1.0
