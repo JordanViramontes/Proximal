@@ -119,6 +119,7 @@ func spawnWave(wave_index):
 	for mob_path in enemy_count.keys():  
 		# spawn the amount of times specified in the dictionary
 		for i in range(enemy_count[mob_path]):
+			print(mob_path)
 			spawnEnemy(mob_path, 0, wave.enemy_health_multiplier, wave.enemy_damage_multiplier, wave.enemy_experience_multiplier)
 	
 	# set the timer
