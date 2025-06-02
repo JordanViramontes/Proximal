@@ -253,7 +253,7 @@ func _on_earn_experience(xp: float, weapon: DamageInstance.DamageType):
 		_:
 			real_weapon = null
 			
-	print("weapon_manager.gd: giving xp to:"  + str(real_weapon) + ", xp: " + str(xp))
+	#print("weapon_manager.gd: giving xp to:"  + str(real_weapon) + ", xp: " + str(xp))
 	real_weapon.add_xp(xp)
 	#real_weapon.print_xp(str(weapon_dictionary[curr_weapon_index]))
 	

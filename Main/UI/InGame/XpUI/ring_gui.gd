@@ -12,5 +12,5 @@ func _ready() -> void:
 	rings.text = "3"
 
 func _on_update_rings(ring_count: int):
-	print("got signals: " + str(ring_count))
+	#print("got signals: " + str(ring_count))
 	rings.text = str(ring_count)

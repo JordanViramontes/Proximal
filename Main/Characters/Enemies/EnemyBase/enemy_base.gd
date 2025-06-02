@@ -230,7 +230,7 @@ func on_damaged(di: DamageInstance):
 		
 		if health_component.current_health <= 0.0:
 			#print("enemybase.gd - giving xp on death to: " + str(di.type))
-			emit_signal("drop_xp", xp_on_death * experience_multiplier) # emit experience points
+			emit_signal("drop_xp", xp_on_death * experience_multiplier, di.type) # emit experience points
 		
 
 # function for tweening the hitflash amount of the attached sprite LOL
@@ -271,7 +271,7 @@ func deal_damage_to_player(di: DamageInstance):
 		player.get_node("HitboxComponent").damage(di)
 
 func _on_recieve_stun() -> void:
-	print("enemy_base.gd stunned: " + str(self))
+	#print("enemy_base.gd stunned: " + str(self))
 	current_state = ENEMY_STATE.stunned
 	pathfind_timer.stop() # disable pathfinding
 	pathfind_timer.autostart = false
@@ -285,7 +285,7 @@ func _on_recieve_stun() -> void:
 		print_rich("[color=yellow]WARNING[/color]: node %s should have stun particles!" % self)
 
 func _on_recieve_unstun() -> void:
-	print("enemy_base.gd un-stunned: " + str(self))
+	#print("enemy_base.gd un-stunned: " + str(self))
 	current_state = ENEMY_STATE.roam
 	pathfind_timer.start() # disable pathfinding
 	pathfind_timer.autostart = true
