@@ -165,3 +165,18 @@ func summon_guys() -> void:
 	
 	emit_signal("add_new_enemies", 1, mob1)
 	emit_signal("add_new_enemies", 1, mob2)
+
+
+# vacuum and stun causes issues with spawning timer
+func _on_recieve_stun() -> void:
+	summon_cooldown.paused = true
+	summoning_timer.paused = true
+	
+	super._on_recieve_stun()
+
+func _on_recieve_unstun() -> void:
+	summon_cooldown.paused = false
+	summoning_timer.paused = false
+	
+	super._on_recieve_unstun()
+	
