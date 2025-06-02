@@ -67,7 +67,7 @@ func get_target_from_state(state):
 # pathfinding state
 func _on_pathfind_timer_timeout() -> void:
 	# avoid pathfinder
-	if current_state in [ENEMY_STATE.spawn_edge, ENEMY_STATE.lunge]:
+	if current_state in [ENEMY_STATE.spawn_edge, ENEMY_STATE.lunge, ENEMY_STATE.stunned]:
 		return
 	
 	# update state to lunge if in range, avoid calling pathfinder

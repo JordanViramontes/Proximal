@@ -37,6 +37,7 @@ bullet = ExtResource("2_yfmxc")
 bullet_velocity_close = 2.0
 bullet_gravity_close = -4.0
 movement_speed = 2
+vacuum_distance_goal = 4.5
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." groups=["Enemies"]]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
