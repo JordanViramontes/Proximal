@@ -277,7 +277,7 @@ layout_mode = 0
 offset_right = 1152.0
 offset_bottom = 647.0
 mouse_filter = 2
-color = Color(1, 1, 0, 0.254902)
+color = Color(1, 1, 0, 0.113725)
 script = ExtResource("17_muem4")
 metadata/_edit_lock_ = true
 
@@ -287,7 +287,7 @@ layout_mode = 0
 offset_right = 1152.0
 offset_bottom = 647.0
 mouse_filter = 2
-color = Color(1, 0.44, 1, 0.27451)
+color = Color(1, 0.439216, 1, 0.0941176)
 script = ExtResource("21_2qk5c")
 metadata/_edit_lock_ = true
 
@@ -639,6 +639,7 @@ metadata/_edit_lock_ = true
 autostart = true
 
 [node name="DebugPauseMenu" parent="UI" instance=ExtResource("27_xhbv5")]
+visible = false
 layout_mode = 1
 
 [connection signal="timeout" from="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath/WaveTimer" to="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath" method="_on_wave_timer_timeout"]
