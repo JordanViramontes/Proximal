@@ -49,7 +49,7 @@ var waveDictionary = [
 	Wave.new([7, 4, 2, 2], 1, 1, 1, default_wave_time),
 	Wave.new([5, 5, 2, 5], 1, 1, 1, default_wave_time), #14
 ]
-@export var starting_wave: int = 4
+@export var starting_wave: int = 0
 var last_static_wave = waveDictionary.size() - 1
 var current_wave = starting_wave
 var current_wave_enemy_count: int = 0
