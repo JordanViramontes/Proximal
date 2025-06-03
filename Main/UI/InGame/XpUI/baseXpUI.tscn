@@ -82,7 +82,6 @@ size_flags_vertical = 8
 script = ExtResource("1_3dysb")
 
 [node name="Active" type="Control" parent="."]
-visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -173,6 +172,13 @@ offset_bottom = 103.0
 scale = Vector2(0.225, 0.225)
 texture = ExtResource("4_o4ggq")
 metadata/_edit_lock_ = true
+
+[node name="MaxLevelUpPos" type="Control" parent="Active"]
+anchors_preset = 0
+offset_left = 249.0
+offset_top = 3.0
+offset_right = 349.0
+offset_bottom = 103.0
 
 [node name="Minimized" type="Control" parent="."]
 anchors_preset = 0
