@@ -46,31 +46,47 @@ func on_on_shoot(from_position: Vector3, look_direction: Vector3, velocity: Vect
 	World.world.add_child(b)
 
 func on_on_ability_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
-	if Input.is_action_pressed("shoot"):
-		can_escape_ability = false
-		#can_shoot = true
-		#return
-	
+	if is_scoped:
+		return  # already scoped
+
+	can_escape_ability = Input.is_action_just_pressed("shoot") == false
 	can_shoot = false
+
 	# Start slow motion
 	Util.zoom_in.emit()
 	Util.sniper_visual.emit(true)
-	print(Util.sniper_visual.get_connections())
-	Engine.time_scale = 0.3  # 30% of normal speed
-	bullet_damage = bullet_damage*(1 + level*0.5) + amp_damage
+	Engine.time_scale = 0.3
+	bullet_damage = bullet_damage * (1 + level * 0.5) + amp_damage
 	is_scoped = true
-	
 	if can_escape_ability:
 		can_shoot = true
+
+#func on_on_ability_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
+	#if Input.is_action_pressed("shoot"):
+		#can_escape_ability = false
+		##can_shoot = true
+		##return
+	#
+	#can_shoot = false
+	## Start slow motion
+	#Util.zoom_in.emit()
+	#Util.sniper_visual.emit(true)
+	#print(Util.sniper_visual.get_connections())
+	#Engine.time_scale = 0.3  # 30% of normal speed
+	#bullet_damage = bullet_damage*(1 + level*0.5) + amp_damage
+	#is_scoped = true
+	#
+	#if can_escape_ability:
+		#can_shoot = true
 
 func stop_ability() -> void:
 	# Restore normal zoom
 	Util.sniper_visual.emit(false)
 	Engine.time_scale = 1.0
 	Util.zoom_out.emit()
-	print("slowing")
-	bullet_damage = (bullet_damage-amp_damage)/(1 + level*0.5)
-	
+	bullet_damage = (bullet_damage - amp_damage) / (1 + level * 0.5)
+	is_scoped = false
+	can_shoot = true
 	# reset flag
 	#can_escape_ability = true
 	
