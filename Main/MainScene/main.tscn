@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://5ygls03nw76d"]
+[gd_scene load_steps=65 format=3 uid="uid://5ygls03nw76d"]
 
 [ext_resource type="Texture2D" uid="uid://cqur83lk7fjfl" path="res://assets/hdris/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="1_8wojv"]
 [ext_resource type="Script" uid="uid://bpvwqw4pbfs3m" path="res://Main/Areas/world.gd" id="1_dctr2"]
@@ -28,6 +28,13 @@
 [ext_resource type="Shader" uid="uid://clllrqa4ls6mb" path="res://assets/shaders/damage_overlay.gdshader" id="25_th46f"]
 [ext_resource type="Script" uid="uid://da8c7sjwkoiap" path="res://Main/UI/InGame/visuals/damage_visual.gd" id="26_xhbv5"]
 [ext_resource type="PackedScene" uid="uid://egyandu7581s" path="res://Main/UI/InGame/DebugUI/debug_pause_menu.tscn" id="27_xhbv5"]
+[ext_resource type="Script" uid="uid://b8x6bx34lti44" path="res://Main/MainScene/audio_manager.gd" id="29_8rn6f"]
+[ext_resource type="AudioStream" uid="uid://bvfqtim6cjqyi" path="res://assets/Sounds/Sound Effects/Player/player_dies.wav" id="30_ca0sp"]
+[ext_resource type="AudioStream" uid="uid://ho6gtirkyfsu" path="res://assets/Sounds/Sound Effects/Player/get_damaged.wav" id="31_x7vvn"]
+[ext_resource type="AudioStream" uid="uid://bsdsym104eu3o" path="res://assets/Sounds/Sound Effects/Weapon/level_up.wav" id="32_tap7x"]
+[ext_resource type="AudioStream" uid="uid://i45d145ctcu8" path="res://assets/Sounds/Sound Effects/Weapon/shoot.wav" id="33_3nxal"]
+[ext_resource type="AudioStream" uid="uid://bdfvl1hy7c2d4" path="res://assets/Sounds/Sound Effects/Weapon/xp_earned.wav" id="34_f1vo5"]
+[ext_resource type="AudioStream" uid="uid://cu4fs426818v5" path="res://assets/Sounds/Sound Effects/Enemy/enemy_dies.wav" id="35_54344"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4r3xj"]
 shader = ExtResource("8_xhbv5")
@@ -639,6 +646,35 @@ autostart = true
 
 [node name="DebugPauseMenu" parent="UI" instance=ExtResource("27_xhbv5")]
 layout_mode = 1
+
+[node name="AudioManager" type="Node" parent="."]
+script = ExtResource("29_8rn6f")
+
+[node name="Effects" type="Node" parent="AudioManager"]
+
+[node name="Player" type="Node" parent="AudioManager/Effects"]
+
+[node name="PlayerDies" type="AudioStreamPlayer" parent="AudioManager/Effects/Player"]
+stream = ExtResource("30_ca0sp")
+
+[node name="PlayerGetsDamaged" type="AudioStreamPlayer" parent="AudioManager/Effects/Player"]
+stream = ExtResource("31_x7vvn")
+
+[node name="Weapon" type="Node" parent="AudioManager/Effects"]
+
+[node name="WeaponLevelUp" type="AudioStreamPlayer" parent="AudioManager/Effects/Weapon"]
+stream = ExtResource("32_tap7x")
+
+[node name="WeaponShoot" type="AudioStreamPlayer" parent="AudioManager/Effects/Weapon"]
+stream = ExtResource("33_3nxal")
+
+[node name="WeaponXpEarned" type="AudioStreamPlayer" parent="AudioManager/Effects/Weapon"]
+stream = ExtResource("34_f1vo5")
+
+[node name="Enemy" type="Node" parent="AudioManager/Effects"]
+
+[node name="EnemyDies" type="AudioStreamPlayer" parent="AudioManager/Effects/Enemy"]
+stream = ExtResource("35_54344")
 
 [connection signal="timeout" from="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath/WaveTimer" to="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath" method="_on_wave_timer_timeout"]
 [connection signal="timeout" from="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath/NextWaveTimer" to="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath" method="_on_next_wave_timer_timeout"]
