@@ -28,6 +28,8 @@ func _process(delta: float):
 	
 	if time_left > 0:
 		time_left -= delta
+	if time_left < 0:
+		time_left = 0 # fix bug related to seeing -1 at low framerates
 	
 	if first_wave:
 		text = "GET READY...\n" + str(int(floor(time_left)))
@@ -38,14 +40,14 @@ func _process(delta: float):
 	#print("state: " + str(current_vis_state))
 	if current_vis_state == VIS_STATES.on:
 		self.visible = true
-		label_settings.font_color.a += 0.01
+		label_settings.font_color.a += 1.5 * delta # use delta for framerate independent interpolation
 		if label_settings.font_color.a >= 1.0:
 			label_settings.font_color.a = 1
 			current_vis_state = VIS_STATES.stay
 	
 	if current_vis_state == VIS_STATES.off:
 		self.visible = true
-		label_settings.font_color.a -= 0.01
+		label_settings.font_color.a -= 1.5 * delta # use delta for framerate independent interpolation
 		if label_settings.font_color.a <= 0:
 			label_settings.font_color.a = 0
 			current_vis_state = VIS_STATES.stay

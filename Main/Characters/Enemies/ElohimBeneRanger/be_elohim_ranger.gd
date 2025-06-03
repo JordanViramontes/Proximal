@@ -169,7 +169,7 @@ func _on_spawn_wait_timer_timeout() -> void:
 	bob_timer.start()
 
 func _on_pathfind_timer_timeout() -> void:
-	if current_state == ENEMY_STATE.spawn_edge:
+	if current_state in [ENEMY_STATE.spawn_edge, ENEMY_STATE.stunned]:
 		return
 	
 	# update distance for vertical movement

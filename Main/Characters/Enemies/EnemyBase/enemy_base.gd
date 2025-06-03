@@ -1,7 +1,7 @@
 extends CharacterBody3D
 class_name EnemyBase
 
-# vars
+#region vars
 @export var max_health: float = 10
 @export var xp_on_damaged: float = 1
 @export var xp_on_death: float = 2
@@ -16,29 +16,33 @@ var is_dead = false
 var health_multiplier = 1
 var experience_multiplier = 1
 var damage_multiplier = 1
+#endregion
 
-# visual vars
+#region visual vars
 @export var hitflash_material: Material
 @export var hitflash_duration: float = 0.1
 @export var twoD_hitflash_amount: float = 2.0
 @export var death_particle_color: Color = Color.RED
 @onready var scn_death_particles: PackedScene = preload("res://Main/Utility/Particles/death_particles.tscn")
 var hitflash_tween: Tween
+#endregion
 
-
-# spawning variables
+#region spawning variables
 var spawn_distance_vector = Vector3(0, 0, 0)
 var spawning_velocity = Vector3(0, 0, 0)
 @export var spawning_time = 2
 @export var spawn_distance_length = 1 # distance to travel towards origin
 @export var spawn_distance_height = 3 # units to travel vertically while in spawning state
+#endregion
 
-#vacuum pull
+#region vacuum pull
 @export var weight = 1.0
 var vacuum_velocity = Vector3.ZERO
 var vacuum_timer = 0.0
 var vacuum_duration = 3  # seconds
-var vacuum_target_position: Vector3
+var vacuum_target_position: Vector3 = Vector3.ZERO
+@export var vacuum_distance_goal: float = 1.5
+#endregion
 
 # states
 var ENEMY_STATE = {
@@ -138,10 +142,15 @@ func _process(delta: float) -> void:
 
 func _physics_process(delta):
 	#stunned
+	#print("state: " + str(current_state))
 	if current_state == ENEMY_STATE.stunned:
 		if vacuum_timer > 0.0:
 			# If close enough to front of player, stop pulling
-			if global_position.distance_to(vacuum_target_position) < 1.0:  # <-- Stop distance
+			#print("enemy_base.gd - third target: " + str(vacuum_target_position))
+			
+			#print("check: " + str(global_position.distance_to(vacuum_target_position)))
+			#print("v: " + str(velocity) + ", vv: " + str(vacuum_velocity))
+			if global_position.distance_to(vacuum_target_position) < vacuum_distance_goal:  # <-- Stop distance
 				vacuum_velocity = Vector3.ZERO
 				velocity = Vector3.ZERO
 				#_on_recieve_stun()
@@ -153,6 +162,7 @@ func _physics_process(delta):
 			move_and_slide()
 			return
 		else:
+			#print("done but still stunned!")
 			vacuum_velocity = Vector3.ZERO
 			velocity = Vector3.ZERO
 			_on_recieve_stun()
@@ -271,7 +281,10 @@ func deal_damage_to_player(di: DamageInstance):
 		player.get_node("HitboxComponent").damage(di)
 
 func _on_recieve_stun() -> void:
-	#print("enemy_base.gd stunned: " + str(self))
+	# if we are spawning in, cancel spawn stuff
+	if current_state == ENEMY_STATE.spawn_edge:
+		collision.disabled = false
+	
 	current_state = ENEMY_STATE.stunned
 	pathfind_timer.stop() # disable pathfinding
 	pathfind_timer.autostart = false
@@ -297,6 +310,7 @@ func _on_recieve_unstun() -> void:
 	
 func apply_vacuum_force(direction: Vector3, strength: float, target_pos: Vector3):
 	vacuum_target_position = target_pos
+	
 	vacuum_velocity = direction.normalized() * (strength / weight)
 	vacuum_timer = vacuum_duration
 	_on_recieve_stun()

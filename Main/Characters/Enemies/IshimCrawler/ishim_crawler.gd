@@ -46,7 +46,7 @@ func _physics_process(delta: float) -> void:
 				velocity.x -= friction_force.x
 				velocity.z -= friction_force.z
 	
-	if current_state != ENEMY_STATE.spawn_edge:
+	if current_state not in [ENEMY_STATE.spawn_edge, ENEMY_STATE.stunned]:
 		# gravity
 		if not is_on_floor():
 			velocity += get_gravity() * delta
@@ -67,7 +67,7 @@ func get_target_from_state(state):
 # pathfinding state
 func _on_pathfind_timer_timeout() -> void:
 	# avoid pathfinder
-	if current_state in [ENEMY_STATE.spawn_edge, ENEMY_STATE.lunge]:
+	if current_state in [ENEMY_STATE.spawn_edge, ENEMY_STATE.lunge, ENEMY_STATE.stunned]:
 		return
 	
 	# update state to lunge if in range, avoid calling pathfinder

@@ -7,7 +7,7 @@ var face_dir: Vector3
 var enemyHit: Array[EnemyBase]
 
 func _ready():
-	print("MY FACE DIR: %s" % face_dir)
+	#print("MY FACE DIR: %s" % face_dir)
 	self.look_at(self.position - face_dir, Vector3.UP)
 	var lifetime_tween = get_tree().create_tween()
 	lifetime_tween.set_parallel(true)
