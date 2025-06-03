@@ -5,7 +5,7 @@ extends Node3D
 var face_dir: Vector3
 
 var explosion_damage: float
-var type: DamageInstance.DamageType
+@export var type: DamageInstance.DamageType
 
 signal damaged_enemy
 
@@ -29,7 +29,7 @@ func _ready():
 			print("FUCK")
 	
 	
-	print("MY FACE DIR: %s" % face_dir)
+	#print("MY FACE DIR: %s" % face_dir)
 	self.look_at(self.position - face_dir, Vector3.UP)
 	var lifetime_tween = get_tree().create_tween()
 	lifetime_tween.set_parallel(true)
@@ -45,8 +45,10 @@ func _on_hitbox_area_entered(area: Area3D):
 		if area.damage:
 			var di = DamageInstance.new({ # haha directional input!!! no. not funny.
 				"damage" : explosion_damage,
-				"type" : type
+				"type" : DamageInstance.DamageType.Ring # override entry type with ring
 			})
+			
+			#print("ring_shoot_explosion - WOW CHECK: " + str(di.type))
 			
 			if area.damage(di):
 				damaged_enemy.emit(di.damage)

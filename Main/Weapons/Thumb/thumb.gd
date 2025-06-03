@@ -9,6 +9,12 @@ func _ready() -> void:
 	super._ready()
 	on_shoot.connect(on_on_shoot)
 	on_ability_shoot.connect(on_on_ability_shoot)
+	
+	print("Thumb upgrade_quota: ", upgrade_quota)
+
+func _process(delta: float) -> void:
+	#print("ability cooldown: " + str(current_ability_cooldown))
+	pass
 
 func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	if bullet == null:

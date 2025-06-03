@@ -35,7 +35,7 @@ particles_anim_loop = false
 
 [sub_resource type="QuadMesh" id="QuadMesh_smbd8"]
 material = SubResource("StandardMaterial3D_bkffl")
-size = Vector2(0.15, 0.15)
+size = Vector2(0.3, 0.3)
 
 [sub_resource type="Curve" id="Curve_xk61n"]
 _data = [Vector2(0, 1), 0.0, -1.0, 0, 1, Vector2(1, 0), -1.0, 0.0, 1, 0]
@@ -68,7 +68,7 @@ particles_anim_loop = false
 
 [sub_resource type="QuadMesh" id="QuadMesh_xarxo"]
 material = SubResource("StandardMaterial3D_xk61n")
-size = Vector2(0.15, 0.15)
+size = Vector2(0.3, 0.3)
 
 [node name="DeathParticles" type="GPUParticles3D"]
 emitting = false

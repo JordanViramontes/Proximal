@@ -1,0 +1,457 @@
+[gd_scene load_steps=4 format=3 uid="uid://egyandu7581s"]
+
+[ext_resource type="Script" uid="uid://cfo36p6iul0qe" path="res://Main/UI/InGame/DebugUI/debug_pause_menu.gd" id="1_qguck"]
+[ext_resource type="LabelSettings" uid="uid://ct17xptel7o45" path="res://assets/Labels/debug_header.tres" id="2_uo00m"]
+[ext_resource type="LabelSettings" uid="uid://tfagi2qovcfh" path="res://assets/Labels/debug_text.tres" id="3_q2rn8"]
+
+[node name="DebugPauseMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+script = ExtResource("1_qguck")
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -546.0
+offset_top = -294.5
+offset_right = 546.0
+offset_bottom = 294.5
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.929412)
+metadata/_edit_lock_ = true
+
+[node name="MainContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 48.0
+offset_right = 20.0
+offset_bottom = 88.0
+grow_horizontal = 2
+theme_override_constants/separation = 200
+alignment = 1
+
+[node name="WeaponUI" type="VBoxContainer" parent="MainContainer"]
+visible = false
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="WeaponsHeader" type="Label" parent="MainContainer/WeaponUI"]
+layout_mode = 2
+text = "Weapons:"
+label_settings = ExtResource("2_uo00m")
+metadata/_edit_lock_ = true
+
+[node name="Weapons" type="HBoxContainer" parent="MainContainer/WeaponUI"]
+layout_mode = 2
+theme_override_constants/separation = 20
+metadata/_edit_lock_ = true
+
+[node name="WeaponsLabel" type="Label" parent="MainContainer/WeaponUI/Weapons"]
+layout_mode = 2
+text = "Thumb:
+Index:
+Middle:
+Ring:
+Pinky:"
+label_settings = ExtResource("3_q2rn8")
+horizontal_alignment = 2
+metadata/_edit_lock_ = true
+
+[node name="Levels" type="HBoxContainer" parent="MainContainer/WeaponUI/Weapons"]
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="Label" type="Label" parent="MainContainer/WeaponUI/Weapons/Levels"]
+layout_mode = 2
+text = "Lvl:
+Lvl:
+Lvl:
+Lvl:
+Lvl:"
+label_settings = ExtResource("3_q2rn8")
+metadata/_edit_lock_ = true
+
+[node name="LevelSelections" type="VBoxContainer" parent="MainContainer/WeaponUI/Weapons/Levels"]
+visible = false
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="ThumbLvl" type="OptionButton" parent="MainContainer/WeaponUI/Weapons/Levels/LevelSelections"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+selected = 0
+item_count = 4
+popup/item_0/text = "1"
+popup/item_0/id = 0
+popup/item_1/text = "2"
+popup/item_1/id = 1
+popup/item_2/text = "3"
+popup/item_2/id = 2
+popup/item_3/text = "4"
+popup/item_3/id = 3
+metadata/_edit_lock_ = true
+
+[node name="IndexLvl" type="OptionButton" parent="MainContainer/WeaponUI/Weapons/Levels/LevelSelections"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+selected = 0
+item_count = 4
+popup/item_0/text = "1"
+popup/item_0/id = 0
+popup/item_1/text = "2"
+popup/item_1/id = 1
+popup/item_2/text = "3"
+popup/item_2/id = 2
+popup/item_3/text = "4"
+popup/item_3/id = 3
+metadata/_edit_lock_ = true
+
+[node name="MiddleLvl" type="OptionButton" parent="MainContainer/WeaponUI/Weapons/Levels/LevelSelections"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+selected = 0
+item_count = 4
+popup/item_0/text = "1"
+popup/item_0/id = 0
+popup/item_1/text = "2"
+popup/item_1/id = 1
+popup/item_2/text = "3"
+popup/item_2/id = 2
+popup/item_3/text = "4"
+popup/item_3/id = 3
+metadata/_edit_lock_ = true
+
+[node name="RingLvl" type="OptionButton" parent="MainContainer/WeaponUI/Weapons/Levels/LevelSelections"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+selected = 0
+item_count = 4
+popup/item_0/text = "1"
+popup/item_0/id = 0
+popup/item_1/text = "2"
+popup/item_1/id = 1
+popup/item_2/text = "3"
+popup/item_2/id = 2
+popup/item_3/text = "4"
+popup/item_3/id = 3
+metadata/_edit_lock_ = true
+
+[node name="PinkyLvl" type="OptionButton" parent="MainContainer/WeaponUI/Weapons/Levels/LevelSelections"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+selected = 0
+item_count = 4
+popup/item_0/text = "1"
+popup/item_0/id = 0
+popup/item_1/text = "2"
+popup/item_1/id = 1
+popup/item_2/text = "3"
+popup/item_2/id = 2
+popup/item_3/text = "4"
+popup/item_3/id = 3
+metadata/_edit_lock_ = true
+
+[node name="XP" type="HBoxContainer" parent="MainContainer/WeaponUI/Weapons"]
+visible = false
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="XP" type="Label" parent="MainContainer/WeaponUI/Weapons/XP"]
+layout_mode = 2
+text = "XP:
+XP:
+XP:
+XP:
+XP:"
+label_settings = ExtResource("3_q2rn8")
+metadata/_edit_lock_ = true
+
+[node name="XPCounts" type="Label" parent="MainContainer/WeaponUI/Weapons/XP"]
+layout_mode = 2
+text = "000
+000
+000
+000
+000"
+label_settings = ExtResource("3_q2rn8")
+metadata/_edit_lock_ = true
+
+[node name="XPSliders" type="VBoxContainer" parent="MainContainer/WeaponUI/Weapons/XP"]
+layout_mode = 2
+theme_override_constants/separation = 26
+metadata/_edit_lock_ = true
+
+[node name="ThumbXP" type="HSlider" parent="MainContainer/WeaponUI/Weapons/XP/XPSliders"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="IndexXP" type="HSlider" parent="MainContainer/WeaponUI/Weapons/XP/XPSliders"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="MiddleXP" type="HSlider" parent="MainContainer/WeaponUI/Weapons/XP/XPSliders"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="RingXP" type="HSlider" parent="MainContainer/WeaponUI/Weapons/XP/XPSliders"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="PinkyXP" type="HSlider" parent="MainContainer/WeaponUI/Weapons/XP/XPSliders"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="SpawnUI" type="VBoxContainer" parent="MainContainer"]
+custom_minimum_size = Vector2(440, 0)
+layout_mode = 2
+
+[node name="SpawnMode" type="Label" parent="MainContainer/SpawnUI"]
+layout_mode = 2
+text = "Spawn Mode:"
+label_settings = ExtResource("2_uo00m")
+
+[node name="Spawn Labels" type="HBoxContainer" parent="MainContainer/SpawnUI"]
+layout_mode = 2
+
+[node name="SpawnButton" type="CheckButton" parent="MainContainer/SpawnUI/Spawn Labels"]
+layout_mode = 2
+
+[node name="SpawnTypeLabel" type="Label" parent="MainContainer/SpawnUI/Spawn Labels"]
+layout_mode = 2
+text = "Spawn Waves"
+
+[node name="WaveStuff" type="VBoxContainer" parent="MainContainer/SpawnUI"]
+visible = false
+layout_mode = 2
+
+[node name="SetWave" type="HBoxContainer" parent="MainContainer/SpawnUI/WaveStuff"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="MainContainer/SpawnUI/WaveStuff/SetWave"]
+layout_mode = 2
+text = "Set Wave:"
+
+[node name="SetWave" type="TextEdit" parent="MainContainer/SpawnUI/WaveStuff/SetWave"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+scroll_past_end_of_file = true
+text_direction = 1
+
+[node name="WaveIncrease" type="Button" parent="MainContainer/SpawnUI/WaveStuff/SetWave"]
+layout_mode = 2
+text = "+1"
+
+[node name="WaveDecrease" type="Button" parent="MainContainer/SpawnUI/WaveStuff/SetWave"]
+layout_mode = 2
+text = "-1"
+
+[node name="SpawnWave" type="Button" parent="MainContainer/SpawnUI/WaveStuff"]
+layout_mode = 2
+text = "Spawn Wave"
+
+[node name="AllWaveInfo" type="HBoxContainer" parent="MainContainer/SpawnUI/WaveStuff"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="WaveInformation" type="HBoxContainer" parent="MainContainer/SpawnUI/WaveStuff/AllWaveInfo"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="WaveInfo" type="VBoxContainer" parent="MainContainer/SpawnUI/WaveStuff/AllWaveInfo/WaveInformation"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="WaveHeader" type="Label" parent="MainContainer/SpawnUI/WaveStuff/AllWaveInfo/WaveInformation/WaveInfo"]
+layout_mode = 2
+text = "Wave Info:"
+
+[node name="Wave" type="HBoxContainer" parent="MainContainer/SpawnUI/WaveStuff/AllWaveInfo/WaveInformation/WaveInfo"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Wave" type="Label" parent="MainContainer/SpawnUI/WaveStuff/AllWaveInfo/WaveInformation/WaveInfo/Wave"]
+layout_mode = 2
+text = "Wave:
+Wave Time:
+Hp Mult:
+Damage Mult:
+XP Mult:"
+label_settings = ExtResource("3_q2rn8")
+horizontal_alignment = 2
+
+[node name="WaveCount" type="Label" parent="MainContainer/SpawnUI/WaveStuff/AllWaveInfo/WaveInformation/WaveInfo/Wave"]
+layout_mode = 2
+text = "000
+000
+000
+000
+000"
+label_settings = ExtResource("3_q2rn8")
+
+[node name="EnemyInfo" type="VBoxContainer" parent="MainContainer/SpawnUI/WaveStuff/AllWaveInfo/WaveInformation"]
+layout_mode = 2
+
+[node name="EnemyHeader" type="Label" parent="MainContainer/SpawnUI/WaveStuff/AllWaveInfo/WaveInformation/EnemyInfo"]
+layout_mode = 2
+text = "Enemy Types:"
+
+[node name="Enemies" type="HBoxContainer" parent="MainContainer/SpawnUI/WaveStuff/AllWaveInfo/WaveInformation/EnemyInfo"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Enemy" type="Label" parent="MainContainer/SpawnUI/WaveStuff/AllWaveInfo/WaveInformation/EnemyInfo/Enemies"]
+layout_mode = 2
+text = "Total:
+IshimCrawler:
+IshimRanger:
+Cherubim:
+Elohim:"
+label_settings = ExtResource("3_q2rn8")
+horizontal_alignment = 2
+
+[node name="EnemyCount" type="Label" parent="MainContainer/SpawnUI/WaveStuff/AllWaveInfo/WaveInformation/EnemyInfo/Enemies"]
+layout_mode = 2
+text = "000
+000
+000
+000
+000"
+label_settings = ExtResource("3_q2rn8")
+
+[node name="SingleEnemyStuff" type="HBoxContainer" parent="MainContainer/SpawnUI"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer/SpawnUI/SingleEnemyStuff"]
+layout_mode = 2
+
+[node name="Enemy" type="HBoxContainer" parent="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="EnemyToSpawn" type="Label" parent="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/Enemy"]
+layout_mode = 2
+text = "Enemy To Spawn:"
+
+[node name="EnemySelection" type="OptionButton" parent="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/Enemy"]
+layout_mode = 2
+selected = 1
+item_count = 7
+popup/item_0/text = "EnemyBase"
+popup/item_0/id = 5
+popup/item_1/text = "IshimCrawler"
+popup/item_1/id = 0
+popup/item_2/text = "IshimRanger"
+popup/item_2/id = 1
+popup/item_3/text = "Cherubim"
+popup/item_3/id = 2
+popup/item_4/text = "Elohim"
+popup/item_4/id = 3
+popup/item_5/text = "BeneElohimCrawler"
+popup/item_5/id = 6
+popup/item_5/disabled = true
+popup/item_6/text = "BeneElohimRanger"
+popup/item_6/id = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="AmountToSpawn" type="Label" parent="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Amount To Spawn:"
+
+[node name="AmountToSpawnCount" type="TextEdit" parent="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+scroll_past_end_of_file = true
+
+[node name="SpawnSingle" type="Button" parent="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer"]
+layout_mode = 2
+text = "Spawn Enemy"
+
+[node name="EnemyInfo" type="HBoxContainer" parent="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 13
+
+[node name="Mults" type="Label" parent="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/EnemyInfo"]
+layout_mode = 2
+text = "Hp Mult:
+Damage Mult:
+XP Mult:"
+label_settings = ExtResource("3_q2rn8")
+horizontal_alignment = 2
+
+[node name="MultCounts" type="Label" parent="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/EnemyInfo"]
+custom_minimum_size = Vector2(35, 0)
+layout_mode = 2
+text = "000
+000
+000"
+label_settings = ExtResource("3_q2rn8")
+
+[node name="Sliders" type="VBoxContainer" parent="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/EnemyInfo"]
+layout_mode = 2
+
+[node name="HpMultSlider" type="HSlider" parent="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/EnemyInfo/Sliders"]
+custom_minimum_size = Vector2(275, 0)
+layout_mode = 2
+size_flags_vertical = 2
+
+[node name="DamageMultSlider" type="HSlider" parent="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/EnemyInfo/Sliders"]
+custom_minimum_size = Vector2(275, 0)
+layout_mode = 2
+size_flags_vertical = 2
+
+[node name="XPMultSlider" type="HSlider" parent="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/EnemyInfo/Sliders"]
+custom_minimum_size = Vector2(275, 0)
+layout_mode = 2
+size_flags_vertical = 2
+
+[node name="KillAllEnemies" type="Button" parent="."]
+layout_mode = 2
+offset_left = 943.0
+offset_top = 561.0
+offset_right = 1115.0
+offset_bottom = 611.0
+text = "Kill All Enemies"
+
+[connection signal="item_selected" from="MainContainer/WeaponUI/Weapons/Levels/LevelSelections/ThumbLvl" to="." method="_on_thumb_lvl_item_selected"]
+[connection signal="item_selected" from="MainContainer/WeaponUI/Weapons/Levels/LevelSelections/IndexLvl" to="." method="_on_index_lvl_item_selected"]
+[connection signal="item_selected" from="MainContainer/WeaponUI/Weapons/Levels/LevelSelections/MiddleLvl" to="." method="_on_middle_lvl_item_selected"]
+[connection signal="item_selected" from="MainContainer/WeaponUI/Weapons/Levels/LevelSelections/RingLvl" to="." method="_on_ring_lvl_item_selected"]
+[connection signal="item_selected" from="MainContainer/WeaponUI/Weapons/Levels/LevelSelections/PinkyLvl" to="." method="_on_pinky_lvl_item_selected"]
+[connection signal="toggled" from="MainContainer/SpawnUI/Spawn Labels/SpawnButton" to="." method="_on_spawn_button_toggled"]
+[connection signal="text_changed" from="MainContainer/SpawnUI/WaveStuff/SetWave/SetWave" to="." method="_on_set_wave_text_changed"]
+[connection signal="pressed" from="MainContainer/SpawnUI/WaveStuff/SetWave/WaveIncrease" to="." method="_on_wave_increase_pressed"]
+[connection signal="pressed" from="MainContainer/SpawnUI/WaveStuff/SetWave/WaveDecrease" to="." method="_on_wave_decrease_pressed"]
+[connection signal="pressed" from="MainContainer/SpawnUI/WaveStuff/SpawnWave" to="." method="_on_spawn_wave_pressed"]
+[connection signal="text_changed" from="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/HBoxContainer/AmountToSpawnCount" to="." method="_on_amount_to_spawn_count_text_changed"]
+[connection signal="pressed" from="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/SpawnSingle" to="." method="_on_spawn_single_pressed"]
+[connection signal="value_changed" from="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/EnemyInfo/Sliders/HpMultSlider" to="." method="_on_hp_mult_slider_value_changed"]
+[connection signal="value_changed" from="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/EnemyInfo/Sliders/DamageMultSlider" to="." method="_on_damage_mult_slider_value_changed"]
+[connection signal="value_changed" from="MainContainer/SpawnUI/SingleEnemyStuff/VBoxContainer/EnemyInfo/Sliders/XPMultSlider" to="." method="_on_xp_mult_slider_value_changed"]
+[connection signal="pressed" from="KillAllEnemies" to="." method="_on_button_pressed"]

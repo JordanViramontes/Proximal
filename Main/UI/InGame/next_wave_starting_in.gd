@@ -62,7 +62,7 @@ func update_time(time: float):
 	is_counting = true
 
 func update_visibility(visiblity: bool):
-	print("has: " + str(visiblity))
+	#print("has: " + str(visiblity))
 	
 	if visiblity:
 		current_vis_state = VIS_STATES.on 

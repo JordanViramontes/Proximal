@@ -10,6 +10,7 @@ var curr_weapon # defined in ready
 var xp_dictionary = [0.0, 0.0, 0.0, 0.0, 0.0]
 var xp_scale = [100.0, 100.0, 500.0, 50.0, 20.0]
 var weapon_level = [1, 1, 1, 1, 1]
+@onready var inverted_scroll: bool = ConfigFileHandler.load_scroll_inverted_settings()
 
 # hitbox
 @onready var hitboxColl: CollisionShape3D = $StunHitbox/CollisionShape3D
@@ -63,10 +64,17 @@ func _ready():
 # code for polling inputs
 func _process(delta: float):
 	# change weapon
-	if Input.is_action_just_pressed("change_weapon_up"):
-		change_weapon_to(curr_weapon_index + 1)
-	if Input.is_action_just_pressed("change_weapon_down"):
-		change_weapon_to(curr_weapon_index - 1)
+	if not inverted_scroll:
+		if Input.is_action_just_pressed("change_weapon_up"):
+			change_weapon_to(curr_weapon_index - 1)
+		if Input.is_action_just_pressed("change_weapon_down"):
+			change_weapon_to(curr_weapon_index + 1)
+	else:
+		if Input.is_action_just_pressed("change_weapon_up"):
+			change_weapon_to(curr_weapon_index + 1)
+		if Input.is_action_just_pressed("change_weapon_down"):
+			change_weapon_to(curr_weapon_index - 1)
+	
 	if Input.is_action_just_pressed("hotkey_thumb"):
 		change_weapon_to(0)
 	if Input.is_action_just_pressed("hotkey_index"):
@@ -83,11 +91,6 @@ func _process(delta: float):
 		use_ability(curr_weapon_index)
 	if Input.is_action_just_pressed("hotkey_dash"): # Index = 1
 		use_ability(1)
-	
-	# debug
-	if Input.is_action_just_pressed("debug_enemy_stun"):
-		if can_stun == true:
-			stun_enemies()
 	
 	# recoil
 	update_recoil(delta)
@@ -229,10 +232,25 @@ func _on_stun_enemy_timer_timeout() -> void:
 	can_stun = true
 
 # recieve signal from earning xp
-func _on_earn_experience(xp: float):
-	curr_weapon.add_xp(xp)
-	#print("earned: " + str(xp) + "xp for " + str(curr_weapon))
-	curr_weapon.print_xp(str(weapon_dictionary[curr_weapon_index]))
+func _on_earn_experience(xp: float, weapon: DamageInstance.DamageType):
+	var real_weapon
+	match weapon:
+		DamageInstance.DamageType.Thumb:
+			real_weapon = $Thumb
+		DamageInstance.DamageType.Index:
+			real_weapon = $Index
+		DamageInstance.DamageType.Middle:
+			real_weapon = $Middle
+		DamageInstance.DamageType.Ring:
+			real_weapon = $Ring
+		DamageInstance.DamageType.Pinky:
+			real_weapon = $Pinky
+		_:
+			real_weapon = null
+			
+	#print("weapon_manager.gd: giving xp to:"  + str(real_weapon) + ", xp: " + str(xp))
+	real_weapon.add_xp(xp)
+	#real_weapon.print_xp(str(weapon_dictionary[curr_weapon_index]))
 	
 
 func _on_enemy_die():

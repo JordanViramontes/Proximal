@@ -24,7 +24,13 @@ func _ready():
 		
 		config.set_value("video", "fullscreen", false)
 		
+		config.set_value("window_res", "resolution", Vector2i(1280, 720))
+		
 		config.set_value("audio", "master_volume", 1.0)
+		
+		config.set_value("mouse", "mouse_sens", 11.0)
+		
+		config.set_value("scroll", "scroll_inverted", false)
 		
 		config.save(SETTINGS_FILE_PATH)
 	else:
@@ -39,7 +45,45 @@ func load_video_settings():
 	for key in config.get_section_keys("video"):
 		video_settings[key] = config.get_value("video", key)
 	return video_settings
+
+func save_resolution_settings(key: String, value):
+	config.set_value("window_res", key, value)
+	config.save(SETTINGS_FILE_PATH)
+
+func load_resolution_settings() -> int:
+	var res: int = 2
+	var video_settings = {}
+	for key in config.get_section_keys("window_res"):
+		video_settings[key] = config.get_value("window_res", key)
+		res = int(video_settings[key])
 	
+	return res
+
+func save_mouse_sens_setting(key: String, value):
+	config.set_value("mouse_sens", key, value)
+	config.save(SETTINGS_FILE_PATH)
+
+func load_mouse_sens_settings():
+	var found_sens: float = 11.0
+	var video_settings = {}
+	for key in config.get_section_keys("mouse_sens"):
+		video_settings[key] = config.get_value("mouse_sens", key)
+		found_sens = float(video_settings[key])
+	return found_sens
+
+func save_scroll_inverted_setting(key: String, value):
+	config.set_value("scroll_inverted", key, value)
+	config.save(SETTINGS_FILE_PATH)
+
+func load_scroll_inverted_settings():
+	var found_inverted: bool = false
+	var video_settings = {}
+	for key in config.get_section_keys("scroll_inverted"):
+		video_settings[key] = config.get_value("scroll_inverted", key)
+		found_inverted = bool(video_settings[key])
+	return found_inverted
+
+
 func save_audio_setting(key: String, value):
 	config.set_value("audio", key, value)
 	config.save(SETTINGS_FILE_PATH)

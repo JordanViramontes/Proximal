@@ -12,20 +12,36 @@ var y_active = 29
 @onready var pinky = $Pinky
 @onready var weapon_manager = get_tree().get_first_node_in_group("WeaponManager")
 
-@onready var weapons: Array[Control] = [
-	thumb,
-	index,
-	middle,
-	ring,
-	pinky
-]
+@onready var weapons: Array[Control]
 
 func _ready() -> void:
-	thumb.initialize(0)
-	index.initialize(1)
-	middle.initialize(2)
-	ring.initialize(3)
-	pinky.initialize(4)
+	if ConfigFileHandler.load_scroll_inverted_settings():
+		weapons = [
+			pinky,
+			ring,
+			middle,
+			index,
+			thumb,
+		]
+		pinky.initialize(0)
+		ring.initialize(1)
+		middle.initialize(2)
+		index.initialize(3)
+		thumb.initialize(4)
+	else:
+		weapons = [
+			thumb,
+			index,
+			middle,
+			ring,
+			pinky,
+		]
+		thumb.initialize(0)
+		index.initialize(1)
+		middle.initialize(2)
+		ring.initialize(3)
+		pinky.initialize(4)
+	
 	
 	weapon_manager.update_weapon_gui.connect(thumb._on_set_active)
 	weapon_manager.update_weapon_gui.connect(index._on_set_active)

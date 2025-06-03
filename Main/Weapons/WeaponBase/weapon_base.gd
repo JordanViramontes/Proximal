@@ -38,8 +38,8 @@ var normal_material: Material
 
 @export_group("Abilities")
 # ability stuff
-@export var ability_cooldown := 5.0 # default 5 seconds
-var current_ability_cooldown := 0.0 # <= 0 if the ability is off cooldown
+@export var ability_cooldown: float = 5.0 # default 5 seconds
+var current_ability_cooldown: float = 0.0 # <= 0 if the ability is off cooldown
 @export var ability_recharge_particle_color: Color
 @export var ability_recharge_particles: PackedScene
 var recharge_particles: GPUParticles3D
@@ -78,6 +78,7 @@ func _process(delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	tick += 1
+	
 	# Over time, XP degrades
 	if max_level_timer <= 0.0: # this var is set to max_level_decay_timer when the weapon reaches max level
 		# only decrease xp if this timer isn't counting down (meaning we haven't reached max level in the last max_level_decay_timer seconds)
@@ -93,31 +94,32 @@ func _physics_process(delta: float) -> void:
 func use_ability() -> bool:
 	if current_ability_cooldown > 0.0:
 		return false
-	else:
-		current_ability_cooldown = ability_cooldown
-		#if depleted_material:
-			#$MeshInstance3D.mesh.material = depleted_material.duplicate()
-			#var depleted_tween = get_tree().create_tween()
-			#depleted_tween.set_ease(Tween.EASE_IN_OUT)
-			##depleted_tween.set_trans(Tween.TRANS_CUBIC)
-			##depleted_tween.tween_property($MeshInstance3D.mesh.material, "albedo_color", normal_material.albedo_color, ability_cooldown)
-			#depleted_tween.finished.connect(_on_depleted_tween_finish)
-		#else:
-			#print("%s set my depleted material for visual indication of ability cooldown :)" % self)
 		
-		# send signal
-		emit_signal("send_ui_ability_time", ability_cooldown)
+	current_ability_cooldown = ability_cooldown
+	#if depleted_material:
+		#$MeshInstance3D.mesh.material = depleted_material.duplicate()
+		#var depleted_tween = get_tree().create_tween()
+		#depleted_tween.set_ease(Tween.EASE_IN_OUT)
+		##depleted_tween.set_trans(Tween.TRANS_CUBIC)
+		##depleted_tween.tween_property($MeshInstance3D.mesh.material, "albedo_color", normal_material.albedo_color, ability_cooldown)
+		#depleted_tween.finished.connect(_on_depleted_tween_finish)
+	#else:
+		#print("%s set my depleted material for visual indication of ability cooldown :)" % self)
+	
+	# send signal
+	#print("sending signal: " + str(ability_cooldown))
+	emit_signal("send_ui_ability_time", ability_cooldown)
 
-		var recharge_color = $MeshInstance3D.mesh.material.albedo_color
-		$MeshInstance3D.mesh.material.albedo_color = depleted_color # set my color to the color of the depleted material
-		var depleted_tween = get_tree().create_tween()
-		depleted_tween.set_ease(Tween.EASE_IN_OUT)
-		depleted_tween.tween_property($MeshInstance3D.mesh.material, "albedo_color", recharge_color, ability_cooldown)
-		depleted_tween.finished.connect(_on_depleted_tween_finish)
-		
-		used_ability.emit()
-		
-		return true
+	var recharge_color = $MeshInstance3D.mesh.material.albedo_color
+	$MeshInstance3D.mesh.material.albedo_color = depleted_color # set my color to the color of the depleted material
+	var depleted_tween = get_tree().create_tween()
+	depleted_tween.set_ease(Tween.EASE_IN_OUT)
+	depleted_tween.tween_property($MeshInstance3D.mesh.material, "albedo_color", recharge_color, ability_cooldown)
+	depleted_tween.finished.connect(_on_depleted_tween_finish)
+	
+	used_ability.emit()
+	
+	return true
 
 # shoot a bullet from the weapon
 func shoot(from_pos: Vector3, direction: Vector3, velocity: Vector3 = Vector3.ZERO) -> void:
@@ -144,7 +146,8 @@ func shoot(from_pos: Vector3, direction: Vector3, velocity: Vector3 = Vector3.ZE
 
 #for projectile ability
 func ability_shoot(from_pos: Vector3, direction: Vector3, velocity: Vector3 = Vector3.ZERO) -> void:
-	if not can_shoot or not weapon_manager.isCanUseWeapon():
+	#if not can_shoot or not weapon_manager.isCanUseWeapon():
+	if not weapon_manager.isCanUseWeapon():
 		return
 	
 	shoot_timer.start()
@@ -182,6 +185,10 @@ func add_xp(xp: float):
 	else:
 		# send xp to ui
 		emit_signal("send_ui_xp_updated", level_experience)
+
+func set_level(new_level: int):
+	experience = level*upgrade_quota
+	level = new_level
 
 func decrease_xp():
 	#if level_experience > 0.0:

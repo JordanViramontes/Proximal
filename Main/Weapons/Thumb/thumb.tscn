@@ -42,7 +42,6 @@ radius = 1.435
 script = ExtResource("1_b665p")
 pellet_count = 4
 ability_bullet = ExtResource("2_3tbkt")
-upgrade_quota = 150.0
 degradation = 2.4
 expected_usage_rate = 2
 fire_rate = 1.5

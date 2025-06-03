@@ -1,0 +1,112 @@
+[gd_scene load_steps=4 format=3 uid="uid://egyandu7581s"]
+
+[ext_resource type="Script" uid="uid://cfo36p6iul0qe" path="res://Main/UI/InGame/DebugUI/debug_pause_menu.gd" id="1_qguck"]
+[ext_resource type="LabelSettings" uid="uid://ct17xptel7o45" path="res://assets/Labels/debug_header.tres" id="2_uo00m"]
+[ext_resource type="LabelSettings" uid="uid://tfagi2qovcfh" path="res://assets/Labels/debug_text.tres" id="3_q2rn8"]
+
+[node name="DebugPauseMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_qguck")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -450.5
+offset_top = -294.5
+offset_right = 450.5
+offset_bottom = 294.5
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.929412)
+
+[node name="SpawnUI" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = -421.0
+offset_top = -268.0
+offset_right = -377.0
+offset_bottom = -228.0
+
+[node name="Spawn Labels" type="HBoxContainer" parent="SpawnUI"]
+layout_mode = 2
+
+[node name="SpawnMode" type="Label" parent="SpawnUI/Spawn Labels"]
+layout_mode = 2
+text = "Spawn Mode:"
+label_settings = ExtResource("2_uo00m")
+
+[node name="SpawnButton" type="CheckButton" parent="SpawnUI/Spawn Labels"]
+layout_mode = 2
+
+[node name="SpawnTypeLabel" type="Label" parent="SpawnUI/Spawn Labels"]
+layout_mode = 2
+text = "Spawn Waves"
+
+[node name="WaveInformation" type="VBoxContainer" parent="SpawnUI"]
+layout_mode = 2
+
+[node name="WaveHeader" type="Label" parent="SpawnUI/WaveInformation"]
+layout_mode = 2
+text = "Wave Info:"
+
+[node name="Wave" type="HBoxContainer" parent="SpawnUI/WaveInformation"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Wave" type="Label" parent="SpawnUI/WaveInformation/Wave"]
+layout_mode = 2
+text = "Wave:
+Wave Time:
+Hp Mult:
+Damage Mult:
+XP Mult:"
+label_settings = ExtResource("3_q2rn8")
+horizontal_alignment = 2
+
+[node name="WaveCount" type="Label" parent="SpawnUI/WaveInformation/Wave"]
+layout_mode = 2
+text = "000
+000
+000
+000
+000"
+label_settings = ExtResource("3_q2rn8")
+
+[node name="EnemyHeader" type="Label" parent="SpawnUI/WaveInformation"]
+layout_mode = 2
+text = "Enemy Types:"
+
+[node name="Enemies" type="HBoxContainer" parent="SpawnUI/WaveInformation"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Enemy" type="Label" parent="SpawnUI/WaveInformation/Enemies"]
+layout_mode = 2
+text = "IshimCrawler:
+IshimRanger:
+Cherubim:
+Elohim:"
+label_settings = ExtResource("3_q2rn8")
+horizontal_alignment = 2
+
+[node name="EnemyCount" type="Label" parent="SpawnUI/WaveInformation/Enemies"]
+layout_mode = 2
+text = "000
+000
+000
+000"
+label_settings = ExtResource("3_q2rn8")
+
+[connection signal="toggled" from="SpawnUI/Spawn Labels/SpawnButton" to="." method="_on_spawn_button_toggled"]

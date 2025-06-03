@@ -1,9 +1,9 @@
 [gd_scene load_steps=12 format=3 uid="uid://cn2c867ej4ifx"]
 
-[ext_resource type="Script" uid="uid://jn021wqkuoke" path="res://scripts/Weapons/ring_bullet.gd" id="1_ihso4"]
-[ext_resource type="PackedScene" uid="uid://b6ixebi3438gl" path="res://scenes/bullets/ring_terrain_explosion.tscn" id="2_83hhm"]
-[ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="3_bhhqk"]
-[ext_resource type="PackedScene" uid="uid://d382718nkl44c" path="res://scenes/bullets/ring_shoot_explosion.tscn" id="3_tom41"]
+[ext_resource type="Script" uid="uid://jn021wqkuoke" path="res://Main/Weapons/Ring/ring_bullet.gd" id="1_ihso4"]
+[ext_resource type="PackedScene" uid="uid://b6ixebi3438gl" path="res://Main/Weapons/Ring/ring_terrain_explosion.tscn" id="2_83hhm"]
+[ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://Main/Utility/Components/hitbox_component.gd" id="3_bhhqk"]
+[ext_resource type="PackedScene" uid="uid://d382718nkl44c" path="res://Main/Weapons/Ring/ring_shoot_explosion.tscn" id="3_tom41"]
 [ext_resource type="Texture2D" uid="uid://b3n3rx7pgoehq" path="res://assets/textures/sparkle.png" id="5_tom41"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tom41"]

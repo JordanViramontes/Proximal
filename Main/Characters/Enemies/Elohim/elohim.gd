@@ -20,7 +20,7 @@ var distance_towards_player: float = 0
 @onready var enemy_spawn_parent = get_tree().get_first_node_in_group("EnemySpawnParent")
 
 # signal
-signal add_new_enemies(enemies: int)
+signal add_new_enemies(enemies: int, enemy)
 
 # colors
 @onready var mat_roam = StandardMaterial3D.new()
@@ -163,6 +163,5 @@ func summon_guys() -> void:
 	mob1.die_from_wave.connect(enemy_spawn_parent.enemy_dies)
 	mob2.die_from_wave.connect(enemy_spawn_parent.enemy_dies)
 	
-	
-	
-	emit_signal("add_new_enemies", 2)
+	emit_signal("add_new_enemies", 1, mob1)
+	emit_signal("add_new_enemies", 1, mob2)
