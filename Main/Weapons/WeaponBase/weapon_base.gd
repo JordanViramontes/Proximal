@@ -10,6 +10,9 @@ var bullet_emerge_point: Node3D # should be set in the parent WeaponManager
 @export var experience: float = 0
 var level_experience: float
 @export var level: int = 1
+@export var max_level: int = 5
+@export var max_level_decay_timer: float = 5.0
+var max_level_timer: float
 signal experience_change
 
 # Quota and degradation rate is different for every weapon
@@ -60,6 +63,7 @@ signal used_ability
 signal send_ui_ability_time(time_left: float)
 signal send_ui_xp_updated(xp: float)
 signal send_ui_xp_level_updated(level: int) 
+signal send_ui_xp_max_level
 
 func _ready() -> void:
 	shoot_timer.wait_time = 1/(fire_rate*level)
@@ -75,12 +79,16 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	tick += 1
 	# Over time, XP degrades
-	if tick % 150 == 0:
-		decrease_xp()
-	if tick % 100 == 0 and weapon_usage - expected_usage_rate > 0:
-		weapon_usage -= expected_usage_rate
-	if current_ability_cooldown > 0.0:
-		current_ability_cooldown -= delta
+	if max_level_timer <= 0.0: # this var is set to max_level_decay_timer when the weapon reaches max level
+		# only decrease xp if this timer isn't counting down (meaning we haven't reached max level in the last max_level_decay_timer seconds)
+		if tick % 150 == 0:
+			decrease_xp()
+		if tick % 100 == 0 and weapon_usage - expected_usage_rate > 0:
+			weapon_usage -= expected_usage_rate
+		if current_ability_cooldown > 0.0:
+			current_ability_cooldown -= delta
+	else:
+		max_level_timer = clampf(max_level_timer - delta, 0.0, max_level_decay_timer) # countdown timer. doing this with a scenetreetimer would be more efficient
 
 func use_ability() -> bool:
 	if current_ability_cooldown > 0.0:
@@ -154,31 +162,41 @@ func add_xp(xp: float):
 	experience_change.emit()
 	# XP gets harder to increase as level increases (XP cap at level 10)
 	experience_rate = xp* xp_gain_multiplier *(float(expected_usage)/(expected_usage_rate+weapon_usage))
-	if level < 10:
+	if level < max_level:
 		experience += experience_rate
 		level_experience += experience_rate
+	
 	# If XP is high enough, weapon gets upgraded
-	if level_experience > upgrade_quota and level < 10:
+	if level_experience > upgrade_quota and level < max_level:
 		level += 1
 		level_experience = 0
 		upgrade_quota *= 1.5
 		#print("LEVEL UP to " + str(level))
 		emit_signal("send_ui_xp_level_updated", level)
-		
 	
-	# send xp to ui
-	emit_signal("send_ui_xp_updated", level_experience)
+	if level == max_level:
+		# meowy
+		# start a timer that locks level decreasing for a certain amount of time
+		max_level_timer = max_level_decay_timer
+		emit_signal("send_ui_xp_max_level")
+	else:
+		# send xp to ui
+		emit_signal("send_ui_xp_updated", level_experience)
 
 func decrease_xp():
-	if level_experience > 0.0:
-		experience_change.emit()
-		level_experience -= degradation
-	else:
-		experience_change.emit()
+	#if level_experience > 0.0:
+	experience_change.emit()
+	level_experience -= degradation
+	#else:
+		#experience_change.emit()
+		#level_experience = 0.0
+	
+	# dont want to accumulate negative level xp
+	if level_experience < 0 and level == 1:
 		level_experience = 0.0
 
 	# If XP degrades enough, weapon gets downgraded
-	if level_experience < 0 and level > 0:
+	if level_experience < 0 and level > 1: # dont downgrade past level 1
 		level -= 1
 		upgrade_quota /= 1.5
 		level_experience = upgrade_quota*0.99
