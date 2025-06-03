@@ -62,6 +62,8 @@ func on_on_ability_shoot(from_pos: Vector3, look_direction: Vector3, velocity: V
 	
 	# Pull enemies toward that point, stop once they're close
 	for enemy in b.enemyHit:
+		if not enemy:
+			continue
 		var to_vacuum_point = vacuum_target_pos - enemy.global_position
 		var direction = to_vacuum_point.normalized()
 		var strength = base_force
