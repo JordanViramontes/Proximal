@@ -37,6 +37,7 @@ Enemies=""
 WeaponManager=""
 EnemyBase=""
 EnemySpawnParent=""
+AudioManager=""
 
 [gui]
 

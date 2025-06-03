@@ -37,12 +37,14 @@ extends Node
 func _ready() -> void:
 	pass
 
-func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("debug_play_effect"):
-		play_sfx("player", "effect_player_gets_damaged") 
+#func _process(delta: float) -> void:
+	#if Input.is_action_just_pressed("debug_play_effect"):
+		#play_sfx("player", "effect_player_gets_damaged") 
 
 
 func play_sfx(category: String, name: String):
+	print("audio_manager.gd - receiving sound: " + category + ", " + name)
+	
 	if category not in sound_effects:
 		print("audio_manager.gd - this sound effect CATEGORY doesnt exist: " + category)
 	

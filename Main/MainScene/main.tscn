@@ -647,7 +647,7 @@ autostart = true
 [node name="DebugPauseMenu" parent="UI" instance=ExtResource("27_xhbv5")]
 layout_mode = 1
 
-[node name="AudioManager" type="Node" parent="."]
+[node name="AudioManager" type="Node" parent="." groups=["AudioManager"]]
 script = ExtResource("29_8rn6f")
 
 [node name="Effects" type="Node" parent="AudioManager"]

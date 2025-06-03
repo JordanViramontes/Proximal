@@ -40,6 +40,12 @@ var vacuum_timer = 0.0
 var vacuum_duration = 3  # seconds
 var vacuum_target_position: Vector3
 
+# sound effects
+@onready var audio_manager: Node = get_tree().get_first_node_in_group("AudioManager")
+var SE_enemy_category: String = "enemy"
+var SE_enemy_dies: String = "effect_enemy_dies"
+signal sound_effect_signal(category: String, name: String)
+
 # states
 var ENEMY_STATE = {
 	"roam":0,
@@ -94,6 +100,9 @@ func _ready() -> void:
 	health_component.current_health = max_health
 	health_component.reached_zero_health.connect(on_reach_zero_health)
 	hitbox_component.damaged.connect(on_damaged)
+	
+	# connect audio signal
+	self.sound_effect_signal.connect(audio_manager.play_sfx)
 	
 	# values for navigation agent
 	navigation_agent.path_desired_distance = nav_path_dist
@@ -178,6 +187,9 @@ func on_reach_zero_health():
 	# we already died!
 	if is_dead:
 		return
+	
+	# sounds
+	sound_effect_signal.emit(SE_enemy_category, SE_enemy_dies)
 	
 	#print("we are dying! emitting signals: " + str(self))
 	is_dead = true
