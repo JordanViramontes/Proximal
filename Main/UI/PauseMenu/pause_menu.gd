@@ -93,6 +93,9 @@ func _on_options_pressed() -> void:
 func _on_main_menu_pressed() -> void:
 	get_tree().paused = false
 	pause_flag = false
+	$Exit_Transition.visible = true
+	animation_player.play("exit_transition")
+	await animation_player.animation_finished
 	FadeToBlack.transition()
 	await FadeToBlack.on_transition_finished
 	$"Options Menu".visible = false

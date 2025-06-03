@@ -1,8 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://b7on2iwifofik"]
+[gd_scene load_steps=15 format=3 uid="uid://b7on2iwifofik"]
 
 [ext_resource type="Shader" uid="uid://bui55npgmeur2" path="res://Main/UI/PauseMenu/pause_menu.gdshader" id="1_05p70"]
 [ext_resource type="Script" uid="uid://c1s7vty47uwme" path="res://Main/UI/PauseMenu/pause_menu.gd" id="1_sti1v"]
 [ext_resource type="FontFile" uid="uid://be672lysxmsqk" path="res://assets/fonts/Silver.ttf" id="3_62wus"]
+[ext_resource type="Shader" uid="uid://ds1eh63n50113" path="res://Main/UI/PauseMenu/exit_transition.gdshader" id="4_4u04t"]
+[ext_resource type="Texture2D" uid="uid://bf5qv5warwisr" path="res://Main/UI/Transitions/screen_transition_test.png" id="5_atiwn"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sti1v"]
 shader = ExtResource("1_05p70")
@@ -36,11 +38,37 @@ tracks/0/keys = {
 "points": PackedFloat32Array(0, -0.15, 0, 0.15, 0),
 "times": PackedFloat32Array(0)
 }
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Exit_Transition:material:shader_parameter/progress")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_atiwn"]
+resource_name = "exit_transition"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Exit_Transition:material:shader_parameter/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0, -0.15, 0, 0.15, 0),
+"times": PackedFloat32Array(0, 1)
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_atiwn"]
 _data = {
 &"RESET": SubResource("Animation_4u04t"),
-&"blur": SubResource("Animation_62wus")
+&"blur": SubResource("Animation_62wus"),
+&"exit_transition": SubResource("Animation_atiwn")
 }
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_62wus"]
@@ -48,6 +76,11 @@ _data = {
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4u04t"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_atiwn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_atiwn"]
+shader = ExtResource("4_4u04t")
+shader_parameter/mask_texture = ExtResource("5_atiwn")
+shader_parameter/progress = 1.0
 
 [node name="PauseMenu" type="Control"]
 process_mode = 3
@@ -268,6 +301,18 @@ size_flags_vertical = 8
 focus_mode = 0
 theme_override_font_sizes/font_size = 18
 text = "Reset To Default"
+
+[node name="Exit_Transition" type="ColorRect" parent="."]
+visible = false
+clip_children = 2
+material = SubResource("ShaderMaterial_atiwn")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.368627, 0, 0.368627, 0.258824)
 
 [connection signal="pressed" from="VBoxContainer/Resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_options_pressed"]
