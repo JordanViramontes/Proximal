@@ -287,3 +287,6 @@ func update_recoil(delta: float):
 func on_used_ring():
 	hand_visual_base.lose_ring()
 	update_ring.emit(weapon_dictionary[3].ammo_count)
+
+func _on_scroll_invert_reset() -> void:
+	update_weapon_gui.emit(curr_weapon_index)

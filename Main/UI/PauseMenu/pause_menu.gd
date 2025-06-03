@@ -14,11 +14,14 @@ extends Control
 @onready var animation_player = $AnimationPlayer
 
 var pause_flag = false
-
 var is_remapping = false
 var action_to_remap = null
 var remapping_button = null
+
 @export var default_mouse_sens = 18
+
+signal mouse_sens_changed(new_sens)
+signal scroll_invert_changed(is_inverted)
 
 func pauseMenu():
 	if pause_flag:
@@ -214,6 +217,7 @@ func _on_scroll_checkbox_toggled(toggled_on: bool) -> void:
 		ConfigFileHandler.save_scroll_inverted_setting("mouse_inverted", true)
 	else:
 		ConfigFileHandler.save_scroll_inverted_setting("mouse_inverted", false)
+	emit_signal("scroll_invert_changed", toggled_on)
 
 
 func _on_mouse_slider_drag_ended(value_changed: bool) -> void:
@@ -226,6 +230,7 @@ func _on_mouse_slider_drag_ended(value_changed: bool) -> void:
 func _on_mouse_slider_value_changed(value: float) -> void:
 	ConfigFileHandler.save_mouse_sens_setting("mouse_sens", mouse_sensitivity.value)
 	mouse_sensitivity_label.text = str(int(mouse_sensitivity.value))
+	emit_signal("mouse_sens_changed", mouse_sensitivity.value)
 	#print("check sens: " + str(int(mouse_sensitivity.value)))
 
 
