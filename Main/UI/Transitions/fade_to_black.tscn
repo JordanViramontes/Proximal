@@ -72,3 +72,5 @@ color = Color(0, 0, 0, 1)
 libraries = {
 &"": SubResource("AnimationLibrary_5th71")
 }
+
+[connection signal="on_transition_finished" from="." to="." method="_on_on_transition_finished"]
