@@ -1,4 +1,5 @@
 extends WeaponBase
+class_name WeaponMiddle
 
 # middle is hitscan, the hit detection will not be done with a hitscan script and not bullet.gd
 
@@ -6,6 +7,7 @@ extends WeaponBase
 @export var shoot_height_offset: float
 var shadow: bool = false
 var current_bullet: HitscanBullet
+var isAbility: bool = false
 
 @export var shield_duration: float
 
@@ -48,8 +50,16 @@ func on_on_ceasefire():
 func player_pos():
 	Util.get_play_pos()
 
+func _process(delta: float) -> void:
+	if isAbility && not sound_effects[SE_ability_middle].is_playing():
+		sound_effect_signal_start.emit(SE_ability_middle)
+	if not isAbility:
+		sound_effect_signal_stop.emit(SE_ability_middle)
+
 # this function is always called if the ability is not on cooldown
 func on_used_ability():
 	Util.toggle_shield.emit(true)
+	isAbility = true
 	await get_tree().create_timer(shield_duration).timeout
 	Util.toggle_shield.emit(false)
+	isAbility = false

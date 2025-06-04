@@ -19,11 +19,11 @@ func play_sfx(name: String):
 	
 	if name in sound_effects:
 		var sound_effect = sound_effects[name]
-		print("doing: " + str(sound_effect))
+		#print("doing: " + str(sound_effect))
 		
-		if sound_effect is AudioStreamPlayer3D:
-			print("Global position:", sound_effect.global_transform.origin)
-			print("Stream assigned:", sound_effect.stream)
+		#if sound_effect is AudioStreamPlayer3D:
+			#print("Global position:", sound_effect.global_transform.origin)
+			#print("Stream assigned:", sound_effect.stream)
 		sound_effect.play()
 	elif name in oneshot_sound_effects:
 		play_sfx_oneshot(name)

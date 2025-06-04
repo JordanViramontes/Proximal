@@ -100,7 +100,7 @@ var last_slide_time := -1.5 # start it negative so you can slide immediately
 
 #region audio
 # sound effects
-@onready var audio_manager: Node = $AudioManager
+@onready var audio_manager: Node3D = $AudioManager
 signal sound_effect_signal_start(name: String)
 signal sound_effect_signal_stop(name: String)
 

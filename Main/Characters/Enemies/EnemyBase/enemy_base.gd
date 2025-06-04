@@ -82,6 +82,7 @@ signal sound_effect_signal_stop(name: String)
 
 var SE_enemy_dies: String = "enemy_dies"
 var SE_enemy_shoot: String = "enemy_shoot"
+var SE_elohim_summon: String = "elohim_summon"
 @onready var sound_effects: Dictionary
 @onready var scn_oneshot_sfx: PackedScene = preload("res://Main/Utility/AudioManager/audio_stream_player_oneshot.tscn")
 #endregion
@@ -108,15 +109,14 @@ func init_set_audio():
 	audio_manager = Node3D.new()
 	audio_manager.set_script(load("res://Main/Utility/AudioManager/audio_manager.gd"))
 	add_child(audio_manager)
-	print("manager: " + str(audio_manager))
+	#print("manager: " + str(audio_manager))
 	
 	# use this code if you don't want to use a oneshot
-	var SE_enemy_shoot_node = AudioStreamPlayer3D.new()
+	var SE_enemy_shoot_node = AudioStreamPlayer.new()
 	SE_enemy_shoot_node.stream = load("res://assets/Sounds/Sound Effects/Enemy/shoot.wav")
-	SE_enemy_shoot_node.volume_db = 0.0
-	#SE_enemy_shoot_node.unit_size = 1.0
-	#SE_enemy_shoot_node.max_distance = 1000.0
-	#SE_enemy_shoot_node.global_transform.origin = self.global_position
+	SE_enemy_shoot_node.volume_db = -20.0
+	var SE_elohim_summon_node = AudioStreamPlayer.new()
+	SE_elohim_summon_node.stream = load("res://assets/Sounds/Sound Effects/Weapon/Abilities/vacuum.wav")
 	
 	# enemy_dies should be a oneshot sound effect
 	# so just load the STREAM itself and put it in the audiomanager's dictionary
@@ -129,6 +129,7 @@ func init_set_audio():
 	sound_effects = {
 		SE_enemy_dies:SE_enemy_dies_stream,
 		SE_enemy_shoot:SE_enemy_shoot_node,
+		SE_elohim_summon:SE_elohim_summon_node,
 	}
 	
 	for i in sound_effects.keys():

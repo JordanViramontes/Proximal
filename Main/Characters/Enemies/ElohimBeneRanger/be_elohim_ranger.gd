@@ -275,6 +275,9 @@ func _on_shoot_cooldown_timeout() -> void:
 		
 		World.world.add_child(b)
 		
+		# sound effect
+		sound_effect_signal_start.emit(SE_enemy_shoot)
+		
 		#print("bene shot: " + str(b))
 		
 		play_animation("attack")

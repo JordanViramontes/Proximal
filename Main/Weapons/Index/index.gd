@@ -1,4 +1,5 @@
 extends WeaponBase
+class_name WeaponIndex
 
 @export var bullet_spread: float = 0.03
 

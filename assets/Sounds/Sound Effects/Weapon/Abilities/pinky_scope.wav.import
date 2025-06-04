@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://dewpwsarhj3us"
-path="res://.godot/imported/pinky_scope.wav-c23591c255e8328e0c2fe47c43afe15d.sample"
+path="res://.godot/imported/pinky_scope.wav-b9fccd89207c8876b5f7c115bf911e14.sample"
 
 [deps]
 
-source_file="res://assets/Sounds/Sound Effects/Weapon/Weapons/pinky_scope.wav"
-dest_files=["res://.godot/imported/pinky_scope.wav-c23591c255e8328e0c2fe47c43afe15d.sample"]
+source_file="res://assets/Sounds/Sound Effects/Weapon/Abilities/pinky_scope.wav"
+dest_files=["res://.godot/imported/pinky_scope.wav-b9fccd89207c8876b5f7c115bf911e14.sample"]
 
 [params]
 

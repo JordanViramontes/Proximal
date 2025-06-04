@@ -1,4 +1,5 @@
 extends WeaponBase
+class_name WeaponPinky
 
 # pinky is hitscan, the hit detection will not be done with a hitscan script and not bullet.gd
 
