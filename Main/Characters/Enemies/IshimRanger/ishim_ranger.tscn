@@ -78,7 +78,7 @@ collision_layer = 4
 script = ExtResource("1_cw4bv")
 comfy_radius = 20
 bullet = ExtResource("5_8pu60")
-max_health = 1.0
+max_health = 5.0
 movement_speed = 8
 death_particle_color = Color(1, 0.713726, 1, 1)
 

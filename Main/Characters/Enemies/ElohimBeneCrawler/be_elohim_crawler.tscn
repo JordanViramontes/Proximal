@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://b065qvknhmu0k"]
 
-[ext_resource type="Script" uid="uid://df5ktq5yi58kn" path="res://scripts/Enemies/be_elohim_crawler.gd" id="1_m3eit"]
-[ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://scripts/components/health_component.gd" id="2_1bav6"]
-[ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://scripts/components/hitbox_component.gd" id="3_u8att"]
+[ext_resource type="Script" uid="uid://df5ktq5yi58kn" path="res://Main/Characters/Enemies/ElohimBeneCrawler/be_elohim_crawler.gd" id="1_m3eit"]
+[ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://Main/Utility/Components/health_component.gd" id="2_1bav6"]
+[ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://Main/Utility/Components/hitbox_component.gd" id="3_u8att"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m3eit"]
 albedo_color = Color(0.101545, 0.32091, 0.304664, 1)

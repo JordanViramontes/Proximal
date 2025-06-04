@@ -41,10 +41,11 @@ radius = 1.435
 script = ExtResource("1_exoxp")
 ability_bullet = ExtResource("2_55j32")
 upgrade_quota = 50.0
-degradation = 0.5
+degradation = 1.0
 expected_usage_rate = 2
 fire_rate = 1.0
 bullet = ExtResource("2_55j32")
+bullet_damage = 10.0
 is_hitscan = true
 depleted_material = SubResource("StandardMaterial3D_v84yc")
 

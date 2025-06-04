@@ -47,15 +47,6 @@ func on_on_ceasefire():
 	
 func player_pos():
 	Util.get_play_pos()
-	pass
-
-func on_bullet_hit(damage: float):
-	experience += 0.02*(4-level)
-	print("my bullet hit an enemy")
-	print(experience)
-	if experience >= 10.0*(level):
-		level += 1
-		print("LEVEL UP! ", level)
 
 # this function is always called if the ability is not on cooldown
 func on_used_ability():

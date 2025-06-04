@@ -41,7 +41,6 @@ radius = 1.435
 script = ExtResource("1_l4hd8")
 shield_duration = 2.0
 upgrade_quota = 250.0
-degradation = 7.1
 expected_usage = 70
 expected_usage_rate = 30
 fire_rate = 100.0
