@@ -120,7 +120,8 @@ func spawnWave(wave_index):
 		# spawn the amount of times specified in the dictionary
 		for i in range(enemy_count[mob_path]):
 			#print(mob_path)
-			spawnEnemy(mob_path, 0, wave.enemy_health_multiplier, wave.enemy_damage_multiplier, wave.enemy_experience_multiplier)
+			var spawn_offset = randf_range(0.0, 1.5)
+			spawnEnemy(mob_path, 0, spawn_offset, wave.enemy_health_multiplier, wave.enemy_damage_multiplier, wave.enemy_experience_multiplier)
 	
 	# set the timer
 	wave_timer.start(wave.wave_time_count)
@@ -172,9 +173,10 @@ func generateNewWave(wave_count) -> Wave:
 	
 	return new_wave
 
-func spawnEnemy(mob_path, debug_flag, health_multiplier, damage_multiplier, experience_multiplier):
-	var mob = load(mob_path).instantiate()
+func spawnEnemy(mob_path, debug_flag, time_offset, health_multiplier, damage_multiplier, experience_multiplier):
+	await get_tree().create_timer(time_offset).timeout
 	
+	var mob = load(mob_path).instantiate()
 	# Choose a random location on the SpawnPath, We store the reference to the SpawnLocation node.
 	var mob_spawn_location = get_node("EnemySpawner")
 	
@@ -313,10 +315,10 @@ func debug_spawn_single_enemy(index: int, amount:int, hp_mult: float, damage_mul
 	# if we spawn a bunch, make it random!
 	if amount > 1:
 		for i in range(amount):
-			spawnEnemy(DEBUG_enemy_list[index], 0, hp_mult, damage_mult, xp_mult)
+			spawnEnemy(DEBUG_enemy_list[index], 0, 0, hp_mult, damage_mult, xp_mult)
 	
 	else:
-		spawnEnemy(DEBUG_enemy_list[index], 1, hp_mult, damage_mult, xp_mult)
+		spawnEnemy(DEBUG_enemy_list[index], 1, 0, hp_mult, damage_mult, xp_mult)
 
 func debug_spawn_wave(wave_count: int) -> void:
 	debug_stop_countdown()
