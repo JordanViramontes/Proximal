@@ -23,8 +23,16 @@ func play_sfx(name: String):
 	elif name in oneshot_sound_effects:
 		play_sfx_oneshot(name)
 	else:
-		print("audio_manager.gd - this sound effect doesnt exist: " + name)
+		print("audio_manager.gd - this sound effect doesnt exist to start: " + name)
 
+func stop_sfx(name: String):
+	if name in sound_effects:
+		var sound_effect = sound_effects[name]
+		sound_effect.stop()
+	#elif name in oneshot_sound_effects:
+		#play_sfx_oneshot(name)
+	else:
+		print("audio_manager.gd - this sound effect doesnt exist to stop: " + name)
 
 func play_sfx_oneshot(name: String):
 	if name not in sound_effects:

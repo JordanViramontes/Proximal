@@ -13,7 +13,7 @@
 [ext_resource type="AudioStream" uid="uid://cqgbupjmma3ls" path="res://assets/Sounds/Sound Effects/Player/jumping_twice.wav" id="11_hkfr5"]
 [ext_resource type="AudioStream" uid="uid://wbvdp60yqvuy" path="res://assets/Sounds/Sound Effects/Player/slide.wav" id="12_1fkfj"]
 [ext_resource type="Script" uid="uid://bb0fsybe7scav" path="res://Main/Characters/Player/player_ui_manager.gd" id="12_r13nr"]
-[ext_resource type="AudioStream" uid="uid://cm66r7gcbb1ru" path="res://assets/Sounds/Sound Effects/Player/walking1.wav" id="13_kxfbt"]
+[ext_resource type="AudioStream" uid="uid://witk1yf77mrq" path="res://assets/Sounds/Sound Effects/Player/walking1.wav" id="13_kxfbt"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_2hs0m"]
 
@@ -44,7 +44,6 @@ DASH_SPEED = 80
 dash_accel = 2
 LEAN_AMOUNT = 1.0
 DEATH_HEIGHT = -10.0
-walking_sound_freq = 0.25
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.18267, 0)
@@ -108,7 +107,6 @@ stream = ExtResource("7_26m6u")
 
 [node name="PlayerGetsDamaged" type="AudioStreamPlayer" parent="AudioManager"]
 stream = ExtResource("8_018x3")
-volume_db = -1.0
 
 [node name="PlayerHealing" type="AudioStreamPlayer" parent="AudioManager"]
 stream = ExtResource("9_12kvs")
@@ -124,7 +122,6 @@ stream = ExtResource("12_1fkfj")
 
 [node name="PlayerWalking1" type="AudioStreamPlayer" parent="AudioManager"]
 stream = ExtResource("13_kxfbt")
-volume_db = -5.0
 
 [connection signal="dashInput" from="LeanPivot/Head/Weapon_Manager" to="." method="_on_weapon_manager_dash_input"]
 [connection signal="area_entered" from="HitboxComponent" to="." method="_on_hitbox_component_area_entered"]

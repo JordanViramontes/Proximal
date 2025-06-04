@@ -10,10 +10,19 @@ func _ready() -> void:
 	var playerArr = get_tree().get_nodes_in_group("Player")
 	if playerArr.size() > 0:
 		playerArr[0].die.connect(on_player_die)
-
+	
+	# volume level
+	AudioServer.set_bus_volume_db(0, 1.0)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("hotkey_index"):
+		print("playing")
+		var audio = AudioStreamPlayer.new()
+		audio.stream = load("res://assets/Sounds/Sound Effects/Player/jumping.wav")
+		add_child(audio)
+		audio.play()
+	
 	if reset_timer:
 		if timer_off:
 			reset_timer.paused = true
