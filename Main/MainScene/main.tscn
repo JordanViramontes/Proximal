@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=3 uid="uid://5ygls03nw76d"]
+[gd_scene load_steps=63 format=3 uid="uid://5ygls03nw76d"]
 
 [ext_resource type="Texture2D" uid="uid://cqur83lk7fjfl" path="res://assets/hdris/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="1_8wojv"]
 [ext_resource type="Script" uid="uid://bpvwqw4pbfs3m" path="res://Main/Areas/world.gd" id="1_dctr2"]
@@ -32,6 +32,7 @@
 [ext_resource type="Script" uid="uid://ddd8ssk8olm8e" path="res://Main/Utility/AudioManager/audio_manager.gd" id="30_okcqi"]
 [ext_resource type="AudioStream" uid="uid://brbvwtci3lukq" path="res://assets/Sounds/Sound Effects/UI/wave_complete.wav" id="31_so5d6"]
 [ext_resource type="AudioStream" uid="uid://bsqleuppxbnar" path="res://assets/Sounds/Sound Effects/UI/funnywoo.mp3" id="32_k10p4"]
+[ext_resource type="AudioStream" uid="uid://dsl0y7q5f3bb0" path="res://assets/Sounds/Music/ambiance.wav" id="33_so5d6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4r3xj"]
 shader = ExtResource("8_xhbv5")
@@ -643,6 +644,12 @@ stream = ExtResource("31_so5d6")
 
 [node name="WaveCompleteSilly" type="AudioStreamPlayer" parent="UI/AudioManager"]
 stream = ExtResource("32_k10p4")
+
+[node name="AudioManager" type="Node3D" parent="."]
+script = ExtResource("30_okcqi")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="AudioManager"]
+stream = ExtResource("33_so5d6")
 
 [connection signal="timeout" from="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath/WaveTimer" to="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath" method="_on_wave_timer_timeout"]
 [connection signal="timeout" from="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath/NextWaveTimer" to="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath" method="_on_next_wave_timer_timeout"]
