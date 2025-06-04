@@ -179,7 +179,7 @@ canvas_item_default_texture_filter = 0
 size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
-[node name="ColorRect" type="ColorRect" parent="SubViewportContainer/SubViewport"]
+[node name="PixelationPostProcess" type="ColorRect" parent="SubViewportContainer/SubViewport"]
 material = SubResource("ShaderMaterial_4r3xj")
 anchors_preset = 15
 anchor_right = 1.0

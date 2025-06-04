@@ -77,7 +77,6 @@ recoil_amount = 0.6
 
 [node name="Middle" parent="." instance=ExtResource("6_12ses")]
 degradation = 0.5
-bullet_damage = 0.05
 is_hitscan = true
 depleted_material = SubResource("StandardMaterial3D_fmnkm")
 ability_recharge_particle_color = Color(1, 1, 0, 0.501961)
@@ -92,7 +91,6 @@ ability_cooldown = 0.5
 ability_recharge_particle_color = Color(0, 1, 0, 0.509804)
 
 [node name="Pinky" parent="." instance=ExtResource("8_r1oqp")]
-xp_gain_multiplier = 1.75
 expected_usage = 6
 depleted_material = SubResource("StandardMaterial3D_vv2nl")
 ability_cooldown = 1.0

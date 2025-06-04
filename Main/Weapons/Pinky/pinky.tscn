@@ -40,10 +40,11 @@ radius = 1.435
 [node name="Pinky" type="Node3D"]
 script = ExtResource("1_exoxp")
 ability_bullet = ExtResource("2_55j32")
+xp_gain_multiplier = 2.5
 upgrade_quota = 50.0
 degradation = 1.0
 expected_usage_rate = 2
-fire_rate = 1.0
+fire_rate = 1.2
 bullet = ExtResource("2_55j32")
 bullet_damage = 10.0
 is_hitscan = true

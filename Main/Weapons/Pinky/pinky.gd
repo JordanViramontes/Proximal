@@ -39,7 +39,7 @@ func on_on_shoot(from_position: Vector3, look_direction: Vector3, velocity: Vect
 	
 	b.position = from_position
 	b.tracer_origin = bullet_emerge_point.global_position # is one meter ahead of the player, which lines up with the barrel of the weapon
-	b.bullet_damage = bullet_damage
+	b.bullet_damage = bullet_damage * (1 + level * 0.05)
 	b.distance = bullet_range
 	b.direction = look_direction
 	

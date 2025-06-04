@@ -77,7 +77,7 @@ animations = [{
 [node name="Elohim" type="CharacterBody3D" groups=["Enemies"]]
 collision_layer = 4
 script = ExtResource("1_3vyl4")
-max_health = 25.0
+max_health = 12.0
 movement_speed = 2
 death_particle_color = Color(0.48, 1, 0.48, 1)
 
