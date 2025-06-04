@@ -100,7 +100,7 @@ collision_mask = 32
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.13759, 0)
 shape = SubResource("CapsuleShape3D_d6rcs")
 
-[node name="AudioManager" type="Node" parent="."]
+[node name="AudioManager" type="Node3D" parent="."]
 script = ExtResource("7_018x3")
 
 [node name="PlayerDies" type="AudioStreamPlayer" parent="AudioManager"]
@@ -124,7 +124,6 @@ stream = ExtResource("12_1fkfj")
 
 [node name="PlayerWalking1" type="AudioStreamPlayer" parent="AudioManager"]
 stream = ExtResource("13_kxfbt")
-volume_db = -5.0
 
 [connection signal="dashInput" from="LeanPivot/Head/Weapon_Manager" to="." method="_on_weapon_manager_dash_input"]
 [connection signal="area_entered" from="HitboxComponent" to="." method="_on_hitbox_component_area_entered"]

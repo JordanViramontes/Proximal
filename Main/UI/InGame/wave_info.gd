@@ -23,6 +23,19 @@ var current_enemies = 0
 @onready var wave_enemies_count = $WaveInfo/Enemies/WaveEnemiesNum
 @onready var wave_enemies_timer = $WaveInfo/Enemies/EnemiesTimer
 
+#region audio
+@onready var audio_manager = $"../AudioManager"
+signal sound_effect_signal_start(name: String)
+signal sound_effect_signal_stop(name: String)
+
+var SE_wave_complete: String = "wave_complete"
+var SE_wave_complete_silly: String = "wave_complete_silly"
+@onready var sound_effects: Dictionary[String, AudioStreamPlayer] = {
+	SE_wave_complete:$"../AudioManager/WaveComplete",
+	SE_wave_complete_silly:$"../AudioManager/WaveCompleteSilly",
+}
+#endregion
+
 func _ready() -> void:
 	# set components
 	wave_count.text = str(0)
@@ -33,6 +46,13 @@ func _ready() -> void:
 	enemy_spawn_path.updateWaveTimer.connect(update_time)
 	enemy_spawn_path.updateEnemyCount.connect(update_enemies)
 	enemy_spawn_path.updateWaveCount.connect(update_wave)
+	
+	# audio
+	# sound effects
+	for i in sound_effects.keys():
+		audio_manager.sound_effects[i] = sound_effects[i]
+	self.sound_effect_signal_start.connect(audio_manager.play_sfx)
+	self.sound_effect_signal_stop.connect(audio_manager.stop_sfx)
 
 func update_wave(new_wave: int):
 	wave_count.text = str(new_wave)
@@ -40,6 +60,12 @@ func update_wave(new_wave: int):
 	# shake
 	_on_shake_wave_ui()
 	current_wave = new_wave
+	
+	# audio
+	if new_wave == 16:
+		sound_effect_signal_start.emit(SE_wave_complete_silly)
+	else:
+		sound_effect_signal_start.emit(SE_wave_complete)
 
 func update_time(time: int):
 	wave_time_count.text = str(time)

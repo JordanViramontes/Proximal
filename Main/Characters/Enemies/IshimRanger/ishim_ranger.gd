@@ -183,6 +183,9 @@ func _on_bullet_timer_timeout() -> void:
 		World.world.add_child(b)
 		
 		play_animation("shoot")
+		
+		# sound effect
+		sound_effect_signal_start.emit(SE_enemy_shoot)
 
 # called by the cherubim and alerts the ishim
 func goto_cherubim(cherubim: Cherubim) -> void:
