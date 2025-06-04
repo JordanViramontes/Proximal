@@ -102,6 +102,10 @@ func is_dashing() -> bool:
 	return current_dash_time > 0
 
 func _ready() -> void:
+	# update sensitivity during gameplay
+	var options_menu = $"../../../UI/PauseMenu"
+	options_menu.mouse_sens_changed.connect(_on_mouse_sens_changed)
+	
 	# setup health component
 	health_component.max_health = max_health
 	health_component.current_health = max_health
@@ -382,3 +386,5 @@ func _on_ring_pickup_area_area_entered(area: Area3D) -> void:
 	if area.is_in_group("RingPickup"):
 		weapon.add_ring()
 		area.get_parent().queue_free()
+func _on_mouse_sens_changed(new_sens):
+	MOUSE_SENS = remap(ConfigFileHandler.load_mouse_sens_settings(), 0.0, 100.0, 0.05, 1.0)
