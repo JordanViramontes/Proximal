@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=3 uid="uid://5ygls03nw76d"]
+[gd_scene load_steps=58 format=3 uid="uid://5ygls03nw76d"]
 
 [ext_resource type="Texture2D" uid="uid://cqur83lk7fjfl" path="res://assets/hdris/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="1_8wojv"]
 [ext_resource type="Script" uid="uid://bpvwqw4pbfs3m" path="res://Main/Areas/world.gd" id="1_dctr2"]
@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://d0u5bw4owtrev" path="res://Main/Characters/Player/player.tscn" id="6_tefeu"]
 [ext_resource type="Script" uid="uid://c0md12nt0jei1" path="res://Main/UI/InGame/fps_counter.gd" id="8_85g3d"]
 [ext_resource type="Shader" uid="uid://d0usc61xxcqu0" path="res://assets/shaders/pixelation.gdshader" id="8_xhbv5"]
-[ext_resource type="PackedScene" uid="uid://bjj57xk7ekidm" path="res://Main/Weapons/Ring/ring_pickup.tscn" id="9_8rn6f"]
 [ext_resource type="Shader" uid="uid://drfc1fob3nean" path="res://assets/shaders/water.gdshader" id="9_85g3d"]
 [ext_resource type="Script" uid="uid://bv6srvbqyys10" path="res://Main/UI/InGame/ui_manager.gd" id="9_jbj1t"]
 [ext_resource type="Theme" uid="uid://rsglqw8mc02x" path="res://assets/themes/default.tres" id="9_ya4ey"]
@@ -244,9 +243,6 @@ one_shot = true
 [node name="Player" parent="SubViewportContainer/SubViewport" instance=ExtResource("6_tefeu")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -4.93703, 0.975243, 15)
 DASH_SPEED = 50
-
-[node name="RingPickup" parent="SubViewportContainer/SubViewport" instance=ExtResource("9_8rn6f")]
-transform = Transform3D(0.999804, 0, 0, 0, 0.99952, 0, 0, 0, 0.999326, 37.7028, 2.21226, 17.304)
 
 [node name="UI" type="Control" parent="."]
 layout_direction = 1
