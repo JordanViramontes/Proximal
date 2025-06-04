@@ -146,7 +146,7 @@ func init_set_audio():
 	# so just load the STREAM itself and put it in the audiomanager's dictionary
 	# this creates the issue of it being a weirdly mismatched data type in the audiomanager's dictionary if it has both
 	# oneshot and non-oneshot streams but ohaoahao whatever
-	var SE_enemy_dies_stream = load("res://assets/Sounds/Sound Effects/Weapon/level_up.wav")
+	var SE_enemy_dies_stream = load("res://assets/Sounds/Sound Effects/Enemy/enemy_dies.wav")
 	
 	# this is a dictionary of either strings -> audiostreamplayers (for non oneshot sounds) or strings -> audiostreams. 
 	# you can mix n match the contents of the dict because we're using a dynamically types language :D 

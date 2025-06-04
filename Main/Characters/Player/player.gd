@@ -102,11 +102,21 @@ var last_slide_time := -1.5 # start it negative so you can slide immediately
 @onready var audio_manager: Node = $AudioManager
 signal sound_effect_signal(name: String)
 
-var SE_player_dies: String = "effect_player_dies"
-var SE_player_gets_damaged: String = "effect_player_gets_damaged"
+var SE_player_dies: String = "player_dies"
+var SE_player_gets_damaged: String = "player_gets_damaged"
+var SE_player_healing : String = "player_healing"
+var SE_player_jumping : String = "player_jumping"
+var SE_player_jumping_twice : String = "player_jumping_twice"
+var SE_player_slide : String = "player_slid"
+var SE_player_walking1 : String = "player_walking1"
 @onready var sound_effects: Dictionary = {
 	SE_player_dies:$AudioManager/PlayerDies,
 	SE_player_gets_damaged:$AudioManager/PlayerGetsDamaged,
+	SE_player_healing:$AudioManager/PlayerHealing,
+	SE_player_jumping:$AudioManager/PlayerJumping,
+	SE_player_jumping_twice:$AudioManager/PlayerJumpingTwice,
+	SE_player_slide:$AudioManager/PlayerSlide,
+	SE_player_walking1:$AudioManager/PlayerWalking1,
 }
 
 func is_dashing() -> bool:

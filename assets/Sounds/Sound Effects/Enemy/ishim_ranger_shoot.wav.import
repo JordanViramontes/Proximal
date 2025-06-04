@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://0q7f5oxoeejy"
+path="res://.godot/imported/ishim_ranger_shoot.wav-8d642790e5abf4a1e5348c1020d7d76e.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/Sound Effects/Enemy/ishim_ranger_shoot.wav"
+dest_files=["res://.godot/imported/ishim_ranger_shoot.wav-8d642790e5abf4a1e5348c1020d7d76e.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
