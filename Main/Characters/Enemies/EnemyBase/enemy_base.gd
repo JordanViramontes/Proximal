@@ -1,5 +1,6 @@
 extends CharacterBody3D
 class_name EnemyBase
+func get_custom_class(): return "EnemyBase"
 
 #region vars
 @export var max_health: float = 10
@@ -13,6 +14,8 @@ class_name EnemyBase
 var can_damage_player: bool = true
 var wave_category: int = 0
 var is_dead = false
+var y_die_threshold = -20
+var die_from_falling = false
 var health_multiplier = 1
 var experience_multiplier = 1
 var damage_multiplier = 1
@@ -63,6 +66,7 @@ var total_states = 3
 @onready var weapon_manager = get_tree().get_first_node_in_group("WeaponManager")
 @onready var player = get_tree().get_first_node_in_group("Player")
 @onready var player_position
+@onready var stat_tracker = get_tree().get_first_node_in_group("StatTracker")
 
 # ring object that has a chance to be dropped on death
 @export_range(0.0, 100.0) var ring_drop_rate: float = 10.0 # percent chance to drop a ring
@@ -74,6 +78,12 @@ signal die_from_wave(wave: int)
 signal take_damage
 signal drop_xp(xp: float, weapon: DamageInstance.DamageType)
 signal deal_damage(damage: float)
+
+# stat signals
+signal stat_enemy_die(enemy: String)
+signal stat_enemy_damage_dealt(enemy: String, damage: float)
+signal stat_enemy_damage_taken(enemy: String, damage: float)
+signal stat_enemy_xp_gain(enemy: String, damage: float)
 
 # Constructor called by spawner
 func initialize(starting_position, init_player_position, wave, init_health_multiplier, init_damage_multiplier, init_xp_multiplier):
@@ -138,7 +148,8 @@ func calculateSpwaningVelocity() -> Vector3:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	# kill self if we are out of bounds
-	if global_position.y < -20:
+	if global_position.y < y_die_threshold:
+		die_from_falling = true
 		on_reach_zero_health()
 	if hitflash_tween and not hitflash_tween.is_valid():
 		hitflash_tween.kill()
@@ -197,6 +208,12 @@ func on_reach_zero_health():
 	is_dead = true
 	die.emit()
 	emit_signal("die_from_wave", wave_category)
+	if not die_from_falling: # make sure this kill doesn't count towards stat
+		emit_signal("stat_enemy_die", self.get_custom_class())
+	
+	# xp signals
+	emit_signal("drop_xp", xp_on_death) # emit experience points
+	emit_signal("stat_enemy_xp_gain", self.get_custom_class(), xp_on_death)
 	
 	# death particles
 	var death_particles = scn_death_particles.instantiate()
@@ -244,7 +261,8 @@ func on_damaged(di: DamageInstance):
 	if di.type != DamageInstance.DamageType.None:
 		#print("enemybase.gd - giving xp on damage to: " + str(di.type))
 		emit_signal("drop_xp", xp_on_damaged * experience_multiplier, di.type) # emit experience points 
-		
+		emit_signal("stat_enemy_xp_gain", self.get_custom_class(), xp_on_damaged)
+		emit_signal("stat_enemy_damage_dealt", self.get_custom_class(), di.damage)
 		if health_component.current_health <= 0.0:
 			#print("enemybase.gd - giving xp on death to: " + str(di.type))
 			emit_signal("drop_xp", xp_on_death * experience_multiplier, di.type) # emit experience points
@@ -286,6 +304,8 @@ func deal_damage_to_player(di: DamageInstance):
 	# check if the player can take damage
 	if player.can_take_damage:
 		player.get_node("HitboxComponent").damage(di)
+		
+	emit_signal("stat_enemy_damage_taken", self.get_custom_class(), di.damage)
 
 func _on_recieve_stun() -> void:
 	# if we are spawning in, cancel spawn stuff

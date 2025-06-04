@@ -1,6 +1,7 @@
 extends EnemyBase
 
 class_name IshimCrawler
+func get_custom_class(): return "IshimCrawler"
 
 # var
 @export var friction = 12

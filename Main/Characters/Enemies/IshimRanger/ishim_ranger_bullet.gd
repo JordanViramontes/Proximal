@@ -13,7 +13,7 @@ func initialize(initial_velocity, creator):
 	#velocity.y = velocity.y * -1
 	#direction = init_direction
 	#gravity = init_gravity
-	#enemy = creator
+	enemy = creator
 	
 	# this will send a signal to enemy which will send signal to player to take damage
 	damage_player.connect(creator.deal_damage_to_player)

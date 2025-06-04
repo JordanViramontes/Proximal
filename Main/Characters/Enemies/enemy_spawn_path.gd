@@ -55,6 +55,7 @@ var current_wave = starting_wave
 var current_wave_enemy_count: int = 0
 var can_change_wave: bool = true
 var wave = waveDictionary[starting_wave]
+var is_game_started = false
 var ending_wave_time: float = 3.0
 var start_wave_time: float = 5.0
 var first_wave: bool = true
@@ -74,6 +75,15 @@ var DEBUG_enemy_ptr = 3
 var debug_turn_off_auto_wave: bool = false
 var debug_total_enemy_array: Array = []
 
+# enemy definitions
+var enemy_dictionary: Array[String] = [
+	"IshimCrawler",
+	"IshimRanger",
+	"Cherubim",
+	"Elohim",
+	"BeneElohimRanger"
+]
+
 # components
 @onready var player = get_tree().get_first_node_in_group("Player")
 @onready var test_spawn_point = $TestSpawnPoint
@@ -81,6 +91,7 @@ var debug_total_enemy_array: Array = []
 #@onready var update_timer = $UpdateTimer
 @onready var next_wave_timer = $NextWaveTimer
 @onready var wave_info_label = get_tree().get_first_node_in_group("WaveInfoLabel")
+@onready var enemy_stats = $EnemyStats
 
 # signals
 signal updateWaveCount(wave: int)
@@ -91,6 +102,10 @@ signal updateNextWaveTimer(time: float)
 signal stopWaveTimer()
 
 func _ready() -> void:
+	# initialize enemy stat nodeAdd commentMore actions
+	enemy_stats.initialize(enemy_dictionary.size(), enemy_dictionary)
+	player.die.connect(enemy_stats.on_stop_timer)
+	
 	next_wave_timer.start(start_wave_time)
 	
 	# wait a couple frames
@@ -106,6 +121,10 @@ func spawnWave(wave_index):
 	if wave_index < 0:
 		return
 		
+	if not is_game_started:
+		is_game_started = true
+		enemy_stats.on_start_timer()
+	
 	# variables
 	if current_wave >= waveDictionary.size():
 		wave = generateNewWave(wave_index)
@@ -199,6 +218,26 @@ func spawnEnemy(mob_path, debug_flag, health_multiplier, damage_multiplier, expe
 	# set signal for elohim spawning new guys
 	if mob is Elohim:
 		mob.add_new_enemies.connect(self.increase_enemy_count)
+		
+	# set the signal for mob
+	set_up_enemy_signals(mob)
+
+func set_up_enemy_signals(mob):
+	mob.die_from_wave.connect(self.enemy_dies)
+	mob.stat_enemy_die.connect(enemy_stats.on_recieve_enemy_kill)
+	mob.stat_enemy_damage_dealt.connect(enemy_stats.on_recieve_enemy_damage_dealt)
+	mob.stat_enemy_damage_taken.connect(enemy_stats.on_recieve_enemy_damage_taken)
+	mob.stat_enemy_xp_gain.connect(enemy_stats.on_recieve_enemy_xp)
+
+	# for spawning bene
+	if mob is Elohim:
+		mob.add_new_enemies.connect(self.add_new_enemies)
+
+func add_new_enemies(mob):
+	set_up_enemy_signals(mob)
+	increase_enemy_count(1, mob)
+	
+	add_child(mob)
 
 func nextWave():
 	current_wave += 1

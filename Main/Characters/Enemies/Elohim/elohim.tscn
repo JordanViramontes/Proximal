@@ -6,8 +6,8 @@
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://Main/Utility/Components/hitbox_component.gd" id="3_2so3s"]
 [ext_resource type="Shader" uid="uid://cxpcdyu7soiyp" path="res://assets/shaders/thank_you_uslash_theduriel.gdshader" id="5_4a2vk"]
 [ext_resource type="Texture2D" uid="uid://cksj1qlb381mn" path="res://assets/sprites/elohim/elohim-Sheet.png" id="6_6fjeu"]
-[ext_resource type="PackedScene" uid="uid://d1agem2dav3kg" path="res://Main/Utility/Particles/summon_particles.tscn" id="7_m47kb"]
-[ext_resource type="PackedScene" uid="uid://d183l837ka6ro" path="res://Main/Utility/Particles/stun_particles.tscn" id="8_m47kb"]
+[ext_resource type="PackedScene" path="res://Main/Utility/Particles/summon_particles.tscn" id="7_m47kb"]
+[ext_resource type="PackedScene" path="res://Main/Utility/Particles/stun_particles.tscn" id="8_m47kb"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2so3s"]
 albedo_color = Color(0.172549, 0.356863, 0, 1)
