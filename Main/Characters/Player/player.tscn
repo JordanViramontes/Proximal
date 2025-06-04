@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://d0u5bw4owtrev"]
+[gd_scene load_steps=20 format=3 uid="uid://d0u5bw4owtrev"]
 
 [ext_resource type="Script" uid="uid://cpi5w5meyf7w1" path="res://Main/Characters/Player/player.gd" id="1_i3pqv"]
 [ext_resource type="PackedScene" uid="uid://pake15kqry6s" path="res://Main/Camera/shakeable_camera.tscn" id="2_np5j3"]
@@ -14,6 +14,7 @@
 [ext_resource type="AudioStream" uid="uid://wbvdp60yqvuy" path="res://assets/Sounds/Sound Effects/Player/slide.wav" id="12_1fkfj"]
 [ext_resource type="Script" uid="uid://bb0fsybe7scav" path="res://Main/Characters/Player/player_ui_manager.gd" id="12_r13nr"]
 [ext_resource type="AudioStream" uid="uid://cm66r7gcbb1ru" path="res://assets/Sounds/Sound Effects/Player/walking1.wav" id="13_kxfbt"]
+[ext_resource type="AudioStream" uid="uid://7u1fvk13jcis" path="res://assets/Sounds/Sound Effects/Player/ring_pickup.wav" id="15_12kvs"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_2hs0m"]
 
@@ -124,6 +125,10 @@ stream = ExtResource("12_1fkfj")
 
 [node name="PlayerWalking1" type="AudioStreamPlayer" parent="AudioManager"]
 stream = ExtResource("13_kxfbt")
+
+[node name="PlayerRingPickup" type="AudioStreamPlayer" parent="AudioManager"]
+stream = ExtResource("15_12kvs")
+volume_db = -5.0
 
 [connection signal="dashInput" from="LeanPivot/Head/Weapon_Manager" to="." method="_on_weapon_manager_dash_input"]
 [connection signal="area_entered" from="HitboxComponent" to="." method="_on_hitbox_component_area_entered"]

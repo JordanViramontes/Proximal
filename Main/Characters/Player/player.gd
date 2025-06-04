@@ -111,6 +111,7 @@ var SE_player_jumping : String = "player_jumping"
 var SE_player_jumping_twice : String = "player_jumping_twice"
 var SE_player_slide : String = "player_slid"
 var SE_player_walking1 : String = "player_walking1"
+var SE_player_ring_pickup : String = "player_ring_pickup"
 @onready var sound_effects: Dictionary[String, AudioStreamPlayer] = {
 	SE_player_dies:$AudioManager/PlayerDies,
 	SE_player_gets_damaged:$AudioManager/PlayerGetsDamaged,
@@ -119,6 +120,7 @@ var SE_player_walking1 : String = "player_walking1"
 	SE_player_jumping_twice:$AudioManager/PlayerJumpingTwice,
 	SE_player_slide:$AudioManager/PlayerSlide,
 	SE_player_walking1:$AudioManager/PlayerWalking1,
+	SE_player_ring_pickup:$AudioManager/PlayerRingPickup
 }
 
 # walking sound vars
@@ -463,6 +465,7 @@ func on_heal(state: bool) -> void:
 # when the hitbox area is entered!!!!!!!!!!!!!!!!!!!!
 func _on_ring_pickup_area_area_entered(area: Area3D) -> void:
 	if area.is_in_group("RingPickup"):
+		sound_effect_signal_start.emit(SE_player_ring_pickup)
 		weapon.add_ring()
 		area.get_parent().queue_free()
 func _on_mouse_sens_changed(new_sens):
