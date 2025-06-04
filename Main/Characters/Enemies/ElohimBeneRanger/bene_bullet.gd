@@ -30,7 +30,7 @@ func _on_hitbox_area_entered(area: Area3D) -> void:
 	#print("IN HITBOX")
 	var area_owner = area.get_owner()
 	#print(" IN AREA: " + str(area_owner))
-	if area_owner is Player:
+	if area_owner is Player and area is Hitbox:
 		# assign damage isntance and deal damage from the enemy POV
 		var di = DamageInstance.new({
 			"damage" : bullet_damage,

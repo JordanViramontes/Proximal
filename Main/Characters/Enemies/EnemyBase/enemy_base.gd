@@ -60,6 +60,10 @@ var total_states = 3
 @onready var player = get_tree().get_first_node_in_group("Player")
 @onready var player_position
 
+# ring object that has a chance to be dropped on death
+@export_range(0.0, 100.0) var ring_drop_rate: float = 10.0 # percent chance to drop a ring
+@onready var scn_ring_pickup: PackedScene = preload("res://Main/Weapons/Ring/ring_pickup.tscn")
+
 # signals
 signal die
 signal die_from_wave(wave: int)
@@ -190,6 +194,9 @@ func on_reach_zero_health():
 	death_particles.color = death_particle_color
 	get_parent().add_child(death_particles)
 	
+	# ring droppin
+	try_drop_ring()
+	
 	self.queue_free()
 
 # when you get damaged
@@ -307,3 +314,13 @@ func play_animation(anim: String):
 	if s:
 		s.animation = anim
 		s.play()
+
+
+func try_drop_ring() -> void:
+	# flip like 3 coins
+	if ring_drop_rate != 0.0: # we dont want to divide by zero, do we?
+		var d10 = randi_range(1, int(100/ring_drop_rate))
+		if d10 == 1: # ring_drop_rate percent chance to drop the ring
+			var ring_pickup = scn_ring_pickup.instantiate()
+			World.world.add_child(ring_pickup)
+			ring_pickup.position = self.position

@@ -254,10 +254,12 @@ func _on_earn_experience(xp: float, weapon: DamageInstance.DamageType):
 	
 
 func _on_enemy_die():
-	#ammo
-	var dice = randi_range(0, 10) # omg d10
-	if dice < 2:
-		add_ring()
+	# instead of doing it here, spawn the ring when the enemy dies.
+	##ammo
+	#var dice = randi_range(0, 10) # omg d10
+	#if dice < 2:
+		#add_ring()
+	pass
 
 
 func add_ring():
