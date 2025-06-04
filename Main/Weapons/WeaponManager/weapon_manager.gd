@@ -39,6 +39,12 @@ var recoil_direction: Vector3 = Vector3.BACK # recoil should be in positive z di
 signal update_ring(ring_count: int)
 signal update_weapon_gui(weapon: int)
 
+# sound effects
+#@onready var audio_manager: Node = get_tree().get_first_node_in_group("AudioManager")
+#var SE_weapon_category: String = "weapon"
+#var SE_weapon_xp_earned: String = "effect_weapon_xp_earned"
+#signal sound_effect_signal(category: String, name: String)
+
 func _ready():
 	weapon_dictionary = [
 		$Thumb,
@@ -57,6 +63,9 @@ func _ready():
 	
 	# signals
 	$Ring.used_ring.connect(on_used_ring)
+	
+	# set audio signals
+	#self.sound_effect_signal.connect(audio_manager.play_sfx)
 	
 	# disable enemy stun hitbox
 	hitboxColl.disabled = true
@@ -128,6 +137,7 @@ func shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 		curr_weapon.shoot(from_pos, look_direction, velocity)
 	else:
 		curr_weapon.shoot(position, look_direction, velocity)
+	
 	#print("weapon_manager - not shooting atm")
 
 func ability_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
@@ -248,7 +258,11 @@ func _on_earn_experience(xp: float, weapon: DamageInstance.DamageType):
 		_:
 			real_weapon = null
 			
-	#print("weapon_manager.gd: giving xp to:"  + str(real_weapon) + ", xp: " + str(xp))
+	#print("weapon_manager.gd: giving xp to:"  + str(real_weapon) + ", xp: " + str(xp))\
+	
+	# sounds
+	#sound_effect_signal.emit(SE_weapon_category, SE_weapon_xp_earned)
+	
 	real_weapon.add_xp(xp)
 	#real_weapon.print_xp(str(weapon_dictionary[curr_weapon_index]))
 	

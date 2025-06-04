@@ -65,6 +65,16 @@ signal send_ui_xp_updated(xp: float)
 signal send_ui_xp_level_updated(level: int) 
 signal send_ui_xp_max_level
 
+# audio
+# sound effects
+@onready var audio_manager: Node
+signal sound_effect_signal(name: String)
+@onready var sound_effects: Dictionary
+
+var SE_weapon_level_up: String = "effect_weapon_level_up"
+var SE_weapon_shoot: String = "effect_weapon_shoot"
+var SE_weapon_earn_xp: String = "effect_weapon_earn_xp"
+
 func _ready() -> void:
 	shoot_timer.wait_time = 1/(fire_rate*level)
 	shoot_timer.timeout.connect(func(): can_shoot = true)
@@ -72,6 +82,36 @@ func _ready() -> void:
 		recharge_particles = ability_recharge_particles.instantiate()
 		add_child(recharge_particles)
 		recharge_particles.draw_pass_1.surface_get_material(0).albedo_color = ability_recharge_particle_color
+	
+	init_set_audio()
+
+func init_set_audio():
+	# sound effect nodes
+	audio_manager = Node.new()
+	audio_manager.set_script(load("res://Main/Utility/AudioManager/audio_manager.gd"))
+	add_child(audio_manager)
+	
+	
+	var SE_weapon_level_up_node = AudioStreamPlayer.new()
+	SE_weapon_level_up_node.stream = load("res://assets/Sounds/Sound Effects/Weapon/level_up.wav")
+	var SE_weapon_shoot_node = AudioStreamPlayer.new()
+	SE_weapon_shoot_node.stream = load("res://assets/Sounds/Sound Effects/Weapon/shoot.wav")
+	var SE_weapon_earn_xp_node = AudioStreamPlayer.new()
+	SE_weapon_earn_xp_node.stream = load("res://assets/Sounds/Sound Effects/Weapon/xp_earned.wav")
+	
+	# finish sound effects
+	sound_effects = {
+		SE_weapon_level_up:SE_weapon_level_up_node,
+		SE_weapon_shoot:SE_weapon_shoot_node,
+		SE_weapon_earn_xp:SE_weapon_earn_xp_node
+	}
+	
+	for i in sound_effects.keys():
+		audio_manager.add_child(sound_effects[i])
+		audio_manager.sound_effects[i] = sound_effects[i]
+	
+	# audio signal
+	self.sound_effect_signal.connect(audio_manager.play_sfx)
 
 func _process(delta: float) -> void:
 	pass
@@ -130,6 +170,9 @@ func shoot(from_pos: Vector3, direction: Vector3, velocity: Vector3 = Vector3.ZE
 		#print("cant shoot")
 		return
 	
+	# sound effect
+	sound_effect_signal.emit(SE_weapon_shoot)
+	
 	shoot_timer.start()
 	if weapon_usage < expected_usage*1.5:
 		weapon_usage += 1
@@ -163,6 +206,7 @@ func cease_fire():
 func add_xp(xp: float):
 	var experience_rate: float
 	experience_change.emit()
+	sound_effect_signal.emit(SE_weapon_earn_xp)
 	# XP gets harder to increase as level increases (XP cap at level 10)
 	experience_rate = xp* xp_gain_multiplier *(float(expected_usage)/(expected_usage_rate+weapon_usage))
 	if level < max_level:
@@ -175,6 +219,11 @@ func add_xp(xp: float):
 		level_experience = 0
 		upgrade_quota *= 1.5
 		#print("LEVEL UP to " + str(level))
+		
+		# sound effect 
+		sound_effect_signal.emit(SE_weapon_level_up)
+		
+		# UI
 		emit_signal("send_ui_xp_level_updated", level)
 	
 	if level == max_level:
