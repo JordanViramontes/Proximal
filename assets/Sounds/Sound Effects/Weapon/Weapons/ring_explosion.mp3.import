@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://6ylcv1dpnflw"
+path="res://.godot/imported/ring_explosion.mp3-55be487ef86b70830f1ceac74d408859.mp3str"
+
+[deps]
+
+source_file="res://assets/Sounds/Sound Effects/Weapon/Weapons/ring_explosion.mp3"
+dest_files=["res://.godot/imported/ring_explosion.mp3-55be487ef86b70830f1ceac74d408859.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://wbvdp60yqvuy"
+path="res://.godot/imported/slide.wav-9d11f6ff34d92837d0c777fc7d0cd9bc.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/Sound Effects/Player/slide.wav"
+dest_files=["res://.godot/imported/slide.wav-9d11f6ff34d92837d0c777fc7d0cd9bc.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

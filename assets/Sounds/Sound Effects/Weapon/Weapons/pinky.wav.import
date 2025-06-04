@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://c1tbprawi5oku"
+path="res://.godot/imported/pinky.wav-b7b42d759a19d1a49d185ece9284da0e.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/Sound Effects/Weapon/Weapons/pinky.wav"
+dest_files=["res://.godot/imported/pinky.wav-b7b42d759a19d1a49d185ece9284da0e.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
