@@ -94,10 +94,9 @@ animations = [{
 collision_layer = 4
 script = ExtResource("1_lgyoi")
 lunge_dist = 10
-max_health = 5.0
+max_health = 8.0
 movement_speed = 6
 hitflash_material = ExtResource("1_ovggl")
-twoD_hitflash_amount = 5.0
 death_particle_color = Color(0.383709, 0.745565, 1, 1)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." groups=["Enemies"]]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dfqpjffr77ts"]
 
-[ext_resource type="Script" uid="uid://der2sblhpdfrf" path="res://scripts/Weapons/bene_bullet.gd" id="1_jd75c"]
+[ext_resource type="Script" uid="uid://der2sblhpdfrf" path="res://Main/Characters/Enemies/ElohimBeneRanger/bene_bullet.gd" id="1_jd75c"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gm4wf"]
 albedo_color = Color(0.218933, 0.484586, 0.302988, 1)

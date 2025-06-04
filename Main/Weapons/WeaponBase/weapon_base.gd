@@ -17,9 +17,10 @@ signal experience_change
 
 # Quota and degradation rate is different for every weapon
 @export var upgrade_quota: float = 100.0
-@export var degradation: float = 1.0
+@export var degradation: float = 2.0 # decrease xp by this amount per second
 @export var expected_usage: int = 10
 @export var expected_usage_rate: int = 10
+@export var fire_rate_scaling: float = 0.2
 var tick: int = 0
 var weapon_usage: int = 0
 
@@ -82,8 +83,8 @@ func _physics_process(delta: float) -> void:
 	# Over time, XP degrades
 	if max_level_timer <= 0.0: # this var is set to max_level_decay_timer when the weapon reaches max level
 		# only decrease xp if this timer isn't counting down (meaning we haven't reached max level in the last max_level_decay_timer seconds)
-		if tick % 150 == 0:
-			decrease_xp()
+		decrease_xp(delta)
+		
 		if tick % 100 == 0 and weapon_usage - expected_usage_rate > 0:
 			weapon_usage -= expected_usage_rate
 		if current_ability_cooldown > 0.0:
@@ -124,7 +125,7 @@ func use_ability() -> bool:
 # shoot a bullet from the weapon
 func shoot(from_pos: Vector3, direction: Vector3, velocity: Vector3 = Vector3.ZERO) -> void:
 	# Weapon firerate increases as level increases
-	shoot_timer.wait_time = 1/(fire_rate*(1+level*0.2))
+	shoot_timer.wait_time = 1 / (fire_rate * (1 + level * fire_rate_scaling))
 	shoot_timer.timeout.connect(func(): can_shoot = true)
 	if not can_shoot or not weapon_manager.isCanUseWeapon():
 		#print("cant shoot")
@@ -170,12 +171,8 @@ func add_xp(xp: float):
 		level_experience += experience_rate
 	
 	# If XP is high enough, weapon gets upgraded
-	if level_experience > upgrade_quota and level < max_level:
-		level += 1
-		level_experience = 0
-		upgrade_quota *= 1.5
-		#print("LEVEL UP to " + str(level))
-		emit_signal("send_ui_xp_level_updated", level)
+	if level_experience >= upgrade_quota and level < max_level:
+		increase_level()
 	
 	if level == max_level:
 		# meowy
@@ -190,10 +187,15 @@ func set_level(new_level: int):
 	experience = level*upgrade_quota
 	level = new_level
 
-func decrease_xp():
+func decrease_xp(delta: float):
 	#if level_experience > 0.0:
 	experience_change.emit()
-	level_experience -= degradation
+	
+	# evil
+	if level_experience >= upgrade_quota and level < max_level:
+		increase_level()
+	
+	level_experience -= degradation * delta
 	#else:
 		#experience_change.emit()
 		#level_experience = 0.0
@@ -204,15 +206,23 @@ func decrease_xp():
 
 	# If XP degrades enough, weapon gets downgraded
 	if level_experience < 0 and level > 1: # dont downgrade past level 1
-		level -= 1
-		upgrade_quota /= 1.5
-		level_experience = upgrade_quota*0.99
-		#print("LEVEL DOWN to " + str(level))
-		emit_signal("send_ui_xp_level_updated", level)
+		decrease_level()
 	
 	# send xp to ui
 	emit_signal("send_ui_xp_updated", level_experience)
-	
+
+func increase_level():
+	level += 1
+	level_experience = (upgrade_quota - level_experience) + 0.05 * upgrade_quota # set the level xp to a little above the min level
+	upgrade_quota *= 1.5
+	emit_signal("send_ui_xp_level_updated", level)
+
+func decrease_level():
+	level -= 1
+	upgrade_quota /= 1.5
+	level_experience = upgrade_quota - 1
+	emit_signal("send_ui_xp_level_updated", level)
+
 func print_xp(name: String):
 	return
 	#print(name + " xp: " + str(experience))

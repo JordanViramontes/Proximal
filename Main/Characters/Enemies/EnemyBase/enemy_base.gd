@@ -21,7 +21,7 @@ var damage_multiplier = 1
 #region visual vars
 @export var hitflash_material: Material
 @export var hitflash_duration: float = 0.1
-@export var twoD_hitflash_amount: float = 2.0
+@export var twoD_hitflash_amount: float = 100.0
 @export var death_particle_color: Color = Color.RED
 @onready var scn_death_particles: PackedScene = preload("res://Main/Utility/Particles/death_particles.tscn")
 var hitflash_tween: Tween

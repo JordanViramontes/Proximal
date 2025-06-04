@@ -29,11 +29,10 @@ func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 		
 		b.position = self.global_position # is one meter ahead of the player, which lines up with the barrel of the weapon
 		b.bullet_speed = bullet_speed
-		b.bullet_damage = bullet_damage
+		b.bullet_damage = bullet_damage + 0.1*level
 		
 		World.world.add_child(b)
 		b.direction = permute_vector_weighted(look_direction, pellet_spread, 0.4)
-	
 
 # pulls vectors inwards to achieve a tighter spread with similar randomness
 func permute_vector_weighted(v: Vector3, spread: float, weight: float):

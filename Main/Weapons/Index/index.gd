@@ -19,7 +19,7 @@ func on_on_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	b.bullet_speed = bullet_speed
 	
 	# Weapon gets more powerful as level increases
-	b.bullet_damage = bullet_damage*(1 + level*0.2)
+	b.bullet_damage = bullet_damage * (1 + level * 0.2)
 	
 	b.direction = look_direction
 	

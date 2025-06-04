@@ -180,7 +180,7 @@ canvas_item_default_texture_filter = 0
 size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
-[node name="ColorRect" type="ColorRect" parent="SubViewportContainer/SubViewport"]
+[node name="PixelationPostProcess" type="ColorRect" parent="SubViewportContainer/SubViewport"]
 material = SubResource("ShaderMaterial_4r3xj")
 anchors_preset = 15
 anchor_right = 1.0
@@ -529,26 +529,6 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Crosshair" type="TextureRect" parent="UI/SingleElements"]
-texture_filter = 1
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 548.5
-offset_top = 296.0
-offset_right = 563.5
-offset_bottom = 311.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(2, 2)
-pivot_offset = Vector2(7.83334, 7.33333)
-mouse_filter = 2
-texture = ExtResource("12_eb6dy")
-metadata/_edit_lock_ = true
-
 [node name="CenterContainer" type="CenterContainer" parent="UI/SingleElements"]
 layout_mode = 1
 anchors_preset = 8
@@ -556,14 +536,19 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -0.992004
-offset_top = -3.03101
-offset_right = 1112.99
-offset_bottom = 610.031
+offset_left = -20.0
+offset_top = -21.0
+offset_right = 1132.0
+offset_bottom = 627.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-metadata/_edit_lock_ = true
+
+[node name="Crosshair" type="TextureRect" parent="UI/SingleElements/CenterContainer"]
+texture_filter = 1
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("12_eb6dy")
 
 [node name="FPS Counter" type="Label" parent="UI/SingleElements"]
 layout_mode = 1

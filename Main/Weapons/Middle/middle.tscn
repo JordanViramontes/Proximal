@@ -41,12 +41,11 @@ radius = 1.435
 script = ExtResource("1_l4hd8")
 shield_duration = 2.0
 upgrade_quota = 250.0
-degradation = 7.1
 expected_usage = 70
 expected_usage_rate = 30
-fire_rate = 100.0
+fire_rate = 90.0
 bullet = ExtResource("2_72tuf")
-bullet_damage = 1.0
+bullet_damage = 0.075
 depleted_material = SubResource("StandardMaterial3D_72tuf")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
