@@ -75,6 +75,15 @@ signal take_damage
 signal drop_xp(xp: float, weapon: DamageInstance.DamageType)
 signal deal_damage(damage: float)
 
+# sound effects
+var audio_manager: Node # this should not be onready
+signal sound_effect_signal(name: String)
+
+var SE_enemy_dies: String = "effect_enemy_dies"
+@onready var sound_effects: Dictionary
+
+@onready var scn_oneshot_sfx: PackedScene = preload("res://Main/Utility/AudioManager/audio_stream_player_oneshot.tscn")
+
 # Constructor called by spawner
 func initialize(starting_position, init_player_position, wave, init_health_multiplier, init_damage_multiplier, init_xp_multiplier):
 	# spawning
@@ -103,6 +112,9 @@ func _ready() -> void:
 	health_component.reached_zero_health.connect(on_reach_zero_health)
 	hitbox_component.damaged.connect(on_damaged)
 	
+	# sounds
+	init_set_audio()
+	
 	# values for navigation agent
 	navigation_agent.path_desired_distance = nav_path_dist
 	navigation_agent.target_desired_distance = nav_target_dist
@@ -122,6 +134,39 @@ func _ready() -> void:
 		s_part.emitting = false
 	else:
 		print_rich("[color=yellow]WARNING:[/color]: you might want to give %s stun particles" % self)
+
+func init_set_audio():
+	# sound effect nodes
+	audio_manager = Node.new()
+	audio_manager.set_script(load("res://Main/Utility/AudioManager/audio_manager.gd"))
+	add_child(audio_manager)
+	
+	# use this code if you don't want to use a oneshot
+	#var SE_enemy_dies_node = AudioStreamPlayer.new()
+	#SE_enemy_dies_node.stream = load("res://assets/Sounds/Sound Effects/Weapon/level_up.wav")
+	#SE_enemy_dies_node.volume_db = 1.0
+	
+	# enemy_dies should be a oneshot sound effect
+	# so just load the STREAM itself and put it in the audiomanager's dictionary
+	# this creates the issue of it being a weirdly mismatched data type in the audiomanager's dictionary if it has both
+	# oneshot and non-oneshot streams but ohaoahao whatever
+	var SE_enemy_dies_stream = load("res://assets/Sounds/Sound Effects/Enemy/enemy_dies.wav")
+	
+	# this is a dictionary of either strings -> audiostreamplayers (for non oneshot sounds) or strings -> audiostreams. 
+	# you can mix n match the contents of the dict because we're using a dynamically types language :D 
+	sound_effects = {
+		SE_enemy_dies:SE_enemy_dies_stream,
+	}
+	
+	for i in sound_effects.keys():
+		if sound_effects[i] is AudioStreamPlayer: # if it's the NODE add it as the child # FIXME if the SE_..._node's type changes this will break :D
+			audio_manager.add_child(sound_effects[i])
+			audio_manager.sound_effects[i] = sound_effects[i] # add the element to the dict in either case
+		elif sound_effects[i] is AudioStream:
+			audio_manager.oneshot_sound_effects[i] = sound_effects[i]
+	
+	# audio signal
+	self.sound_effect_signal.connect(audio_manager.play_sfx)
 
 func calculateSpwaningVelocity() -> Vector3:
 	# use trig to find the distances for x and z
@@ -187,11 +232,14 @@ func _physics_process(delta):
 	# Default movement
 	move_and_slide()
 
-# When they dead as hell
+# When they dead as hell # this is truly called when they dead as hell
 func on_reach_zero_health():
 	# we already died!
 	if is_dead:
 		return
+	
+	# sounds
+	sound_effect_signal.emit(SE_enemy_dies)
 	
 	#print("we are dying! emitting signals: " + str(self))
 	is_dead = true

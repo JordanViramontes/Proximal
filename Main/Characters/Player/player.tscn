@@ -1,11 +1,19 @@
-[gd_scene load_steps=11 format=3 uid="uid://d0u5bw4owtrev"]
+[gd_scene load_steps=18 format=3 uid="uid://d0u5bw4owtrev"]
 
 [ext_resource type="Script" uid="uid://cpi5w5meyf7w1" path="res://Main/Characters/Player/player.gd" id="1_i3pqv"]
 [ext_resource type="PackedScene" uid="uid://pake15kqry6s" path="res://Main/Camera/shakeable_camera.tscn" id="2_np5j3"]
 [ext_resource type="PackedScene" uid="uid://ck1km5ocdhq0i" path="res://Main/Weapons/WeaponManager/weapon_manager.tscn" id="4_dqkch"]
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://Main/Utility/Components/hitbox_component.gd" id="4_jbyc3"]
 [ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://Main/Utility/Components/health_component.gd" id="4_np5j3"]
+[ext_resource type="PackedScene" uid="uid://dkwgcnqwhsgmk" path="res://Main/Utility/AudioManager/audio_manager.tscn" id="7_0m230"]
+[ext_resource type="AudioStream" uid="uid://bvfqtim6cjqyi" path="res://assets/Sounds/Sound Effects/Player/player_dies.wav" id="8_mj6av"]
+[ext_resource type="AudioStream" uid="uid://ho6gtirkyfsu" path="res://assets/Sounds/Sound Effects/Player/get_damaged.wav" id="9_nr1kw"]
+[ext_resource type="AudioStream" uid="uid://3u313pe8imob" path="res://assets/Sounds/Sound Effects/Player/healing.mp3" id="10_018x3"]
+[ext_resource type="AudioStream" uid="uid://ka6e0ryfw0id" path="res://assets/Sounds/Sound Effects/Player/jumping.wav" id="11_12kvs"]
+[ext_resource type="AudioStream" uid="uid://cqgbupjmma3ls" path="res://assets/Sounds/Sound Effects/Player/jumping_twice.wav" id="12_bb5hd"]
 [ext_resource type="Script" uid="uid://bb0fsybe7scav" path="res://Main/Characters/Player/player_ui_manager.gd" id="12_r13nr"]
+[ext_resource type="AudioStream" uid="uid://wbvdp60yqvuy" path="res://assets/Sounds/Sound Effects/Player/slide.wav" id="13_hkfr5"]
+[ext_resource type="AudioStream" uid="uid://witk1yf77mrq" path="res://assets/Sounds/Sound Effects/Player/walking1.wav" id="14_1fkfj"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_2hs0m"]
 
@@ -89,6 +97,28 @@ collision_mask = 32
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RingPickupArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.13759, 0)
 shape = SubResource("CapsuleShape3D_d6rcs")
+[node name="AudioManager" parent="." instance=ExtResource("7_0m230")]
+
+[node name="PlayerDies" type="AudioStreamPlayer" parent="AudioManager"]
+stream = ExtResource("8_mj6av")
+
+[node name="PlayerGetsDamaged" type="AudioStreamPlayer" parent="AudioManager"]
+stream = ExtResource("9_nr1kw")
+
+[node name="PlayerHealing" type="AudioStreamPlayer" parent="AudioManager"]
+stream = ExtResource("10_018x3")
+
+[node name="PlayerJumping" type="AudioStreamPlayer" parent="AudioManager"]
+stream = ExtResource("11_12kvs")
+
+[node name="PlayerJumpingTwice" type="AudioStreamPlayer" parent="AudioManager"]
+stream = ExtResource("12_bb5hd")
+
+[node name="PlayerSlide" type="AudioStreamPlayer" parent="AudioManager"]
+stream = ExtResource("13_hkfr5")
+
+[node name="PlayerWalking1" type="AudioStreamPlayer" parent="AudioManager"]
+stream = ExtResource("14_1fkfj")
 
 [connection signal="dashInput" from="LeanPivot/Head/Weapon_Manager" to="." method="_on_weapon_manager_dash_input"]
 [connection signal="area_entered" from="HitboxComponent" to="." method="_on_hitbox_component_area_entered"]

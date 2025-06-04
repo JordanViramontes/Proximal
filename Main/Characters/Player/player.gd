@@ -98,6 +98,27 @@ var current_slide_time := 0.0
 @export var slide_cooldown := 1.5 # cooldown in seconds
 var last_slide_time := -1.5 # start it negative so you can slide immediately
 
+# sound effects
+@onready var audio_manager: Node = $AudioManager
+signal sound_effect_signal(name: String)
+
+var SE_player_dies: String = "player_dies"
+var SE_player_gets_damaged: String = "player_gets_damaged"
+var SE_player_healing : String = "player_healing"
+var SE_player_jumping : String = "player_jumping"
+var SE_player_jumping_twice : String = "player_jumping_twice"
+var SE_player_slide : String = "player_slid"
+var SE_player_walking1 : String = "player_walking1"
+@onready var sound_effects: Dictionary = {
+	SE_player_dies:$AudioManager/PlayerDies,
+	SE_player_gets_damaged:$AudioManager/PlayerGetsDamaged,
+	SE_player_healing:$AudioManager/PlayerHealing,
+	SE_player_jumping:$AudioManager/PlayerJumping,
+	SE_player_jumping_twice:$AudioManager/PlayerJumpingTwice,
+	SE_player_slide:$AudioManager/PlayerSlide,
+	SE_player_walking1:$AudioManager/PlayerWalking1,
+}
+
 func is_dashing() -> bool:
 	return current_dash_time > 0
 
@@ -111,15 +132,24 @@ func _ready() -> void:
 	health_component.current_health = max_health
 	health_component.reached_zero_health.connect(on_reach_zero_health)
 	hitbox_component.damaged.connect(on_damaged)
+	
 	# slide height
 	normal_height = head.position.y
+	
 	#shield visual
 	Util.toggle_shield.connect(on_toggle_shield)
 	weapon.abilityInput.connect(on_ability_shoot)
+	
 	#healing
 	Util.healing.connect(on_heal)
+	
 	#damage amp visual on sniper ability
 	#Util.sniper_visual.connect(on_sniper_visual)
+	
+	# sound effects
+	for i in sound_effects.keys():
+		audio_manager.sound_effects[i] = sound_effects[i]
+	self.sound_effect_signal.connect(audio_manager.play_sfx)
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
@@ -147,6 +177,7 @@ func _headbob_effect(delta):
 
 # frame by frame
 func _process(delta: float):
+		
 	lean_pivot.rotation.z = lerp(lean_pivot.rotation.z, -current_strafe_dir * LEAN_MULT, delta * LEAN_SMOOTH) # this causes some weirdness when you look down/up, working on a fix
 	lean_pivot.rotation.x = lerp(lean_pivot.rotation.x, 0.5 * current_forward_dir * LEAN_MULT, delta * LEAN_SMOOTH)
 	look_direction = -head.global_basis.z
@@ -345,6 +376,9 @@ func kill_player():
 	if current_state == INPUT_STATE.dead:
 		return
 	
+	# sounds
+	sound_effect_signal.emit(SE_player_dies)
+	
 	die.emit()
 	current_state = INPUT_STATE.dead
 	#print("player dead!")
@@ -356,6 +390,9 @@ func on_reach_zero_health():
 
 # when you get damaged
 func on_damaged(di: DamageInstance):
+	# sounds
+	sound_effect_signal.emit(SE_player_gets_damaged)
+	
 	#print("damage deal to me!: " + str(di.damage) + ",\ttotal health: " + str(health_component.current_health))
 	Util.damage_taken.emit(damage_visual_per_hit)
 	

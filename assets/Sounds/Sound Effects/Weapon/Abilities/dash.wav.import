@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://d1l28lrggqr7l"
+path="res://.godot/imported/dash.wav-7573d4f6ea7b0204d902d181917ded61.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/Sound Effects/Weapon/Abilities/dash.wav"
+dest_files=["res://.godot/imported/dash.wav-7573d4f6ea7b0204d902d181917ded61.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

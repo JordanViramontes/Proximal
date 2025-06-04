@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bf8oau2oo4x80"
+path="res://.godot/imported/ring_ability.wav-768cd405bfadde1a7fe1384a2fede749.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/Sound Effects/Weapon/Abilities/ring_ability.wav"
+dest_files=["res://.godot/imported/ring_ability.wav-768cd405bfadde1a7fe1384a2fede749.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

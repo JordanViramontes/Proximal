@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cinjlit1odhuu"]
+
+[ext_resource type="Script" uid="uid://cb4jelvao5n0t" path="res://Main/Utility/AudioManager/audio_stream_player_oneshot.gd" id="1_yrs3c"]
+
+[node name="AudioStreamPlayerOneshot" type="AudioStreamPlayer"]
+autoplay = true
+script = ExtResource("1_yrs3c")

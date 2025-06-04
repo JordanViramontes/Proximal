@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://3u313pe8imob"
+path="res://.godot/imported/healing.mp3-c025cbf1c768a881b10eb90db88b1b95.mp3str"
+
+[deps]
+
+source_file="res://assets/Sounds/Sound Effects/Player/healing.mp3"
+dest_files=["res://.godot/imported/healing.mp3-c025cbf1c768a881b10eb90db88b1b95.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
