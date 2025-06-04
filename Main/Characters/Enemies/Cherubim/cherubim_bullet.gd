@@ -26,7 +26,7 @@ func _physics_process(delta: float) -> void:
 func _on_hitbox_area_entered(area: Area3D) -> void:
 	# check that we are in a player
 	var area_owner = area.get_owner()
-	if area_owner is  Player:
+	if area_owner is Player and area is Hitbox: # check if it's actualy a hitbox
 		var di = DamageInstance.new({
 			"damage" : bullet_damage,
 			#"velocity" : velocity,

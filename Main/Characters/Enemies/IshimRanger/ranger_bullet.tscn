@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://csm4pxrfit34f"]
 
-[ext_resource type="Script" uid="uid://bky4bnhhfj858" path="res://scripts/Enemies/ishim_ranger_bullet.gd" id="1_jv20b"]
+[ext_resource type="Script" uid="uid://bky4bnhhfj858" path="res://Main/Characters/Enemies/IshimRanger/ishim_ranger_bullet.gd" id="1_jv20b"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jv20b"]
 albedo_color = Color(1, 0.47451, 1, 1)

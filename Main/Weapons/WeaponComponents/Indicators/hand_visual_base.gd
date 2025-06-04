@@ -32,3 +32,4 @@ func lose_ring():
 func gain_ring():
 	top_ring_idx += 1
 	ring_indicator_list[top_ring_idx].visible = true
+	ring_indicator_list[top_ring_idx].do_appear_animation()

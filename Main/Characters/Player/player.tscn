@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://d0u5bw4owtrev"]
+[gd_scene load_steps=11 format=3 uid="uid://d0u5bw4owtrev"]
 
 [ext_resource type="Script" uid="uid://cpi5w5meyf7w1" path="res://Main/Characters/Player/player.gd" id="1_i3pqv"]
 [ext_resource type="PackedScene" uid="uid://pake15kqry6s" path="res://Main/Camera/shakeable_camera.tscn" id="2_np5j3"]
@@ -15,6 +15,10 @@ points = PackedVector3Array(-0.125207, -0.532801, -0.480507, 0.0227831, 0.47607,
 [sub_resource type="SphereMesh" id="SphereMesh_y7cse"]
 radius = 0.1
 height = 0.2
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_d6rcs"]
+radius = 0.735943
+height = 2.50938
 
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
@@ -64,7 +68,7 @@ mesh = SubResource("SphereMesh_y7cse")
 script = ExtResource("4_np5j3")
 
 [node name="HitboxComponent" type="Area3D" parent="." node_paths=PackedStringArray("health_component")]
-collision_layer = 8
+collision_layer = 40
 collision_mask = 0
 script = ExtResource("4_jbyc3")
 health_component = NodePath("../HealthComponent")
@@ -78,4 +82,14 @@ script = ExtResource("12_r13nr")
 health_component = NodePath("../HealthComponent")
 weapon_manager = NodePath("../LeanPivot/Head/Weapon_Manager")
 
+[node name="RingPickupArea" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 32
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RingPickupArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.13759, 0)
+shape = SubResource("CapsuleShape3D_d6rcs")
+
 [connection signal="dashInput" from="LeanPivot/Head/Weapon_Manager" to="." method="_on_weapon_manager_dash_input"]
+[connection signal="area_entered" from="HitboxComponent" to="." method="_on_hitbox_component_area_entered"]
+[connection signal="area_entered" from="RingPickupArea" to="." method="_on_ring_pickup_area_area_entered"]

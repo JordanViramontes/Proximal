@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://br0pvgk7t0dyh"]
 
-[ext_resource type="Script" uid="uid://euue21cwrs5f" path="res://scripts/Enemies/cherubim_bullet.gd" id="1_brfvk"]
+[ext_resource type="Script" uid="uid://euue21cwrs5f" path="res://Main/Characters/Enemies/Cherubim/cherubim_bullet.gd" id="1_brfvk"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jv20b"]
 albedo_color = Color(0.941176, 0.231373, 0.0980392, 1)

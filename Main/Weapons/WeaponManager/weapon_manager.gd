@@ -254,15 +254,19 @@ func _on_earn_experience(xp: float, weapon: DamageInstance.DamageType):
 	
 
 func _on_enemy_die():
-	#ammo
-	var dice = randi_range(0, 10) # omg d10
-	if dice < 2:
-		if weapon_dictionary[3].ammo_count < weapon_dictionary[3].max_ammo:
-			weapon_dictionary[3].add_ring()
-			hand_visual_base.gain_ring()
-			update_ring.emit(weapon_dictionary[3].ammo_count)
-		#print("woah a ring! ring count: " + str(weapon_dictionary[3].ammo_count))
+	# instead of doing it here, spawn the ring when the enemy dies.
+	##ammo
+	#var dice = randi_range(0, 10) # omg d10
+	#if dice < 2:
+		#add_ring()
+	pass
 
+
+func add_ring():
+	if weapon_dictionary[3].ammo_count < weapon_dictionary[3].max_ammo:
+		weapon_dictionary[3].add_ring()
+		hand_visual_base.gain_ring()
+		update_ring.emit(weapon_dictionary[3].ammo_count)
 
 
 #region Recoil Causing

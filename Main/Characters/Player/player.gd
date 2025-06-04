@@ -376,3 +376,9 @@ func on_heal(state: bool) -> void:
 		#$UI/sniper_visual.show()
 	#else:
 		#$UI/sniper_visual.hide()
+
+# when the hitbox area is entered!!!!!!!!!!!!!!!!!!!!
+func _on_ring_pickup_area_area_entered(area: Area3D) -> void:
+	if area.is_in_group("RingPickup"):
+		weapon.add_ring()
+		area.get_parent().queue_free()
