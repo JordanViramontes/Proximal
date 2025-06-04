@@ -1,0 +1,333 @@
+[gd_scene load_steps=15 format=3 uid="uid://b7on2iwifofik"]
+
+[ext_resource type="Shader" uid="uid://bui55npgmeur2" path="res://Main/UI/PauseMenu/pause_menu.gdshader" id="1_05p70"]
+[ext_resource type="Script" uid="uid://c1s7vty47uwme" path="res://Main/UI/PauseMenu/pause_menu.gd" id="1_sti1v"]
+[ext_resource type="FontFile" uid="uid://be672lysxmsqk" path="res://assets/fonts/Silver.ttf" id="3_62wus"]
+[ext_resource type="Shader" uid="uid://ds1eh63n50113" path="res://Main/UI/PauseMenu/exit_transition.gdshader" id="4_4u04t"]
+[ext_resource type="Texture2D" uid="uid://bf5qv5warwisr" path="res://Main/UI/Transitions/screen_transition_test.png" id="5_atiwn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sti1v"]
+shader = ExtResource("1_05p70")
+shader_parameter/lod = 0.0
+
+[sub_resource type="Animation" id="Animation_4u04t"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:material:shader_parameter/lod")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.15, 0, 0.15, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Exit_Transition:material:shader_parameter/progress")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_62wus"]
+resource_name = "blur"
+length = 0.3
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:material:shader_parameter/lod")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.15, 0, 0.15, 0, 0.9, -0.15, 0, 0.15, 0),
+"times": PackedFloat32Array(0, 0.3)
+}
+
+[sub_resource type="Animation" id="Animation_atiwn"]
+resource_name = "exit_transition"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Exit_Transition:material:shader_parameter/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0, -0.15, 0, 0.15, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_atiwn"]
+_data = {
+&"RESET": SubResource("Animation_4u04t"),
+&"blur": SubResource("Animation_62wus"),
+&"exit_transition": SubResource("Animation_atiwn")
+}
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_62wus"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4u04t"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_atiwn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_atiwn"]
+shader = ExtResource("4_4u04t")
+shader_parameter/mask_texture = ExtResource("5_atiwn")
+shader_parameter/progress = 1.0
+
+[node name="PauseMenu" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_sti1v")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_sti1v")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_atiwn")
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 37.0
+offset_top = 255.0
+offset_right = 119.0
+offset_bottom = 389.0
+
+[node name="Resume" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_62wus")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_62wus")
+text = "RESUME"
+alignment = 0
+
+[node name="Options" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_62wus")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_4u04t")
+text = "OPTIONS"
+alignment = 0
+
+[node name="Main Menu" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_62wus")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_atiwn")
+text = "MAIN MENU"
+alignment = 0
+
+[node name="Options Menu" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Options Menu"]
+self_modulate = Color(1, 1, 1, 0.607843)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 120.0
+offset_top = 18.0
+offset_right = -120.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Options Menu/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Options Menu/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+vertical_scroll_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Options_Exit" type="Button" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 18
+text = "X"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Vol_Label" type="Label" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_62wus")
+theme_override_font_sizes/font_size = 18
+text = "Volume:"
+
+[node name="Volume" type="HSlider" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+value = 50.0
+
+[node name="Resolution" type="HBoxContainer" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Res_Label" type="Label" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Resolution"]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_62wus")
+theme_override_font_sizes/font_size = 18
+text = "Resolutions:"
+
+[node name="Resolutions" type="OptionButton" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Resolution"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("3_62wus")
+theme_override_font_sizes/font_size = 18
+selected = 2
+allow_reselect = true
+item_count = 6
+popup/item_0/text = "1920x1080"
+popup/item_0/id = 0
+popup/item_1/text = "1600x900"
+popup/item_1/id = 1
+popup/item_2/text = "1280x720"
+popup/item_2/id = 2
+popup/item_3/text = "1024x576"
+popup/item_3/id = 3
+popup/item_4/text = "640x360"
+popup/item_4/id = 4
+popup/item_5/text = "256x144"
+popup/item_5/id = 5
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Fullscreen_Label" type="Label" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainer2"]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_62wus")
+theme_override_font_sizes/font_size = 18
+text = "Fullscreen:"
+
+[node name="Fullscreen_Checkbox" type="CheckBox" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+focus_mode = 0
+
+[node name="ScrollWheel" type="HBoxContainer" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Scroll_Label" type="Label" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollWheel"]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_62wus")
+theme_override_font_sizes/font_size = 18
+text = "Inverted Scroll Direction:"
+
+[node name="Scroll_Checkbox" type="CheckBox" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollWheel"]
+layout_mode = 2
+focus_mode = 0
+
+[node name="Mouse_Sensitivity" type="HBoxContainer" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Mouse_Label" type="Label" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Mouse_Sensitivity"]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_62wus")
+theme_override_font_sizes/font_size = 18
+text = "Mouse Sensitivity:"
+
+[node name="Mouse_Count_Label" type="Label" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Mouse_Sensitivity"]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_62wus")
+theme_override_font_sizes/font_size = 18
+text = "000"
+
+[node name="Control" type="Control" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Mouse_Sensitivity"]
+layout_mode = 2
+
+[node name="Mouse_Slider" type="HSlider" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Mouse_Sensitivity"]
+layout_mode = 2
+size_flags_horizontal = 3
+value = 50.0
+
+[node name="Res_Label2" type="Label" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_62wus")
+theme_override_font_sizes/font_size = 18
+text = "Inputs:"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Reset_Button" type="Button" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+focus_mode = 0
+theme_override_font_sizes/font_size = 18
+text = "Reset To Default"
+
+[node name="Exit_Transition" type="ColorRect" parent="."]
+visible = false
+clip_children = 2
+material = SubResource("ShaderMaterial_atiwn")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = -8.0
+offset_right = 16.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.368627, 0, 0.368627, 0.258824)
+
+[connection signal="pressed" from="VBoxContainer/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="VBoxContainer/Main Menu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Options_Exit" to="." method="_on_options_exit_pressed"]
+[connection signal="drag_ended" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainer/Volume" to="." method="_on_volume_drag_ended"]
+[connection signal="value_changed" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainer/Volume" to="." method="_on_volume_value_changed"]
+[connection signal="item_selected" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Resolution/Resolutions" to="." method="_on_resolutions_item_selected"]
+[connection signal="toggled" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainer2/Fullscreen_Checkbox" to="." method="_on_fullscreen_checkbox_toggled"]
+[connection signal="toggled" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollWheel/Scroll_Checkbox" to="." method="_on_scroll_checkbox_toggled"]
+[connection signal="drag_ended" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Mouse_Sensitivity/Mouse_Slider" to="." method="_on_mouse_slider_drag_ended"]
+[connection signal="value_changed" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Mouse_Sensitivity/Mouse_Slider" to="." method="_on_mouse_slider_value_changed"]
+[connection signal="pressed" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/Reset_Button" to="." method="_on_reset_button_pressed"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://5ygls03nw76d"]
+[gd_scene load_steps=59 format=3 uid="uid://5ygls03nw76d"]
 
 [ext_resource type="Texture2D" uid="uid://cqur83lk7fjfl" path="res://assets/hdris/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="1_8wojv"]
 [ext_resource type="Script" uid="uid://bpvwqw4pbfs3m" path="res://Main/Areas/world.gd" id="1_dctr2"]
@@ -28,6 +28,7 @@
 [ext_resource type="Shader" uid="uid://clllrqa4ls6mb" path="res://assets/shaders/damage_overlay.gdshader" id="25_th46f"]
 [ext_resource type="Script" uid="uid://da8c7sjwkoiap" path="res://Main/UI/InGame/visuals/damage_visual.gd" id="26_xhbv5"]
 [ext_resource type="PackedScene" uid="uid://egyandu7581s" path="res://Main/UI/InGame/DebugUI/debug_pause_menu.tscn" id="27_xhbv5"]
+[ext_resource type="PackedScene" uid="uid://b7on2iwifofik" path="res://Main/UI/PauseMenu/pause_menu.tscn" id="29_8rn6f"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4r3xj"]
 shader = ExtResource("8_xhbv5")
@@ -634,9 +635,6 @@ label_settings = SubResource("LabelSettings_2qk5c")
 horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="Timer" type="Timer" parent="UI/DeathInterface"]
-autostart = true
-
 [node name="DebugPauseMenu" parent="UI" instance=ExtResource("27_xhbv5")]
 visible = false
 layout_mode = 1
@@ -644,6 +642,10 @@ layout_mode = 1
 [node name="DelayAccess" type="Timer" parent="UI/DebugPauseMenu"]
 wait_time = 0.51
 one_shot = true
+
+[node name="PauseMenu" parent="UI" instance=ExtResource("29_8rn6f")]
+visible = false
+layout_mode = 1
 
 [connection signal="timeout" from="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath/WaveTimer" to="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath" method="_on_wave_timer_timeout"]
 [connection signal="timeout" from="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath/NextWaveTimer" to="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath" method="_on_next_wave_timer_timeout"]

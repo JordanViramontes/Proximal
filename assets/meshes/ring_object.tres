@@ -1,4 +1,4 @@
-[gd_resource type="TorusMesh" load_steps=2 format=3 uid="uid://b482gnum8kvw8"]
+[gd_resource type="TorusMesh" load_steps=2 format=3 uid="uid://crwum2nucrxlm"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tom41"]
 emission_enabled = true

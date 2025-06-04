@@ -2,7 +2,6 @@ extends Control
 
 var countdown: float
 var activated: bool = false
-@onready var death_timer = $Timer
 
 signal death_ui_active
 
