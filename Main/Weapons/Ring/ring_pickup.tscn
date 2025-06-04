@@ -1,0 +1,73 @@
+[gd_scene load_steps=9 format=3 uid="uid://bjj57xk7ekidm"]
+
+[ext_resource type="Script" uid="uid://c7hr48vk2es2u" path="res://Main/Weapons/Ring/ring_pickup.gd" id="1_mheej"]
+[ext_resource type="TorusMesh" uid="uid://b482gnum8kvw8" path="res://assets/meshes/ring_object.tres" id="1_s5v54"]
+[ext_resource type="Texture2D" uid="uid://b3n3rx7pgoehq" path="res://assets/textures/sparkle.png" id="3_be71p"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_or64g"]
+particle_flag_rotate_y = true
+direction = Vector3(-1, 0, 0)
+initial_velocity_min = 2.0
+initial_velocity_max = 2.0
+angular_velocity_min = 0.999984
+angular_velocity_max = 0.999984
+gravity = Vector3(0, 0, 0)
+damping_min = 1.0
+damping_max = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jgi5p"]
+transparency = 1
+albedo_color = Color(0.116667, 1, 0, 0.278431)
+albedo_texture = ExtResource("3_be71p")
+emission_enabled = true
+emission = Color(0, 0.72, 0.0599999, 1)
+emission_energy_multiplier = 2.69
+texture_filter = 0
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_uj7kn"]
+material = SubResource("StandardMaterial3D_jgi5p")
+size = Vector2(0.2, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_be71p"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_be71p"]
+radius = 9.72385
+
+[node name="RingPickup" type="Node3D"]
+transform = Transform3D(0.999804, 0, 0, 0, 0.99952, 0, 0, 0, 0.999326, 0, 0, 0)
+script = ExtResource("1_mheej")
+rotation_rate = 60
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = ExtResource("1_s5v54")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+process_material = SubResource("ParticleProcessMaterial_or64g")
+draw_pass_1 = SubResource("QuadMesh_uj7kn")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1.34, 0, 0, 0, 1.34, 0, 0, 0, 1.34, 0, 0, 0)
+modulate = Color(1, 1, 1, 0.188235)
+billboard = 1
+fixed_size = true
+texture_filter = 0
+texture = ExtResource("3_be71p")
+
+[node name="PickupArea" type="Area3D" parent="." groups=["RingPickup"]]
+collision_layer = 32
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PickupArea"]
+shape = SubResource("BoxShape3D_be71p")
+
+[node name="MagnetArea" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MagnetArea"]
+shape = SubResource("SphereShape3D_be71p")
+
+[connection signal="body_entered" from="MagnetArea" to="." method="_on_magnet_area_body_entered"]
+[connection signal="body_exited" from="MagnetArea" to="." method="_on_magnet_area_body_exited"]
