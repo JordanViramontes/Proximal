@@ -635,15 +635,7 @@ label_settings = SubResource("LabelSettings_2qk5c")
 horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="Timer" type="Timer" parent="UI/DeathInterface"]
-autostart = true
-
 [node name="DebugPauseMenu" parent="UI" instance=ExtResource("27_xhbv5")]
-visible = false
-layout_mode = 1
-
-
-[node name="PauseMenu" parent="UI" instance=ExtResource("29_8rn6f")]
 visible = false
 layout_mode = 1
 
@@ -651,6 +643,9 @@ layout_mode = 1
 wait_time = 0.51
 one_shot = true
 
+[node name="PauseMenu" parent="UI" instance=ExtResource("29_8rn6f")]
+visible = false
+layout_mode = 1
 
 [connection signal="timeout" from="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath/WaveTimer" to="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath" method="_on_wave_timer_timeout"]
 [connection signal="timeout" from="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath/NextWaveTimer" to="SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath" method="_on_next_wave_timer_timeout"]

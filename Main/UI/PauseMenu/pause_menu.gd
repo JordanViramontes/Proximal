@@ -23,6 +23,10 @@ var remapping_button = null
 signal mouse_sens_changed(new_sens)
 signal scroll_invert_changed(is_inverted)
 
+# death timer fix
+@onready var world = $"../.."
+signal is_paused(not_active: bool)
+
 func pauseMenu():
 	if pause_flag:
 		if $"Options Menu".visible == true:
@@ -67,6 +71,9 @@ var input_actions = {
 }
 
 func _ready():
+	# death signal
+	self.is_paused.connect(world.stop_timer)
+	
 	_load_keybindings_from_settings()
 	_create_action_list()
 	var video_settings = ConfigFileHandler.load_video_settings()
@@ -86,9 +93,11 @@ func _ready():
 
 func _on_resume_pressed() -> void:
 	pauseMenu()
+	is_paused.emit(true)
 
 func _on_options_pressed() -> void:
 	$"Options Menu".visible = true
+	is_paused.emit(false)
 	
 func _on_main_menu_pressed() -> void:
 	get_tree().paused = false
