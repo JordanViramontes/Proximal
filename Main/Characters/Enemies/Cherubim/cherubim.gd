@@ -192,6 +192,9 @@ func _on_shoot_cooldown_timeout() -> void:
 		b.position = shoot_point.global_position
 		
 		World.world.add_child(b)
+		
+		# sound effect
+		sound_effect_signal_start.emit(SE_enemy_shoot)
 
 # used when a body is found within the hitbox
 func _on_hitbox_component_body_entered(body: Node3D) -> void:

@@ -1,4 +1,5 @@
 extends WeaponBase
+class_name WeaponRing
 
 @export var bullet_spread: float = 0.03
 @export var shoot_velocity_inherit_damping: float = 0.1

@@ -75,6 +75,18 @@ signal take_damage
 signal drop_xp(xp: float, weapon: DamageInstance.DamageType)
 signal deal_damage(damage: float)
 
+#region sound effects
+var audio_manager: Node3D # this should not be onready
+signal sound_effect_signal_start(name: String)
+signal sound_effect_signal_stop(name: String)
+
+var SE_enemy_dies: String = "enemy_dies"
+var SE_enemy_shoot: String = "enemy_shoot"
+var SE_elohim_summon: String = "elohim_summon"
+@onready var sound_effects: Dictionary
+@onready var scn_oneshot_sfx: PackedScene = preload("res://Main/Utility/AudioManager/audio_stream_player_oneshot.tscn")
+#endregion
+
 # Constructor called by spawner
 func initialize(starting_position, init_player_position, wave, init_health_multiplier, init_damage_multiplier, init_xp_multiplier):
 	# spawning
@@ -88,6 +100,47 @@ func initialize(starting_position, init_player_position, wave, init_health_multi
 	max_health = max_health * health_multiplier
 	experience_multiplier = init_xp_multiplier
 	damage_multiplier = init_damage_multiplier
+	
+	# sound
+	init_set_audio()
+
+func init_set_audio():
+	# sound effect nodes
+	audio_manager = Node3D.new()
+	audio_manager.set_script(load("res://Main/Utility/AudioManager/audio_manager.gd"))
+	add_child(audio_manager)
+	#print("manager: " + str(audio_manager))
+	
+	# use this code if you don't want to use a oneshot
+	var SE_enemy_shoot_node = AudioStreamPlayer.new()
+	SE_enemy_shoot_node.stream = load("res://assets/Sounds/Sound Effects/Enemy/shoot.wav")
+	SE_enemy_shoot_node.volume_db = -20.0
+	var SE_elohim_summon_node = AudioStreamPlayer.new()
+	SE_elohim_summon_node.stream = load("res://assets/Sounds/Sound Effects/Weapon/Abilities/vacuum.wav")
+	
+	# enemy_dies should be a oneshot sound effect
+	# so just load the STREAM itself and put it in the audiomanager's dictionary
+	# this creates the issue of it being a weirdly mismatched data type in the audiomanager's dictionary if it has both
+	# oneshot and non-oneshot streams but ohaoahao whatever
+	var SE_enemy_dies_stream = load("res://assets/Sounds/Sound Effects/Enemy/enemy_dies.wav")
+	
+	# this is a dictionary of either strings -> audiostreamplayers (for non oneshot sounds) or strings -> audiostreams. 
+	# you can mix n match the contents of the dict because we're using a dynamically types language :D 
+	sound_effects = {
+		SE_enemy_dies:SE_enemy_dies_stream,
+		SE_enemy_shoot:SE_enemy_shoot_node,
+		SE_elohim_summon:SE_elohim_summon_node,
+	}
+	
+	for i in sound_effects.keys():
+		if sound_effects[i] is AudioStreamPlayer or sound_effects[i] is AudioStreamPlayer3D: # if it's the NODE add it as the child # FIXME if the SE_..._node's type changes this will break :D
+			audio_manager.add_child(sound_effects[i])
+			audio_manager.sound_effects[i] = sound_effects[i] # add the element to the dict in either case
+		elif sound_effects[i] is AudioStream:
+			audio_manager.oneshot_sound_effects[i] = sound_effects[i]
+	
+	# audio signal
+	self.sound_effect_signal_start.connect(audio_manager.play_sfx)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -198,6 +251,9 @@ func on_reach_zero_health():
 	die.emit()
 	emit_signal("die_from_wave", wave_category)
 	
+	# sound
+	sound_effect_signal_start.emit(SE_enemy_dies)
+	
 	# death particles
 	var death_particles = scn_death_particles.instantiate()
 	death_particles.position = self.position
@@ -248,7 +304,6 @@ func on_damaged(di: DamageInstance):
 		if health_component.current_health <= 0.0:
 			#print("enemybase.gd - giving xp on death to: " + str(di.type))
 			emit_signal("drop_xp", xp_on_death * experience_multiplier, di.type) # emit experience points
-		
 
 # function for tweening the hitflash amount of the attached sprite LOL
 func awesome(value: float, visual_element: AnimatedSprite3D): 

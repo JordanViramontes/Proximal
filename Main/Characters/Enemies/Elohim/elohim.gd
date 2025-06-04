@@ -165,6 +165,9 @@ func summon_guys() -> void:
 	
 	emit_signal("add_new_enemies", 1, mob1)
 	emit_signal("add_new_enemies", 1, mob2)
+	
+	# sound effect
+	sound_effect_signal_start.emit(SE_elohim_summon)
 
 
 # vacuum and stun causes issues with spawning timer

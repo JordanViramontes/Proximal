@@ -98,6 +98,37 @@ var current_slide_time := 0.0
 @export var slide_cooldown := 1.5 # cooldown in seconds
 var last_slide_time := -1.5 # start it negative so you can slide immediately
 
+#region audio
+# sound effects
+@onready var audio_manager: Node3D = $AudioManager
+signal sound_effect_signal_start(name: String)
+signal sound_effect_signal_stop(name: String)
+
+var SE_player_dies: String = "player_dies"
+var SE_player_gets_damaged: String = "player_gets_damaged"
+var SE_player_healing : String = "player_healing"
+var SE_player_jumping : String = "player_jumping"
+var SE_player_jumping_twice : String = "player_jumping_twice"
+var SE_player_slide : String = "player_slid"
+var SE_player_walking1 : String = "player_walking1"
+var SE_player_ring_pickup : String = "player_ring_pickup"
+@onready var sound_effects: Dictionary[String, AudioStreamPlayer] = {
+	SE_player_dies:$AudioManager/PlayerDies,
+	SE_player_gets_damaged:$AudioManager/PlayerGetsDamaged,
+	SE_player_healing:$AudioManager/PlayerHealing,
+	SE_player_jumping:$AudioManager/PlayerJumping,
+	SE_player_jumping_twice:$AudioManager/PlayerJumpingTwice,
+	SE_player_slide:$AudioManager/PlayerSlide,
+	SE_player_walking1:$AudioManager/PlayerWalking1,
+	SE_player_ring_pickup:$AudioManager/PlayerRingPickup
+}
+
+# walking sound vars
+var time_since_walking: float = 0
+@export var walking_sound_freq: float = 0.2
+
+#endregion
+
 func is_dashing() -> bool:
 	return current_dash_time > 0
 
@@ -105,6 +136,13 @@ func _ready() -> void:
 	# update sensitivity during gameplay
 	var options_menu = $"../../../UI/PauseMenu"
 	options_menu.mouse_sens_changed.connect(_on_mouse_sens_changed)
+	
+	# sound effects
+	for i in sound_effects.keys():
+		audio_manager.sound_effects[i] = sound_effects[i]
+	self.sound_effect_signal_start.connect(audio_manager.play_sfx)
+	self.sound_effect_signal_stop.connect(audio_manager.stop_sfx)
+	
 	
 	# setup health component
 	health_component.max_health = max_health
@@ -144,6 +182,7 @@ func _headbob_effect(delta):
 		sin(headbob_time * HEADBOB_FREQUENCY) * HEADBOB_MOVE_AMOUNT,
 		0.0
 	)
+	
 
 # frame by frame
 func _process(delta: float):
@@ -152,11 +191,18 @@ func _process(delta: float):
 	look_direction = -head.global_basis.z
 	
 	if is_healing == true:
+		
+		if not sound_effects[SE_player_healing].is_playing():
+			sound_effect_signal_start.emit(SE_player_healing)
+		
 		healing_timer -= delta
 		if healing_timer <= 0:
 			health_component.heal(ring_healing_amount);
 			#print("healing! total health: " + str(health_component.current_health))
 			healing_timer = 0.5
+	else:
+		if sound_effects[SE_player_healing].is_playing():
+			sound_effect_signal_stop.emit(SE_player_healing)
 
 	
 	if Input.is_action_just_pressed("slide") and is_on_floor():
@@ -176,7 +222,6 @@ func _handle_air_physics(delta: float) -> void:
 		accel_speed = min(accel_speed, add_speed_til_cap)
 		if self.velocity.length() < air_speed_limit:
 			self.velocity += accel_speed * wish_dir
-
 
 func _handle_ground_physics(delta: float) -> void:
 	if is_dashing(): return
@@ -217,6 +262,27 @@ func _handle_ground_physics(delta: float) -> void:
 	
 	_headbob_effect(delta)
 
+func handle_walking_sound(delta: float) -> void:
+	# init checks
+	if not (velocity.length() > walk_speed / 2):
+		time_since_walking = 0
+		return
+	
+	if not is_on_floor():
+		time_since_walking = 0
+		return
+	
+	if is_sliding:
+		time_since_walking = 0
+		return
+	
+	# determine when to play (kinda like a clock)
+	time_since_walking += delta
+	if time_since_walking / walking_sound_freq >= 1:
+		time_since_walking = 0
+		sound_effect_signal_start.emit(SE_player_walking1)
+	
+
 # frame by frame physics
 func _physics_process(delta: float) -> void:
 	var input_dir = Input.get_vector("left", "right", "forward", "back").normalized()
@@ -227,6 +293,7 @@ func _physics_process(delta: float) -> void:
 
 	handle_jumping()
 	handle_shooting()
+	handle_walking_sound(delta)
 
 	if is_on_floor():
 		if buffered_slide and not is_sliding:
@@ -261,7 +328,6 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
-
 func handle_jumping():
 	if is_sliding:
 		return  # prevent jumping during slide
@@ -270,11 +336,17 @@ func handle_jumping():
 			current_dash_time = 0.0  # stop dash
 		velocity.y = jump_velocity
 		is_sliding = false
+		
+		# sound
+		sound_effect_signal_start.emit(SE_player_jumping)
 	elif Input.is_action_just_pressed("jump") and not is_on_floor() and double_jumpable:
 		# double jumping
 		double_jumpable = false
 		velocity.y = jump_velocity
 		is_sliding = false
+		
+		# sound
+		sound_effect_signal_start.emit(SE_player_jumping_twice)
 
 func handle_shooting():
 	if Input.is_action_pressed("shoot"):
@@ -294,7 +366,10 @@ func enter_slide() -> void:
 	
 	if current_time - last_slide_time < slide_cooldown:
 		return  # still in cooldown
-
+	
+	# sound effect
+	sound_effect_signal_start.emit(SE_player_slide)
+	
 	last_slide_time = current_time  # set new cooldown timer
 	#print("sliding")
 	is_sliding = true
@@ -345,6 +420,9 @@ func kill_player():
 	if current_state == INPUT_STATE.dead:
 		return
 	
+	# sounds
+	sound_effect_signal_start.emit(SE_player_dies)
+	
 	die.emit()
 	current_state = INPUT_STATE.dead
 	#print("player dead!")
@@ -356,6 +434,9 @@ func on_reach_zero_health():
 
 # when you get damaged
 func on_damaged(di: DamageInstance):
+	#sounds
+	sound_effect_signal_start.emit(SE_player_gets_damaged)
+	
 	#print("damage deal to me!: " + str(di.damage) + ",\ttotal health: " + str(health_component.current_health))
 	Util.damage_taken.emit(damage_visual_per_hit)
 	
@@ -384,6 +465,7 @@ func on_heal(state: bool) -> void:
 # when the hitbox area is entered!!!!!!!!!!!!!!!!!!!!
 func _on_ring_pickup_area_area_entered(area: Area3D) -> void:
 	if area.is_in_group("RingPickup"):
+		sound_effect_signal_start.emit(SE_player_ring_pickup)
 		weapon.add_ring()
 		area.get_parent().queue_free()
 func _on_mouse_sens_changed(new_sens):

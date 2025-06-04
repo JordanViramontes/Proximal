@@ -183,6 +183,7 @@ theme_override_font_sizes/font_size = 18
 text = "X"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 

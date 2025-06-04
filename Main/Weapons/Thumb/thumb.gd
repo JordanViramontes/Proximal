@@ -1,4 +1,5 @@
 extends WeaponBase
+class_name WeaponThumb
 
 @export var pellet_count: int = 3
 @export var pellet_spread: float = 0.1

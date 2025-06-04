@@ -16,6 +16,8 @@ signal damaged_enemy
 @export var pinky_dt_mat: StandardMaterial3D
 
 func _ready():
+	
+	# real
 	match type:
 		DamageInstance.DamageType.Thumb: 
 			mesh.set_surface_override_material(0, thumb_dt_mat)

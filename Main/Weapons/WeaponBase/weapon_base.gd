@@ -66,6 +66,27 @@ signal send_ui_xp_updated(xp: float)
 signal send_ui_xp_level_updated(level: int) 
 signal send_ui_xp_max_level
 
+#region audio
+# sound effects
+@onready var audio_manager: Node3D
+signal sound_effect_signal_start(name: String)
+signal sound_effect_signal_stop(name: String)
+
+var SE_xp_earned: String = "xp_earned"
+var SE_level_up: String = "level_up"
+var SE_shoot: String = "shoot"
+var SE_pinky_shoot: String = "pinky_shoot"
+var SE_middle_hit: String = "middle_hit"
+
+var SE_ability_thumb: String = "ability_thumb"
+var SE_ability_index: String = "ability_index"
+var SE_ability_pinky: String = "ability_pinky"
+var SE_ability_middle: String = "ability_middle"
+var SE_ability_ring: String = "ability_middle_ring"
+
+@onready var sound_effects: Dictionary = { }
+#endregion
+
 func _ready() -> void:
 	shoot_timer.wait_time = 1/(fire_rate*level)
 	shoot_timer.timeout.connect(func(): can_shoot = true)
@@ -73,6 +94,64 @@ func _ready() -> void:
 		recharge_particles = ability_recharge_particles.instantiate()
 		add_child(recharge_particles)
 		recharge_particles.draw_pass_1.surface_get_material(0).albedo_color = ability_recharge_particle_color
+	
+	init_set_audio()
+
+func init_set_audio():
+	# sound effect nodes
+	audio_manager = Node3D.new()
+	audio_manager.set_script(load("res://Main/Utility/AudioManager/audio_manager.gd"))
+	add_child(audio_manager)
+	#print("manager: " + str(audio_manager))
+	
+	# use this code if you don't want to use a oneshot
+	var SE_xp_earned_node = AudioStreamPlayer.new()
+	SE_xp_earned_node.stream = load("res://assets/Sounds/Sound Effects/Weapon/xp_earned.wav")
+	var SE_level_up_node  = AudioStreamPlayer.new()
+	SE_level_up_node.stream = load("res://assets/Sounds/Sound Effects/Weapon/level_up.wav")
+	var SE_shoot_node  = AudioStreamPlayer.new()
+	SE_shoot_node.stream = load("res://assets/Sounds/Sound Effects/Weapon/shoot.wav")
+	var SE_pinky_shoot_node  = AudioStreamPlayer.new()
+	SE_pinky_shoot_node.stream = load("res://assets/Sounds/Sound Effects/Weapon/Weapons/pinky.wav")
+	var SE_middle_hit_node = AudioStreamPlayer.new()
+	SE_middle_hit_node.stream = load("res://assets/Sounds/Sound Effects/Weapon/Weapons/middle_hit.wav")
+	
+	var SE_ability_thumb_node = AudioStreamPlayer.new()
+	SE_ability_thumb_node.stream = load("res://assets/Sounds/Sound Effects/Weapon/Abilities/vacuum.wav")
+	var SE_ability_index_node = AudioStreamPlayer.new()
+	SE_ability_index_node.stream = load("res://assets/Sounds/Sound Effects/Weapon/Abilities/dash.wav")
+	var SE_ability_pinky_node = AudioStreamPlayer.new()
+	SE_ability_pinky_node.stream = load("res://assets/Sounds/Sound Effects/Weapon/Abilities/pinky_scope.wav")
+	var SE_ability_middle_node = AudioStreamPlayer.new()
+	SE_ability_middle_node.stream = load("res://assets/Sounds/Sound Effects/Weapon/Abilities/shielding.mp3")
+	var SE_ability_ring_node = AudioStreamPlayer.new()
+	SE_ability_ring_node.stream = load("res://assets/Sounds/Sound Effects/Weapon/Abilities/ring_ability.wav")
+	SE_ability_ring_node.volume_db = -5.0
+	# this is a dictionary of either strings -> audiostreamplayers (for non oneshot sounds) or strings -> audiostreams. 
+	# you can mix n match the contents of the dict because we're using a dynamically types language :D 
+	sound_effects = {
+		SE_xp_earned:SE_xp_earned_node,
+		SE_level_up:SE_level_up_node,
+		SE_shoot:SE_shoot_node,
+		SE_pinky_shoot:SE_pinky_shoot_node,
+		SE_middle_hit:SE_middle_hit_node,
+		
+		SE_ability_thumb:SE_ability_thumb_node,
+		SE_ability_index:SE_ability_index_node,
+		SE_ability_pinky:SE_ability_pinky_node,
+		SE_ability_middle:SE_ability_middle_node,
+		SE_ability_ring:SE_ability_ring_node,
+	}
+	
+	for i in sound_effects.keys():
+		if sound_effects[i] is AudioStreamPlayer or sound_effects[i] is AudioStreamPlayer3D: # if it's the NODE add it as the child # FIXME if the SE_..._node's type changes this will break :D
+			audio_manager.add_child(sound_effects[i])
+			audio_manager.sound_effects[i] = sound_effects[i] # add the element to the dict in either case
+		elif sound_effects[i] is AudioStream:
+			audio_manager.oneshot_sound_effects[i] = sound_effects[i]
+	
+	# audio signal
+	self.sound_effect_signal_start.connect(audio_manager.play_sfx)
 
 func _process(delta: float) -> void:
 	pass
@@ -95,7 +174,18 @@ func _physics_process(delta: float) -> void:
 func use_ability() -> bool:
 	if current_ability_cooldown > 0.0:
 		return false
-		
+	
+	if self is WeaponThumb:
+		sound_effect_signal_start.emit(SE_ability_thumb)
+	if self is WeaponIndex:
+		sound_effect_signal_start.emit(SE_ability_index)
+	if self is WeaponMiddle:
+		sound_effect_signal_start.emit(SE_ability_middle)
+	if self is WeaponPinky:
+		sound_effect_signal_start.emit(SE_ability_pinky)
+	if self is WeaponRing:
+		sound_effect_signal_start.emit(SE_ability_ring)
+	
 	current_ability_cooldown = ability_cooldown
 	#if depleted_material:
 		#$MeshInstance3D.mesh.material = depleted_material.duplicate()
@@ -131,6 +221,16 @@ func shoot(from_pos: Vector3, direction: Vector3, velocity: Vector3 = Vector3.ZE
 		#print("cant shoot")
 		return
 	
+	# sound effect
+	if self is WeaponMiddle:
+		if not sound_effects[SE_middle_hit].is_playing():
+			#print("playing: ")
+			sound_effect_signal_start.emit(SE_shoot)
+	elif self is WeaponPinky:
+		sound_effect_signal_start.emit(SE_pinky_shoot)
+	else:
+		sound_effect_signal_start.emit(SE_shoot)
+	
 	shoot_timer.start()
 	if weapon_usage < expected_usage*1.5:
 		weapon_usage += 1
@@ -164,6 +264,13 @@ func cease_fire():
 func add_xp(xp: float):
 	var experience_rate: float
 	experience_change.emit()
+	
+	if self is WeaponMiddle:
+		if not sound_effects[SE_xp_earned].is_playing():
+			sound_effect_signal_start.emit(SE_xp_earned)
+	else:
+		sound_effect_signal_start.emit(SE_xp_earned)
+	
 	# XP gets harder to increase as level increases (XP cap at level 10)
 	experience_rate = xp* xp_gain_multiplier *(float(expected_usage)/(expected_usage_rate+weapon_usage))
 	if level < max_level:
@@ -173,6 +280,7 @@ func add_xp(xp: float):
 	# If XP is high enough, weapon gets upgraded
 	if level_experience >= upgrade_quota and level < max_level:
 		increase_level()
+		sound_effect_signal_start.emit(SE_level_up)
 	
 	if level == max_level:
 		# meowy
