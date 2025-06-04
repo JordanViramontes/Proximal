@@ -379,8 +379,6 @@ func on_heal(state: bool) -> void:
 
 # when the hitbox area is entered!!!!!!!!!!!!!!!!!!!!
 func _on_ring_pickup_area_area_entered(area: Area3D) -> void:
-	print("meowy?")
 	if area.is_in_group("RingPickup"):
-		print("meowy")
 		weapon.add_ring()
 		area.get_parent().queue_free()

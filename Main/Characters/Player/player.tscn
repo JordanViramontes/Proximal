@@ -83,7 +83,7 @@ health_component = NodePath("../HealthComponent")
 weapon_manager = NodePath("../LeanPivot/Head/Weapon_Manager")
 
 [node name="RingPickupArea" type="Area3D" parent="."]
-collision_layer = 8
+collision_layer = 0
 collision_mask = 32
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RingPickupArea"]

@@ -6,7 +6,7 @@
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_or64g"]
 particle_flag_rotate_y = true
-direction = Vector3(-1, 0, 0)
+direction = Vector3(0, 1, 0)
 initial_velocity_min = 2.0
 initial_velocity_max = 2.0
 angular_velocity_min = 0.999984
@@ -35,7 +35,6 @@ size = Vector2(0.2, 0.2)
 radius = 9.72385
 
 [node name="RingPickup" type="Node3D"]
-transform = Transform3D(0.999804, 0, 0, 0, 0.99952, 0, 0, 0, 0.999326, 0, 0, 0)
 script = ExtResource("1_mheej")
 rotation_rate = 60
 
@@ -52,7 +51,6 @@ collision_layer = 32
 collision_mask = 8
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PickupArea"]
-transform = Transform3D(0.999986, 0, 0, 0, 0.999986, 0, 0, 0, 1, -0.0399169, 0.0674744, -0.0697328)
 shape = SubResource("BoxShape3D_be71p")
 
 [node name="MagnetArea" type="Area3D" parent="."]

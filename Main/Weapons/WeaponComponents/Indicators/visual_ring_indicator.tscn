@@ -1,9 +1,40 @@
-[gd_scene load_steps=2 format=3 uid="uid://cvp5b0l33tb0u"]
+[gd_scene load_steps=7 format=3 uid="uid://cvp5b0l33tb0u"]
+
+[ext_resource type="Script" uid="uid://db3aq5xxysnus" path="res://Main/Weapons/WeaponComponents/Indicators/visual_ring_indicator.gd" id="1_u0bxk"]
+[ext_resource type="Texture2D" uid="uid://b3n3rx7pgoehq" path="res://assets/textures/sparkle.png" id="2_enanj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_enanj"]
+transparency = 1
+emission_enabled = true
+emission = Color(0.295056, 0.562689, 0.558153, 1)
 
 [sub_resource type="TorusMesh" id="TorusMesh_lo253"]
+material = SubResource("StandardMaterial3D_enanj")
 inner_radius = 0.046
 outer_radius = 0.06
 rings = 12
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hwwso"]
+transparency = 1
+albedo_color = Color(0, 1, 0, 0.286275)
+albedo_texture = ExtResource("2_enanj")
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 6.0
+texture_filter = 0
+billboard_keep_scale = true
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_dly06"]
+load_path = "res://.godot/imported/sparkle.png-1dc9ba49e891a9a111e4f6aca2aa18c0.s3tc.ctex"
+
 [node name="VisualRingIndicator" type="MeshInstance3D"]
 mesh = SubResource("TorusMesh_lo253")
+script = ExtResource("1_u0bxk")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_hwwso")
+modulate = Color(1, 1, 1, 0.188235)
+billboard = 1
+texture_filter = 0
+texture = SubResource("CompressedTexture2D_dly06")
