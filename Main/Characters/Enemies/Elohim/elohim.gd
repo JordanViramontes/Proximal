@@ -52,14 +52,14 @@ func _physics_process(delta: float) -> void:
 		initial_summon = false
 	
 	# state logic for gravity
-	if current_state != ENEMY_STATE.spawn_edge:
+	if current_state not in [ENEMY_STATE.spawn_edge, ENEMY_STATE.stunned]:
 		# gravity
 		if not is_on_floor():
 			velocity += get_gravity() * delta
 
 func _on_pathfind_timer_timeout() -> void:
 	# avoid pathfinding
-	if current_state == ENEMY_STATE.spawn_edge:
+	if current_state in [ENEMY_STATE.spawn_edge, ENEMY_STATE.stunned]:
 		return
 		
 	# if we're summoning
@@ -165,3 +165,18 @@ func summon_guys() -> void:
 	
 	emit_signal("add_new_enemies", 1, mob1)
 	emit_signal("add_new_enemies", 1, mob2)
+
+
+# vacuum and stun causes issues with spawning timer
+func _on_recieve_stun() -> void:
+	summon_cooldown.paused = true
+	summoning_timer.paused = true
+	
+	super._on_recieve_stun()
+
+func _on_recieve_unstun() -> void:
+	summon_cooldown.paused = false
+	summoning_timer.paused = false
+	
+	super._on_recieve_unstun()
+	

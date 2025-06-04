@@ -60,26 +60,26 @@ func load_resolution_settings() -> int:
 	return res
 
 func save_mouse_sens_setting(key: String, value):
-	config.set_value("mouse_sens", key, value)
+	config.set_value("mouse", key, value)
 	config.save(SETTINGS_FILE_PATH)
 
 func load_mouse_sens_settings():
 	var found_sens: float = 11.0
 	var video_settings = {}
-	for key in config.get_section_keys("mouse_sens"):
-		video_settings[key] = config.get_value("mouse_sens", key)
+	for key in config.get_section_keys("mouse"):
+		video_settings[key] = config.get_value("mouse", key)
 		found_sens = float(video_settings[key])
 	return found_sens
 
 func save_scroll_inverted_setting(key: String, value):
-	config.set_value("scroll_inverted", key, value)
+	config.set_value("scroll", key, value)
 	config.save(SETTINGS_FILE_PATH)
 
 func load_scroll_inverted_settings():
 	var found_inverted: bool = false
 	var video_settings = {}
-	for key in config.get_section_keys("scroll_inverted"):
-		video_settings[key] = config.get_value("scroll_inverted", key)
+	for key in config.get_section_keys("scroll"):
+		video_settings[key] = config.get_value("scroll", key)
 		found_inverted = bool(video_settings[key])
 	return found_inverted
 

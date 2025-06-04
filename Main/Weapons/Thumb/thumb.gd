@@ -41,7 +41,7 @@ func permute_vector_weighted(v: Vector3, spread: float, weight: float):
 	return v_unweighted * weight
 
 func on_on_ability_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
-	print("on-on-onability shoot called with %s, %s, %s" % [from_pos, look_direction, velocity])
+	#print("on-on-onability shoot called with %s, %s, %s" % [from_pos, look_direction, velocity])
 	if ability_bullet == null:
 		print("thumb.gd - set my ability bullet property bro! i dont have it!")
 		return
@@ -58,10 +58,12 @@ func on_on_ability_shoot(from_pos: Vector3, look_direction: Vector3, velocity: V
 	await get_tree().create_timer(0.1).timeout
 	
 	# 🧲 Define a **fixed vacuum point** in front of the bullet
-	var vacuum_target_pos = b.global_position + b.face_dir.normalized() * 2.0
+	var vacuum_target_pos = self.global_position + b.face_dir.normalized() * 2.0
 	
 	# Pull enemies toward that point, stop once they're close
 	for enemy in b.enemyHit:
+		if not enemy:
+			continue
 		var to_vacuum_point = vacuum_target_pos - enemy.global_position
 		var direction = to_vacuum_point.normalized()
 		var strength = base_force

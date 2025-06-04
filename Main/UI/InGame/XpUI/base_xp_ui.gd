@@ -102,6 +102,7 @@ func initialize(weapon: int):
 	component.send_ui_ability_time.connect(self.set_ability_cooldown_ui)
 	component.send_ui_xp_updated.connect(self.set_new_xp_ui)
 	component.send_ui_xp_level_updated.connect(self.set_new_xp_level_ui)
+	component.send_ui_xp_max_level.connect(self.set_xp_max_level)
 
 func create_new_gradient_texture(color) -> GradientTexture2D:
 	# Create a new Gradient resource
@@ -133,8 +134,8 @@ func set_ability_cooldown_ui(time: float):
 # weapon xp changes
 func set_new_xp_ui(xp: float):
 	var initial_value: float = xp
-	while initial_value > weapon_node.upgrade_quota:
-		initial_value -= weapon_node.upgrade_quota
+	active_xp_progress_bar.max_value = weapon_node.upgrade_quota
+	minimized_xp_progress_bar.max_value = weapon_node.upgrade_quota
 	active_xp_progress_bar.value = initial_value
 	minimized_xp_progress_bar.value = initial_value
 	#print("setting value to: " + str(initial_value) +  " for " + str(weapon_node))
@@ -154,6 +155,21 @@ func set_new_xp_level_ui(level_direction: float):
 		minimized_level_up.self_modulate.a = 1
 		minimized_level_up.visible = true
 		level_up_timer.start()
+
+func set_xp_max_level() -> void:
+	# for changing max level label, signal sent in the weapon_base when you reach max level
+	active_weapon_level_label.text = "Lvl: MAX" # TODO give this more visual sauce
+	minimized_weapon_level_label.text = "Lvl: MAX" 
+	
+	# if we keep the level up thing where it usually is it blocks the max text, so move it to the right a little bit
+	# it already is going to do the modulate and alpha stuff
+	# so just move it and set a timer to move it back
+	
+	# (don't kill me for messing with this jordan)
+	active_level_up.position = $Active/MaxLevelUpPos.position
+	
+	var t = get_tree().create_timer(level_up_timer.wait_time)
+	t.timeout.connect(func (): active_level_up.position = $Active/MaxLevelUpPos.position)
 
 func _process(delta: float) -> void:
 	#print("check: " + str(is_ability_cooldown))
