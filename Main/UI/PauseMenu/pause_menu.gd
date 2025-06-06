@@ -34,6 +34,7 @@ func pauseMenu():
 			return
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		get_tree().paused = false
+		
 		$"Options Menu".visible = false
 		animation_player.play_backwards("blur")
 		await animation_player.animation_finished
@@ -93,7 +94,7 @@ func _ready():
 
 func _on_resume_pressed() -> void:
 	pauseMenu()
-	is_paused.emit(true)
+	is_paused.emit(false)
 
 func _on_options_pressed() -> void:
 	$"Options Menu".visible = true
