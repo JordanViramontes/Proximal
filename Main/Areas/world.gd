@@ -47,7 +47,7 @@ func _process(delta: float) -> void:
 	#var fps = Engine.get_frames_per_second()  
 	#print("fps: " + str(fps))
 
-
+	
 func on_player_die():
 	$UI/DeathInterface.activate(3)
 	reset_timer = Timer.new()
