@@ -117,17 +117,15 @@ alignment = 0
 
 [node name="Title" type="Label" parent="."]
 layout_mode = 0
-offset_left = 321.0
-offset_top = 22.0
-offset_right = 462.0
-offset_bottom = 85.0
+offset_left = 343.0
+offset_top = 45.0
+offset_right = 484.0
+offset_bottom = 108.0
 scale = Vector2(2.585, 2.585)
 theme_override_font_sizes/font_size = 57
 text = "PROXIMAL"
 horizontal_alignment = 1
 script = ExtResource("9_vt8y5")
-amplitude = 5.0
-lag_point = 30.0
 
 [node name="Version" type="Label" parent="."]
 layout_mode = 0

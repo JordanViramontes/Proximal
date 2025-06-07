@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://biipfwjx2mb0k"
 path.s3tc="res://.godot/imported/ishim-ranger-Sheet.png-b7ac75d82e80de8eec8bb32ab94b86ab.s3tc.ctex"
+path.etc2="res://.godot/imported/ishim-ranger-Sheet.png-b7ac75d82e80de8eec8bb32ab94b86ab.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/sprites/ishim/ranger/ishim-ranger-Sheet.png"
-dest_files=["res://.godot/imported/ishim-ranger-Sheet.png-b7ac75d82e80de8eec8bb32ab94b86ab.s3tc.ctex"]
+dest_files=["res://.godot/imported/ishim-ranger-Sheet.png-b7ac75d82e80de8eec8bb32ab94b86ab.s3tc.ctex", "res://.godot/imported/ishim-ranger-Sheet.png-b7ac75d82e80de8eec8bb32ab94b86ab.etc2.ctex"]
 
 [params]
 

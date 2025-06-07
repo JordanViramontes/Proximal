@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://druw8o2qfg52y"
 path.s3tc="res://.godot/imported/particle-Sheet.png-8f54a0e4ba5a4e2f46a42ac794842882.s3tc.ctex"
+path.etc2="res://.godot/imported/particle-Sheet.png-8f54a0e4ba5a4e2f46a42ac794842882.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/sprites/elohim/particle-Sheet.png"
-dest_files=["res://.godot/imported/particle-Sheet.png-8f54a0e4ba5a4e2f46a42ac794842882.s3tc.ctex"]
+dest_files=["res://.godot/imported/particle-Sheet.png-8f54a0e4ba5a4e2f46a42ac794842882.s3tc.ctex", "res://.godot/imported/particle-Sheet.png-8f54a0e4ba5a4e2f46a42ac794842882.etc2.ctex"]
 
 [params]
 
