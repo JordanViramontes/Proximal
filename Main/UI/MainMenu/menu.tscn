@@ -9,11 +9,12 @@
 [ext_resource type="Texture2D" uid="uid://cpwrg21fbj3ml" path="res://assets/UI/Mask.png" id="5_svcqa"]
 [ext_resource type="FontFile" uid="uid://be672lysxmsqk" path="res://assets/fonts/Silver.ttf" id="8_ofy2k"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ypw4e"]
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aklih"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wav1i"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qix1g"]
+bg_color = Color(0, 0, 0, 1)
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -37,6 +38,7 @@ offset_right = 11.0
 offset_bottom = 22.0
 grow_horizontal = 2
 grow_vertical = 2
+metadata/_edit_lock_ = true
 
 [node name="Node2D" type="Node2D" parent="Parallax"]
 position = Vector2(20, 20)
@@ -89,13 +91,12 @@ texture = ExtResource("3_iysyy")
 layout_mode = 0
 offset_left = 37.0
 offset_top = 255.0
-offset_right = 119.0
-offset_bottom = 389.0
+offset_right = 214.0
+offset_bottom = 397.0
 
 [node name="Play" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("8_ofy2k")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_ypw4e")
 text = "PLAY"
 alignment = 0
 
@@ -113,6 +114,26 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_wav1i")
 text = "QUIT"
 alignment = 0
 
+[node name="Title" type="Label" parent="."]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 188.0
+offset_right = 169.0
+offset_bottom = 251.0
+theme_override_font_sizes/font_size = 57
+text = "PROXIMAL"
+
+[node name="Version" type="Label" parent="."]
+layout_mode = 0
+offset_left = 587.0
+offset_top = 562.0
+offset_right = 1145.0
+offset_bottom = 649.0
+theme_override_colors/font_color = Color(0.22, 0.22, 0.22, 1)
+text = "version: too early to even give it a number
+send bugs and suggestions to @clefalto on discord"
+horizontal_alignment = 2
+
 [node name="Options Menu" type="Control" parent="."]
 visible = false
 layout_mode = 1
@@ -121,6 +142,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+metadata/_edit_lock_ = true
 
 [node name="PanelContainer" type="PanelContainer" parent="Options Menu"]
 self_modulate = Color(1, 1, 1, 0.607843)
@@ -130,10 +152,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 120.0
 offset_top = 18.0
-offset_right = -120.0
-offset_bottom = -18.0
+offset_right = -102.0
+offset_bottom = -34.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qix1g")
 
 [node name="MarginContainer" type="MarginContainer" parent="Options Menu/PanelContainer"]
 layout_mode = 2
