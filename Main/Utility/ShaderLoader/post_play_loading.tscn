@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://bnsa3evanc5uk"]
+
+[ext_resource type="Script" uid="uid://b8mea2wpm15g1" path="res://Main/Utility/ShaderLoader/post_play_loading.gd" id="1_l1i3b"]
+[ext_resource type="PackedScene" uid="uid://dpr4vqbmfw32" path="res://Main/Utility/ShaderLoader/shader_loader.tscn" id="2_drvxw"]
+
+[node name="PostPlayLoading" type="Node3D"]
+script = ExtResource("1_l1i3b")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ShaderLoader" parent="." instance=ExtResource("2_drvxw")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.14092)
+
+[connection signal="done" from="ShaderLoader" to="." method="_on_shader_loader_done"]

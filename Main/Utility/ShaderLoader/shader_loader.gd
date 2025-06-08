@@ -2,10 +2,12 @@ extends Node3D
 
 var waited: bool = false
 
+signal done
+
 func _ready():
 	for child in get_children():
 		if child is GPUParticles3D:
-			child.emitting = true
+			child.restart()
 
 
 func _process(_delta: float):
@@ -14,4 +16,5 @@ func _process(_delta: float):
 		waited = true
 	else:
 		# die
+		done.emit()
 		self.queue_free()

@@ -57,7 +57,7 @@ func _ready():
 func _on_play_pressed():
 	FadeToBlack.transition()
 	await FadeToBlack.on_transition_finished
-	get_tree().change_scene_to_file("res://Main/MainScene/main.tscn")
+	get_tree().change_scene_to_file("res://Main/Utility/ShaderLoader/post_play_loading.tscn")
 
 # options button should allow to change ui elements, key binds, etc.
 func _on_options_pressed():

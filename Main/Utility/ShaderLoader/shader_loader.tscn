@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dpr4vqbmfw32"]
+[gd_scene load_steps=19 format=3 uid="uid://dpr4vqbmfw32"]
 
 [ext_resource type="Script" uid="uid://coeb5aymbpfjt" path="res://Main/Utility/ShaderLoader/shader_loader.gd" id="1_ha2x4"]
 [ext_resource type="PackedScene" uid="uid://d183l837ka6ro" path="res://Main/Utility/Particles/stun_particles.tscn" id="2_2lqfm"]
@@ -10,6 +10,7 @@
 [ext_resource type="Material" uid="uid://cql7cmlu5inwv" path="res://assets/materials/ishim_crawler.tres" id="8_55jmn"]
 [ext_resource type="Material" uid="uid://cy302f8sk1gmf" path="res://assets/textures/middle_bullet.tres" id="9_004re"]
 [ext_resource type="Material" uid="uid://ccklk1lmlen4j" path="res://assets/textures/pinky_bullet.tres" id="10_yrydd"]
+[ext_resource type="PackedScene" uid="uid://dbuhkb8w68vxe" path="res://Main/Utility/Particles/death_particles.tscn" id="11_rntxb"]
 
 [sub_resource type="Curve" id="Curve_b64uu"]
 _data = [Vector2(0.573529, 1), 0.0, -1.91549, 0, 0, Vector2(1, 0), -2.34483, 0.0, 1, 0]
@@ -82,3 +83,5 @@ skeleton = NodePath("../MeshInstance3D2")
 material_override = ExtResource("10_yrydd")
 mesh = SubResource("BoxMesh_lca2h")
 skeleton = NodePath("../MeshInstance3D2")
+
+[node name="DeathParticles" parent="." instance=ExtResource("11_rntxb")]
