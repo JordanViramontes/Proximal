@@ -58,7 +58,7 @@ void fragment() {
 	ROUGHNESS = roughness_tex * roughness;
 	ALPHA *= albedo.a * albedo_tex.a;
 
-	
+
 	vec3 talbedo = vec3(albedo.r + hitflash_amount, albedo.g + hitflash_amount, albedo.b + hitflash_amount) * albedo_tex.rgb;
 	ALBEDO = vec3(clamp(talbedo.r, 0.0, 1.0), clamp(talbedo.g, 0.0, 1.0), clamp(talbedo.b, 0.0, 1.0));
 }

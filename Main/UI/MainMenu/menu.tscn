@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://ym3cvmyxqe21"]
+[gd_scene load_steps=15 format=3 uid="uid://ym3cvmyxqe21"]
 
 [ext_resource type="Script" uid="uid://c3tkx1hh6cktm" path="res://Main/UI/MainMenu/menu.gd" id="1_u81ku"]
 [ext_resource type="Texture2D" uid="uid://b7fw7tcjti5kw" path="res://assets/UI/Background.png" id="2_2tfbb"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://cpwrg21fbj3ml" path="res://assets/UI/Mask.png" id="5_svcqa"]
 [ext_resource type="FontFile" uid="uid://be672lysxmsqk" path="res://assets/fonts/Silver.ttf" id="8_ofy2k"]
 [ext_resource type="Script" uid="uid://cq5xvjm4u0382" path="res://Main/UI/MainMenu/bouncy_text.gd" id="9_vt8y5"]
+[ext_resource type="Script" uid="uid://cyqujq7a1vope" path="res://Main/UI/MainMenu/credits_menu.gd" id="10_w3gyq"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aklih"]
 
@@ -16,6 +17,9 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qix1g"]
 bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_vt8y5"]
+font_size = 76
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -44,12 +48,14 @@ metadata/_edit_lock_ = true
 [node name="Node2D" type="Node2D" parent="Parallax"]
 position = Vector2(20, 20)
 scale = Vector2(1.74, 1.74)
+metadata/_edit_lock_ = true
 
 [node name="Background" type="Sprite2D" parent="Parallax/Node2D"]
 texture_filter = 1
 position = Vector2(5.1724, -1.14944)
 scale = Vector2(4.13793, 3.10345)
 texture = ExtResource("2_2tfbb")
+metadata/_edit_lock_ = true
 
 [node name="Midground2" type="Sprite2D" parent="Parallax/Node2D"]
 texture_filter = 1
@@ -58,6 +64,7 @@ texture = ExtResource("3_78n2u")
 script = ExtResource("2_2un8v")
 move_force = 4
 lag_point = 135.0
+metadata/_edit_lock_ = true
 
 [node name="Mask" type="Sprite2D" parent="Parallax/Node2D"]
 texture_filter = 1
@@ -67,6 +74,7 @@ texture = ExtResource("5_svcqa")
 script = ExtResource("2_2un8v")
 move_force = 3
 lag_point = 90.0
+metadata/_edit_lock_ = true
 
 [node name="Midground" type="Sprite2D" parent="Parallax/Node2D"]
 texture_filter = 1
@@ -75,18 +83,21 @@ texture = ExtResource("3_ny0ke")
 script = ExtResource("2_2un8v")
 move_force = 2
 lag_point = 45.0
+metadata/_edit_lock_ = true
 
 [node name="Foreground" type="Sprite2D" parent="Parallax/Node2D"]
 texture_filter = 1
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("3_iysyy")
 script = ExtResource("2_2un8v")
+metadata/_edit_lock_ = true
 
 [node name="ForegroundDropSh" type="Sprite2D" parent="Parallax/Node2D/Foreground"]
 modulate = Color(0, 0, 0, 1)
 z_index = -1
 position = Vector2(0, 3)
 texture = ExtResource("3_iysyy")
+metadata/_edit_lock_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
@@ -106,6 +117,11 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("8_ofy2k")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_aklih")
 text = "OPTIONS"
+alignment = 0
+
+[node name="Credits" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "CREDITS"
 alignment = 0
 
 [node name="Quit" type="Button" parent="VBoxContainer"]
@@ -312,8 +328,63 @@ focus_mode = 0
 theme_override_font_sizes/font_size = 18
 text = "Reset To Default"
 
+[node name="CreditsMenu" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("10_w3gyq")
+
+[node name="BG" type="ColorRect" parent="CreditsMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="CreditsMenu/BG"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CreditsMenu/BG/CenterContainer"]
+layout_mode = 2
+
+[node name="BigLabel" type="Label" parent="CreditsMenu/BG/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "PROXIMAL early prototype dev team"
+label_settings = SubResource("LabelSettings_vt8y5")
+
+[node name="Hello" type="RichTextLabel" parent="CreditsMenu/BG/CenterContainer/VBoxContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[color=green]Garett Hammerle[/color] - Design, Programming, Art
+[color=pink]Jordan Viramontes[/color] - Programming, Art
+[color=blue]Thomas Nguyen[/color] - Programming, Menu and UI Design
+[color=red]Kevin Wu[/color] - Programming
+[color=goldenrod]Benedict Ignacio[/color] - Programming"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+
+[node name="ReturnButton" type="Button" parent="CreditsMenu/BG"]
+layout_mode = 0
+offset_left = 1106.0
+offset_top = 7.0
+offset_right = 1146.0
+offset_bottom = 49.0
+text = "X"
+
 [connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="VBoxContainer/Credits" to="." method="_on_credits_pressed"]
 [connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Options_Exit" to="." method="_on_options_exit_pressed"]
 [connection signal="drag_ended" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainer/Volume" to="." method="_on_volume_drag_ended"]
@@ -324,3 +395,4 @@ text = "Reset To Default"
 [connection signal="drag_ended" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Mouse_Sensitivity/Mouse_Slider" to="." method="_on_mouse_slider_drag_ended"]
 [connection signal="value_changed" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Mouse_Sensitivity/Mouse_Slider" to="." method="_on_mouse_slider_value_changed"]
 [connection signal="pressed" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/Reset_Button" to="." method="_on_reset_button_pressed"]
+[connection signal="pressed" from="CreditsMenu/BG/ReturnButton" to="CreditsMenu" method="_on_return_button_pressed"]

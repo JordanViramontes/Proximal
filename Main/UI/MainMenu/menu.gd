@@ -199,3 +199,7 @@ func _on_mouse_slider_value_changed(value: float) -> void:
 	ConfigFileHandler.save_mouse_sens_setting("mouse_sens", mouse_sensitivity.value)
 	mouse_sensitivity_label.text = str(int(mouse_sensitivity.value))
 	#print("check sens: " + str(int(mouse_sensitivity.value)))
+
+
+func _on_credits_pressed() -> void:
+	$CreditsMenu.switch_to()
