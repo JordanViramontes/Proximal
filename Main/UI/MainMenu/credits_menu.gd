@@ -1,8 +1,7 @@
 extends Control
 
 @onready var menu_bg: ColorRect = $BG
-@onready var title_label: Label = $BG/CenterContainer/VBoxContainer/BigLabel
-@onready var credits_label: RichTextLabel = $BG/CenterContainer/VBoxContainer/Hello
+@onready var onebyone_shower_container: VBoxContainer = $BG/CenterContainer/VBoxContainer
 
 var is_active: bool
 
@@ -15,8 +14,9 @@ func switch_to():
 	
 	var tw = get_tree().create_tween()
 	tw.tween_property(menu_bg, "color", Color(0.0, 0.0, 0.0, 1.0), 0.5)
-	tw.tween_property(title_label, "self_modulate", Color(1.0, 1.0, 1.0, 1.0), 1.0)
-	tw.tween_property(credits_label, "self_modulate", Color(1.0, 1.0, 1.0, 1.0), 1.0)
+	#tw.tween_property(title_label, "self_modulate", Color(1.0, 1.0, 1.0, 1.0), 1.0)
+	#tw.tween_property(credits_label, "self_modulate", Color(1.0, 1.0, 1.0, 1.0), 1.0)
+	tw.finished.connect(func(): onebyone_shower_container.do_showing())
 
 func _physics_process(delta: float):
 	if is_active:
@@ -25,13 +25,14 @@ func _physics_process(delta: float):
 
 func reset_transparency(): # call when switching from
 	menu_bg.color.a = 0.0
-	title_label.self_modulate.a = 0.0
-	credits_label.self_modulate.a = 0.0
+	onebyone_shower_container.reset()
+	#title_label.self_modulate.a = 0.0
+	#credits_label.self_modulate.a = 0.0
 
 func close_menu():
+	self.reset_transparency()
 	self.is_active = false
 	self.visible = false
-	self.reset_transparency()
 
 func _on_return_button_pressed() -> void:
 	self.close_menu()
