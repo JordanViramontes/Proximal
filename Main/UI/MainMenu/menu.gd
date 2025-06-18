@@ -15,6 +15,8 @@ var action_to_remap = null
 var remapping_button = null
 @export var default_mouse_sens = 18
 
+var options_activated := false
+
 # input actions dictionary
 var input_actions = {
 	"forward": "Move Forward",
@@ -61,6 +63,7 @@ func _on_play_pressed():
 
 # options button should allow to change ui elements, key binds, etc.
 func _on_options_pressed():
+	options_activated = true
 	$"Options Menu".visible = true
 
 func _on_quit_pressed():
@@ -104,6 +107,7 @@ func _on_resolutions_item_selected(index: int) -> void:
 	ConfigFileHandler.save_resolution_settings("window_res", str(i))
 
 func _on_options_exit_pressed() -> void:
+	options_activated = false
 	$"Options Menu".visible = false
 
 func _load_keybindings_from_settings():
@@ -147,17 +151,25 @@ func _input(event):
 			if event is InputEventMouseButton && event.double_click:
 				event.double_click = false
 			
-			InputMap.action_erase_events(action_to_remap)
-			InputMap.action_add_event(action_to_remap, event)
-			ConfigFileHandler.save_keybinding(action_to_remap, event)
-			_update_action_list(remapping_button, event)
+			if event.is_action_pressed("escape"): # canceling remap with escape key
+				_update_action_list(remapping_button, InputMap.action_get_events(action_to_remap)[0])
+			
+			else:
+				InputMap.action_erase_events(action_to_remap)
+				InputMap.action_add_event(action_to_remap, event)
+				ConfigFileHandler.save_keybinding(action_to_remap, event)
+				_update_action_list(remapping_button, event)
 			
 			is_remapping = false
 			action_to_remap = null
 			remapping_button = null
 			
 			accept_event()
-			
+	
+	elif options_activated:
+		if (event.is_action_pressed("escape")):
+			_on_options_exit_pressed() # simulate exiting the options menu when you press escape, hopefully this doesn't break anything
+	
 func _update_action_list(button, event):
 	button.find_child("LabelInput").text = event.as_text().trim_suffix(" (Physical)")
 
