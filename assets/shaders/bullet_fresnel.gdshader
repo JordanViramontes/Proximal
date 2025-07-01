@@ -22,4 +22,3 @@ void fragment()
 	ALPHA = transparency;
 	EMISSION = fresnel;
 }
-
