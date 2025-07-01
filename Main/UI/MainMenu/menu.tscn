@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://ym3cvmyxqe21"]
+[gd_scene load_steps=19 format=3 uid="uid://ym3cvmyxqe21"]
 
 [ext_resource type="Script" uid="uid://c3tkx1hh6cktm" path="res://Main/UI/MainMenu/menu.gd" id="1_u81ku"]
 [ext_resource type="Texture2D" uid="uid://b7fw7tcjti5kw" path="res://assets/UI/Background.png" id="2_2tfbb"]
@@ -8,7 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://d0l03dkfp8t4f" path="res://assets/UI/SinnersHandMidground.png" id="3_ny0ke"]
 [ext_resource type="Texture2D" uid="uid://cpwrg21fbj3ml" path="res://assets/UI/Mask.png" id="5_svcqa"]
 [ext_resource type="FontFile" uid="uid://be672lysxmsqk" path="res://assets/fonts/Silver.ttf" id="8_ofy2k"]
-[ext_resource type="Script" uid="uid://cq5xvjm4u0382" path="res://Main/UI/MainMenu/bouncy_text.gd" id="9_vt8y5"]
 [ext_resource type="Script" uid="uid://cyqujq7a1vope" path="res://Main/UI/MainMenu/credits_menu.gd" id="10_w3gyq"]
 [ext_resource type="Script" uid="uid://bmhqpb7qs60ii" path="res://Main/UI/MainMenu/onebyone_shower.gd" id="11_pduai"]
 [ext_resource type="Script" uid="uid://xlypx6181wrq" path="res://Main/UI/MainMenu/wavy_text.gd" id="12_wyy7f"]
@@ -17,12 +16,6 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aklih"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wav1i"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qix1g"]
-bg_color = Color(0, 0, 0, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_vt8y5"]
-font_size = 76
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jivae"]
 shader = ExtResource("12_ysvbl")
@@ -33,6 +26,12 @@ shader_parameter/vertex_expand = 1.0
 [sub_resource type="RichTextEffect" id="RichTextEffect_ysvbl"]
 script = ExtResource("12_wyy7f")
 metadata/_custom_type_script = "uid://xlypx6181wrq"
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qix1g"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_vt8y5"]
+font_size = 76
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -144,20 +143,35 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_wav1i")
 text = "QUIT"
 alignment = 0
 
-[node name="Title" type="Label" parent="."]
-visible = false
-layout_mode = 0
-offset_left = 321.0
-offset_top = 22.0
-offset_right = 462.0
-offset_bottom = 85.0
-scale = Vector2(2.585, 2.585)
-theme_override_font_sizes/font_size = 57
-text = "PROXIMAL"
+[node name="TitleContainer" type="Control" parent="."]
+anchors_preset = 0
+offset_top = 40.0
+offset_right = 1151.0
+offset_bottom = 311.0
+mouse_filter = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="TitleContainer"]
+material = SubResource("ShaderMaterial_jivae")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -592.5
+offset_top = -136.5
+offset_right = 558.5
+offset_bottom = 136.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 202
+bbcode_enabled = true
+text = "[cool_wave freq=1.0 amp=10.0 period=1.0] P R O X I M A L[/cool_wave]"
+fit_content = true
 horizontal_alignment = 1
-script = ExtResource("9_vt8y5")
-amplitude = 5.0
-lag_point = 30.0
+vertical_alignment = 1
+custom_effects = [SubResource("RichTextEffect_ysvbl")]
 
 [node name="Version" type="Label" parent="."]
 layout_mode = 0
@@ -406,36 +420,6 @@ offset_top = 7.0
 offset_right = 1146.0
 offset_bottom = 49.0
 text = "X"
-
-[node name="TitleContainer" type="Control" parent="."]
-anchors_preset = 0
-offset_top = 40.0
-offset_right = 1151.0
-offset_bottom = 311.0
-mouse_filter = 2
-
-[node name="RichTextLabel" type="RichTextLabel" parent="TitleContainer"]
-material = SubResource("ShaderMaterial_jivae")
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -592.5
-offset_top = -136.5
-offset_right = 558.5
-offset_bottom = 136.5
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_font_sizes/normal_font_size = 202
-bbcode_enabled = true
-text = "[cool_wave freq=1.0 amp=10.0 period=1.0] P R O X I M A L[/cool_wave]"
-fit_content = true
-horizontal_alignment = 1
-vertical_alignment = 1
-custom_effects = [SubResource("RichTextEffect_ysvbl")]
 
 [connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_options_pressed"]
