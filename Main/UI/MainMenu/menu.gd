@@ -215,3 +215,7 @@ func _on_mouse_slider_value_changed(value: float) -> void:
 
 func _on_credits_pressed() -> void:
 	$CreditsMenu.switch_to()
+
+
+func _on_how_to_play_pressed() -> void:
+	$HowToPlayMenu.switch_to()

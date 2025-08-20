@@ -17,6 +17,17 @@ color = Color(0, 0, 0, 1)
 [node name="ShaderLoader" parent="." instance=ExtResource("2_drvxw")]
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.14092)
+transform = Transform3D(1, 0, 0, 0, 0.917164, 0.398509, 0, -0.398509, 0.917164, -0.37531, 2.41614, 4.20387)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CenterContainer"]
+layout_mode = 2
+text = "loading"
 
 [connection signal="done" from="ShaderLoader" to="." method="_on_shader_loader_done"]

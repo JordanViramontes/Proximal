@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://ym3cvmyxqe21"]
+[gd_scene load_steps=21 format=3 uid="uid://ym3cvmyxqe21"]
 
 [ext_resource type="Script" uid="uid://c3tkx1hh6cktm" path="res://Main/UI/MainMenu/menu.gd" id="1_u81ku"]
 [ext_resource type="Texture2D" uid="uid://b7fw7tcjti5kw" path="res://assets/UI/Background.png" id="2_2tfbb"]
@@ -10,6 +10,8 @@
 [ext_resource type="FontFile" uid="uid://be672lysxmsqk" path="res://assets/fonts/Silver.ttf" id="8_ofy2k"]
 [ext_resource type="Script" uid="uid://cyqujq7a1vope" path="res://Main/UI/MainMenu/credits_menu.gd" id="10_w3gyq"]
 [ext_resource type="Script" uid="uid://bmhqpb7qs60ii" path="res://Main/UI/MainMenu/onebyone_shower.gd" id="11_pduai"]
+[ext_resource type="Script" uid="uid://bmr20324ukhtc" path="res://Main/UI/MainMenu/how_to_play_menu.gd" id="11_ysvbl"]
+[ext_resource type="Script" uid="uid://cy1u37j8iueh0" path="res://Main/UI/MainMenu/onebyone_shower_click.gd" id="12_jivae"]
 [ext_resource type="Script" uid="uid://xlypx6181wrq" path="res://Main/UI/MainMenu/wavy_text.gd" id="12_wyy7f"]
 [ext_resource type="Shader" uid="uid://ce6v2mq2dsap4" path="res://Main/UI/MainMenu/blur.gdshader" id="12_ysvbl"]
 
@@ -129,6 +131,11 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("8_ofy2k")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_aklih")
 text = "OPTIONS"
+alignment = 0
+
+[node name="HowToPlay" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "HOW TO PLAY"
 alignment = 0
 
 [node name="Credits" type="Button" parent="VBoxContainer"]
@@ -356,6 +363,157 @@ focus_mode = 0
 theme_override_font_sizes/font_size = 18
 text = "Reset To Default"
 
+[node name="HowToPlayMenu" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("11_ysvbl")
+
+[node name="BG" type="ColorRect" parent="HowToPlayMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HowToPlayMenu/BG"]
+layout_mode = 2
+offset_left = 32.0
+offset_top = 15.0
+offset_right = 1109.0
+offset_bottom = 643.0
+mouse_filter = 0
+script = ExtResource("12_jivae")
+
+[node name="BigLabel" type="Label" parent="HowToPlayMenu/BG/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 1
+text = "PROXIMAL gameplay explanation"
+label_settings = SubResource("LabelSettings_vt8y5")
+
+[node name="Label" type="Label" parent="HowToPlayMenu/BG/VBoxContainer/BigLabel"]
+layout_mode = 0
+offset_left = 677.0
+offset_top = 20.0
+offset_right = 877.0
+offset_bottom = 62.0
+text = "(click to advance)"
+
+[node name="Waves" type="RichTextLabel" parent="HowToPlayMenu/BG/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "Increasingly difficult waves of enemies will repeatedly spawn."
+fit_content = true
+scroll_active = false
+
+[node name="Waves2" type="RichTextLabel" parent="HowToPlayMenu/BG/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "The next wave will only spawn when all the enemies from the previous are defeated or the timer runs out."
+fit_content = true
+scroll_active = false
+
+[node name="Weapons" type="RichTextLabel" parent="HowToPlayMenu/BG/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "You have five weapons. "
+fit_content = true
+scroll_active = false
+
+[node name="Weapons2" type="RichTextLabel" parent="HowToPlayMenu/BG/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "Each fires differently."
+fit_content = true
+scroll_active = false
+
+[node name="Weapons3" type="RichTextLabel" parent="HowToPlayMenu/BG/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "Each has an ability bound to [Weapon_Ability]. Right click by default."
+fit_content = true
+scroll_active = false
+
+[node name="Weapons4" type="RichTextLabel" parent="HowToPlayMenu/BG/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "These abilities have a cooldown that's displayed in the bottom left."
+fit_content = true
+scroll_active = false
+
+[node name="Weapons5" type="RichTextLabel" parent="HowToPlayMenu/BG/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "Damaging and defeating enemies gives that weapon experience."
+fit_content = true
+scroll_active = false
+
+[node name="Weapons6" type="RichTextLabel" parent="HowToPlayMenu/BG/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "Weapons level up after enough experience, becoming more powerful. The max level is 4."
+fit_content = true
+scroll_active = false
+
+[node name="Weapons7" type="RichTextLabel" parent="HowToPlayMenu/BG/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "Weapons lose experience over time."
+fit_content = true
+scroll_active = false
+
+[node name="Weapons8" type="RichTextLabel" parent="HowToPlayMenu/BG/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "Weapons gain less experience as you use them more, so you should frequently switch your weapon."
+fit_content = true
+scroll_active = false
+
+[node name="Weapons9" type="RichTextLabel" parent="HowToPlayMenu/BG/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "The goal is to survive as long as possible. Good luck. [esc to close]"
+fit_content = true
+scroll_active = false
+
+[node name="ReturnButton" type="Button" parent="HowToPlayMenu/BG"]
+layout_mode = 0
+offset_left = 1106.0
+offset_top = 7.0
+offset_right = 1146.0
+offset_bottom = 49.0
+text = "X"
+
 [node name="CreditsMenu" type="Control" parent="."]
 visible = false
 layout_mode = 1
@@ -423,6 +581,7 @@ text = "X"
 
 [connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="VBoxContainer/HowToPlay" to="." method="_on_how_to_play_pressed"]
 [connection signal="pressed" from="VBoxContainer/Credits" to="." method="_on_credits_pressed"]
 [connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Options_Exit" to="." method="_on_options_exit_pressed"]
@@ -434,4 +593,5 @@ text = "X"
 [connection signal="drag_ended" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Mouse_Sensitivity/Mouse_Slider" to="." method="_on_mouse_slider_drag_ended"]
 [connection signal="value_changed" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Mouse_Sensitivity/Mouse_Slider" to="." method="_on_mouse_slider_value_changed"]
 [connection signal="pressed" from="Options Menu/PanelContainer/MarginContainer/VBoxContainer/Reset_Button" to="." method="_on_reset_button_pressed"]
+[connection signal="pressed" from="HowToPlayMenu/BG/ReturnButton" to="HowToPlayMenu" method="_on_return_button_pressed"]
 [connection signal="pressed" from="CreditsMenu/BG/ReturnButton" to="CreditsMenu" method="_on_return_button_pressed"]
