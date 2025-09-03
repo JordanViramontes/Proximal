@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cksj1qlb381mn"
 path.s3tc="res://.godot/imported/elohim-Sheet.png-0954d64860fcabc4d4a2407bad68e98e.s3tc.ctex"
+path.etc2="res://.godot/imported/elohim-Sheet.png-0954d64860fcabc4d4a2407bad68e98e.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/sprites/elohim/elohim-Sheet.png"
-dest_files=["res://.godot/imported/elohim-Sheet.png-0954d64860fcabc4d4a2407bad68e98e.s3tc.ctex"]
+dest_files=["res://.godot/imported/elohim-Sheet.png-0954d64860fcabc4d4a2407bad68e98e.s3tc.ctex", "res://.godot/imported/elohim-Sheet.png-0954d64860fcabc4d4a2407bad68e98e.etc2.ctex"]
 
 [params]
 

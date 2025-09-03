@@ -1,4 +1,14 @@
-[gd_resource type="Theme" format=3 uid="uid://rsglqw8mc02x"]
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://rsglqw8mc02x"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oa4jb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qby0n"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_x0tin"]
 
 [resource]
 default_font_size = 38
+Button/colors/font_hover_color = Color(1, 1, 0, 1)
+Button/styles/focus = SubResource("StyleBoxEmpty_oa4jb")
+Button/styles/hover = SubResource("StyleBoxEmpty_qby0n")
+Button/styles/normal = SubResource("StyleBoxEmpty_x0tin")
