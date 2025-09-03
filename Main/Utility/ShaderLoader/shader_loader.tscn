@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=4 uid="uid://dpr4vqbmfw32"]
+[gd_scene load_steps=67 format=4 uid="uid://dpr4vqbmfw32"]
 
 [ext_resource type="Script" uid="uid://coeb5aymbpfjt" path="res://Main/Utility/ShaderLoader/shader_loader.gd" id="1_ha2x4"]
 [ext_resource type="PackedScene" uid="uid://d183l837ka6ro" path="res://Main/Utility/Particles/stun_particles.tscn" id="2_2lqfm"]
@@ -23,6 +23,17 @@
 [ext_resource type="Texture2D" uid="uid://boqk7rl7gwf4l" path="res://assets/sprites/elohim/bene-Sheet.png" id="21_yoo6v"]
 [ext_resource type="Texture2D" uid="uid://cvhnevicnsrn3" path="res://assets/sprites/ishim/crawler/ishim-crawler-Sheet.png" id="22_5c6g7"]
 [ext_resource type="Texture2D" uid="uid://biipfwjx2mb0k" path="res://assets/sprites/ishim/ranger/ishim-ranger-Sheet.png" id="23_ndolp"]
+[ext_resource type="PackedScene" uid="uid://b2nwv2k6ni68c" path="res://Main/Weapons/Index/index_bullet.tscn" id="24_hfh0n"]
+[ext_resource type="PackedScene" uid="uid://2cxmf5x5hcgw" path="res://Main/Weapons/Middle/middle_bullet.tscn" id="25_obix2"]
+[ext_resource type="PackedScene" uid="uid://djtp4uqwyjuk6" path="res://Main/Weapons/Pinky/pinky_bullet.tscn" id="26_ytwxy"]
+[ext_resource type="PackedScene" uid="uid://sk020iobm3eo" path="res://Main/Weapons/Ring/healing_dome.tscn" id="27_jqlcn"]
+[ext_resource type="PackedScene" uid="uid://drw72tdjmshya" path="res://Main/Weapons/Ring/ring_ability.tscn" id="28_gsv72"]
+[ext_resource type="PackedScene" uid="uid://cn2c867ej4ifx" path="res://Main/Weapons/Ring/ring_bullet.tscn" id="29_1wlgr"]
+[ext_resource type="PackedScene" uid="uid://bjj57xk7ekidm" path="res://Main/Weapons/Ring/ring_pickup.tscn" id="30_vxpjd"]
+[ext_resource type="PackedScene" uid="uid://d382718nkl44c" path="res://Main/Weapons/Ring/ring_shoot_explosion.tscn" id="31_a5whs"]
+[ext_resource type="PackedScene" uid="uid://b6ixebi3438gl" path="res://Main/Weapons/Ring/ring_terrain_explosion.tscn" id="32_8iyrr"]
+[ext_resource type="PackedScene" uid="uid://dmmosaxs1o0am" path="res://Main/Weapons/Thumb/thumb_bullet.tscn" id="33_obix2"]
+[ext_resource type="PackedScene" uid="uid://co580m3bpg52c" path="res://Main/Weapons/Thumb/thumb_ability.tscn" id="34_ytwxy"]
 
 [sub_resource type="Curve" id="Curve_b64uu"]
 _data = [Vector2(0.573529, 1), 0.0, -1.91549, 0, 0, Vector2(1, 0), -2.34483, 0.0, 1, 0]
@@ -374,59 +385,58 @@ draw_pass_1 = SubResource("QuadMesh_bsm7y")
 [node name="SummonParticles" parent="." instance=ExtResource("5_ppelp")]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.72824, 0, -1.55492)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.55492)
 material_override = ExtResource("6_yommq")
 mesh = SubResource("BoxMesh_6dvvh")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.46285, 0, -0.114672)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.114672)
 material_override = ExtResource("7_qio3l")
 mesh = SubResource("BoxMesh_lca2h")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.92085, 0, 1.15484)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.15484)
 material_override = ExtResource("8_55jmn")
 mesh = SubResource("BoxMesh_lca2h")
 skeleton = NodePath("../MeshInstance3D2")
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.31511, 0, 0)
 material_override = ExtResource("9_004re")
 mesh = SubResource("BoxMesh_lca2h")
 skeleton = NodePath("../MeshInstance3D2")
 
 [node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0700378, 0, -1.6566)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.6566)
 material_override = ExtResource("10_yrydd")
 mesh = SubResource("BoxMesh_lca2h")
 skeleton = NodePath("../MeshInstance3D2")
 
 [node name="MeshInstance3D6" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.182406, 0, 1.50877)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.50877)
 material_override = ExtResource("11_4ym3c")
 mesh = SubResource("BoxMesh_lca2h")
 skeleton = NodePath("../MeshInstance3D2")
 
 [node name="MeshInstance3D7" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.17818, 0, 1.4722)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.4722)
 material_override = ExtResource("12_ondi0")
 mesh = SubResource("BoxMesh_lca2h")
 skeleton = NodePath("../MeshInstance3D2")
 
 [node name="MeshInstance3D8" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.06279, 0, 0.102252)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.102252)
 material_override = ExtResource("13_wx5d4")
 mesh = SubResource("BoxMesh_lca2h")
 skeleton = NodePath("../MeshInstance3D2")
 
 [node name="MeshInstance3D9" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.71286, 4.76837e-07, -1.51373)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.51373)
 material_override = ExtResource("14_5ginn")
 mesh = SubResource("BoxMesh_lca2h")
 skeleton = NodePath("../MeshInstance3D2")
 
 [node name="MeshInstance3D10" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.62289, 0, -0.262956)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.262956)
 material_override = ExtResource("15_5ginn")
 mesh = SubResource("BoxMesh_lca2h")
 skeleton = NodePath("../MeshInstance3D2")
@@ -434,12 +444,11 @@ skeleton = NodePath("../MeshInstance3D2")
 [node name="DeathParticles" parent="." instance=ExtResource("11_rntxb")]
 
 [node name="MeshInstance3D11" type="MeshInstance3D" parent="." groups=["Enemies"]]
-transform = Transform3D(-2.48472, 0, -3.75183e-07, 0, 2.48472, 0, 3.75183e-07, 0, -2.48472, 0, -0.658936, -10.2518)
+transform = Transform3D(-2.48472, 0, -3.75183e-07, 0, 2.48472, 0, 3.75183e-07, 0, -2.48472, 0, 0, -10.2518)
 material_overlay = ExtResource("7_qio3l")
 mesh = SubResource("ArrayMesh_edyw7")
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.52835, 0)
 material_override = SubResource("ShaderMaterial_5c6g7")
 pixel_size = 0.02
 texture_filter = 0
@@ -471,3 +480,47 @@ texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_3gmo3")
 animation = &"walk"
 autoplay = "walk"
+
+[node name="IndexBullet" parent="." instance=ExtResource("24_hfh0n")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.911212)
+script = null
+
+[node name="MiddleBullet" parent="." instance=ExtResource("25_obix2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.20578)
+script = null
+
+[node name="PinkyBullet" parent="." instance=ExtResource("26_ytwxy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.27544)
+script = null
+
+[node name="healing_dome" parent="." instance=ExtResource("27_jqlcn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.27641)
+script = null
+
+[node name="RingAbilityProjectile" parent="." instance=ExtResource("28_gsv72")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.72026)
+script = null
+
+[node name="RingProjectile" parent="." instance=ExtResource("29_1wlgr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.992797)
+script = null
+
+[node name="RingPickup" parent="." instance=ExtResource("30_vxpjd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.65637)
+script = null
+
+[node name="RingShootExplosion" parent="." instance=ExtResource("31_a5whs")]
+transform = Transform3D(1, 0, 0, 0, -0.585679, 0.810543, 0, -0.810543, -0.585679, 0, 0, -5.46006)
+script = null
+
+[node name="RingTerrainExplosion" parent="." instance=ExtResource("32_8iyrr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.86368)
+script = null
+
+[node name="ThumbBullet" parent="." instance=ExtResource("33_obix2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0938597)
+script = null
+
+[node name="ThumbAbility" parent="." instance=ExtResource("34_ytwxy")]
+transform = Transform3D(1, 0, 0, 0, -0.914988, 0.403481, 0, -0.403481, -0.914988, 0, 0, -1.19998)
+script = null

@@ -16,6 +16,7 @@ func _ready():
 func load_stuff():
 	var children := get_children()
 	for child in children:
+		print("loading %s" % child)
 		child.visible = true
 		await get_tree().process_frame
 		child.visible = false
