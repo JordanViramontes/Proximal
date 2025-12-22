@@ -19,13 +19,13 @@ signal sound_effect_signal_stop(name: String)
 
 var SE_ring_explosion: String = "enemy_dies"
 @onready var sound_effects: Dictionary
-#@onready var scn_oneshot_sfx: PackedScene = preload("res://Main/Utility/AudioManager/audio_stream_player_oneshot.tscn")
+
 #endregion
 
 func _ready():
 	#region setup audio
 	audio_manager = Node3D.new()
-	audio_manager.set_script(load("res://Main/Utility/AudioManager/audio_manager.gd"))
+	audio_manager.set_script(load("res://Main/Utility/Audio/AudioManager/audio_manager.gd"))
 	add_child(audio_manager)
 	
 	# oneshot

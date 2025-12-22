@@ -84,7 +84,7 @@ var SE_enemy_dies: String = "enemy_dies"
 var SE_enemy_shoot: String = "enemy_shoot"
 var SE_elohim_summon: String = "elohim_summon"
 @onready var sound_effects: Dictionary
-@onready var scn_oneshot_sfx: PackedScene = preload("res://Main/Utility/AudioManager/audio_stream_player_oneshot.tscn")
+@onready var scn_oneshot_sfx: PackedScene = preload("res://Main/Utility/Audio/AudioManager/audio_stream_player_oneshot.tscn")
 #endregion
 
 # Constructor called by spawner
@@ -107,7 +107,7 @@ func initialize(starting_position, init_player_position, wave, init_health_multi
 func init_set_audio():
 	# sound effect nodes
 	audio_manager = Node3D.new()
-	audio_manager.set_script(load("res://Main/Utility/AudioManager/audio_manager.gd"))
+	audio_manager.set_script(load("res://Main/Utility/Audio/AudioManager/audio_manager.gd"))
 	add_child(audio_manager)
 	#print("manager: " + str(audio_manager))
 	
@@ -149,7 +149,6 @@ func _ready() -> void:
 	
 	# connect signal to weaponmanager
 	drop_xp.connect(weapon_manager._on_earn_experience)
-	die.connect(weapon_manager._on_enemy_die)
 	# health components
 	health_component.max_health = max_health
 	health_component.current_health = max_health
@@ -299,6 +298,7 @@ func on_damaged(di: DamageInstance):
 	# Disperse xp to weaponmanager, pass in which weapon
 	if di.type != DamageInstance.DamageType.None:
 		#print("enemybase.gd - giving xp on damage to: " + str(di.type))
+		print(drop_xp.get_connections())
 		emit_signal("drop_xp", xp_on_damaged * experience_multiplier, di.type) # emit experience points 
 		
 		if health_component.current_health <= 0.0:

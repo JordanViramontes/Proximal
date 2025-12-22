@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://pake15kqry6s"]
 
-[ext_resource type="Script" uid="uid://bwwcnjtfjigd7" path="res://scenes/Camera/shakeable_camera.gd" id="1_50jp1"]
+[ext_resource type="Script" uid="uid://bwwcnjtfjigd7" path="res://Main/Camera/shakeable_camera.gd" id="1_50jp1"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_50jp1"]
 metadata/_preview_in_3d_space_ = true

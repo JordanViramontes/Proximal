@@ -145,7 +145,7 @@ escape={
 3d_physics/layer_3="actors"
 3d_physics/layer_4="player"
 3d_physics/layer_5="shootables"
-3d_physics/layer_6="RingPickup"
+3d_physics/layer_6="Pickups"
 3d_physics/layer_8="shakeable_camera"
 
 [rendering]

@@ -50,7 +50,7 @@ size = Vector3(20, 20, 20)
 [sub_resource type="BoxShape3D" id="BoxShape3D_fmnkm"]
 size = Vector3(20, 20, 20)
 
-[node name="Weapon_Manager" type="Node3D" node_paths=PackedStringArray("hand_visual_base") groups=["WeaponManager"]]
+[node name="WeaponManager" type="Node3D" node_paths=PackedStringArray("hand_visual_base") groups=["WeaponManager"]]
 script = ExtResource("1_583ps")
 hand_visual_base = NodePath("HandVisual")
 recoil_recovery_rate = 10.0

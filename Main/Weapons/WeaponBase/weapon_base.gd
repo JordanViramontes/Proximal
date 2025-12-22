@@ -87,6 +87,9 @@ var SE_ability_ring: String = "ability_middle_ring"
 @onready var sound_effects: Dictionary = { }
 #endregion
 
+@export var ability_use_sound: AudioStream
+@export var shoot_sound: AudioStream
+
 func _ready() -> void:
 	shoot_timer.wait_time = 1/(fire_rate*level)
 	shoot_timer.timeout.connect(func(): can_shoot = true)
@@ -100,7 +103,7 @@ func _ready() -> void:
 func init_set_audio():
 	# sound effect nodes
 	audio_manager = Node3D.new()
-	audio_manager.set_script(load("res://Main/Utility/AudioManager/audio_manager.gd"))
+	audio_manager.set_script(load("res://Main/Utility/Audio/AudioManager/audio_manager.gd"))
 	add_child(audio_manager)
 	#print("manager: " + str(audio_manager))
 	
@@ -261,7 +264,11 @@ func cease_fire():
 	if on_ceasefire != null: on_ceasefire.emit() 
 	else: print("hello from weapon_base! you probably forgot to set the on_ceasefire signal on the inheritor of this script :3")
 
+func on_hit_target():
+	pass
+
 func add_xp(xp: float):
+	print("hi")
 	var experience_rate: float
 	experience_change.emit()
 	

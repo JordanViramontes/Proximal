@@ -1,0 +1,46 @@
+[gd_scene load_steps=4 format=3 uid="uid://bo24ftdblfgit"]
+
+[ext_resource type="PackedScene" uid="uid://6s0o47klh5vv" path="res://assets/models/map/map_draft_no-hole.fbx" id="1_igvfx"]
+[ext_resource type="Material" uid="uid://cq0lxb6qkynil" path="res://assets/materials/pillar.tres" id="2_wy5gs"]
+[ext_resource type="Material" uid="uid://by2fst57otnma" path="res://assets/materials/main_plat.tres" id="3_l6o1x"]
+
+[node name="map_draft_no-hole" instance=ExtResource("1_igvfx")]
+
+[node name="PlatformPillar" parent="Pillars" index="0"]
+surface_material_override/0 = ExtResource("2_wy5gs")
+
+[node name="PlatformPillar_001" parent="Pillars" index="1"]
+surface_material_override/0 = ExtResource("2_wy5gs")
+
+[node name="PlatformPillar_002" parent="Pillars" index="2"]
+surface_material_override/0 = ExtResource("2_wy5gs")
+
+[node name="PlatformPillar_003" parent="Pillars" index="3"]
+surface_material_override/0 = ExtResource("2_wy5gs")
+
+[node name="PlatformPillar_004" parent="Pillars" index="4"]
+surface_material_override/0 = ExtResource("2_wy5gs")
+
+[node name="PlatformPillar_005" parent="Pillars" index="5"]
+surface_material_override/0 = ExtResource("2_wy5gs")
+
+[node name="PlatformPillar_006" parent="Pillars" index="6"]
+surface_material_override/0 = ExtResource("2_wy5gs")
+
+[node name="PlatformPillar_007" parent="Pillars" index="7"]
+surface_material_override/0 = ExtResource("2_wy5gs")
+
+[node name="PlatformPillar_008" parent="Pillars" index="8"]
+surface_material_override/0 = ExtResource("2_wy5gs")
+
+[node name="PlatformPillar_009" parent="Pillars" index="9"]
+surface_material_override/0 = ExtResource("2_wy5gs")
+
+[node name="PlatformPillar_010" parent="Pillars" index="10"]
+surface_material_override/0 = ExtResource("2_wy5gs")
+
+[node name="PlatformPillar_011" parent="Pillars" index="11"]
+surface_material_override/0 = ExtResource("2_wy5gs")
+
+[node name="MainPlat" parent="." index="1"]
+surface_material_override/0 = ExtResource("3_l6o1x")

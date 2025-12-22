@@ -34,7 +34,7 @@ func _ready() -> void:
 	
 	sound_effect_signal_start.emit(MUS_ambiance)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+
 func _process(delta: float) -> void:
 	if not music[MUS_ambiance].is_playing():
 		sound_effect_signal_start.emit(MUS_ambiance)
@@ -58,3 +58,7 @@ func on_player_die():
 
 func stop_timer(should_timer: bool):
 	timer_off = should_timer
+
+
+func _on_hand_pickup_collected() -> void:
+	$SubViewportContainer/SubViewport/NavigationRegion3D/EnemySpawnPath.start_waves()

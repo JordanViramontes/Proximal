@@ -37,6 +37,8 @@ var SE_wave_complete_silly: String = "wave_complete_silly"
 #endregion
 
 func _ready() -> void:
+	self.visible = false # SET INVISIBLE BY DEFAULT, WAIT FOR UPDATE WAVE COUNT TO MAKE VISIBLE AGAIN
+	
 	# set components
 	wave_count.text = str(0)
 	wave_time_count.text = str(0)
@@ -46,6 +48,7 @@ func _ready() -> void:
 	enemy_spawn_path.updateWaveTimer.connect(update_time)
 	enemy_spawn_path.updateEnemyCount.connect(update_enemies)
 	enemy_spawn_path.updateWaveCount.connect(update_wave)
+	enemy_spawn_path.startWaveTimer.connect(start_displaying)
 	
 	# audio
 	# sound effects
@@ -53,6 +56,9 @@ func _ready() -> void:
 		audio_manager.sound_effects[i] = sound_effects[i]
 	self.sound_effect_signal_start.connect(audio_manager.play_sfx)
 	self.sound_effect_signal_stop.connect(audio_manager.stop_sfx)
+
+func start_displaying():
+	self.visible = true
 
 func update_wave(new_wave: int):
 	wave_count.text = str(new_wave)

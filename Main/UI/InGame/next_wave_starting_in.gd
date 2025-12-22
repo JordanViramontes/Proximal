@@ -15,12 +15,18 @@ var VIS_STATES = {
 var current_vis_state = VIS_STATES.on
 
 func _ready() -> void:
-	self.visible = true
+	self.visible = false
+	current_vis_state = VIS_STATES.off
 	label_settings.font_color.a = 0
 	
 	# signals
 	enemy_spawn_path.updateNextWaveTimer.connect(update_time)
 	enemy_spawn_path.updateNextWaveVisibility.connect(update_visibility)
+	enemy_spawn_path.startWaveTimer.connect(start_displaying)
+
+func start_displaying():
+	visible = true
+	current_vis_state = VIS_STATES.on
 
 func _process(delta: float):
 	if not should_do_anything:

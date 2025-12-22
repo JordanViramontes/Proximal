@@ -20,7 +20,7 @@ var spawn_location: Vector3
 
 @export var type: DamageInstance.DamageType = DamageInstance.DamageType.None
 
-signal damaged_enemy
+signal damaged_enemy(hit_instance: HitInstance)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -57,12 +57,10 @@ func _on_hitbox_area_entered(area: Area3D) -> void:
 				"type" : type,
 			})
 			
-			#print(di.damage)
-			#print(bullet_damage)
-			if area.damage(di):
-				pass
-				#print(damaged_enemy.get_connections())
-				damaged_enemy.emit(di.damage)
+			var hi: HitInstance = area.damage(di)
+			if hi:
+				print(damaged_enemy.get_connections())
+				damaged_enemy.emit(hi)
 		self.queue_free()
 
 func _on_hitbox_body_entered(body: Node3D) -> void:

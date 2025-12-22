@@ -1,4 +1,4 @@
-extends AudioStreamPlayer
+class_name AudioStreamPlayerOneshot extends AudioStreamPlayer
 
 func initialize(stream: AudioStream) -> AudioStreamPlayer:
 	self.stream = stream

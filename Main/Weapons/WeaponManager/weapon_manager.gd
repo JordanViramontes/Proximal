@@ -4,7 +4,7 @@ extends Node3D
 @export var hand_visual_base: MeshInstance3D
 
 # weapon variables
-var weapon_dictionary
+var weapon_dictionary: Array[WeaponBase]
 var curr_weapon_index
 var curr_weapon # defined in ready
 var xp_dictionary = [0.0, 0.0, 0.0, 0.0, 0.0]
@@ -25,7 +25,7 @@ var can_stun: bool = true;
 var canUseWeapon: bool = true
 var canDash: bool = true
 var shield_duration: float = 2.0
-signal dashInput
+signal dash_called
 signal abilityInput #healing
 
 # recoil stuff
@@ -131,7 +131,7 @@ func shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
 	#print("weapon_manager - not shooting atm")
 
 func ability_shoot(from_pos: Vector3, look_direction: Vector3, velocity: Vector3):
-	#print("calling ability shoot with params: %s, %s, %s" % [from_pos, look_direction, velocity])
+	print("calling ability shoot with params: %s, %s, %s" % [from_pos, look_direction, velocity])
 	if curr_weapon.is_hitscan:
 		curr_weapon.ability_shoot(from_pos, look_direction, velocity)
 	else:
@@ -157,24 +157,21 @@ func use_ability(finger):
 	if not canUseWeapon:
 		print("WeaponManager: Can't use ability right now (weapons disabled).")
 		return
-		
+	
 	match finger:
 		0:
 			if curr_weapon.use_ability():
 				abilityInput.emit()
-				print(abilityInput.get_connections())
 			
 		1:
 			if weapon_dictionary[finger].use_ability():
-				disableWeapons(0.5) # disable for whatever the dash length is idk
-				dashInput.emit()
+				dash_called.emit()
 		2:
 			weapon_dictionary[finger].use_ability()
 			# DONT NEED THE IF STATEMENT because the ability logic is handled on the middle finger weapon
 		3:
 			if weapon_dictionary[finger].use_ability():
 				abilityInput.emit()
-				#print("healing deploying")
 		4:
 			if weapon_dictionary[finger].use_ability():
 				abilityInput.emit()
@@ -183,7 +180,7 @@ func use_ability(finger):
 			print("weapon_manager - WARNING: no finger to use for ability")
 			return
 
-func disableWeapons(time: float = 0.0):
+func disable_weapons(time: float = 0.0):
 	if time > 0.0:
 		var t: Timer = $DashTimer
 		if not t.is_stopped(): t.stop()
@@ -192,7 +189,7 @@ func disableWeapons(time: float = 0.0):
 	#print("disable weapons")
 	canUseWeapon = false
 
-func enableWeapons():
+func enable_weapons():
 	#print("enable weapons")
 	canUseWeapon = true
 
@@ -200,7 +197,7 @@ func isCanUseWeapon() -> bool:
 	return canUseWeapon
 
 func _on_dash_timer_timeout() -> void:
-	enableWeapons()
+	enable_weapons()
 
 func stun_enemies() -> void:
 	#print("weapon_manager.gd: stunning")
@@ -247,19 +244,8 @@ func _on_earn_experience(xp: float, weapon: DamageInstance.DamageType):
 			real_weapon = $Pinky
 		_:
 			real_weapon = null
-			
-	#print("weapon_manager.gd: giving xp to:"  + str(real_weapon) + ", xp: " + str(xp))
-	real_weapon.add_xp(xp)
-	#real_weapon.print_xp(str(weapon_dictionary[curr_weapon_index]))
 	
-
-func _on_enemy_die():
-	# instead of doing it here, spawn the ring when the enemy dies.
-	##ammo
-	#var dice = randi_range(0, 10) # omg d10
-	#if dice < 2:
-		#add_ring()
-	pass
+	real_weapon.add_xp(xp)
 
 
 func add_ring():

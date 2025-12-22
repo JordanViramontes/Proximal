@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://ck1km5ocdhq0i" path="res://Main/Weapons/WeaponManager/weapon_manager.tscn" id="4_dqkch"]
 [ext_resource type="Script" uid="uid://cgpmhci7164s6" path="res://Main/Utility/Components/hitbox_component.gd" id="4_jbyc3"]
 [ext_resource type="Script" uid="uid://v8gickpnd8q0" path="res://Main/Utility/Components/health_component.gd" id="4_np5j3"]
-[ext_resource type="Script" uid="uid://ddd8ssk8olm8e" path="res://Main/Utility/AudioManager/audio_manager.gd" id="7_018x3"]
+[ext_resource type="Script" uid="uid://ddd8ssk8olm8e" path="res://Main/Utility/Audio/AudioManager/audio_manager.gd" id="7_018x3"]
 [ext_resource type="AudioStream" uid="uid://bvfqtim6cjqyi" path="res://assets/Sounds/Sound Effects/Player/player_dies.wav" id="7_26m6u"]
 [ext_resource type="AudioStream" uid="uid://ho6gtirkyfsu" path="res://assets/Sounds/Sound Effects/Player/get_damaged.wav" id="8_018x3"]
 [ext_resource type="AudioStream" uid="uid://3u313pe8imob" path="res://assets/Sounds/Sound Effects/Player/healing.mp3" id="9_12kvs"]
@@ -69,7 +69,7 @@ max_x = 5.0
 max_y = 5.0
 max_z = 2.5
 
-[node name="Weapon_Manager" parent="LeanPivot/Head" instance=ExtResource("4_dqkch")]
+[node name="WeaponManager" parent="LeanPivot/Head" instance=ExtResource("4_dqkch")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.291509, -0.296324, -0.979354)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="LeanPivot/Head"]
@@ -91,13 +91,14 @@ shape = SubResource("ConvexPolygonShape3D_1jxqw")
 [node name="PlayerUIManager" type="Node" parent="." node_paths=PackedStringArray("health_component", "weapon_manager")]
 script = ExtResource("12_r13nr")
 health_component = NodePath("../HealthComponent")
-weapon_manager = NodePath("../LeanPivot/Head/Weapon_Manager")
+weapon_manager = NodePath("../LeanPivot/Head/WeaponManager")
 
-[node name="RingPickupArea" type="Area3D" parent="."]
+[node name="PickupArea" type="Area3D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 32
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RingPickupArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PickupArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.13759, 0)
 shape = SubResource("CapsuleShape3D_d6rcs")
 
@@ -130,6 +131,9 @@ stream = ExtResource("13_kxfbt")
 stream = ExtResource("15_12kvs")
 volume_db = -5.0
 
-[connection signal="dashInput" from="LeanPivot/Head/Weapon_Manager" to="." method="_on_weapon_manager_dash_input"]
+[node name="AudioListener3D" type="AudioListener3D" parent="."]
+current = true
+
+[connection signal="dash_called" from="LeanPivot/Head/WeaponManager" to="." method="_on_weapon_manager_dash_input"]
 [connection signal="area_entered" from="HitboxComponent" to="." method="_on_hitbox_component_area_entered"]
-[connection signal="area_entered" from="RingPickupArea" to="." method="_on_ring_pickup_area_area_entered"]
+[connection signal="area_entered" from="PickupArea" to="." method="_on_pickup_area_area_entered"]

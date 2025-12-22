@@ -6,6 +6,8 @@ class_name Hitbox extends Area3D
 
 @export var has_health: bool = true
 
+@onready var hitbox_owner: Node3D = get_parent() # haha
+
 signal damaged(di: DamageInstance)
 signal drop_xp_to_weapon(weapon: DamageInstance.DamageType)
 
@@ -15,7 +17,7 @@ func _ready() -> void:
 	#$CollisionShape3D.shape = shape
 
 
-func damage(di: DamageInstance) -> bool:
+func damage(di: DamageInstance) -> HitInstance:
 	if not health_component and has_health:
 		health_component = get_parent().get_node("HealthComponent")
 	if health_component:
@@ -27,4 +29,5 @@ func damage(di: DamageInstance) -> bool:
 			#drop_xp_to_weapon.emit(di.type)
 			
 	damaged.emit(di)
-	return true
+	var hi = HitInstance.new(hitbox_owner, di, di.damage)
+	return hi

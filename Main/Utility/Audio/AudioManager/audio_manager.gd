@@ -1,6 +1,6 @@
 extends Node3D
 
-@onready var scn_oneshot_sfx: PackedScene = preload("res://Main/Utility/AudioManager/audio_stream_player_oneshot.tscn")
+@onready var scn_oneshot_sfx: PackedScene = preload("res://Main/Utility/Audio/AudioManager/audio_stream_player_oneshot.tscn")
 
 var sound_effects: Dictionary = { }
 var oneshot_sound_effects: Dictionary = { } # TWO dictionaries

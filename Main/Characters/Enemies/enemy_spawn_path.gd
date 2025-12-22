@@ -89,8 +89,9 @@ signal updateEnemyCount(enemies: int)
 signal updateNextWaveVisibility(visible: bool)
 signal updateNextWaveTimer(time: float)
 signal stopWaveTimer()
+signal startWaveTimer()
 
-func _ready() -> void:
+func start_waves():
 	next_wave_timer.start(start_wave_time)
 	
 	# wait a couple frames
@@ -98,6 +99,7 @@ func _ready() -> void:
 	await get_tree().process_frame  # Two frames for safety
 	
 	# emit GUI signals and start clock
+	emit_signal("startWaveTimer")
 	emit_signal("updateNextWaveTimer", next_wave_timer.time_left + 1)
 	emit_signal("updateNextWaveVisibility", true)
 

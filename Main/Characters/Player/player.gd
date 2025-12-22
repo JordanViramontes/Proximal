@@ -10,13 +10,12 @@ signal health_change
 # states
 enum INPUT_STATE {normal, sliding, dead}
 var current_state = INPUT_STATE.normal
-@export_category("Input Settings")
 var MOUSE_SENS = remap(ConfigFileHandler.load_mouse_sens_settings(), 0.0, 100.0, 0.05, 1.0)
 
 # speed and walking
 # OVERHAUL CONTROLLER
 var wish_dir := Vector3.ZERO
-@export_category("Movement")
+@export_group("Movement")
 # ground movement settings
 @export var walk_speed := 20.0
 @export var ground_accel := 14.0
@@ -43,7 +42,7 @@ var headbob_time := 0.0
 var double_jumpable := false
 
 # sliding
-@export_category("Sliding")
+@export_group("Sliding")
 @export var slide_height: float = 0.5
 @export var slide_deccel: float = 0.80
 @export var slide_speed_boost: float = 10.0
@@ -52,7 +51,7 @@ var buffered_slide: bool = false
 var is_sliding: bool = false
 
 # Abilities
-@export_category("Abilities")
+@export_group("Abilities")
 # dashing
 @export var DASH_SPEED = 20
 @export var dash_accel = 5
@@ -66,7 +65,7 @@ var last_dash_time := -dash_cooldown
 const height = 1.8
 
 # leaning
-@export_category("Camera Properties")
+@export_group("Camera Properties")
 @export var LEAN_MULT = 0.01
 @export var LEAN_SMOOTH = 10.0
 @export var LEAN_AMOUNT = 0.0005
@@ -77,12 +76,12 @@ var current_forward_dir = 0
 @onready var lean_pivot := $LeanPivot
 @onready var head := $LeanPivot/Head
 @onready var camera := $LeanPivot/Head/ShakeableCamera
-@onready var weapon := $LeanPivot/Head/Weapon_Manager
+@onready var weapon_manager := $LeanPivot/Head/WeaponManager
 @onready var health_component := $HealthComponent
 @onready var hitbox_component := $HitboxComponent
 
 # health variables
-@export_category("Misc Health and Damage")
+@export_group("Misc Health and Damage")
 @export var DEATH_HEIGHT = -40.0
 @export var max_health: float = 100
 @export var damage_visual_per_hit: float = 0.1
@@ -153,7 +152,7 @@ func _ready() -> void:
 	normal_height = head.position.y
 	#shield visual
 	Util.toggle_shield.connect(on_toggle_shield)
-	weapon.abilityInput.connect(on_ability_shoot)
+	weapon_manager.abilityInput.connect(on_ability_shoot)
 	#healing
 	Util.healing.connect(on_heal)
 	#damage amp visual on sniper ability
@@ -350,9 +349,9 @@ func handle_jumping():
 
 func handle_shooting():
 	if Input.is_action_pressed("shoot"):
-		weapon.shoot(head.global_position, -head.global_basis.z, velocity) # pass player "eye" position
+		weapon_manager.shoot(head.global_position, -head.global_basis.z, velocity) # pass player "eye" position
 	if Input.is_action_just_released("shoot"):
-		weapon.cease_fire()
+		weapon_manager.cease_fire()
 
 func handle_finish_dash() -> void:
 	self.velocity /= 5
@@ -412,6 +411,7 @@ func _on_weapon_manager_dash_input() -> void:
 		dash_vel = Vector3(look_direction.x, 0.0, look_direction.z)
 
 	velocity = dash_vel * DASH_SPEED * Vector3(1, 0.2, 1)
+	print("hi")
 	#velocity.y = 0
 	#print("velocity: " + str(velocity))
 
@@ -451,7 +451,7 @@ func on_ability_shoot():
 	if is_dashing():
 		return
 	else:
-		weapon.ability_shoot(head.global_position, -head.global_basis.z, velocity)
+		weapon_manager.ability_shoot(head.global_position, -head.global_basis.z, velocity)
 	
 func on_heal(state: bool) -> void:
 	is_healing = state
@@ -463,10 +463,11 @@ func on_heal(state: bool) -> void:
 		#$UI/sniper_visual.hide()
 
 # when the hitbox area is entered!!!!!!!!!!!!!!!!!!!!
-func _on_ring_pickup_area_area_entered(area: Area3D) -> void:
+func _on_pickup_area_area_entered(area: Area3D) -> void:
 	if area.is_in_group("RingPickup"):
 		sound_effect_signal_start.emit(SE_player_ring_pickup)
-		weapon.add_ring()
+		weapon_manager.add_ring()
 		area.get_parent().queue_free()
+
 func _on_mouse_sens_changed(new_sens):
 	MOUSE_SENS = remap(ConfigFileHandler.load_mouse_sens_settings(), 0.0, 100.0, 0.05, 1.0)
